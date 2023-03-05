@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "3D Bar Chart";
+}
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+
+
+    <!-- Step 1 - Include the fusioncharts core library -->
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <!-- Step 2 - Include the fusion theme -->
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+
+</head>
+<body>
+    <div id="chart-container" style="width:80%;height:450px;"></div>
+</body>
+</html>
+
+<script>
+
+    const dataSource = {
+        chart: {
+            caption: "Top 5 High-Income Careers",
+            yaxisname: "Annual Income",
+            //yAxisMaxValue: "20000",
+            "baseFontSize": "15",
+            showvalues: "1",
+            numberprefix: "₹",
+            formatNumberScale: "0",
+            rotateValues: "0",
+            showValues: "1",
+            placeValuesInside: "0",
+            thousandSeparatorPosition: "2, 3",
+            plottooltext: "$label <b>$dataValue</b>",
+            theme: "candy"
+        },
+        categories: [
+            {
+                category: [
+
+                    {
+                        label: "Achieved Target"
+                    },
+                    {
+                        label: "Assigned Target"
+                    }
+                ]
+            }
+        ],
+        dataset: [
+            {
+                seriesname: "Achieved Target",
+                data: [
+                    {
+                        value: "101000"
+                    }
+                    ,
+                    {
+                        value: ""
+                    }
+
+                ]
+            },
+            {
+                seriesname: "Assigned Target",
+                data: [
+                    {
+                        value: ""
+                    }
+                    ,
+                    {
+                        value: "102900"
+                    }
+                ]
+            }
+        ]
+    };
+
+
+    FusionCharts.ready(function () {
+        var myChart = new FusionCharts({
+            type: "msbar3d",
+            renderAt: "chart-container",
+            width: "100%",
+            height: "100%",
+            dataFormat: "json",
+            dataSource
+        }).render();
+    });
+
+</script>
+
+
+
+@*<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>*@
+
+<script>
+    window.onload = function () {
+
+        //var result = @*@Html.Raw(ViewBag.DataPoints)*@;
+        //var dataPoints =[];
+        //for(var i = 0; i < result.length; i++){
+          //  dataPoints.push({ x: new Date(result[i].x), y:result[i].y});
+        //}
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", //"light1", "dark1", "dark2"
+            title: {
+                text: "Sales Target Report from (@if (Model.FromToDate != null) {@Model.FromToDate})",
+                fontSize: 15,
+            },
+            subtitles: [
+                {
+                    text:"Assigned Target Rs.: @Html.Raw(Model.TargetAchieveAmount)",
+                    //text: "Overall Sales Target Achieved Percentage: @*@Html.Raw(Model.SalePercentage)*@%"
+                    //Uncomment properties below to see how they behave
+                    fontColor: "blue",
+                    fontSize: 15
+                }
+            ],
+            axisY: {
+                //title: "Assigned Sales Target",
+                prefix: "₹",
+                maximum: @Html.Raw(ViewBag.AxisYAmount),
+                crosshair: {
+                    enabled: true,
+                    valueFormatString: "₹#,##0.##",
+                    snapToDataPoint: true
+                }
+
+            },
+            axisX: {
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true
+                }
+            },
+            data: [
+                {
+                    type: "stackedBar",
+                    indexLabel: "{y}",
+                    indexLabelFontColor: "red",
+                    toolTipContent: "{y}",
+                    name: "Assigned Target",
+                    showInLegend: true,
+                    color: "#87ceeb",
+                    yValueFormatString: "₹#,##0.##",
+                    //xValueFormatString: "DD MMM YYYY",
+
+                    dataPoints: @Html.Raw(ViewBag.DataPoints1)
+                },
+                {
+                    type: "stackedBar",
+                    indexLabel: "{y}",
+                    indexLabelFontColor: "red",
+                    toolTipContent: "{y}",
+                    name: "Achieved Target",
+                    showInLegend: true,
+                    color: "#B6C3DC",
+                    yValueFormatString: "₹#,##0.##",
+                    //xValueFormatString: "DD MMM YYYY",
+
+                    dataPoints: @Html.Raw(ViewBag.DataPoints2)
+                }
+            ]
+        });
+
+        chart.render();
+    }
+
+</script>

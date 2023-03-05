@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "OurMappeduserDeveloper";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Traders.Models.DeveloperActivityModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <h1>View Daily Activity Report <span style="margin: 11%;color: brown;">@TempData["MapUserName"]</span></h1>
+               
+        <div class="form-horizontal">
+            <div class="f-center col-sm-4">
+                <a href="/home/OurMappeduser"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back Page</a>
+                <label>@TempData["alert"]</label>
+            </div>
+             <div class="form-group f-center col-sm-6 padd0">
+                 
+                   <div class="col-sm-4">
+                   <input type="text"  id="frmDate" class="form-control datepik" name="FromDate" placeholder="From Date" required="required" /></div>
+                   <div class="col-sm-4"><input type="text" id="Todate" class="form-control datepik" name="ToDate" placeholder="To Date" required="required" /></div>
+                  <div class="col-sm-4 padd0"><input id="btnFilterReport" class="btn btn-danger" style="margin-left:10px;" type="button" value="Filter" /> 
+                  <a href="/home/OurMappeduserDeveloper/@ViewContext.RouteData.Values["id"]"><input  class="btn btn-success"  type="button" value="Reset" /></a></div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-sm-12" id="DivBindFilerData">
+                            <div class="table-responsive">
+                                <table class="table table-striped table table-hover tabledata table-bordered" id="dest">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr no.</th>
+                                            <th>Project Name </th>
+                                            <th>Module Name</th>
+                                            <th>General Remark</th>
+                                            <th>Code Remark</th>
+                                            <th>DB Remark</th>
+                                            <th>Js/Css Remark</th>
+                                            <th>Support Needed</th>
+                                            <th>File</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int i = 1;}
+                                        @foreach (var item in Model.DeveloperactivityModelList.OrderByDescending(em=>em.CreatedDate).ToList())
+                                        {
+                                            <tr>
+                                                <td translate="no">@i</td>
+                                                <td translate="no">@item.ProjectName</td>
+                                                <td translate="no">@item.ModuleName</td>
+                                                <td><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="General" data-remark="GeneralRemark" style="font-size: 14px;" ><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>                                                
+                                                <td><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="Code" data-remark="CodeModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                                <td><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="DB" data-remark="DBModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                                <td><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="JS/CSS" data-remark="JsModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                                <td translate="no">@item.SupportNeeded</td>
+                                                @if (item.CodeFile != null)
+                                                {
+                                                    <td><a href="/ExcelFileUpload/@item.CodeFile"><i class="fa fa-file-o" aria-hidden="true"></i> View</a>   </td>
+                                                }
+                                                else
+                                                {
+                                                <td><span>-----</span></td>
+                                                }
+                                                <td>@item.CreatedDate</td>
+                                            </tr>
+                                               i++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Modal View-Description-->
+<div id="ViewDescript" class="modal fade" role="dialog">
+</div>
+
+<script type="text/javascript">
+    
+    $('.PopViewDesc').on('click', function () {
+        var Id = jQuery(this).data('id');
+        var RemarkName = jQuery(this).data('name');
+        var remarkcoll=jQuery(this).data('remark');
+        if (Id != '' && RemarkName != '' && remarkcoll!='') {
+           $.post('/Nis/ViewDeveloperActivityRemark', { ActivityId: Id, Remark: RemarkName, RemarkColl: remarkcoll }, function (data) {
+               jQuery('#ViewDescript').html(data);
+               $($(this).data("#ViewDescript")).show();
+           });
+       }
+    });
+
+    jQuery('#btnFilterReport').click(function () {
+        var empId = '@ViewContext.RouteData.Values["Id"]';
+        var frmdt = jQuery('#frmDate').val();
+        var todt = jQuery('#Todate').val();
+        if (empId != '' && empId != 0) {
+            if (frmdt != '' && todt != '') {
+                jQuery.post('/home/FilterMappedDeveloper', { EmpId: empId, FromDate: frmdt, ToDate: todt }, function (data) {
+                    jQuery('#DivBindFilerData').html(data);
+                });
+            }
+            else {
+                alert('Please select the date to filter the Data.');
+            }
+        }
+        else {
+            window.location.href = '/home/OurMappeduser';
+        }
+    });
+
+</script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>

@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "Track Sales";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.TrackSalePersonModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Track Sales Report</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-5 padd0">
+                                </div>
+                                <div class="col-sm-3 padd0 developer_paddo pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    @using (Html.BeginForm("TrackSales", "TrackSalePerson", FormMethod.Post))
+                                    {
+                                        if (Convert.ToString(Session["UserType"]) == "SuperAdmin" || Model.CountMapUser > 0)
+                                        {
+                                    <div class="col-sm-2 viewl1">
+                                        @if (Model.SaleUserList != null && Model.SaleUserList.Count > 0)
+                                        {
+                                            @Html.DropDownList("SearchUserID", new SelectList(Model.SaleUserList, "UserID", "UserName"), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;", translate = "no" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("SearchUserID",Enumerable.Empty<SelectListItem>(), "Select User", new { @class = "form-control ListItemCapitalize",  @style = "margin-top:0px !important;", translate = "no" })
+                                        }
+                                    </div>
+                                            <div class="col-sm-3">
+                                                @*<input type="text" translate="no" class="form-control" id="FromDate" name="FromDate" autocomplete="off" placeholder="from date" readonly />*@
+                                                @Html.TextBoxFor(a=>a.FromDate,new { @translate = "no", @class="form-control", autocomplete="off", placeholder="From date", @readonly= "@readonly" })
+                                            </div>
+                                            <div class="col-sm-3">
+                                                @*<input type="text" translate="no" class="form-control" id="ToDate" name="ToDate" autocomplete="off" placeholder="to date" readonly />*@
+                                                @Html.TextBoxFor(a => a.ToDate, new { @translate = "no", @class = "form-control", autocomplete = "off", placeholder = "To date", @readonly = "@readonly" })
+
+                                            </div>
+                                            <div class="col-sm-4 padd0">
+                                                <button class="btn btn-success" type="submit" id="btnfilter">Filter</button>
+                                                <button class="btn btn-danger" type="button" id="btncancel" value="Reset" onclick="location.href = '/TrackSalePerson/TrackSales/?page=1'">Reset</button>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 tracktable">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th style="width: 3%">#</th>
+                                <th style="width: 10%">Full Name </th>
+                                <th style="width: 17%">Address</th>
+                                <th style="width: 7%">Country</th>
+                                <th style="width: 7%">State</th>
+                                <th style="width: 7%">City</th>
+                                <th style="width: 7%">Latitude</th>
+                                <th style="width: 7%">Longitude</th>
+                                <th style="width: 10%">Current Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.TrackSalePersonList != null && Model.TrackSalePersonList.Count > 0)
+                            {
+                                foreach (var item in Model.TrackSalePersonList.OrderByDescending(a=>a.TrackDatetime))
+                                {
+                                    DateTime dt = Convert.ToDateTime(item.TrackDatetime);
+                                    string format = String.Format("{0}", Model.DateFormat + " hh:mm tt");
+                                    string dateString = String.Format("{0:" + format + "}", dt);
+                                    <tr>
+                                        <td translate="no">@i</td>
+                                        <td translate="no">@item.UserName</td>
+                                        <td translate="no">@item.Address</td>
+                                        <td translate="no">@item.Country</td>
+                                        <td translate="no">@item.StateName</td>
+                                        <td translate="no">@item.CityName</td>
+                                        <td translate="no">@item.Latitude</td>
+                                        <td translate="no">@item.Longitude</td>
+                                        <td translate="no">@dateString</td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">** No Record Found!</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script>
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+
+        $('#SelectDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+    });
+</script>

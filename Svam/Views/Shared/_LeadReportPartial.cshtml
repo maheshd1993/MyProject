@@ -1,0 +1,60 @@
+﻿<div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table table-hover tabledata table-bordered" id="dest">
+                        <thead>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>New Leads</td>
+                                <td><a href="#" class="showDetails" data-toggle="modal" data-name="New Leads" data-target="#ViewLeadDetails">@ViewBag.NewLeadsCount</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>follow up</td>
+                                <td><a href="javascript:void(0)">@ViewBag.FollowUp</a></td>
+                            </tr>
+                            <tr>
+                                <td>Missed follow up</td>
+                                <td><a href="javascript:void(0)">@ViewBag.MissedFollowUp</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Delayed follow up</td>
+                                <td><a href="javascript:void(0)">0</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Not interested </td>
+                                <td><a href="#" class="showDetails" data-toggle="modal" data-name="Not Interested" data-target="#ViewLeadDetails">@ViewBag.NotInterestedCount</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Closed Leads</td>
+                                <td><a href="#" class="showDetails" data-toggle="modal" data-name="Closed" data-target="#ViewLeadDetails">@ViewBag.ClosedRecordsCount </a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Suspect Leads</td>
+                                <td><a href="#" class="showDetails" data-toggle="modal" data-name="Suspect" data-target="#ViewLeadDetails">@ViewBag.SuspectLeadsCount</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Prospect Leads</td>
+                                <td><a href="#" class="showDetails" data-toggle="modal" data-name="Prospect" data-target="#ViewLeadDetails">@ViewBag.ProspectCount</a></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

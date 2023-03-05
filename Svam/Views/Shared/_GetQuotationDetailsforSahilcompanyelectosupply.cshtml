@@ -1,0 +1,336 @@
+﻿@model Svam.Models.ViewModel.SaleOrderVM
+<style>
+    section {
+        padding: 10px 20px;
+    }
+
+    .printpage {
+        font-size: 11px !important;
+        font-family: calibri !important;
+    }
+
+        .printpage h2, h4 {
+            font-size: 11px !important;
+            font-family: calibri !important;
+        }
+
+        .printpage td, th {
+            font-size: 11px !important;
+            font-family: calibri !important;
+            padding: 1px 5px !important;
+            height: 22px;
+        }
+
+        .printpage label {
+            margin-bottom: 0;
+        }
+
+    h1 {
+        color: #3264ad;
+        font-weight: bold;
+        font-size: 65px;
+    }
+
+    h4 {
+        font-weight: bold;
+        bottom: 10px;
+        position: relative;
+        font-size: 28px !important;
+        color: #3264ad;
+    }
+
+    .line {
+        width: 482px;
+        background: #3264ad;
+        padding: 3px;
+        bottom: 10px;
+        position: relative;
+        left: 26%;
+    }
+
+    .line2 {
+        width: 100%;
+        padding: 4px;
+        background: #000;
+        margin-top: 181px;
+    }
+
+    .line3 {
+        width: 100%;
+        height: 2px;
+        background: #000;
+    }
+
+    .line4 {
+        width: 100%;
+        height: 3px;
+        background: #000;
+    }
+
+    .Delivery {
+        margin-left: 19%;
+    }
+
+    .line5 {
+        width: 249px;
+        height: 3px;
+        margin-left: 66%;
+        background: #000;
+    }
+</style>
+<section style="margin-bottom: 100px;">
+    <div class="modal-dialog modal-lg printpage" style="font-family: calibri !important;">
+        <div class="modal-content">
+            <div class="modal-body qtmodal" id="div_print" style="padding-top: 10px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1> Power Trading co.</h1>
+                            <div class="line"></div>
+                            <h4> L-65,kalkaji, New Delhi- 110019,</h4>
+                        </div>
+
+                        <div class="line2">
+                        </div>
+                        <div class="col-md-12 mt-5" style="margin-top:30px">
+                            <p> <b> Date &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; : &nbsp; &nbsp; &nbsp;   @Model.QuoDt</b> </p>
+
+                            <p> <b>  Quotation Number  &nbsp; &nbsp; : &nbsp;&nbsp; &nbsp; @Model.QuoNo</b> </p>
+
+                            <p>
+                                <b>
+                                    Customer Name  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;   : &nbsp;&nbsp; &nbsp;  @Model.CustomerName<br>
+                                    <span style="margin-left:187px">@Model.CustomerAddress</span><br>
+
+                                </b>
+                            </p>
+
+                            <p>  <b> Attention &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; @Model.CustomerName</b> </p>
+
+                            <p>
+                                Dear,
+                                <br>
+                                <br>
+
+                            </p>
+
+                        </div>
+                    </div>
+                    @if (Model.SaleReport != null && Model.SaleReport.Count > 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table  table-bordered" style="margin-top:45px;font-size:12px;">
+                                    <tbody>
+                                        <tr>
+                                            <th width="2%" style="font-size: 11px; height: 15px;">Sr.No </th>
+                                            <th width="15%" style="font-size: 11px; height: 15px;">Description of Equipment</th>
+                                            <th width="7%" style="font-size: 11px; height: 15px;">Particulars</th>
+                                            <th width="10%" style="font-size: 11px; height: 15px;">UNIT PRICE</th>
+                                            <th width="10%" style="font-size: 11px; height: 15px;">Total</th>
+                                            @if (Model.TaxTypeName.ToLower() != "total")
+                                            {
+
+                                                <th width="10%" style="font-size: 11px; height: 15px;">NET TAXABLE AMOUNT</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">CGST(%)</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">CGST Amount</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">SGST(%)</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">SGST/UGST Amount</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">IGST(%) </th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">IGST Amount </th>
+                                                    <th width="13%" style="font-size: 11px; height: 15px;">Gross Amount</th>
+                                            }
+
+                                        </tr>
+                                    </tbody>
+                                    <tbody>
+                                        @{int ii = 1;
+                                        }
+                                        @foreach (var item in Model.SaleReport)
+                                        {
+
+                                            <tr>
+                                                <td style="font-size: 11px;">@ii</td>
+                                                <td style="font-size: 11px;">
+                                                    <p>@item.ItemName </p>
+                                                </td>
+                                                <td class="t-right" style="font-size: 11px;">@item.Qty</td>
+                                                <td class="t-right" style="font-size: 11px;">@(Model.TaxTypeName.ToLower() == "total" ? item.OurPrice : item.Price)</td>
+                                                <td class="t-right" style="font-size: 11px;">@item.Total</td>
+
+                                                @if (Model.TaxTypeName.ToLower() != "total")
+                                                {
+                                                    decimal totalGrossAmt = 0.0M;
+                                                    <td class="t-right" style="font-size: 11px;">@item.NetTaxable</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTPer</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTPer</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.IGSTPer</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.IGSTAmount</td>
+                                                    totalGrossAmt = Convert.ToDecimal(item.NetTaxable) + Convert.ToDecimal(item.CGSTAmount) + Convert.ToDecimal(item.IGSTAmount);
+                                                    <td class="t-right" style="font-size: 11px;">
+                                                        @*@{
+                                                                decimal grossAmount = item.CGSTAmount + item.CGSTAmount + item.IGSTAmount;
+                                                            }*@
+
+                                                        @*<span>@Model.NetAmount</span>*@
+                                                        <span>@totalGrossAmt</span>
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                            ii++;
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                                            }
+
+                    <div class="row mt-4" style="margin-left:10px;">
+                        @(new HtmlString(Model.termcondition.ToString()))
+                        @*<p>@Model.termcondition<br /></p>*@
+
+                        @*<div class="col-md-1" style="width:38px">
+                                <p>3.</p>
+                                <br>
+                                <p>4.</p>
+                                <br>
+                                <p>5.</p>
+                                <br>
+                                <p>6.</p>
+                                <br>
+                                <p>7.</p>
+                                <br>
+                                <p>8.</p>
+                                <br>
+                                <p>9.</p>
+                            </div>
+                            <div class="col-md-11">
+                                <p>
+                                    <b> Price Basis </b> <br>
+                                    The prices quoted are firm for an order placed within the validity period of this offer.
+                                <p>
+                                    <b> Validity </b><br>
+                                    This offer is valid till 15 days and thereafter may be subjected to changes.
+                                </p>
+
+                                <p>
+                                    <b> Payment Terms </b><br>
+                                    Advance 1 month along with order and 1 month PDC
+                                </p>
+                                <p>
+                                    <b> Delivery </b><br>
+                                    Please refer to the above-mentioned delivery lead time
+                                </p>
+                                <p>
+                                    <b> Warranty </b><br>
+                                    Please refer to the above-mentioned delivery lead time
+                                </p>
+
+                                <p>
+                                    <b> European Design Standards </b><br>
+                                    Please refer to the above-mentioned delivery lead time
+                                </p>
+                                <p>
+                                    <b>
+                                        Bank Details <br>
+                                        Power Trading Co.
+                                    </b><br>
+                                    <b>  Bank: HDFC Bank </b><br>
+                                    <span style="margin-left:45px"> 23-A , NN Towers, Cpmmunity Centre, (Near Rani bagh) </span><br>
+                                    <span style="margin-left:45px"> Road No.44, Pitampura , New Delhi-110034, New Delhi </span>
+                                </p>
+                                <p>
+                                    <b>
+                                        FSC code:HDFC0000158 <br>
+                                        Account No.: 01587630001148
+                                    </b>
+                                </p>
+
+                                <br>
+                                <br>
+                                <p>
+                                    We thank you for giving us an opportunity to submit an offer for your consideration. Please do not<br>
+                                    hesitate to contact us if you require any additional information in regards to this offer.
+                                </p>
+
+                            </div>*@
+                        <div class="col-md-11">
+                            <p>
+                                <b>
+                                    Bank Details <br>
+                                    Power Trading Co.
+                                </b><br>
+                                <b>  Bank: HDFC Bank </b><br>
+                                <span style="margin-left:45px"> 23-A , NN Towers, Cpmmunity Centre, (Near Rani bagh) </span><br>
+                                <span style="margin-left:45px"> Road No.44, Pitampura , New Delhi-110034, New Delhi </span>
+                            </p>
+                            <p>
+                                <b>
+                                    FSC code:HDFC0000158 <br>
+                                    Account No.: 01587630001148
+                                </b>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Yours faithfully </p>
+                            <p> <b> Power Trading Co. </b></p>
+                        </div>
+                        <div class="col-md-6" style="text-align: right;">
+
+                            <p>
+                                Confirmed and Accepted
+                            </p>
+                            <p> <b> M/s. L&T Construction </b></p>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+
+                            <p>
+                                <b>
+                                    @Model.CustomerName <br>
+                                    @Model.CompanyMobileNo <br>
+                                    AUTHORIZED SIGNATORY
+                                </b>
+                            </p>
+                            <p> Email: powertradingco2013@gmail.com </p>
+                        </div>
+                        <div class="col-md-6" style="text-align: right;">
+                            <div class="line5"> </div>
+                            <p> <b> Signature/Name/Co’s Stamp </b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="printbtnwrap" style="text-align:center">
+                <button class="btn btn-info printbtnmain" onclick="printdiv('div_print');">Print</button>
+            </div>
+            <br style="clear: both;">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function printdiv(printpage) {
+        var printContents = document.getElementById(printpage).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.style.fontFamily = "calibri";
+        document.body.style.fontSize = "11";
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        window.open('/Quotation/ManageQuotation', '_self', '');
+        window.close();
+    }
+</script>

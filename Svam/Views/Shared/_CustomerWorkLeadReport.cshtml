@@ -1,0 +1,94 @@
+﻿@model Traders.Models.ViewSalesModel
+@{
+    var encode = new Svam.UtilityManager.StringCipher();
+}
+<div class="modal-dialog" style="width: 92%;">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Customer Report Details</h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered modaltable9">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Customer Name </th>
+                                <th>Profit/Loss</th>
+                                <th>Buy/Sell</th>
+                                <th>Stock Name</th>
+                                <th>Price</th>
+                                <th>Target</th>
+                                <th>Target2</th>
+                                <th>Target3</th>
+                                <th>SI</th>
+                                <th>Remark</th>
+                                <th>UserName</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.userworklist.Count > 0)
+                            {
+                                foreach (var item in Model.userworklist.OrderByDescending(em => em.Id))
+                                {
+                                    DateTime dt = Convert.ToDateTime(item.FollowDate);
+                                    string FollowupDate = String.Format("{0:" + Model.DateFormat + "}", dt);
+                                    <tr>
+                                        <td translate="no">@i</td>
+                                        <td translate="no">@FollowupDate</td>
+                                        <td translate="no">@item.CustomerName</td>
+                                        <td translate="no">@item.ProfitLoss</td>
+                                        <td translate="no">@item.BuySell</td>
+                                        <td translate="no">@item.StockName</td>
+                                        <td translate="no">@item.Price</td>
+                                        <td translate="no">@item.Target</td>
+                                        <td translate="no">@item.Target2</td>
+                                        <td translate="no">@item.Target3</td>
+                                        <td translate="no">@item.SI</td>
+                                        <td translate="no">@item.Remark</td>
+                                        <td translate="no">@item.userName</td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            @if (Model.userworkclosedlist.Count > 0)
+                            {
+                                foreach (var item in Model.userworkclosedlist.OrderByDescending(em => em.Id))
+                                {
+                                    DateTime dt = Convert.ToDateTime(item.FollowDate);
+                                    string FollowupDate = String.Format("{0:" + Model.DateFormat + "}", dt);
+                                    <tr>
+                                        <td translate="no">@i</td>
+                                        <td translate="no">@FollowupDate</td>
+                                        <td translate="no">@item.CustomerName</td>
+                                        <td translate="no">@item.ProfitLoss</td>
+                                        <td translate="no">@item.BuySell</td>
+                                        <td translate="no">@item.StockName</td>
+                                        <td translate="no">@item.Price</td>
+                                        <td translate="no">@item.Target</td>
+                                        <td translate="no">@item.Target2</td>
+                                        <td translate="no">@item.Target3</td>
+                                        <td translate="no">@item.SI</td>
+                                        <td translate="no">@item.Remark</td>
+                                        <td translate="no">@item.userName</td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

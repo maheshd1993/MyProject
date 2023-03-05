@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .container {
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .table {
+            margin: auto;
+            width: 100%;
+            align-content: center;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .table1 {
+            margin: auto;
+            width: 100%;
+            align-content: center;
+            font-family: Arial;
+        }
+
+        .defaultheight {
+            height: 50px;
+            width: 100%;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="../js/jquery.num2words.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="table">
+            <div style="width: 60%; float:right;">
+                <img src="##CompanyLogo##" style="float: right;width:100%;height:125px;" />
+            </div>
+            <div style="width: 40%; float: left;">
+                ##CompanyName##
+                <br />
+                ##CompanyAddress##
+                <br />
+                Phone-##CompanyPhoneNo##
+                <br />
+                website: ##CompanyWebsite##
+            </div>
+        </div>
+        <div class="defaultheight">
+        </div>
+        <table class="table1">
+            <tr>
+                <td colspan="4" style="text-align: center;"><b>PAY SLIP OF THE MONTH ##Month##</b></td>
+            </tr>
+            <tr>
+                <td style="text-align: center; width: 40%;" colspan="2"><b>Employee Details</b></td>
+                <td style="text-align: center; width: 60%;" colspan="2"><b>Bank Detail</b></td>
+            </tr>
+            <tr>
+                <td style="width: 15%;"><b>Name</b></td>
+                <td style="width: 30%;">##Name##</td>
+                <td style="width: 15%;"><b>Bank</b></td>
+                <td style="width: 30%;">##BankName##</td>
+            </tr>
+            <tr>
+                <td><b>Designation</b></td>
+                <td>##Designation##</td>
+                <td><b>Branch</b></td>
+                <td>##BranchName##</td>
+            </tr>
+            <tr>
+                <td><b>Employee Code</b></td>
+                <td>##EmployeeCode##</td>
+                <td><b>A/c Number</b></td>
+                <td>##AccountNumber##</td>
+            </tr>
+        </table>
+        <br />
+        <table class="table1">
+            <tr>
+                <td style="text-align: center; width: 40%;" colspan="2"><b>Earnings</b></td>
+                <td style="text-align: center; width: 60%;" colspan="2"><b>Deductions</b></td>
+            </tr>
+            <tr>
+                <td style="width: 25%;"><b>Basic Salary</b></td>
+                <td style="width: 30%;">##BasicSalary##</td>
+                <td style="width: 25%;"><b>PF Employee Share</b></td>
+                <td style="width: 30%;">##PFEmployeeShare##</td>
+            </tr>
+            <tr>
+                <td><b>HRA</b></td>
+                <td>##HRA##</td>
+                <td><b>PF Employer Share</b></td>
+                <td>##PFEmployerShare##</td>
+            </tr>
+            <tr>
+                <td><b>Travelling Allowance</b></td>
+                <td>##TravellingAllowance##</td>
+                <td><b>ESIC Employer & Employee</b></td>
+                <td>##ESICEmployerEmployee##</td>
+            </tr>
+            <tr>
+                <td><b>Medical Allowance</b></td>
+                <td>##MedicalAllowance##</td>
+                <td><b>TDS</b></td>
+                <td>##TDS##</td>
+            </tr>
+            <tr>
+                <td><b>Performance Incentive</b></td>
+                <td>##PerformanceIncentive##</td>
+                <td><b>Other Deduction</b></td>
+                <td>##OtherDeduction##</td>
+            </tr>
+            <tr>
+                <td><b>Other Benefits</b></td>
+                <td>##OtherBenefits##</td>
+                <td><b>Absent</b> ##AbsentDays## days</td>
+                <td>##PayLoss##</td>
+            </tr>
+            <tr>
+                <td><b>Gross Pay</b></td>
+                <td>##GrossPay##</td>
+                <td><b>Total Deduction</b></td>
+                <td>##TotalDeduction##</td>
+            </tr>
+        </table>
+        <br />
+        <table class="table1">
+            <tr>
+                <td style="width: 65%"><b>Net Pay (in Amount)</b></td>
+                <td style="width: 35%">##NetPayAmount##</td>
+            </tr>
+        </table>
+        <br />
+        <table class="table1">
+            <tr>
+                <td style="width: 20%"><b>Net Pay (in Word)</b></td>
+                <td style="width: 80%" id="WordsConvert">##NetPayWord## Only.</td>
+            </tr>
+        </table>
+        <br />
+        <div class="table">
+            <b>Note: This is computer generated pay slip hence, signature not required.</b>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.onload = ConverttoWord();
+        function ConverttoWord() {
+            $('#WordsConvert').num2words();
+        }
+    </script>
+</body>
+</html>
+
+<!------------------ For Infoclient salary slip   --------------->
+<!--<head>
+    <style>
+        .container {
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .table {
+            margin: auto;
+            width: 100%;
+            align-content: center;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .table1 {
+            margin: auto;
+            width: 100%;
+            align-content: center;
+            font-family: Arial;
+        }
+
+        .defaultheight {
+            height: 50px;
+            width: 100%;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="../js/jquery.num2words.js"></script>
+</head>
+<body>
+    <section style="margin-top: 100px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div class="text-center">
+                        <h1>##CompanyName##</h1>
+                        <div class="line"></div>
+                        <h4>##CompanyAddress##</h4>
+                    </div>
+                    <p><b> EMP. Name : ##Name##</b></p>
+                    <p><b> EMP. DEgination :##Designation##</b></p>                    
+                </div>
+
+                <div class="col-md-12 text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+
+                                <th colspan="7" class="text-center">Salary Slip Month of ##Month##</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Employee Particular</td>
+                                <td></td>
+                                <td>Basic Rate </td>
+                                <td>Amount </td>
+                                <td colspan="3"> Deduction  </td>
+                            </tr>
+                            <tr>
+                                <td>S.No.:</td>
+                                <td>EMP Code:##EmployeeCode##</td>
+                                <td>G Besic Pay </td>
+                                <td>##BasicSalary##</td>
+                                <td>EPF</td>
+                                <td colspan="2">##PFEmployerShare##</td>
+
+
+                            </tr>
+                            <tr>
+                                <td rowspan="5">Name </td>
+                                <td rowspan="5">##Name##</td>
+                                <td> Incesntive </td>
+                                <td>##PerformanceIncentive##</td>
+                                <td>TLS</td>
+                                <td colspan="2">##TDS##</td>
+
+                            </tr>
+
+                            <tr>
+
+
+                                <td> HRA  </td>
+                                <td>##HRA##</td>
+                                <td> ADV </td>
+                                <td colspan="2">##Advance##</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td> CEA   </td>
+                                <td>##OtherDeduction##</td>
+                                <td> LWF</td>
+                                <td colspan="2">##LWF##</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>conveyence</td>
+                                <td>##TravellingAllowance##</td>
+                                <td> </td>
+                                <td colspan="2"> </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td> Medical Alw.   </td>
+                                <td>##MedicalAllowance##</td>
+                                <td> </td>
+                                <td colspan="2"> </td>
+
+                            </tr>
+
+                            <tr>
+                                <td>  </td>
+                                <td>  </td>
+                                <td> <b> Total  </b>  </td>
+                                <td><b>##GrossPay##</b>   </td>
+                                <td> <b> Total  </b> </td>
+                                <td>  <b> ##GrossPay## Net PAY in INR.   </b>  </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>-->

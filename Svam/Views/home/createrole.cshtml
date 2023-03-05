@@ -1,0 +1,592 @@
+﻿@{
+    ViewBag.Title = "createrole";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.CreatRoleModel
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+
+<div class="maincontainer">
+    @using (Html.BeginForm("createrole", "home", FormMethod.Post))
+    {
+        @Html.HiddenFor(a => a.Id)
+        @Html.HiddenFor(a => a.Status)
+        @Html.HiddenFor(a => a.CompanyID)
+        @Html.HiddenFor(a => a.BranchID)
+        @Html.HiddenFor(a => a.created_at)
+        <div class="col-sm-12">
+
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Assign Role Management </strong>
+                    
+                </div>
+                <div class="panel-body">
+
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#roleinfo" data-toggle="tab">Role Info</a></li>
+                        <li><a href="#roleassignment" data-toggle="tab">Role Assignment</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="roleinfo">
+                            <br style="clear: both;" />
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Role Name:</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.ProfileName, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(em => em.ProfileName)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+
+                                        @*<button type="button" class="btn btn-default">Delete User</button>*@
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- end first tabs -->
+                        <div class="tab-pane fade" id="roleassignment">
+                            <br style="clear: both;" />
+                            <div class="form-horizontal">
+                                <h3>Masters</h3>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">E-mail setup :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsEmailSetup, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">E-mail Templates :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsEmailTemplates, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Employee Profiles :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsEmployeeProfiles, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Error Types :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsErrorTypes, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                @if (Model != null && Model.IsIndia)
+                                {
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">IndiaMart Setting :</label>
+                                        <div class="col-sm-1">
+                                            @Html.CheckBoxFor(a => a.IsIndiaMartSetting, new { @class = "form-control checkboxheight" })
+                                        </div>
+                                    </div>
+                                }
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Interview Status :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsInterviewStatus, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Lead Form :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsLeadForm, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Leave Names :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsLeaveName, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Lead Source :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsLeadSource, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Lead Status :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsLeadStatus, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Project Status :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsProjectStatus, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Leads View :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsLeadsView, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Product Types :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsProductTypes, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Ticket Form :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsTicketForm, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Tickets View :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsTicketsView, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Urgency Types :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsUrgencyTypes, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+
+                                <!--Leads Menu-->
+                                <h3>Leads</h3>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Create New Lead :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.CreateLeads, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="CreateLeads" class="form-control checkboxheight" @(Model.CreateLeads != null ? Model.CreateLeads == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Leads :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewLeads, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ViewLeads" class="form-control checkboxheight" @(Model.ViewLeads != null ? Model.ViewLeads == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Leads Summary:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.LeadNotify, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="LeadNotify" class="form-control checkboxheight" @(Model.LeadNotify != null ? Model.LeadNotify == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Leads Assigned To Me:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.AssignLeadManagement, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="AssignLeadManagement" class="form-control checkboxheight" @(Model.AssignLeadManagement != null ? Model.AssignLeadManagement == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">File Manager :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.FileManager, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="FileManager" class="form-control checkboxheight" @(Model.FileManager == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--Quaotation Menu-->
+                                <h3>Quotation</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Create Quotation :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.AddQuotation, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Quotations :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewQuotation, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+                                <!--Sale Order Menu-->
+                                <h3>Sale Order</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Create Sale Order :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.AddSaleOrder, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Quotations :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewSaleOrder, new { @class = "form-control checkboxheight" })
+                                    </div>
+                                </div>
+
+
+                                <!--Start Sales-->
+                                <h3>Sales</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Sales :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewSales, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ViewSales" class="form-control checkboxheight" @(Model.ViewSales != null ? Model.ViewSales == true ? "checked" : "" : null) value="true">*@
+                                        @*<input class="" style="box-shadow:none!important;" @(Model.LiveBoard != null ? Model.LiveBoard == true ? "checked" : "" : null)  name="LiveBoard" value="true" type="checkbox"/>Live Board*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Sales Target And Performance :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.SaleTarget, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="SaleTarget" class="form-control checkboxheight" @(Model.SaleTarget == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Track Sales Team :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.TrackSalePerson, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="TrackSalePerson" class="form-control checkboxheight" @(Model.TrackSalePerson == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Map-View Sales Team :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewMapSalePerson, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ViewMapSalePerson" class="form-control checkboxheight" @(Model.ViewMapSalePerson == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--Start Payments-->
+                                <h3>Payments</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Payments :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.Viewpayment, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="Viewpayment" class="form-control checkboxheight" @(Model.Viewpayment != null ? Model.Viewpayment == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--General Remark Satrt-->
+                                <h3>General</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Common Activity Remark :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.CommonActivityRemark, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="CommonActivityRemark" class="form-control checkboxheight" @(Model.CommonActivityRemark != null ? Model.CommonActivityRemark == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Create Daily Remark :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.CreateDailyRemark, new { @class = "form-control checkboxheight" })
+                                        @* <input type="checkbox" name="CreateDailyRemark" class="form-control checkboxheight" @( Model.CreateDailyRemark == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Daily Remark :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewDailyRemark, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="ViewDailyRemark" class="form-control checkboxheight" @( Model.ViewDailyRemark == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+              <label class="control-label col-sm-2">Notification :</label>
+              <div class="col-sm-1">
+                  <input type="checkbox" name="Notification" class="form-control checkboxheight" @(Model.Notification != null ? Model.Notification == true ? "checked" : "" : null) value="true">
+              </div>
+        </div>*@
+
+                                <!--Start Projects-->
+                                <h3>Projects</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Project:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ProjectManagement, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ProjectManagement" class="form-control checkboxheight" @(Model.ProjectManagement != null ? Model.ProjectManagement == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display:none;">
+                                    <label class="control-label col-sm-2">Daily Work Schedule :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.DailyWorkSchedule, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="DailyWorkSchedule" class="form-control checkboxheight" @(Model.DailyWorkSchedule != null ? Model.DailyWorkSchedule == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Create and Assign work :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.CreateAssignWork, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="CreateAssignWork" class="form-control checkboxheight" @(Model.CreateAssignWork == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Assigned work :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewAssignedWorks, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="ViewAssignedWorks" class="form-control checkboxheight" @(Model.ViewAssignedWorks == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Project Permission :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ProjectPermission, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="ViewAssignedWorks" class="form-control checkboxheight" @(Model.ViewAssignedWorks == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--User Management Satrt-->
+                                <h3>Users</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Manage Users:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ManageUser, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ManageUser" class="form-control checkboxheight" @(Model.ManageUser == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Manage Roles:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.RoleManagement, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="RoleManagement" class="form-control checkboxheight" @(Model.RoleManagement != null ? Model.RoleManagement == true ? "checked" : "" : null) value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--Start  HR-->
+                                <h3>HR</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Manage Employees :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.IsManageEmployees, new { @class = "form-control checkboxheight" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Manage Salary :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ManageSalary, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ManageSalary" class="form-control checkboxheight" @(Model.ManageSalary == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Manage Extra Payment :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ManageExtraPayment, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ManageExtraPayment" class="form-control checkboxheight" @(Model.ManageExtraPayment == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Employee Login History :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.EmpLoginHistory, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="EmpLoginHistory" class="form-control checkboxheight" @(Model.EmpLoginHistory == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Manual Attendance :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ManualAttandence, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ManualAttandence" class="form-control checkboxheight" @(Model.ManualAttandence == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Employee Leave Requests :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.EmpLeaveRequest, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="EmpLeaveRequest" class="form-control checkboxheight" @(Model.EmpLeaveRequest == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Create Interview Schedule :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.CreateInterviewSchedule, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="CreateInterviewSchedule" class="form-control checkboxheight" @(Model.CreateInterviewSchedule == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Interview Schedule :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewInterviewSchedule, new { @class = "form-control checkboxheight" })
+
+                                        @*<input type="checkbox" name="ViewInterviewSchedule" class="form-control checkboxheight" @(Model.ViewInterviewSchedule == true ? "checked" : "" ) value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--Ticket Management start-->
+                                <h3>Tickets</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Create Ticket :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.CreateTicket, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="CreateTicket" class="form-control checkboxheight" @(Model.CreateTicket == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Ticket :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewTicket, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="ViewTicket" class="form-control checkboxheight" @(Model.ViewTicket == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--My space start-->
+                                <h3>My Space</h3>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Attendance :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.EmpAttendence, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="EmpAttendence" class="form-control checkboxheight" @(Model.EmpAttendence == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Apply Leave:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.NewLeave, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="NewLeave" class="form-control checkboxheight">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Leaves:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewLeave, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="ViewLeave" class="form-control checkboxheight" @(Model.ViewLeave == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">My Team:</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.MappedUser, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="MappedUser" class="form-control checkboxheight" @(Model.MappedUser == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">View Assigned work :</label>
+                                    <div class="col-sm-1">
+                                        @Html.CheckBoxFor(a => a.ViewAssignedWorks, new { @class = "form-control checkboxheight" })
+                                        @*<input type="checkbox" name="ViewAssignedWorks" class="form-control checkboxheight" @(Model.ViewAssignedWorks == true ? "checked" : "") value="true">*@
+                                    </div>
+                                </div>
+
+                                <!--Start Developer-->
+                                @if (Convert.ToInt32(Session["CompanyID"]) == 296)
+                                {
+                                    <h3>Developer</h3>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Developer Report :</label>
+                                        <div class="col-sm-1">
+                                            @Html.CheckBoxFor(a => a.DeveloperReport, new { @class = "form-control checkboxheight" })
+
+
+                                        </div>
+                                    </div>
+                                }
+
+
+
+
+
+
+
+                                <!--Start Developer-->
+                                @*<h3>Email Marketing</h3>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Lead Management :</label>
+            <div class="col-sm-1">
+
+                <input type="checkbox" name="LeadManagement" class="form-control checkboxheight" @(Model.LeadManagement != null ? Model.LeadManagement == true ? "checked" : "" : null) value="true">
+            </div>
+        </div>*@
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <input id="Submit1" type="submit" value="Save" class="btn btn-success" />
+                                <button type="button" class="btn btn-danger" onclick="location.href='/home/assignrole'">Back To Role</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

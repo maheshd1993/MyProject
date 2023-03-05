@@ -1,0 +1,634 @@
+﻿@{
+    var pathname = HttpContext.Current.Request.Url.AbsolutePath;
+
+    var Rights = new Svam.Repository.CommonRepository().GetUserRights();
+    var fieldText = new Svam.Repository.CommonRepository().GetCreateLeadsetting();
+    if(Rights==null)
+    {
+        Rights = new Traders.Models.CreatRoleModel();
+    }
+    var uId = 0;
+    uId = Convert.ToInt32(Session["UID"]);
+var webUrl  = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+
+}
+<nav class="navbar navbar-default navbarstyle">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed btn-ripple" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+
+                <li><a href="@Convert.ToString(Session["ProfilePageUrl"])">Home</a></li>
+                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                {
+                    <li class="dropdown @(pathname == "/Master" || pathname == "/LeadSetting" ? "active" : "")">
+                        <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Master <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Hr/manage_profile">Manage Profile</a></li>
+                            <li><a href="/Master/ManageLeadStatus">Manage Lead Status @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.LeadStatusTextName) ? fieldText.LeadStatusTextName : "Lead Status")*@</a></li>
+                            <li><a href="/Master/ManageLeadSource">Manage Lead Source @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.LeadResourceTextName) ? fieldText.LeadResourceTextName : "Lead Source")*@</a></li>
+                            <li><a href="/Master/ManageProductType">Manage Product Type @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.ProductTypeNameTextName) ? fieldText.ProductTypeNameTextName : "Product Type")*@</a></li>
+                            <li><a href="/Master/ManageInterViewStatus">Manage Interview Status</a></li>
+                            <li><a href="/Master/ManageEmailSetting">Manage Email Setting</a></li>
+                            <li><a href="/Master/ManageErrorType">Manage Error Type</a></li>
+                            <li><a href="/Master/ManageUrgency">Manage Urgency</a></li>
+                            <li><a href="/EmailTemplate/ManageTemplate">Email Templete</a></li>
+                            <li><a href="/IndiaMartSetting/ManageIndiaMartSetting">Manage IndiaMart Setting</a></li>
+                            <li><a href="/LeadSetting/CreateSetting">Manage Lead  @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead")*@ Form</a></li>
+                            <li><a href="/LeadSetting/ViewLeadSetting">Mange View Lead @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead")*@ Report</a></li>
+                            <li><a href="/TicketCustom/CreateTicketSetting">Manage Ticket Form</a></li>
+                            <li><a href="/TicketCustom/ViewTicketSetting">Manage View Ticket Report</a></li>
+                        </ul>
+                    </li>
+                }
+                @if ((Rights.ViewLeads == true) || (Rights.CreateLeads == true) || (Rights.ViewSales == true) || (Rights.LeadNotify == true) || (Rights.AssignLeadManagement == true) || (Rights.FileManager == true) || (Rights.TrackSalePerson == true) || (Rights.ViewMapSalePerson == true))
+                {
+                    <li class="dropdown @((pathname == "/home/viewleads/" || pathname == "/home/createleads") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead") Managment<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.CreateLeads)
+                            {
+                                <li><a href="/home/createleads">@(fieldText != null && !string.IsNullOrEmpty(fieldText.FormTextName) ? fieldText.FormTextName : "Create New Lead")</a></li>
+                            }
+                            @if (Rights.ViewLeads == true)
+                            {
+                                <li><a href="/home/viewleads/?page=1">View @(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead") Report</a></li>
+                            }
+                            @if (Rights.LeadNotify == true)
+                            {
+                                <li><a href="/home/LeadReport">@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead") Summary Report</a></li>
+
+                            }
+                            @if (Rights.AssignLeadManagement == true)
+                            {
+                                <li><a href="/home/AssignLeadShow">View Assigned @(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead")</a></li>
+
+                            }
+
+                            @if (Rights.ViewSales == true)
+                            {
+                                <li class="dropdown @(pathname == "/home/viewsales" ? "active" : "")"><a href="/home/viewsales/?page=1">View Sales</a></li>
+                            }
+                            @if (Rights.FileManager == true)
+                            {
+                                <li class="dropdown @(pathname == "/FileManager/ManageFile" ? "active" : "")"><a href="/FileManager/ManageFile">File Manager</a></li>
+                            }
+                            @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                            {
+                                <li class="dropdown @(pathname == "/TrackSalePerson/TrackSales" ? "active" : "")"><a href="/TrackSalePerson/TrackSales/?page=1">Track Sale Person</a></li>
+                                <li class="dropdown @(pathname == "/TrackSalePerson/ViewTrackMap" ? "active" : "")"><a href="/TrackSalePerson/ViewTrackMap">View Map Sale Person</a></li>
+                            }
+                        </ul>
+                    </li>
+                    if (Rights.SaleTarget == true)
+                    {
+                        <li class="dropdown @((pathname == "/CRMTargetPerformance/CRMTargetPerformanceList/" || pathname == "/CRMTargetPerformance/CRMTargetPerformanceList") ? "active" : "")">
+                            <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sales Target<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/CRMTargetPerformance/CRMTargetPerformanceList">Sales Target And Performance</a></li>
+                            </ul>
+                        </li>
+                    }
+                }
+                @if (Rights.AddQuotation == true)
+                {
+                    <li class="dropdown @((pathname == "/Quotation/EditQuotation" || pathname == "/Quotation/ManageQuotation") ? "active" : "")">
+                        <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quotation<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Quotation/EditQuotation">Create Quotation</a></li>
+                            <li><a href="/Quotation/ManageQuotation">View Quotation</a></li>
+                        </ul>
+                    </li>
+                    
+                }
+                @if (Rights.Viewpayment == true)
+                {
+                    <li><a href="/CRMPayment/Payment" >Payments</a></li>
+                }
+                @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true || Rights.ViewDailyRemark == true)
+                {
+                    <li class="dropdown @((pathname == "/Nis/remark/" || pathname == "/Nis/remark") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">General Remark <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true)
+                            {
+                                <li><a href="/Nis/Remark">Create Daily Remark</a></li>
+
+                            }
+                            @if (Rights.CommonActivityRemark == true || Rights.ViewDailyRemark == true)
+                            {
+                                <li><a href="/Nis/ViewRemark">View Daily Remark</a></li>
+
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.DeveloperReport == true)
+                {
+                    <li class="dropdown @((pathname == "/Nis/developer/" || pathname == "/Nis/Developer" || pathname.ToLower().Contains("/Nis/ViewActivityReport/?page=")) ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Developer <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Nis/Developer">Create Activity</a></li>
+                            <li><a href="/Nis/ViewActivityReport/?page=1">View Activity</a></li>
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.NewLeave == true || Rights.ViewLeave == true)
+                {
+                    <li class="dropdown @((pathname == "/LeaveManagement/Attandance" || pathname == "/LeaveManagement/Attandance" || pathname == "/LeaveManagement/Attandance") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Leave Management <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.NewLeave == true)
+                            {
+                                <li><a href="/LeaveManagement/LeaveRequest">New Leave</a></li>
+
+                            }
+                            @if (Rights.ViewLeave == true)
+                            {
+                                <li><a href="/LeaveManagement/LeaveRequestView">View Leave</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @*@if((Rights.ViewLeads) || (Rights.CreateLeads))
+        {
+            <li class="dropdown @((pathname == "/LeadSetting") ? "active" : "")">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lead Settings <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    @if (Rights.CreateLeads)
+                    {
+                        <li><a href="/LeadSetting/CreateSetting">Create Lead Setting</a></li>
+
+                    }
+                    @if (Rights.ViewLeads)
+                    {
+                        <li><a href="/LeadSetting/ViewLeadSetting">View Lead Setting</a></li>
+                    }
+                </ul>
+            </li>
+        }*@
+
+                @if (Rights.ProjectManagement == true)
+                {
+                    <li class="dropdown @(pathname == "/project/add" ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Project Management <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/project/add">Project</a></li>
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true || Rights.ViewAssignedWorks == true)
+                {
+                    <li class="dropdown @(pathname == "/Dailywork/Assign" || pathname == "/Dailywork/Index" ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Daily Work <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @*    <li><a href="/Dailywork/ourwork">Our Works</a></li>*@
+                            @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true)
+                            {
+                                <li><a href="/Dailywork/Assign">Create and Assign Work</a></li>
+
+                            }
+                            @if (Rights.DailyWorkSchedule == true || Rights.ViewAssignedWorks == true)
+                            {
+                                <li><a href="/Dailywork/ViewAssigned">View Assigned Works</a></li>
+
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.RoleManagement == true || Rights.ManageUser == true)
+                {
+                    <li class="dropdown @((pathname == "/home/users/" || pathname == "/home/assignrole" || pathname == "/home/createrole") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Management <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.ManageUser == true)
+                            {
+                                <li><a href="/home/users">Manage User</a></li>
+                            }
+                            @if (Rights.RoleManagement == true)
+                            {
+                                <li><a href="/home/assignrole">Manage Role</a></li>
+
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.EmpAttendence == true)
+                {
+                    <li class="dropdown @((pathname == "/Emp/Attandance" || pathname == "/Emp/Attandance" || pathname == "/Emp/Attandance") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Employee <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Emp/Attandance">Attendance</a></li>
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.MappedUser == true)
+                {
+                    <li class="dropdown @(pathname == "/Dailywork/Assign" || pathname == "/Dailywork/Index" ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Our Mapped User <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/home/OurMappeduser">Mapped User</a></li>
+                        </ul>
+                    </li>
+                }
+
+                @if (Convert.ToString(Session["UserType"]) == "HR" || Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                {
+                    <li class="dropdown @(pathname == "/HR" ? "active" : "")">
+                        <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">HR <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.EmpLoginHistory == true)
+                            {
+                                <li><a href="/HR/Index">Employee Login History</a></li>
+                            }
+                            @if (Rights.ManualAttandence == true)
+                            {
+                                <li><a href="/HR/ManualAttendance">Manual Attendance</a></li>
+                                <li><a href="/HR/users">Manage Employee</a></li>
+                            }
+                            @if (Rights.ManageSalary == true)
+                            {
+                                <li><a href="/HR/HRSalary">Manage Salary</a></li>
+                            }
+                            @if (Rights.ManageExtraPayment == true)
+                            {
+                                <li><a href="/HR/ManageAdvance">Manage Extra Payment</a></li>
+                            }
+                            @if (Rights.EmpLeaveRequest == true)
+                            {
+                                <li><a href="/HR/EmployeeLeaveRequest">Employee Leave Request</a></li>
+                            }
+                            @if (Rights.CreateInterviewSchedule == true)
+                            {
+                                <li><a href="/HR/CreateInterviewSchdule">Create Interview Schedule</a></li>
+                            }
+                            @if (Rights.ViewInterviewSchedule == true)
+                            {
+                                <li><a href="/HR/ViewInterviewSchedule">View Interview Schedule</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.CreateTicket == true || Rights.ViewTicket == true ||(uId > 0 && (uId == 661 || uId == 662 || uId == 664)))//661,662,664 is rohit singh,deepak kumar, prashant kumar id to show ticket management
+                {
+                    <li class="dropdown @(pathname == "/Tickets" ? "active" : "")">
+                        <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ticket Management<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.CreateTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                            {
+                                <li><a href="/Tickets/CreateTicket">Create Ticket</a></li>
+                            }
+                            @if (Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                            {
+                                <li><a href="/Tickets/ViewTicket/?page=1">View Ticket</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+                @*@if (uId > 0 && (uId == 661 || uId == 662 || uId == 664))//661,662,664 is rohit singh,deepak kumar, prashant kumar id to show ticket management
+                {
+                    <li class="dropdown @(pathname == "/Tickets" ? "active" : "")">
+                        <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ticket Management<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Tickets/CreateTicket">Create Ticket</a></li>
+                            <li><a href="/Tickets/ViewTicket/?page=1">View Ticket</a></li>
+                        </ul>
+                    </li>
+                }*@
+                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin" && Convert.ToInt32(Session["BranchID"]) == 173 && Convert.ToInt32(Session["CompanyID"]) == 296)
+                {
+                    @*<li class="dropdown @(pathname == "/ManageOrganization/AssignOrganization" ? "active" : "")"><a href="/ManageOrganization/AssignOrganization">Assign To Other Organization</a></li>*@
+                    <li class="dropdown @(pathname == "/ManageOrganization" ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Branch Management <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/ManageOrganization/UserListByBranch">Assign To Other User</a></li>
+                            <li><a href="/ManageOrganization/ViewAssinedBranch">View Assigned User</a></li>
+
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+<header class="navbar-fixed1">
+ <div class="col-xs-4">
+       <div id="nav-trigger" role="button">
+    <div class="line l-01"></div>
+    <div class="line l-02"></div>
+    <div class="line l-03"></div>
+    <div class="line l-04"></div>
+  </div>
+ </div>
+ <div class="col-xs-4">
+  <a href="#"><img src="@webUrl/img/crm.png" alt="" width="90px" style="    display: block;
+    margin: auto;"></a></div>
+  <div class="col-xs-4">
+
+</div>
+<div class="design"></div>
+</header>
+
+<nav id="side-nav" class="navbar-fixed1">
+ <div class="row topm">
+     <div class="prof">
+         <img src="https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png" alt="" width="50px">
+     </div>
+     <div class="emailc">
+            @if (Session["UserName"] != null)
+            {
+                <h6>@Convert.ToString(Session["UserName"])</h6>
+                <p>@Convert.ToString(Session["UserEmail"])</p>
+            }
+            
+        </div>
+ </div>
+ <ul class="navigation">
+        @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+        {
+            <li class="item-has-children">
+                <a href="#0">Master</a>
+                <ul class="sub-menu">
+                    <li><a href="/Hr/manage_profile">Manage Profile</a></li>
+                            <li><a href="/Master/ManageLeadStatus">Manage Lead Status @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.LeadStatusTextName) ? fieldText.LeadStatusTextName : "Lead Status")*@</a></li>
+                            <li><a href="/Master/ManageLeadSource">Manage Lead Source @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.LeadResourceTextName) ? fieldText.LeadResourceTextName : "Lead Source")*@</a></li>
+                            <li><a href="/Master/ManageProductType">Manage Product Type @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.ProductTypeNameTextName) ? fieldText.ProductTypeNameTextName : "Product Type")*@</a></li>
+                            <li><a href="/Master/ManageInterViewStatus">Manage Interview Status</a></li>
+                            <li><a href="/Master/ManageEmailSetting">Manage Email Setting</a></li>
+                            <li><a href="/Master/ManageErrorType">Manage Error Type</a></li>
+                            <li><a href="/Master/ManageUrgency">Manage Urgency</a></li>
+                            <li><a href="/EmailTemplate/ManageTemplate">Email Templete</a></li>
+                            <li><a href="/IndiaMartSetting/ManageIndiaMartSetting">Manage IndiaMart Setting</a></li>
+                            <li><a href="/LeadSetting/CreateSetting">Manage Lead  @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead")*@ Form</a></li>
+                            <li><a href="/LeadSetting/ViewLeadSetting">Mange View Lead @*@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead")*@ Report</a></li>
+                            <li><a href="/TicketCustom/CreateTicketSetting">Manage Ticket Form</a></li>
+                            <li><a href="/TicketCustom/ViewTicketSetting">Manage View Ticket Report</a></li>
+                </ul>
+            </li>
+        }
+        @if ((Rights.ViewLeads == true) || (Rights.CreateLeads == true) || (Rights.ViewSales == true) || (Rights.LeadNotify == true) || (Rights.AssignLeadManagement == true) || (Rights.FileManager == true) || (Rights.TrackSalePerson == true) || (Rights.ViewMapSalePerson == true))
+        {
+            <li class="item-has-children">
+                <a href="#0">@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead") Management</a>
+                <ul class="sub-menu">
+                    @if (Rights.CreateLeads)
+                    {
+                        <li><a href="/home/createleads">@(fieldText != null && !string.IsNullOrEmpty(fieldText.FormTextName) ? fieldText.FormTextName : "Create New Lead")</a></li>
+                    }
+                    @if (Rights.ViewLeads == true)
+                    {
+                        <li><a href="/home/viewleads/?page=1">View @(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead") Report</a></li>
+                    }
+                    @if (Rights.LeadNotify == true)
+                    {
+                        <li><a href="/home/LeadReport">@(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead") Summary Report</a></li>
+                    }
+                    @if (Rights.AssignLeadManagement == true)
+                    {
+                        <li><a href="/home/AssignLeadShow">View Assigned @(fieldText != null && !string.IsNullOrEmpty(fieldText.HeaderMenuTextName) ? fieldText.HeaderMenuTextName : "Lead")</a></li>
+                    }
+
+                    @if (Rights.ViewSales == true)
+                    {
+                        <li><a href="/home/viewsales/?page=1">View Sales</a></li>
+                    }
+                    @if (Rights.FileManager == true)
+                    {
+                        <li><a href="/FileManager/ManageFile">File Manager</a></li>
+                    }
+                    @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                    {
+                        <li><a href="/TrackSalePerson/TrackSales/?page=1">Track Sale Person</a></li>
+                        <li><a href="/TrackSalePerson/ViewTrackMap">View Map Sale Person</a></li>
+                    }
+                </ul>
+            </li>
+            if (Rights.SaleTarget == true)
+            {
+                <li class="item-has-children">
+                    <a href="#0">Sales Target</a>
+                    <ul class="sub-menu">
+                        <li><a href="/CRMTargetPerformance/CRMTargetPerformanceList">Sales Target And Performance</a></li>
+                    </ul>
+                </li>
+            }
+        }
+        @if (Rights.AddQuotation == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >Quotation</a>
+                <ul class="sub-menu">
+                    <li><a href="/Quotation/EditQuotation">Create Quotation</a></li>
+                    <li><a href="/Quotation/ManageQuotation">View Quotation</a></li>
+                </ul>
+            </li>
+
+        }
+        @if (Rights.Viewpayment == true)
+        {
+            <li class="single-item-wrapper"><a href="/CRMPayment/Payment" style="font-size:18px;">Payments</a></li>
+        }
+        @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true || Rights.ViewDailyRemark == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >General Remark</a>
+                <ul class="sub-menu">
+                    @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true)
+                    {
+                        <li><a href="/Nis/Remark">Create Daily Remark</a></li>
+
+                    }
+                    @if (Rights.CommonActivityRemark == true || Rights.ViewDailyRemark == true)
+                    {
+                        <li><a href="/Nis/ViewRemark">View Daily Remark</a></li>
+
+                    }
+                </ul>
+            </li>
+        }
+
+        @if (Rights.DeveloperReport == true)
+        {
+            <li class="item-has-children">
+                <a href="#0">Developer</a>
+                <ul class="sub-menu">
+                    <li><a href="/Nis/Developer">Create Activity</a></li>
+                    <li><a href="/Nis/ViewActivityReport/?page=1">View Activity</a></li>
+                </ul>
+            </li>
+        }
+
+        @if (Rights.NewLeave == true || Rights.ViewLeave == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >Leave Management</a>
+                <ul class="sub-menu">
+                    @if (Rights.NewLeave == true)
+                    {
+                        <li><a href="/LeaveManagement/LeaveRequest">New Leave</a></li>
+
+                    }
+                    @if (Rights.ViewLeave == true)
+                    {
+                        <li><a href="/LeaveManagement/LeaveRequestView">View Leave</a></li>
+                    }
+                </ul>
+            </li>
+        }
+
+        @if (Rights.ProjectManagement == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >Project Management</a>
+                <ul class="sub-menu">
+                    <li><a href="/project/add">Project</a></li>
+                </ul>
+            </li>
+        }
+
+        @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true || Rights.ViewAssignedWorks == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >Daily Work</a>
+                <ul class="sub-menu">
+                    @*    <li><a href="/Dailywork/ourwork">Our Works</a></li>*@
+                    @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true)
+                    {
+                        <li><a href="/Dailywork/Assign">Create and Assign Work</a></li>
+                    }
+                    @if (Rights.DailyWorkSchedule == true || Rights.ViewAssignedWorks == true)
+                    {
+                        <li><a href="/Dailywork/ViewAssigned">View Assigned Works</a></li>
+                    }
+                </ul>
+            </li>
+        }
+
+        @if (Rights.RoleManagement == true || Rights.ManageUser == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >User Management</a>
+                <ul class="sub-menu">
+                    @if (Rights.ManageUser == true)
+                    {
+                        <li><a href="/home/users">Manage User</a></li>
+                    }
+                    @if (Rights.RoleManagement == true)
+                    {
+                        <li><a href="/home/assignrole">Manage Role</a></li>
+                    }
+                </ul>
+            </li>
+        }
+
+        @if (Rights.EmpAttendence == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >Employee</a>
+                <ul class="sub-menu">
+                    <li><a href="/Emp/Attandance">Attendance</a></li>
+                </ul>
+            </li>
+        }
+
+        @if (Rights.MappedUser == true)
+        {
+            <li class="item-has-children">
+                <a href="#0" >Our Mapped User</a>
+                <ul class="sub-menu">
+                    <li><a href="/home/OurMappeduser">Mapped User</a></li>
+                </ul>
+            </li>
+        }
+
+        @if (Convert.ToString(Session["UserType"]) == "HR" || Convert.ToString(Session["UserType"]) == "SuperAdmin")
+        {
+            <li class="item-has-children">
+                <a href="#0" >HR</a>
+                <ul class="sub-menu">
+                    @if (Rights.EmpLoginHistory == true)
+                    {
+                        <li><a href="/HR/Index">Employee Login History</a></li>
+                    }
+                    @if (Rights.ManualAttandence == true)
+                    {
+                        <li><a href="/HR/ManualAttendance">Manual Attendance</a></li>
+                        <li><a href="/HR/users">Manage Employee</a></li>
+                    }
+                    @if (Rights.ManageSalary == true)
+                    {
+                        <li><a href="/HR/HRSalary">Manage Salary</a></li>
+                    }
+                    @if (Rights.ManageExtraPayment == true)
+                    {
+                        <li><a href="/HR/ManageAdvance">Manage Extra Payment</a></li>
+                    }
+                    @if (Rights.EmpLeaveRequest == true)
+                    {
+                        <li><a href="/HR/EmployeeLeaveRequest">Employee Leave Request</a></li>
+                    }
+                    @if (Rights.CreateInterviewSchedule == true)
+                    {
+                        <li><a href="/HR/CreateInterviewSchdule">Create Interview Schedule</a></li>
+                    }
+                    @if (Rights.ViewInterviewSchedule == true)
+                    {
+                        <li><a href="/HR/ViewInterviewSchedule">View Interview Schedule</a></li>
+                    }
+                </ul>
+            </li>
+        }
+
+        @if (Rights.CreateTicket == true || Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))//661,662,664 is rohit singh,deepak kumar, prashant kumar id to show ticket management
+        {
+            <li class="item-has-children">
+                <a href="#0" >Ticket Management</a>
+                <ul class="sub-menu">
+                    @if (Rights.CreateTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                    {
+                        <li><a href="/Tickets/CreateTicket">Create Ticket</a></li>
+                    }
+                    @if (Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                    {
+                        <li><a href="/Tickets/ViewTicket/?page=1">View Ticket</a></li>
+                    }
+                </ul>
+            </li>
+        }
+       
+        @if (Convert.ToString(Session["UserType"]) == "SuperAdmin" && Convert.ToInt32(Session["BranchID"]) == 173 && Convert.ToInt32(Session["CompanyID"]) == 296)
+        {
+            @*<li class="dropdown @(pathname == "/ManageOrganization/AssignOrganization" ? "active" : "")"><a href="/ManageOrganization/AssignOrganization">Assign To Other Organization</a></li>*@
+            <li class="item-has-children">
+                <a href="#0">Branch Management</a>
+                <ul class="sub-menu">
+                    <li><a href="/ManageOrganization/UserListByBranch">Assign To Other User</a></li>
+                    <li><a href="/ManageOrganization/ViewAssinedBranch">View Assigned User</a></li>
+
+                </ul>
+            </li>
+        }
+    </ul>
+  <!-- navigation -->
+
+  <ul class="navigation single-item-wrapper">
+   <li><a href="/home/LogOut"><i class="fa fa-power-off"></i> Logout</a></li>
+  </ul>
+
+</nav>

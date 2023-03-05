@@ -1,0 +1,394 @@
+﻿@{
+    ViewBag.Title = "ViewAssigned";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Traders.Models.ViewworkAssignDeveloperModel
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Assigned Work </strong>
+                            <span style="margin-left: 21%; color: red; font-family: initial;">@TempData["alert"]</span>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("ViewAssigned", "Dailywork", FormMethod.Post))
+                                {
+                                    <div class="col-sm-2">
+                                        <select id="assignCustomer" class="form-control ListItemCapitalize clr" name="assignCustomer">
+                                            <option>Select Customer</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <select id="assignProject" class="form-control ListItemCapitalize clr" name="assignProject">
+                                            <option>Select Project</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <select id="assignProjectModule" class="form-control ListItemCapitalize clr" name="assignProjectModule">
+                                            <option>Select Module</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" class="form-control selectDate" name="FromDate" id="FromDate" data-date-format="@Session["DpDateFormat"]" value="@Convert.ToString(Session["VLFltrFrmDt"])" autocomplete="off" placeholder="From Date" required="required" readonly />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" class="form-control selectDate" name="ToDate" id="ToDate" data-date-format="@Session["DpDateFormat"]"  value="@Convert.ToString(Session["VLFltrToDt"])" autocomplete="off" placeholder="To Date" required="required" readonly />
+                                    </div>
+                                    <div class="col-sm-2 padd0">
+                                        <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                        <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/Dailywork/ViewAssigned'" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("Assign", "Dailywork", FormMethod.Post))
+            {
+
+                <div class="row">
+                    <div class="col-sm-12" style="overflow-x: scroll;">
+                        <table class="table table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Create Date</th>
+                                    <th>Customer Name</th>
+                                    <th>Project Name</th>
+                                    <th>Module</th>
+                                    <th>Module Description</th>
+                                    <th>Finish Date</th>
+                                    <th>Assign To</th>
+                                    <th>Assign By</th>
+                                    <th>Assign Date</th>
+                                    <th>Status</th>
+                                    <th>Work Completed Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int i = 1;}
+                                @if (Model.ViewworkAssignDevelopermodelList.Count > 0)
+                                {
+                                    foreach (var item in Model.ViewworkAssignDevelopermodelList.OrderByDescending(em => em.Id))
+                                    {
+                                        <tr>
+                                            <td translate="no" data-column="Sr.No.">@i</td>
+                                            <td translate="no" data-column="Create Date">@item.WorkCreatedDate</td>
+                                            <td translate="no" data-column="Customer">@item.CustomerName</td>
+                                            <td translate="no" data-column="Project Name">@item.ProjectName</td>
+                                            <td translate="no" data-column="Module">@item.ModuleName</td>
+                                            <td translate="no" data-column="Module Description">@item.ModuleDescription</td>
+                                            <td translate="no" data-column="Finish Date">@item.FinishingDate</td>
+                                            <td translate="no" data-column="Assign To">@item.WorkAssignedUser</td>
+                                            <td translate="no" data-column="Assign By">@item.WorkCreatedBy</td>
+                                            <td translate="no" data-column="Assigned Date">@item.AssignDate</td>
+                                            <td translate="no" data-column="Status">
+                                                @{ string textClass = string.Empty;}
+                                                @if (item.WorkStatusName == "In Progress")
+                                                {
+                                                    textClass = "status-warning";
+                                                }
+                                                else if (item.WorkStatusName == "Completed")
+                                                {
+                                                    textClass = "status-success";
+                                                }
+
+                                                <span class="@textClass">@item.WorkStatusName</span>
+                                            </td>
+                                            <td data-column="Work Completed Date">
+                                                @if (item.TaskCompletedDate == null)
+                                                {
+                                                    <span>--</span>
+                                                }
+                                                else
+                                                {
+                                                    @item.TaskCompletedDate
+                                                }
+                                            </td>
+                                            <td data-column="Action">
+                                                <span>
+                                                    <a href="#" class="PopViewWork" data-toggle="modal" data-target="#AddWorkModal" data-id="@item.Id" title="Add"><i aria-hidden="true" class="fa fa-plus-circle  icon"></i></a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="PopViewWork" data-toggle="modal" data-target="#GetWorkModal" data-id="@item.Id" title="View"><i class="fa fa-eye  iccn" aria-hidden="true"></i></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                                            i++;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="10" style="text-align: center;">** No Record Found</td>
+                                                        </tr>
+                                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                                                    }
+        </div>
+    </div>
+</div>
+<!--Modal work-Description-->
+<div id="GetWorkModal" class="modal fade" role="dialog">
+</div>
+
+<div id="AddWorkModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View Work</h4>
+                <input type="hidden" id="hdnID" />
+                <input type="hidden" id="hdnWorkAssignTo" />
+                <input type="hidden" id="hdnOtherUserID" />
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    @*<div class="form-group">
+                            <label class="control-label col-sm-2">Work Create Date :</label>
+                            <div class="col-sm-4">
+                                <label class="control-label" id="txtAssignDate"></label>
+                            </div>
+                            <label class="control-label col-sm-2">Finish Date  :</label>
+                            <div class="col-sm-4">
+                                <label class="control-label" id="txtFinishDate"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Project :</label>
+                            <div class="col-sm-4">
+                                <label class="control-label" id="Project"></label>
+                            </div>
+                            <label class="control-label col-sm-2">Module :</label>
+                            <div class="col-sm-4">
+                                <label class="control-label" id="ProjectModule"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Module Define :</label>
+                            <div class="col-sm-10">
+                                <label class="control-label" id="txtModuleDescription"></label>
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Work Status :</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="ddlWorkStatus">
+                                <option value="0">Select Status</option>
+                                <option value="1">Completed</option>
+                                <option value="2">In Progress</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email" style="text-align: left;">Description</label>
+                        <div class="col-sm-10">
+                            <textarea id="txtDescription" class="form-control ckeditor" style="height: 80px;" name="txtDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label">Upload</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="file" id="Postfile" name="Postfile" class="form-control" size="10" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnUpdateWork">Update Work</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+
+    jQuery('#btnUpdateWork').click(function () {
+        debugger;
+        var fileData = new FormData();
+        var AssignedTo = $('#hdnWorkAssignTo').val();
+        var OtherUserTo = $('#hdnOtherUserID').val();
+        //if (AssignedTo != OtherUserTo) {
+            var workID = $("#hdnID").val();
+            var workStatus = $("#ddlWorkStatus").val();
+            var value = jQuery("#txtDescription").summernote('code');
+            if (value == "") {
+                swal("Alert !", "Please input a description", "warning");
+                return false;
+            }
+            var editorval = value;
+            var fileUpload = jQuery("#Postfile").get(0);
+            var files = fileUpload.files;
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            fileData.append('hdnID', workID);
+            fileData.append('ddlWorkStatus', workStatus);
+            fileData.append('txtDescription', editorval);
+
+            if (workID != '') {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/Dailywork/UpdateWork');
+                xhr.send(fileData);
+                xhr.onreadystatechange = function () {
+                    if (xhr.responseText.replace('"', '').replace('"', '') == 'Work updated successfully') {
+                        swal({
+                            title: "Success !",
+                            text: xhr.responseText.replace('"', '').replace('"', ''),
+                            type: "success",
+                            timer: 3000,
+                            showConfirmButton: false
+                        },
+                            function () {
+                                window.location.href = "/Dailywork/ViewAssigned";
+
+                            });
+                    }
+                    else {
+                        swal({
+                            title: "Alert !",
+                            text: xhr.responseText.replace('"', '').replace('"', ''),
+                            type: "warning"
+                        });
+
+                    }
+                }
+
+            }
+
+        //}
+
+    });
+
+    $('.PopViewWork').on('click', function () {
+        var self = $(this);
+        var WorkId = self.data("id");
+        if (WorkId != '') {
+            $.post('/Dailywork/ViewWorkDescription', { wid: WorkId }, function (data) {
+                $('#GetWorkModal').html(data);
+                $($(this).data("#GetWorkModal")).show();
+            });
+        }
+    });
+
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+
+    $('.PopViewWork').on('click', function () {
+        var self = jQuery(this);
+        var wid = self.data("id");
+        if (wid != '') {
+            $.ajax({
+                type: "GET",
+                url: "/Dailywork/GetDailyWork",
+                data: { ID: wid },
+                dataType: "json",
+                success: function (data) {
+                    $('#hdnID').val(data.Id);
+                    $('#txtAssignDate').html(data.WorkCreatedDate);
+                    $('#txtFinishDate').html(data.FinishingDate);
+                    $('#Project').html(data.ProjectName);
+                    $('#ProjectModule').html(data.ModuleName);
+                    $('#txtModuleDescription').html(data.ModuleDescription);
+                    $('#hdnWorkAssignTo').val(data.WorkAssignTo);
+                    $('#ddlWorkStatus').val(data.WorkStatus);
+                    $('#hdnOtherUserID').val(data.OtherUserID);
+                }
+            });
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        assignProjectDDL();
+        assignCustomerDDL();
+    });
+
+    function assignProjectDDL() {
+        $.get('/Dailywork/BindDDlProject', null, function (data) { chkassignProjectDDLL(data); });
+    }
+    function chkassignProjectDDLL(abc) {
+        var data = "";
+        data += "<option value= >Select Project</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Pid + " >" +
+                abc[it].ProjectName + "</option>";
+        }
+        $('#assignProject').html(data);
+    }
+
+    jQuery('#assignProject').change(function () {
+        var ddl = jQuery(this).val();
+        assignModuleDDL(ddl);
+
+    });
+
+    function assignModuleDDL(ddl) {
+        var PID = ddl;
+        $.get('/Dailywork/BindDDlModule', { pid: PID }, function (data) { chkassignModuleDDL(data); });
+    }
+    function chkassignModuleDDL(abc) {
+        var data = "";
+        data += "<option value= >Select Module</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].ModuleId + " >" +
+                abc[it].ProjectModuleName + "</option>";
+        }
+        $('#assignProjectModule').html(data);
+    }
+
+
+    function assignCustomerDDL(ddl) {
+        $.get('/Dailywork/assignDDlCustomer', null, function (data) { assignBindCustomerDDLL(data); });
+    }
+    function assignBindCustomerDDLL(abc) {
+        var data = "";
+        data += "<option value= >Select Customer</option>";
+        for (var it in abc) {
+            if (it != null) {
+                data += "<option value=" + abc[it].CId + " >" +
+                    abc[it].CustomerName + "</option>";
+            }
+        }
+        $('#assignCustomer').html(data);
+    }
+</script>

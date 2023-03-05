@@ -1,0 +1,237 @@
+﻿@{
+    ViewBag.Title = "ProjectAssign";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Traders.Models.ViewworkAssignDeveloperModel
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Project Permission</strong>
+                            <span style="margin-left: 21%; color: red; font-family: initial;">@TempData["alert"]</span>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("ProjectAssign", "Dailywork", FormMethod.Post))
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-1 " style="margin-right: -112px;"></div>
+                                        <div class="col-sm-2 ">
+                                            <select id="AssignTo" class="form-control ListItemCapitalize clr" name="AssignTo">
+                                                <option>Select User</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-1 " style="margin-right: -112px;"></div>
+                                        <div class="col-sm-2">
+                                            <select id="assignCustomer" class="form-control ListItemCapitalize clr" name="assignCustomer">
+                                                <option>Select Customer</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <select id="assignProject" class="form-control ListItemCapitalize clr" name="assignProject">
+                                                <option>Select Project</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <select id="assignProjectModule" class="form-control ListItemCapitalize clr" name="assignProjectModule">
+                                                <option>Select Module</option>
+                                            </select>
+                                        </div>
+                                        @*<div class="col-sm-2">
+                                                <input type="text" class="form-control datefield" name="FromDate" id="FromDate" autocomplete="off" placeholder="From Date" required="required" readonly />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control datefield" name="ToDate" id="ToDate" placeholder="To Date" autocomplete="off" required="required" readonly />
+                                            </div>*@
+                                        <div class="col-sm-2 padd0">
+                                            @*<input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                                <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/Dailywork/Assign'" />*@
+                                            <input id="Submit1" class="btn btn-success" style="margin-left: 10px;" type="submit" value="Assign" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="form-group pull-right">
+                            <div class="col-sm-6 viewl1 col-xs-6" style="">
+                                <select id="AssignTo" class="form-control ListItemCapitalize" name="AssignTo"></select>
+                            </div>
+                            <div class="col-sm-1 col-xs-6">
+                                <input id="Submit2" class="btn btn-success" style="margin-left: 10px; margin-top: 5px;" type="submit" value="Assign Works" />
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont" id="test">
+                        <thead class="black-white-text">
+                            <tr>
+                                @*<th>#</th>*@
+                                <th>Create Date</th>
+                                <th>Customer Name</th>
+                                <th>Project Name</th>
+                                <th>Module</th>
+                                <th>Finish Date</th>
+                                <th>Assign To</th>
+                                <th>Assign Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.ViewworkAssignDevelopermodelList.Count > 0)
+                            {
+                                foreach (var item in Model.ViewworkAssignDevelopermodelList.OrderByDescending(em => em.Id))
+                                {
+                                    if (item.CancelStatus != 1)
+                                    {
+                                        <tr>
+                                            @*<td translate="no" data-column="Sr.No.">@i</td>*@
+                                            <td translate="no" data-column="Create Date">@item.WorkCreatedDate</td>
+                                            <td translate="no" data-column="Customer">@item.CustomerName</td>
+                                            <td translate="no" data-column="Project Name">@item.ProjectName</td>
+                                            <td translate="no" data-column="Module">@item.ModuleName</td>
+                                            <td translate="no" data-column="Finish Date">@item.FinishingDate</td>
+                                            <td translate="no" data-column="Assign To">@item.WorkAssignedUser</td>
+                                            <td translate="no" data-column="Assigned Date">@item.AssignDate</td>
+                                            @*<td data-column="Work Completed Date">
+                                                    @if (item.TaskCompletedDate == null)
+                                                    {
+                                                        <span>--</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @item.TaskCompletedDate
+                                                    }
+                                                </td>*@
+                                            <td data-column="Action">
+                                                <button type="button" class="btn btn-danger" sts="cancel" url="/Dailywork/changeCancelstatus/@item.Id" onclick="changeCancelstatus(this);">Cancel</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        BindProjectDDL();
+        BindAssignToDDL();
+        assignCustomerDDL();
+    });
+
+    function BindAssignToDDL() {
+        $.get('/Dailywork/BindDDlAssignto', null, function (data) { chkBindAssignToDDL(data); });
+    }
+    function chkBindAssignToDDL(abc) {
+
+        var data = "";
+        data += "<option value= >Select User</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" +
+                abc[it].UserName + "</option>";
+        }
+        $('#AssignTo').html(data);
+    }
+
+
+    function BindProjectDDL() {
+        $.get('/NIS/BindDDlProject', null, function (data) { chkBindProjectDDLL(data); });
+    }
+    function chkBindProjectDDLL(abc) {
+        var data = "";
+        data += "<option value= >Select Project</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Pid + " >" +
+                abc[it].ProjectName + "</option>";
+        }
+        $('#assignProject').html(data);
+    }
+
+    jQuery('#assignProject').change(function () {
+        var ddl = jQuery(this).val();
+        BindModuleDDL(ddl);
+    });
+
+    function BindModuleDDL(ddl) {
+        var PID = ddl;
+        $.get('/NIS/BindDDlModule', { pid: PID }, function (data) { chkBindModuleDDL(data); });
+    }
+    function chkBindModuleDDL(abc) {
+        var data = "";
+        data += "<option value= >Select Module</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].ModuleId + " >" +
+                abc[it].ProjectModuleName + "</option>";
+        }
+        $('#assignProjectModule').html(data);
+    }
+
+
+    function assignCustomerDDL() {
+        $.get('/Dailywork/assignDDlCustomer', null, function (data) { assignBindCustomerDDLL(data); });
+    }
+    function assignBindCustomerDDLL(abc) {
+        var data = "";
+        data += "<option value= >Select Customer</option>";
+        for (var it in abc) {
+            if (it != null) {
+                data += "<option value=" + abc[it].CId + " >" +
+                    abc[it].CustomerName + "</option>";
+            }
+        }
+        $('#assignCustomer').html(data);
+    }
+
+
+
+    function changeCancelstatus(obj) {
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "cancel") {
+                    $(obj).closest("tr").remove();
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+</script>

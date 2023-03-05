@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>CRM</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/mystyle.css" rel="stylesheet">
+    <link href="navbar-static-top.css" rel="stylesheet">
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ionicons.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>	
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/jquery-ui.css"/>		
+	<!-- graph css -->
+
+
+	
+  </head>
+
+  <body>
+<header>
+<div class="container">
+	<div class="col-sm-3">
+		<a href="index.html"><img src="img/logo.png" alt="logo"></a>
+	</div>
+	<div class="col-sm-9">
+        <form class="navbar-form2" role="search">
+        <div class="input-group col-sm-12">
+            <input type="text" class="form-control" placeholder="Search" name="q">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+        </form>
+		<div class="headerright">
+			
+			<a href="#" class="toplink dropdown-toggle btn toplinkuser" data-toggle="dropdown" title="Compose Mail"><i aria-hidden="true" class="fa fa-user"></i> User</a>
+			<ul class="dropdown-menu  rightdrop">
+				<li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i> 8528528520</a></li>
+				<li><a href="#"><i aria-hidden="true" class="fa fa-envelope-o"></i>	 user@yourbrand.com</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#loginhistory"><i aria-hidden="true" class="fa fa-history"></i>  Last Login Details</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#changepassword"><i aria-hidden="true" class="fa fa-exchange"></i> Change Password</a></li>
+				<li><a href="#"><i aria-hidden="true" class="fa fa-sign-out"></i> Logout</a></li>
+			</ul>
+		
+		</div>
+    </div>
+
+</div>
+
+
+</header>
+<!-- end header -->
+
+    <nav class="navbar navbar-default navbarstyle">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Leads <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="viewleads.html">View Leads</a></li>
+                <li><a href="createnewleads.html">Create New Leads</a></li>
+              </ul>
+            </li>
+		    <li><a href="viewsales.html">View Sales</a></li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Archive <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="viewmonthly.html">View Monthly</a></li>
+              </ul>
+            </li>	
+	
+			<li><a href="message.html">Message</a></li>	
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Role Management <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="users.html">User</a></li>
+                <li><a href="roles.html">Assign Role</a></li>
+                
+		
+              </ul>
+            </li>			
+							
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav> 
+
+
+<div class="maincontainer">
+<div class="col-sm-12">
+<h1>Role Management  
+ <button type="submit" class="btn f-right btn-danger right3">Delete Role</button> <button type="submit" class="btn f-right btn-default right3">Cancel</button> <button type="submit" class="btn f-right btn-default right3">Save </button>
+
+</h1>
+
+<div class="col-sm-12">
+<div class="panel panel-default">
+  <div class="panel-heading">New Users</div>
+  <div class="panel-body">
+  
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#roleinfo" data-toggle="tab">Role Info</a></li>
+		<li><a href="#roleassignment" data-toggle="tab">Role Assignment</a></li>
+		<li><a href="#roleusers" data-toggle="tab">Role Users</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane fade in active" id="roleinfo">
+			<br style="clear:both;"/>
+			<form class="form-horizontal">
+			  <div class="form-group">
+				<label class="control-label col-sm-2">Role Name:</label>
+				<div class="col-sm-3">
+				  <input type="text" value="admin" class="form-control">
+				</div>
+			  </div>
+			 
+
+			</form>  		
+		
+		
+		
+		
+		</div><!-- end first tabs -->
+		<div class="tab-pane fade" id="roleassignment">
+			<br style="clear:both;"/>
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-2">Create Leads :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">View Leads :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-sm-2">View Sales :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">Message :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>					
+			
+		
+		</div>
+
+ 
+		<div class="tab-pane fade" id="roleusers">
+		<br style="clear:both;"/> 
+			 <table class="table">
+				<thead>
+				  <tr>
+					<th width="30%">User Name</th>
+					<th width="20%">Firstname</th>
+					<th width="20%">Lastname</th>
+					<th width="20%">Email</th>
+					<th width="10%">Status</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>Admin</td>
+					<td>Ranjay</td>
+					<td>Kumar</td>
+					<td>john@example.com</td>
+					<td><select class="form-control"><option>Active</option>
+					<option>Inactive</option></select></td>					
+				  </tr>
+
+				</tbody>
+			  </table>			
+		</div>
+  
+
+
+
+  
+  
+  
+  
+  
+  
+  
+               
+
+             
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+</div>
+</div>
+
+
+
+
+</div>
+
+
+
+</div><!-- end maincontainer -->
+ <!-- /container main  -->
+<!-- modal data -->
+
+<!-- edit late fees -->
+<!-- Modal  edit late fees popup inside -->
+<div id="notepad" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Your Notepad</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+							<form>
+								<textarea class="form-control c_textarea2">
+								</textarea>
+							
+							</form>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Save Notepad</button> <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->
+ 
+ <!-- Modal  edit late fees popup inside -->
+<div id="equityupdate" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Equity Updates</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+							<form>
+								<textarea class="form-control c_textarea2">
+								</textarea>
+							
+							</form>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->
+ 
+ 
+<!-- Modal  edit late fees popup inside -->
+<div id="calculatormodal" class="modal fade" role="dialog">
+  <div class="modal-dialog llargemodal">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Stock Profit/Loss Calculator</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+							<form>
+ <table class="table table-striped">
+              <tbody><tr>
+              
+                <th class="">Product Name</th>
+                <th>Entry</th>
+                <th>Exists</th>
+                <th>No. Of Lots</th>
+                <th>%</th>
+                <th>Movements</th>
+                <th>Customer Profit</th>
+                <th>Company Profit</th>
+              </tr>
+              <tr>
+                <input type="hidden" value="1" name="id1" id="id1">
+       	        <td><select id="plcalc_product1" class="form-control" name="plcalc_product1">
+                  <optgroup label="NIFTY">
+       	           <option value="Banknifty">Bank Nifty</option>
+       	           <option value="Niftymega">Nifty Mega</option>
+       	           <option value="Niftymini">Nifty Mini</option>
+                   <option value="Equity">Equity</option>
+                  </optgroup>
+                   <optgroup label="BULLIONS">
+       	           <option value="Goldmega">Gold Mega</option>
+       	           <option value="Goldmini">Gold Mini</option>
+       	           <option value="Goldguinea">Gold Guinea</option>
+                   <option value="Silvermega">Silver Mega</option>
+       	           <option value="Silvermini">Silver Mini</option>
+       	           <option value="Silvermicro">Silver Micro</option>
+                  </optgroup>
+                   <optgroup label="ENERGY">
+       	           <option value="Crude">Crude</option>
+       	           <option value="Naturalgas">Natural Gas</option>
+                  </optgroup>
+                   <optgroup label="BASE METALS">
+       	           <option value="Leadmega">Lead Mega</option>
+       	           <option value="Leadmini">Lead Mini</option>
+       	           <option value="Coppermega">Copper Mega</option>
+                   <option value="Coppermini">Copper Mini</option>
+                   <option value="Nickelmega">Nickel Mega</option>
+       	           <option value="Nickelmini">Nickel Mini</option>
+       	           <option value="Aluminiummega">Aluminium Mega</option>
+                   <option value="Aluminiummini">Aluminium Mini</option>
+                   <option value="Zincmega">Zinc Mega</option>
+                   <option value="Zincmini">Zinc Mini</option>
+                  </optgroup>
+                   <optgroup label="AGRI COMMODITIES">
+       	           <option value="Spices">Spices</option>
+       	           <option value="Cardamom">Cardamom</option>
+       	           <option value="Coriander">Coriander(Dhaniya)</option>
+                   <option value="Turmeric">Turmeric</option>
+       	           <option value="Cuminseed">Cumin Seed(Jeera)</option>
+       	           <option value="Chilli">Chilli</option>
+                   <option value="Pepper">Pepper</option>
+                    <option value="Soyabean">Soya Bean</option>
+       	           <option value="Chana">Chana</option>
+       	           <option value="RMseeds">RM Seeds</option>
+                   <option value="Wheat">Wheat</option>
+       	           <option value="Castorseeds">Castor Seeds</option>
+       	           <option value="Menthaoil">Mentha Oil</option>
+                   <option value="Refinesoya">Refine Soya</option>
+                  </optgroup>
+   	            </select></td>
+                 <td><input type="text" placeholder="Entry Points" class="form-control" name="plcalc_entry1"></td>
+       	        <td><input type="text" placeholder="Exit Points"  class="form-control"></td>
+                
+       	        <td><input type="text" placeholder="No Of Lots" class="form-control" ></td>
+       	        <td><input type="text" placeholder="Per%" class="form-control"></td>
+                <td><input type="text" readonly="" placeholder="Movements"  class="form-control"></td>
+       	        <td><input type="text" readonly="" class="form-control"></td>
+       	        <td><input type="text" readonly="" class="form-control"></td>
+      	      </tr>
+
+            
+                              <tr>
+                <td  colspan="4">&nbsp;</td>
+                 <td>&nbsp;</td>
+                <td>Total=</td>
+                <td><input type="text" readonly="" class="form-control" name="plcalc_tcustomerprofit"></td>
+                <td><input type="text" readonly="" class="form-control" name="plcalc_tcompanyprofit"></td>
+              </tr>
+        	    <tr>
+        	      <td valign="middle" align="center" colspan="7"><input type="button" id="plcalc_calc" class="btn" value="Calculate" name="plcalc_calc"></td>
+       	        </tr>
+      	      </tbody></table>								
+							
+							</form>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->
+ 
+  
+
+<!-- Modal  edit late fees popup inside -->
+<div id="loginhistory" class="modal fade" role="dialog">
+  <div class="modal-dialog llargemodal">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Last Login Details</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+  <table class="table table-striped">
+                        <tbody>
+						<tr>
+                          <th>S No 	</th>
+                          <th>Ip</th>
+                          <th>Date</th>
+						  <th>Browser</th>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>103.55.61.190</td>
+                          <td>2016-08-24 21:22:49</td>
+						  <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>103.55.61.190</td>
+                          <td>2016-08-24 21:22:49</td>
+						  <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>103.55.61.190</td>
+                          <td>2016-08-24 21:22:49</td>
+						  <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>103.55.61.190</td>
+                          <td>2016-08-24 21:22:49</td>
+						  <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>103.55.61.190</td>
+                          <td>2016-08-24 21:22:49</td>
+						  <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                        </tr>
+                      </tbody></table>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->
+  
+
+<!-- Modal  edit late fees popup inside -->
+<div id="changepassword" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Change Password</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+			<form class="form-horizontal">
+			  <div class="form-group">
+				<label class="control-label col-sm-4" for="email">Enter New Password:</label>
+				<div class="col-sm-8">
+				  <input type="password" class="form-control" id="email" placeholder="New Password">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label class="control-label col-sm-4" for="pwd">Confirm Password:</label>
+				<div class="col-sm-8"> 
+				  <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+				</div>
+			  </div>
+
+			  <div class="form-group"> 
+			  <label class="control-label col-sm-4" for="pwd">&nbsp;</label>
+				<div class="col-sm-8">
+				  <button type="submit" class="btn btn-default">Save Password</button>
+				</div>
+			  </div>
+			</form>
+		
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->
+ <!-- Modal  edit late fees popup inside -->
+<div id="commodityupdate" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Equity Updates</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+							<form>
+								<textarea class="form-control c_textarea2">
+								</textarea>
+							
+							</form>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->  
+  <!-- Modal  edit late fees popup inside -->
+<div id="messagebox" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Message Box</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+							<form>
+								<textarea class="form-control c_textarea2">
+								</textarea>
+							
+							</form>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->  
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+	<script src="js/custom.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="js/jquery-ui.js"></script>	
+	<script>
+	$(document).ready(function(){
+	//Datepicker Popups calender to Choose date
+	$(function(){
+		jQuery( "#datepicker2,#datepicker1,#datepicker3" ).datepicker();
+		//Pass the user selected date format 
+		jQuery( "#format" ).change(function() {
+		  jQuery( "#datepicker2,#datepicker1,#datepicker3" ).datepicker( "option", "dateFormat", $(this).val() );
+		});
+	  });
+	  
+	});
+	</script>	
+	
+	
+		<script src="js/sorttable.js"></script>
+		<script>
+		$(function(){
+			$("#dest").addSortWidget();
+		});
+		
+		$(function() {
+		  // bind change event to select
+		  $('.dynamic_select').on('change', function() {
+			var url = $(this).val(); // get selected value
+			if (url) { // require a URL
+			  window.location = url; // redirect
+			}
+			return false;
+		  });
+		});		
+		
+		</script>		
+	
+
+
+  </body>
+</html>

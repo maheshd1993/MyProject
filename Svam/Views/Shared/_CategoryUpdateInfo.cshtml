@@ -1,0 +1,51 @@
+﻿
+@model Svam.Models.CreateCategoryModel
+<div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create Item Category</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="row">
+                    <div class="col-xs-12">
+                     
+                            @using (Html.BeginForm("category", "master", FormMethod.Post, new { @class = "form-horizontal" }))
+                            {
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="cname">Category:-</label>
+                                <div class="col-sm-8">
+                                   @Html.TextBoxFor(em => em.CategoryName, new {@class="form-control" })
+                                    @Html.ValidationMessageFor(em=>em.CategoryName)
+                                    @Html.HiddenFor(em=>em.Id)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="address">Description:-</label>
+                                <div class="col-sm-8">
+                                   
+                                     @Html.TextAreaFor(em => em.Description, new {@class="form-control" })
+                                    @Html.ValidationMessageFor(em=>em.Description)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="regno"></label>
+                                <div class="col-sm-8">
+                                    <input type="submit"  class="btn mainbtn2" value="Submit">
+                                </div>
+                            </div>
+                            }
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

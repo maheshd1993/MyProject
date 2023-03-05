@@ -1,0 +1,466 @@
+﻿@{
+    ViewBag.Title = "LeadReport";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    var encode = new Svam.UtilityManager.StringCipher();
+
+}
+@model Traders.Models.ViewLeadsModel
+
+<div class="main-page-heading-box">
+<h3>Dashboard</h3>
+</div>
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><strong>Lead's Summary Report</strong>  <span style="margin-left: 12%; color: #c9302c;">@TempData["alert"]</span></div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("LeadReport", "home", FormMethod.Post))
+                                {
+                                    if (Convert.ToString(Session["UserType"]) == "SuperAdmin" || !string.IsNullOrEmpty(Model.MappedUser))
+                                    {
+                                        <div class="col-sm-3 col-xs-4">
+                                            @Html.DropDownList("UserddlName", new SelectList(Model.Userddllist, "uid", "UserName"), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", translate = "no" })
+                                        </div>
+                                    }
+
+                                    <div class="col-sm-2 col-xs-4">
+                                        <input type="text" translate="no" class="form-control dp" id="FromDate" name="FromDate"  placeholder="From Date" autocomplete="off" required="required" readonly value="@TempData["Fromdate"]" />
+                                        <input type="hidden" id="hdfromdate" value="@TempData["Fromdate"]" />
+                                    </div>
+                                    <div class="col-sm-2 col-xs-4">
+                                        <input type="text" translate="no" class="form-control dp" id="ToDate" name="ToDate"  placeholder="To Date" autocomplete="off" required="required" readonly value="@TempData["Todate"]" />
+                                        <input type="hidden" id="hdtodate" value="@TempData["Todate"]" />
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12 homb1">
+                                        <input class="btn btn-success btn-ripple" style="margin-left: 10px;" type="submit" value="Filter" />
+                                        <input class="btn btn-danger btn-ripple" type="button" value="Reset" onclick="location.href = '/home/LeadReport'" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <table class="table  table-bordered report">
+                        <tbody>
+                            <tr>
+                                <td><strong>@(Model.Language == "hi" ? "New Lead" : "New Leads")</strong></td>
+                                <td data-column="New Leads"><a href="#" class="showDetails" data-toggle="modal" data-name="NewLead" data-target="#ViewLeadDetails" translate="no">@(ViewBag.NewLeadsCount == null ? 0 : ViewBag.NewLeadsCount)</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        @if (Model.Language == "hi")
+                                        {
+                                            <span>Followups<span style="color:white;">+</span></span>
+                                        }
+                                        else
+                                        {
+                                            <span>Follow Ups</span>
+                                        }
+                                    </strong>
+                                </td>
+
+                                <td data-column="Follow Ups"><a href="#" class="showDetails" data-toggle="modal" data-name="Follow" data-target="#ViewLeadDetails" translate="no">@(ViewBag.FollowUp == null ? 0 : ViewBag.FollowUp)</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Missed Follow Ups</strong></td>
+                                <td data-column="Missed Follow Ups"><a href="#" class="showDetails" data-toggle="modal" data-name="Missed" data-target="#ViewLeadDetails" translate="no">@(ViewBag.MissedFollowUp == null ? 0 : ViewBag.MissedFollowUp)</a></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Delayed Followup's</strong></td>
+                                <td data-column="Delayed Follow Ups"><a href="#" class="showDetails" data-toggle="modal" data-name="Delayed" data-target="#ViewLeadDetails" translate="no">@(ViewBag.Delayedfollowup == null ? 0 : ViewBag.Delayedfollowup)</a></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Not Interested</strong> </td>
+                                <td data-column="Not Interested"><a href="#" class="showDetails" data-toggle="modal" data-name="Not Interested" data-target="#ViewLeadDetails" translate="no">@(ViewBag.NotInterestedCount == null ? 0 : ViewBag.NotInterestedCount)</a></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Closed<span style="color:white">+</span>Lead's</strong></td>
+                                <td data-column="Closed Leads"><a href="#" class="showDetails" data-toggle="modal" data-name="Closed" data-target="#ViewLeadDetails" translate="no">@(ViewBag.ClosedRecordsCount == null ? 0 : ViewBag.ClosedRecordsCount) </a></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Suspect<span style="color:white">+</span>Lead's</strong></td>
+                                <td data-column="Suspect Leads"><a href="#" class="showDetails" data-toggle="modal" data-name="Suspect" data-target="#ViewLeadDetails" translate="no">@(ViewBag.SuspectLeadsCount == null ? 0 : ViewBag.SuspectLeadsCount)</a></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Prospects Lead</strong></td>
+                                <td data-column="Prospect Leads"><a href="#" class="showDetails" data-toggle="modal" data-name="Prospect" data-target="#ViewLeadDetails" translate="no">@(ViewBag.ProspectCount == null ? 0 : ViewBag.ProspectCount)</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Assigned To Others</strong> </td>
+                                <td data-column="Assigned To Others"><a href="#" class="showDetails" data-toggle="modal" data-name="AssignToOthers" data-target="#ViewLeadDetails" translate="no">@(ViewBag.AssignToOthers == null ? 0 : ViewBag.AssignToOthers)</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    @using (Html.BeginForm("ExportCountOfLeads", "home", FormMethod.Post))
+                    {
+                        TempData["NewLeadsCount"] = @ViewBag.NewLeadsCount;
+                        TempData["FollowUp"] = @ViewBag.FollowUp;
+                        TempData["MissedFollowUp"] = @ViewBag.MissedFollowUp;
+                        TempData["NotInterestedCount"] = @ViewBag.NotInterestedCount;
+                        TempData["ClosedRecordsCount"] = @ViewBag.ClosedRecordsCount;
+                        TempData["SuspectLeadsCount"] = @ViewBag.SuspectLeadsCount;
+                        TempData["ProspectCount"] = @ViewBag.ProspectCount;
+                        TempData["Delayedfollowup"] = @ViewBag.Delayedfollowup;
+                        TempData["AssignToOthers"] = @ViewBag.AssignToOthers;
+                        <div class="row mbutton" style="margin-top: 10px;">
+                            <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-9">
+                                <input id="Submit1" type="submit" class="btn btn-success btn-ripple" value="Export to Excel" style="    margin-bottom: 0em;">
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-sm-6">
+                    <div id="chart-container" style="width:100%;height:370px"></div>
+
+                </div>
+            </div>
+
+            <div id="weekly-chart" style="width:100%;height:370px"></div>
+
+        </div>
+        @*<div class="controller">
+                <label id="infolbl" class="p">Click on a column to know more.</label>
+            </div>*@
+    </div>
+
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i><strong>Today Leads</strong></div>
+                        <div class="panel-body hdata">
+                            <div class="col-sm-12 padd0">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered tablefont">
+                                        <thead class="black-white-text">
+                                            <tr>
+                                                <th>Lead Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Created by</th>
+                                                <th>Follow Ups Date</th>
+                                                <th>Assign By</th>
+                                                <th>Lead Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.TodayNewLeadsList != null && Model.TodayNewLeadsList.Count > 0)
+                                            {
+                                                foreach (var item in Model.TodayNewLeadsList)
+                                                {
+                                                    DateTime dt = Convert.ToDateTime(item.FollowUpDate);
+                                                    string FollowUpDate = String.Format("{0:" + Model.DateFormat + "}", dt);
+                                                    <tr>
+                                                        <td data-column="Lead Name" translate="no"><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.LeadName</a></td>
+                                                        <td data-column="Phone" translate="no">@item.Phone</td>
+                                                        <td data-column="Email" translate="no"><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                                        <td data-column="Created By" translate="no">@item.CreatedBy</td>
+                                                        <td data-column="Follow Ups Date" translate="no">@FollowUpDate</td>
+                                                        <td data-column="Assigned By" translate="no">@item.AssignedBy</td>
+                                                        <td data-column="Lead Status" translate="no">@item.LeadStatus</td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(a => a.FromDate, new { Value = Model.TodayDate })
+                                @Html.HiddenFor(a => a.ToDate, new { Value = Model.TodayDate })
+                                @Html.HiddenFor(a => a.UserddlName)
+                                @Html.HiddenFor(a => a.FilterType, new { Value = "Followup Date" })
+                                @Html.HiddenFor(a => a.filterText)
+                                <i class="fa fa-envelope" aria-hidden="true"></i><strong onclick="$(this).closest('form').submit();" style="cursor:pointer"> Today Follow Ups </strong>
+                            }
+                        </div>
+                        <div class="panel-body hdata">
+                            <div class="col-sm-12 padd0">
+                                <div class="table-responsive">
+                                    <table class="table  table-bordered tablefont" id="dest12">
+                                        <thead class="black-white-text">
+                                            <tr>
+                                                <th>Lead Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Created by</th>
+                                                <th>Follow Ups Date</th>
+                                                <th>Assign By</th>
+                                                <th>Lead Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.TodayFollowUpLeadsList != null && Model.TodayFollowUpLeadsList.Count > 0)
+                                            {
+                                                foreach (var item in Model.TodayFollowUpLeadsList)
+                                                {
+
+                                                    DateTime dt = Convert.ToDateTime(item.FollowUpDate);
+                                                    string FollowUpDate = String.Format("{0:" + Model.DateFormat + "}", dt);
+                                                    <tr>
+                                                        <td data-column="Lead Name" translate="no"><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.LeadName</a></td>
+                                                        <td data-column="Phone" translate="no">@item.Phone</td>
+                                                        <td data-column="Email" translate="no"><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                                        <td data-column="Created By" translate="no">@item.CreatedBy</td>
+                                                        <td data-column="Follow Ups Date" translate="no">@FollowUpDate</td>
+                                                        <td data-column="Assigned By" translate="no">@item.AssignedBy</td>
+                                                        <td data-column="Lead Status" translate="no">@item.LeadStatus</td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<!--Modal- Add Description-->
+<div id="ViewLeadDetails" class="modal fade" role="dialog"></div>
+
+<!--Modal- today followup lead-->
+<div id="TodayFollowupModal" class="modal fade" role="dialog"></div>
+
+<script src="/js/jquery-1.11.3.min.js"></script>
+
+<link href="/css/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="/js/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+
+     var dateFormat = '@Session["DpDateFormat"]';
+    jQuery.noConflict();
+    jQuery(function () {
+
+        jQuery('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        jQuery('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+
+    });
+
+
+    //jQuery(".dp").on('click', function () {
+    //    $('.table-condensed thead tr th').filter(function () {
+
+    //        $(this).attr("translate", "no");
+    //    });  
+    //});
+
+    jQuery('.showDetails').on('click', function () {
+            jQuery.noConflict();
+        var userId = "";
+        var textname = jQuery(this).data('name');
+        var uid = '@Session["UID"]';
+        var fromdate = jQuery('#hdfromdate').val();
+        var todate = jQuery('#hdtodate').val();
+            var userDDl = jQuery('#UserddlName').val();
+            if (typeof (userDDl) === "undefined") {
+                userId = uid;
+            }
+            else {
+                userId = userDDl;
+            }
+        jQuery.post('/home/ViewLeadReportInfo', { FilterText: textname, FromDate: fromdate, ToDate: todate, UserddlName: userId }, function (data) {
+
+            jQuery('#ViewLeadDetails').html(data);
+            jQuery('#ViewLeadDetails').modal('show');
+            });
+    });
+</script>
+
+
+
+<script>
+    BindDDlMapUser();
+    function BindDDlMapUser() {
+        jQuery.post('/home/GeMappeduserList', null, function (data) { chkBindAssignLeadToDDL(data) });
+    }
+
+    function chkBindAssignLeadToDDL(abc) {
+        var data = "";
+        data += "<option value= >--Select User--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" +
+                abc[it].UserName + "</option>";
+        }
+        jQuery('#AssignTo').html(data);
+    }
+</script>
+
+<!--3d pie chart-->
+<!-- Step 1 - Include the fusioncharts core library -->
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+<!-- Step 2 - Include the fusion theme -->
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+<script type="text/javascript">
+
+/////////////////Pie Chart script/////////////////////////////
+    const dataSource = {
+        chart: {
+            caption: "Lead Summary",
+            //subcaption: "For a net-worth of $1M",
+            showvalues: "1",
+            showpercentintooltip: "0",
+
+            //numberprefix: "$",
+            enablemultislicing: "1",
+
+            theme: "fusion"
+        },
+        data: @Html.Raw(ViewBag.DataList)
+    };
+
+    FusionCharts.ready(function () {
+
+        var myChart = new FusionCharts({
+            type: "pie3d",
+            renderAt: "chart-container",
+            width: "100%",
+            height: "100%",
+            dataFormat: "json",
+            dataSource
+        }).render();
+    });
+//////////////////Pie Chart script end///////////////////////////
+
+</script>
+
+<script>
+ ////////////////////daily chart script////////////////////////////
+    @*var result =@Html.Raw(ViewBag.WeeklyDataList) *@
+        var userId;
+        var uid = '@Session["UID"]';
+            var fromdate = jQuery('#hdfromdate').val();
+            var todate = jQuery('#hdtodate').val();
+        var userDDl = jQuery('#UserddlName').val();
+        if (typeof (userDDl) === "undefined")
+        {
+            userId = uid;
+        }
+        else {
+            userId = userDDl;
+        }
+
+
+    var chartData = {
+        chart: {
+            caption: "Daily Lead Summary",
+            //subcaption: "2012-2016",
+            showvalues: "1",
+            xaxisname: "Dates",
+            yaxisname: "Total lead count",
+            formatnumberscale: "1",
+            //valueFontColor: "#FFFF00",
+            plottooltext:
+                "<b>$dataValue</b> <b>$seriesName</b> $label",
+            //formatNumberScale: "0",
+            placeValuesInside: "1",
+            thousandSeparatorPosition: "2, 3",
+            theme: "fusion"
+        },
+        categories: [
+            {
+                category: @Html.Raw(ViewBag.Dates)
+            }
+        ],
+        dataset: @Html.Raw(ViewBag.WeeklyDataList)
+    };
+
+    FusionCharts.ready(function () {
+        var weekChart = new FusionCharts({
+            type: "mscolumn3d",
+            renderAt: "weekly-chart",
+            width: "100%",
+            height: "100%",
+            dataFormat: "json",
+            dataSource: chartData,
+            events: {
+                dataPlotClick: function (ev, props) {
+                    jQuery.post('/home/ViewLeadReportInfo', { FilterText: props.datasetName, FromDate: fromdate, ToDate: todate, UserddlName: userId, CDate: props.categoryLabel }, function (data) {
+
+                        jQuery.noConflict();
+                        //leadInfo.className += "in";
+                        //leadInfo.style.display = "block";
+                        jQuery('#ViewLeadDetails').html(data);
+                        jQuery('#ViewLeadDetails').modal('show');
+                    });
+
+                }
+            }
+        }).render();
+    });
+
+</script>
+<!--On page load show today followup lead script-->
+<script type="text/javascript">
+    jQuery.noConflict();
+    jQuery(document).ready(function () {
+        jQuery.get('/home/TodayFollowupLeadPopUp', function (data) {
+            if (data != "No record found") {
+                jQuery('#TodayFollowupModal').html(data);
+                jQuery('#TodayFollowupModal').modal('show');
+            }
+        });
+
+    });
+</script>
+<!--On page load show today followup lead script end-->

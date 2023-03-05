@@ -1,0 +1,323 @@
+﻿.logincontainer {
+    border: 1px solid #666!important;
+    border-radius: 14px;
+}
+
+    .logincontainer button.bluebtn {
+        border-radius: 30px!important;
+        background: #2d9a4c!important;
+    }
+
+.LoginError {
+    color: red;
+    font-size: 12px;
+    margin-left: 35px;
+    margin-top: 8px;
+}
+
+span.input-group-addon {
+    border-radius: 30px;
+}
+
+input#UserNameOrEmail {
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+input#Password {
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.logincontainer .input-group {
+    padding: 5px 0px;
+}
+
+.logincontainer {
+    width: 50%!important;
+    height: 310px;
+    height: 332px;
+    margin: 11% auto 0!important;
+    padding: 35px 28px!important;
+}
+
+    .logincontainer h3 {
+        text-align: center;
+        padding: 0px 0px 11px 0px;
+        margin: 0px 0px 20px 0px;
+        font-family: Poppins, Arial, Tahoma, sans-serif;
+        letter-spacing: 3px;
+        border-bottom: 1.5px dotted #666666;
+        width: 89%;
+    }
+
+header .container .col-sm-3 a img {
+    width: 100%!important;
+}
+
+.form_navbar_2 {
+    /*width: 63%;*/
+    margin-top: 27px;
+    height: 30px;
+}
+
+header {
+    background: #fff;
+    background-image: none;
+}
+
+.headerright .toplink {
+    background: none;
+    border-radius: 12px;
+    padding: 6px 12px;
+    margin: 0px 9px;
+}
+
+.navbarstyle {
+    /*background: #429FB5;*/
+    /*background: #2d9a4c;*/
+    background: #3c9cb3;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    background: none;
+    color: #000;
+    font-weight: 700;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #fff;
+    background-color: #429fb5;
+}
+
+.navbar-nav > li > .dropdown-menu {
+    /*background: #429fb5;*/
+    /*background:#2d9a4c;*/
+    background: #3c9cb3;
+    border: 1.4px solid #fff;
+}
+
+.dropdown-menu > li > a {
+    color: #fff;
+}
+
+.panel-default > .panel-heading {
+    background: #429fb540;
+    color: #000;
+    padding: 7px 30px;
+}
+
+.navbarstyle {
+    box-shadow: 0px 0px 0px #fff;
+}
+
+.maincontainerdash {
+    background: none;
+    box-shadow: 0px 2px 0px #aaa inset;
+}
+
+    .maincontainerdash .panel-heading i {
+        display: none;
+    }
+
+.panel-default {
+    border-color: #ddd;
+    margin: auto;
+    margin: 6px 0%;
+}
+
+.panel-body {
+    padding: 25px 10px;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    background: none;
+}
+
+.maincontainer {
+    box-shadow: 0px 0px 0px #aaa inset;
+    background: none;
+}
+
+    .maincontainer h1 {
+        padding: 5px 0px 5px 42px;
+        color: #fff;
+    }
+
+.f-right {
+    margin-right: 1.6555555%;
+}
+
+.working_extra, .working_late_night {
+    /*color: #fff;*/
+    color: black;
+}
+
+.rightdrop a {
+    color: #000 !important;
+    font-size: 13px;
+    letter-spacing: .71px;
+    padding: 9px 19px !important;
+}
+
+.new_activity_form {
+    width: 100%;
+    margin: auto;
+}
+
+.body_pan {
+    padding: 15px 0px;
+    padding-bottom: 55px;
+}
+
+table.table.table_edithing thead tr th, table.table.table_edithing tbody tr td {
+    text-align: center;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+    font-size: 13px;
+}
+
+.striped_tabel {
+    width: 33%;
+}
+
+tr.striped_tabel_tr {
+    background: none!important;
+}
+
+tr.striped_tabel_tr {
+    background: none!important;
+    float: right;
+    /* margin-right: 17px; */
+    position: absolute;
+    right: 3%;
+    top: 13px;
+}
+
+.ermsb {
+    border: none!important;
+}
+
+.col-sm-3.padd0.developer_paddo {
+    /* position: absolute; */
+    background: none!important;
+    float: right;
+    /* margin-right: 17px; */
+    position: absolute;
+    right: 3%;
+    top: 6px;
+}
+
+img.img-responsive.nicole_lo_go {
+    margin-top: -10px;
+    margin-bottom: 16%;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
+    outline: none;
+}
+
+.panel-body.body_pnl {
+    padding: 14px 0px 3px 0px;
+}
+
+.iccn {
+    /*padding: 7px 15px;*/
+    font-size: 14.5px!important;
+}
+
+.black-white-text {
+    color: #fff!important;
+    background-color: #337ab7!important;
+}
+
+.checkboxheight {
+    height: 16px;
+    margin: 12px 0 0!important;
+}
+
+.radioheight {
+    height: 16px;
+    margin: 11px 0 0!important;
+}
+
+.refwrap h2 {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 5px;
+    background: #3c9bb3 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 16px;
+    font-family: Arial;
+}
+
+.textAreaResize {
+    resize: none;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.ListItemCapitalize {
+    text-transform:capitalize;
+}
+
+.status-success {
+    color: #fff;
+    background-color: #1e7e34;
+    
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.status-danger {
+    color: #fff;
+    background-color: #bd2130;
+    
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.status-warning {
+    color: #212529;
+    background-color: #ffc107;
+    
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.madatoryfield {
+    color:red;
+}
+.tablefont {
+    font-size:14px;
+    font-family:Calibri;
+}
+
+.loginbg {
+    background:url(../img/login_bg.jpg) 0 0;
+}

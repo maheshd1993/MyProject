@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "manage_profile";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.JobProfileModel
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Profile </strong>
+                            <span style="margin: 10%; color: red;">@TempData["alert"]</span><span style="margin: 10%; color: green;">@TempData["success"]</span>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("manage_profile", "hr", FormMethod.Post))
+                                {
+                                    <div class="col-sm-4">
+                                        @Html.TextBoxFor(em => em.Profile, new { @class = "form-control", @placeholder = "Enter Profile Name", @autocomplete = "off" })
+                                    </div>
+                                    <div class="col-sm-3 padd0 mbutton">
+                                        <input type="submit" class="btn btn-danger" style="margin-left: 10px; margin-bottom:0em;" value="Save" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Profile Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @foreach (var item in ViewBag.result)
+                            {
+                                <tr>
+                                    <td data-column="Sr.No." translate="no">@i</td>
+                                    <td data-column="Profile Name" translate="no">@item.Profile</td>
+                                    <td data-column="Status">
+                                        @if (item.Status == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/HR/ChangeProfileStatus/@item.Id" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/HR/ChangeProfileStatus/@item.Id" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+                                    <td data-column="Action"><a href="/Hr/manage_profile/@item.Id">Edit</a></td>
+                                    
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+</script>
+
+

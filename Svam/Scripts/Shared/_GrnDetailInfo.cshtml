@@ -1,0 +1,117 @@
+﻿@model Svam.Models.ViewGrnModel
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+        <div class="modal-body qtmodal" id="div_print">
+            <div class="custmodal">
+                <div class="headleft">
+                    <img src="/img/logo.png">
+                </div>
+                <div class="headright">
+                    <h1>SVAM Power  Sector - 18 (Gurugram)</h1>
+                </div>
+            </div>
+            <!-- print data -->
+            <div class="qt_left">
+                <label class="qtlabel">Transaction Type :- <span>@Model.TransactionType</span></label>
+            </div>
+            <div class="qt_left">
+                <label class="qtlabel">PONo :- <span>@Model.PONo</span></label>
+            </div>
+            <div class="qt_left">
+                <label class="qtlabel">Department :- <span>@Model.Department</span></label>
+            </div>
+            <div class="qt_left">
+                <label class="qtlabel">Requester Name :- <span>@Model.RequesterName</span></label>
+            </div>
+            <div class="qt_left">
+                <label class="qtlabel">GRN Date :- <span>@Model.GRNDate</span></label>
+            </div>
+            <div class="qt_left">
+                <label class="qtlabel">PO Date :- <span>@Model.PODate</span></label>
+            </div>
+
+            <div class="qt_left">
+                <label class="qtlabel">Supplier Name :- <span>@Model.SupplierName</span></label>
+            </div>
+
+         
+           <br style="clear:both;" />
+            <h2 style="border-bottom: 2px solid #333; font-size: 20px; margin-bottom: 10px; line-height: 30px;">Item Details</h2>
+
+            <table class="table table-striped table-hover printtable table-bordered">
+                <thead>
+                    <tr>
+                        <th width="2%">Sr.No </th>
+                        <th width="10%">Part No. </th>
+                        <th width="30%">Description</th>
+                         <th width="10%">Unit</th>
+                        <th width="10%">Qty</th>
+                        <th width="10%">Rate</th>
+                        <th width="10%">Rec.Qty</th>
+                        <th width="10%">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1;}
+                    @foreach (var item in Model.grnItemDetailsList.ToList())
+                    {
+                    
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.PartNo </td>
+                            <td>
+                                <p>@item.ItemName</p>
+                            </td>
+                            <td>@item.Unitname</td>
+                            <td>@item.Qty</td>
+                            <td>@item.Rate</td>
+                            <td>@item.ReceiveQty</td>
+                            <td>@item.Amount</td>
+                        </tr>
+                        i++;
+                    }
+
+                </tbody>
+            </table>
+
+            <div class="totalwrap">
+                <table class="table table-striped totaltable table-bordered">
+                    <tbody>
+                        <tr>
+                            <th width="40%">Sub Total</th>
+                            <th width="20%">%</th>
+                            <th width="20%">Amount</th>
+                        </tr>
+                        
+                        <tr>
+                            <td>Freight</td>
+                            <td></td>
+                            <td>@Model.ItmFreightChargeAmt</td>
+                        </tr>
+                        <tr>
+                            <td>@Model.productApplyTaxesText</td>
+                            <td></td>
+                            <td>@Model.ItmTaxGroupAmt</td>
+                        </tr>
+                        <tr>
+                            <td>Total Taxable Amount</td>
+                            <td></td>
+                            <td>@Model.ItmTotalTaxAmt
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+          
+        </div>
+
+        
+        <br style="clear: both;">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "ManagePO";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Svam.Models.ViewPOModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i> Manage PO
+                    <div class="rightbtntop">
+                    <a href="/purchase/Ordergeneration" class="addbtn" style="width:100%;"><i aria-hidden="true" class="fa fa-plus"></i> Create PO</a>
+                </div>
+                </div>
+                
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+
+                        <div class="col-sm-12 padd0">
+                            <div id="bindSearchData" class="table-responsive">
+                                <table id="dest" class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="4%" class="noimg padd0" style="padding: 10px 0px;">Sr no.</th>
+                                            <th width="12%">PONo</th>
+                                            <th width="7%">TransactionType</th>
+                                            <th width="12%">PRno</th>
+                                            <th width="8%">DepartMent</th>
+                                            <th width="5%">PoDate</th>
+                                            <th width="5%">RequesterName</th>
+                                            <th width="10%" class="noimg">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        @{int i = 1;}
+                                        @foreach (var item in Model.viewPomodelList.OrderByDescending(em=>em.PONo).ToList())
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.PONo</td>
+                                                <td>@item.TransactionType</td>
+                                                <td>@item.PRno</td>
+                                                <td>@item.DepartMent</td>
+                                                <td>@item.PoDate</td>
+                                                 <td>@item.RequesterName</td>
+                                                <td>
+                                                    <a href="#" class="viewbtn ViewPrdetailsInfo" data-id="@item.PONo" data-toggle="modal" data-target="#ViewPODetails">Details</a>
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+
+
+                                    </tbody>
+                                </table>
+
+                                <div id="pagination" class="container paginationcustom">
+                                    <ul class="pagination">
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ViewPODetails" class="modal fade" role="dialog">
+    
+</div>
+
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+
+    <script>
+       
+        $('.ViewPrdetailsInfo').on('click', function () {
+            var pono = $(this).data('id');
+            //$.post('/purchase/ViewPrInfobyPRNo', { Prno: prno }, function (data) {
+            //    jQuery('#ViewPRDetails').html(data);
+            //    $($(this).data("#ViewPRDetails")).show();
+            //});
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ViewPODetailsInfobyPONo", "purchase")',
+                data: { Pono: pono },
+                error: function (xhr, status, error) {
+                    $(".loaderimg").hide();
+                },
+                success: function (JSONdata) {
+                    jQuery('#ViewPODetails').html(JSONdata);
+                    $($(this).data("#ViewPODetails")).show();
+                },
+                beforeSend: function () {
+                    if (pono != 0)
+                        $('.loaderimg').show();
+
+                    else
+                        return false;
+                },
+                complete: function () {
+                    $(".loaderimg").hide();
+                }
+             });
+        });
+        
+    </script>
+
+    <style>
+    .modaltable9 {margin-top:20px;
+    }
+    .modaltable9 th{
+       font-size:12px; background:#333; color:#fff; text-align:center; padding:7px !important;
+    }
+        .modaltable9 td{text-align:center; padding:6px !important;
+        }
+    .desc p {font-size:12px;
+    }
+
+</style>
+ }
+

@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "Manageserviceinvoice";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Svam.Models.ViewServiceInvoiceModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-th-list" aria-hidden="true"></i> Manage Service Invoice
+                    <div class="rightbtntop">
+                        <a href="/sales/CreateServiceinvoice" class="addbtn" style="width: 100%;"><i aria-hidden="true" class="fa fa-plus"></i> Create Service Invoice</a>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+
+                        <div class="col-sm-12 padd0">
+                            <div id="bindSearchData" class="table-responsive">
+                                <table id="dest" class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="4%" class="noimg padd0" style="padding: 10px 0px;">Sr no.</th>
+                                            <th width="12%">Service InvoiceNo</th>
+                                            <th width="7%">InvoiceDate</th>
+                                            <th width="8%">Quotation No</th>
+                                            <th width="8%">Order No</th>
+                                            <th width="12%">CustomerName</th>
+                                            <th width="5%">ConatctNo</th>
+                                            <th width="5%">Email</th>
+                                            <th width="5%" class="noimg">Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int i = 1;}
+                                        @foreach (var item in Model.ViewServiceInvoiceModelList.ToList())
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.ServiceInvoiceNo</td>
+                                                <td>@item.ServiceInvoiceDate</td>
+                                                <td>@item.QuotationNo</td>
+                                                 <td>@item.OrderNo</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>@item.ConatctNo</td>
+                                                <td>@item.Email</td>
+                                                <td>
+                                                    <a href="#" class="viewbtn ViewServiceInvoicedetailsInfo" data-id="@item.ServiceInvoiceNo" data-toggle="modal" data-target="#ViewServiceInvoiceDetails">Details</a>
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+
+
+                                    </tbody>
+                                </table>
+
+                                <div id="pagination" class="container paginationcustom">
+                                    <ul class="pagination">
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ViewServiceInvoiceDetails" class="modal fade" role="dialog">
+</div>
+
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+
+    <script>
+
+        $('.ViewServiceInvoicedetailsInfo').on('click', function () {
+            var serviceinvoiceno = $(this).data('id');
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ViewServiceInvoiceDetailsInfobyInvno", "sales")',
+                data: { ServiceInvoiceNo: serviceinvoiceno },
+                error: function (xhr, status, error) {
+                    $(".loaderimg").hide();
+                },
+                success: function (JSONdata) {
+                    jQuery('#ViewServiceInvoiceDetails').html(JSONdata);
+                    $($(this).data("#ViewServiceInvoiceDetails")).show();
+                },
+                beforeSend: function () {
+                    if (serviceinvoiceno != 0)
+                        $('.loaderimg').show();
+
+                    else
+                        return false;
+                },
+                complete: function () {
+                    $(".loaderimg").hide();
+                }
+            });
+        });
+
+
+        var mas = '@al';
+        var chkmsg = '@alchk';
+        if (mas != '') {
+            swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+            mas = '';
+        }
+        if (chkmsg != '') {
+            alert(chkmsg);
+            chkmsg = '';
+        }
+
+    </script>
+
+    <style>
+        .modaltable9 {
+            margin-top: 20px;
+        }
+
+            .modaltable9 th {
+                font-size: 12px;
+                background: #333;
+                color: #fff;
+                text-align: center;
+                padding: 7px !important;
+            }
+
+            .modaltable9 td {
+                text-align: center;
+                padding: 6px !important;
+            }
+
+        .desc p {
+            font-size: 12px;
+        }
+    </style>
+}

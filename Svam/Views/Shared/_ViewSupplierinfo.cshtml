@@ -1,0 +1,80 @@
+﻿@model Svam.Models.ViewSupplierModel
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">View Supplier Details</h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered modaltable">
+                            <tbody>
+                                <tr>
+                                    <td width="200" class="lefttd">Supplier ID</td>
+                                    <td width="70%">@Model.SupplierId</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Supplier Name  :</td>
+                                    <td>@Model.SupplierName </td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Mobile No </td>
+                                    <td>@Model.Mobno</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Email </td>
+                                    <td>@Model.Email</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">TIN No </td>
+                                    <td>@Model.TaxTinNo</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="lefttd">Pan No </td>
+                                    <td>@Model.PanNo</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Service Tax No </td>
+                                    <td>@Model.ServiceTaxNo</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Sup. State </td>
+                                    <td>@Model.StateName</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">City </td>
+                                    <td>@Model.CityName</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Zip Code</td>
+                                    <td>@Model.ZipCode</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Address </td>
+                                    <td>@Model.SupplierAddress</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Opening Balance :</td>
+                                    <td>@Model.OpeningBalance</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Remarks</td>
+                                    <td>@Model.Remaks</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

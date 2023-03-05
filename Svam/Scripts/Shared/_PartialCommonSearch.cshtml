@@ -1,0 +1,86 @@
+﻿@model Traders.Models.ViewLeadsModel
+@{
+    var encode = new Svam.UtilityManager.StringCipher();
+    var companyid = Session["CompanyID"] != null ? Convert.ToInt32(Session["CompanyID"]) : 0;
+}
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Search List</h4>
+        </div>
+        <div class="modal-body">
+            @if (Model.viewleadsList.Count > 0)
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="danger">
+                            <th>#</th>
+                            <th>Customer Name</th>
+                            <th>Mobile Number</th>
+                            <th>Email</th>
+                            @* <th>City</th>*@
+                            <th>Follow Up Date</th>
+                            <th>Lead Status</th>
+                            <th>Created By</th>
+                            <th>Assign By</th>
+                            <th>Assigned To</th>
+                            @if (companyid == 296)
+                            {
+                                <th>Re-Seller</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int i = 1;
+                            //string strPrdName = null;
+                        }
+                        @foreach (var item in Model.viewleadsList)
+                        {
+                            //strPrdName = Convert.ToString(item.Product);
+                            //var splite = @strPrdName.Split(',');
+                        <tr class="success">
+                            <td data-column="Sr. No.">@i</td>
+                            <td data-column="Customer Name"><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.LeadName</a></td>
+
+                            <td data-column="Mobile No.">@item.Mob</td>
+                            <td data-column="Email">@item.EMail</td>
+                            @* <td>@item.City</td>*@
+                            <td data-column="Followup Date">@item.FollowupDate</td>
+                            <td data-column="Lead Status">@item.LeadStatus</td>
+                            <td data-column="Created By">@item.Created_By</td>
+                            <td data-column="Assigned By">@item.AssignBy</td>
+                            <td data-column="Assigned To">@item.AssinedTo</td>
+                            @if (companyid == 296)
+                            {
+                                <td data-column="Re-Seller">
+                                    @if (item.ResellerId > 0)
+                                    {
+                                        <span>Re-Seller</span>
+                                    }
+                                    else
+                                    {
+                                        <span>N/A</span>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p style="text-align: center;">No records found</p>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+

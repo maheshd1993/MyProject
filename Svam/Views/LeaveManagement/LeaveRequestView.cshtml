@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = "LeaveRequestView";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Traders.Models.LeaveRequestModel
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Leave</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <input type="button" value="Create Leave" onclick="location.href = '/LeaveManagement/LeaveRequest'" class="btn btn-success pull-right pull-right" style="margin-right: 5px;margin-top:3px;" />
+                                </div>
+                            </div>
+                        </div>
+                        @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                        {
+                            <div class="panel-body body_pnl">
+                                <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                    @using (Html.BeginForm("LeaveRequestView", "LeaveManagement", FormMethod.Post))
+                                    {
+                                        <div class="col-sm-2 viewl1" style="margin-top: -5px">
+                                            @Html.DropDownList("EmployeeID", new SelectList(Model.EmployeeList, "EmployeeID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                        </div>
+                                        <div class="col-sm-1 col-xs-6">
+                                            <input type="submit" value="Filter" style="margin-left: 10px;" class="btn btn-success" id="Submit1" name="filter1" >
+                                        </div>
+                                        <div class="col-sm-1  col-xs-6">
+                                            <input type="button" value="Reset" class="btn btn-danger" id="Reset" name="filter1" onclick="location.href = '/LeaveManagement/LeaveRequestView'">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                                {
+                                    <th>Employee Name</th>
+                                    <th>Employee Code</th>
+                                }
+                                <th>Leave Type</th>
+                                <th>Subject</th>
+                                <th>Request Date</th>
+                                <th>Grant Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+
+                            @if (Model.LeaveEmployeeList != null)
+                            {
+                                if (Model.LeaveEmployeeList.Count > 0)
+                                {
+                                    foreach (var item in Model.LeaveEmployeeList)
+                                    {
+                                        string ProcessDate = string.Empty;
+                                        string RequestDate = string.Empty;
+
+                                        if (item.ProcessDate != string.Empty)
+                                        {
+                                            DateTime dtProcessDate = Convert.ToDateTime(item.ProcessDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                            ProcessDate = String.Format("{0:"+Model.DateFormat+"}", dtProcessDate);
+                                        }
+                                        if (item.RequestDate != string.Empty)
+                                        {
+                                            DateTime dtRequestDate = Convert.ToDateTime(item.RequestDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                            RequestDate = String.Format("{0:" + Model.DateFormat + "}", dtRequestDate);
+                                        }
+                                        <tr>
+                                            <td data-column="Sr.No.">@i</td>
+                                            @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                                            {
+                                                <td translate="no" data-column="Employee Name">@item.FullName</td>
+                                                <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
+                                            }
+                                            <td translate="no" data-column="Leave Type">@item.LeaveName</td>
+                                            <td translate="no" data-column="Subject">@item.Subject</td>
+                                            <td translate="no" data-column="Request Date">@RequestDate</td>
+                                            <td translate="no" data-column="Grant Date">@ProcessDate</td>
+                                            @{ string textClass = string.Empty;}
+                                            @if (item.ProcessStatus == "In Process")
+                                            {
+                                                textClass = "status-warning";
+                                            }
+                                            else if (item.ProcessStatus == "Denied")
+                                            {
+                                                textClass = "status-danger";
+                                            }
+                                            else if (item.ProcessStatus == "Approved")
+                                            {
+                                                textClass = "status-success";
+                                            }
+                                            <td data-column="Status">
+                                                <span translate="no" class="@textClass">@item.ProcessStatus</span>
+                                                @if (item.ProcessStatus == "Denied")
+                                                {
+                                                    <a class="PopViewDesc" data-toggle="modal" data-target="#ViewComment" data-requestid="@item.RequestID" style="cursor:pointer"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                                }
+                                            </td>
+                                            <td data-column="Action"><a href="@Url.Action("LeaveRequest", "LeaveManagement", new { RequestID = item.RequestID })"><i class="fa fa-eye" aria-hidden="true" title="View Leave Details"></i></a></td>
+                                        </tr>i++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" style="text-align: center;">** No Record Found</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ViewComment" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View Comment</h4>
+            </div>
+            <div class="modal-body">
+                <div id="txtComment" translate="no"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+    $('.PopViewDesc').on('click', function () {
+        var RID = $(this).attr("data-requestid");
+        if (RID != '') {
+            $.post('/LeaveManagement/ViewComment', { RequestID: RID }, function (data) {
+                jQuery('#txtComment').html('');
+                jQuery('#txtComment').html(data);
+                $($(this).data("#ViewComment")).show();
+            });
+        }
+    });
+</script>

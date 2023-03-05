@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "ManageTemplate";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@model Svam.Models.EmailTemplateModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Email Template</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <a class="btn btn-success pull-right" href="/EmailTemplate/CreateManageTemplate" style="color: white"><i></i>Create Email Template</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <div class="col-sm-12 padd0">
+                                    <div id="bindSearchData" class="table-responsive">
+                                        <table class="table table-bordered tablefont" id="table">
+                                            <thead class="black-white-text">
+                                                <tr>
+                                                    <th width="2%" class="noimg padd0" style="padding: 10px 0px; text-align: center">#</th>
+                                                    <th width="12%">Email Template Name</th>
+                                                    <th width="2%">Created Date</th>
+                                                    <th width="1%" class="noimg">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{int i = 1;}
+                                                @if (Model != null)
+                                                {
+                                                    if (Model.oEmailTemplateModelList != null)
+                                                    {
+                                                        if (Model.oEmailTemplateModelList.Count > 0)
+                                                        {
+                                                            foreach (var item in Model.oEmailTemplateModelList)
+                                                            {
+                                                                DateTime dt = Convert.ToDateTime(item.CreatedOn.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                                                string dateString = String.Format("{0:dd/MM/yyyy}", dt);
+                                                    <tr>
+                                                        <td style="text-align: center;" translate="no">
+                                                            @i
+                                                        </td>
+                                                        <td translate="no"> 
+                                                            @item.EmailTemplateName
+                                                        </td>
+                                                        <td translate="no">
+                                                            @dateString
+                                                        </td>
+                                                        <td>
+                                                            <a href="/EmailTemplate/CreateManageTemplate/?EmailTemplateID=@item.EmailTemplateID"><i aria-hidden="true" class="fa fa fa-edit icon"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                    <tr>
+                                                        <td style="text-align: center;" colspan="4">** No Record Found!</td>
+                                                    </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                    <tr>
+                                                        <td style="text-align: center;" colspan="4">** No Record Found!</td>
+                                                    </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td style="text-align: center;" colspan="4">** No Record Found!</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div id="pagination" class="container paginationcustom">
+                                            <ul class="pagination">
+                                                @{int pages = Convert.ToInt32(ViewData["NoOfPages"]);}
+                                                @{int url = Convert.ToInt32(Request.QueryString["page"]);}
+                                                @{string pageUrl = Convert.ToString(ViewData["url"]);}
+                                                @if (pages != 0 && pages != 1)
+                                                {
+                                                    for (int index = 1; index <= pages; index++)
+                                                    {
+                                                        string path = pageUrl + index;
+                                                        if (url == 0)
+                                                        {
+                                                            url = 1;
+                                                        }
+                                                    <li class="@(index == url ? "active" : "")"><a href="/EmailTemplate/ManageTemplate/?page=@index">@index</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <style type="text/css">
+        .field-validation-error
+        {
+            margin-left: 2px;
+            color: #ff0000;
+            font-size: 12px !important;
+            display: block;
+            margin-top: 43px;
+            font-weight: normal !important;
+        }
+
+        .input-validation-error
+        {
+            border: 1px solid #ff0000;
+            background-color: #ffeeee;
+        }
+    </style>
+}
+

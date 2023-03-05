@@ -1,0 +1,820 @@
+﻿@model Svam.Models.DTO.ViewTecketSettingDTO
+@{
+    ViewBag.Title = "ViewTicketSetting";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage View Ticket</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>Field Name </th>
+                                <th>Is Active</th>
+                                <th>Is Filter By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td data-column="Field Name"><label>Ticket No.</label></td>
+                                <td data-column="Is Active">
+                                    <button type="button" class="btn btn-success" disabled>Active</button>
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.NameText</label></td>
+                                <td data-column="Is Active">
+                                    <button type="button" class="btn btn-success" disabled>Active</button>
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.EmailIDText</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsEmailID)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsEmailID" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsEmailID" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.PhoneNumberText</label></td>
+                                <td data-column="Is Active">
+                                    <button type="button" class="btn btn-success" disabled>Active</button>
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.ErrorTypeIDText</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsErrorTypeID)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsErrorTypeID" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsErrorTypeID" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.UrgencyIDText</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsUrgencyID)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsUrgencyID" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsUrgencyID" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.StatusIDText</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsStatusID)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsStatusID" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsStatusID" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name"><label>Created By</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsCreatedBy)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsCreatedBy" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsCreatedBy" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name"><label>Created Date</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsCreatedDate)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsCreatedDate" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsCreatedDate" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name"><label>Assigned To</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsAssignedTo)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsAssignedTo" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsAssignedTo" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name"><label>Assigned By</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsAssignedBy)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsAssignedBy" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsAssignedBy" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name"><label>Modified Date</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsModifiedDate)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsModifiedDate" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsModifiedDate" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.subjectText</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.Issubject)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=Issubject" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=Issubject" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-danger" disabled>No</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.ProductTypeIDText</label></td>
+                                <td data-column="Is Active">
+                                    @if (Model.IsProductTypeID)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsProductTypeID" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsProductTypeID" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-danger" disabled>No</button>
+                                </td>
+                            </tr>
+
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol1Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol1Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol1 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol1" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol1" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol2Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol2Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol2 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol2" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol2" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol3Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol3Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol3 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol3" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol3" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol4Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol4Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol4 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol4" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol4" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol5Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol5Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol5 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol5" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol5" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol6Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol6Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.ISExtraCol6 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=ISExtraCol6" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=ISExtraCol6" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol7Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol7Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.ISExtraCol7 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=ISExtraCol7" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=ISExtraCol7" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol8Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol8Text</label></td>
+                                    <td data-column="Field Name">
+
+                                        @if (Model.ISExtraCol8 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=ISExtraCol8" onclick="changeStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=ISExtraCol8" onclick="changeStatus(this);">No</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol9Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol9Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol9 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol9" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol9" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+                                        @*@if (Model.IsExtraCol9Filter)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol9Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol9Filter" onclick="changeFilterStatus(this);">No</button>
+                                            }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol10Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol10Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol10 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol10" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol10" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                        @*@if (Model.IsExtraCol10Filter)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No</button>
+                                            }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol11Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraCol11Text</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol11 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol11" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraCol11" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No</button>
+                                            }*@
+                                    </td>
+                                </tr>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ExtraColdropdown1Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraColdropdown1Text</label></td>
+                                    <td data-column="Field Name">
+
+                                        @if (Model.IsExtraColdropdown1 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown1" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown1" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraColdropdown2Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraColdropdown2Text</label></td>
+                                    <td data-column="Field Name">
+
+                                        @if (Model.IsExtraColdropdown2 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown2" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown2" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraColdropdown3Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraColdropdown3Text</label></td>
+                                    <td data-column="Field Name">
+
+                                        @if (Model.IsExtraColdropdown3 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown3" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown3" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraColdropdown4Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraColdropdown4Text</label></td>
+                                    <td data-column="Field Name">
+
+                                        @if (Model.IsExtraColdropdown4 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown4" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown4" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraColdropdown5Text))
+                            {
+                                <tr>
+                                    <td data-column="Field Name" translate="no"><label translate="no">@Model.ExtraColdropdown5Text</label></td>
+                                    <td data-column="Field Name">
+
+                                        @if (Model.IsExtraColdropdown5 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown5" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsExtraColdropdown5" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No</button>
+
+                                    </td>
+                                </tr>
+                            }
+                            @*@if (!string.IsNullOrEmpty(Model.ImageCol1Text))
+                                {
+                                    <tr>
+                                        <td data-column="Field Name" translate="no"><label translate="no">@Model.ImageCol1Text</label></td>
+                                        <td data-column="Is Active">
+
+                                            @if (Model.IsImageCol1 == true)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol1" onclick="changeStatus(this);">Yes</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol1" onclick="changeStatus(this);">No</button>
+                                            }
+                                        </td>
+
+                                        <td data-column="Filter By">
+                                            <button class="btn btn-danger" disabled>No</button>
+
+                                        </td>
+                                    </tr>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.ImageCol2Text))
+                                {
+                                    <tr>
+                                        <td data-column="Field Name" translate="no"><label translate="no">@Model.ImageCol2Text</label></td>
+                                        <td data-column="Is Active">
+
+                                            @if (Model.IsImageCol2 == true)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol2" onclick="changeStatus(this);">Yes</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol2" onclick="changeStatus(this);">No</button>
+                                            }
+                                        </td>
+
+                                        <td data-column="Filter By">
+                                            <button class="btn btn-danger" disabled>No</button>
+
+                                        </td>
+                                    </tr>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.ImageCol3Text))
+                                {
+                                    <tr>
+                                        <td><label>@Model.ImageCol3Text</label></td>
+                                        <td>
+
+                                            @if (Model.IsImageCol3 == true)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol3" onclick="changeStatus(this);">Yes</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol3" onclick="changeStatus(this);">No</button>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-danger" disabled>No</button>
+
+                                        </td>
+                                    </tr>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.ImageCol4Text))
+                                {
+                                    <tr>
+                                        <td><label>@Model.ImageCol4Text</label></td>
+                                        <td>
+
+                                            @if (Model.IsImageCol4 == true)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol4" onclick="changeStatus(this);">Yes</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/TicketCustom/ChangeStatus?FldNM=IsImageCol4" onclick="changeStatus(this);">No</button>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-danger" disabled>No</button>
+
+                                        </td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<script>
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+
+    //function changeFilterStatus(obj) {
+
+    //    var curr = $(obj);
+    //    var txtStatus = curr.attr("sts");
+    //    var url = curr.attr("url");
+    //    $.post(url, function (data) {
+    //        if (data == "ok") {
+    //            if (txtStatus == "active") {
+    //                curr.removeClass("btn-success").addClass("btn-danger");
+    //                curr.text("No");
+    //                curr.attr("sts", "inactive");
+    //            }
+    //            else {
+    //                curr.removeClass("btn-danger").addClass("btn-success");
+    //                curr.text("Yes");
+    //                curr.attr("sts", "active");
+    //            }
+    //        }
+    //        else {
+    //            swal("Alert !", '** Somthing went wrong.', "warning");
+    //        }
+    //    });
+    //}
+</script>
+
+
+
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>

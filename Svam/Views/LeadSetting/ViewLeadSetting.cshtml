@@ -1,0 +1,1430 @@
+﻿@model Svam.Models.DTO.ViewLeadSettingDTO
+@{
+    ViewBag.Title = "ViewLeadSetting";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage View Lead Report </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>Field Name </th>
+                                <th>Is Active</th>
+                                <th>Is Filter By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td data-column="Field Name" translate="no"><label translate="no">@Model.CustomerTextName</label></td>
+                                <td data-column="Is Active">
+                                    <button type="button" class="btn btn-success" disabled>Active</button>
+                                </td>
+
+                                <td data-column="Filter By">
+                                    @if (Model.IsCustomerNameFilter)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsCustomerNameFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsCustomerNameFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-column="Field Name"><label translate="no">@Model.MobileNoTextName</label></td>
+                                <td data-column="Is Active">
+                                    <button type="button" class="btn btn-success" disabled>Active</button>
+                                </td>
+
+                                <td data-column="Filter By">
+                                    @if (Model.IsMobNoFilter)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsMobNoFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsMobNoFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-column="Field Type"><label translate="no">@Model.FollowDateTextName</label></td>
+                                <td data-column="Is Active">
+                                    <button type="button" class="btn btn-success" disabled>Active</button>
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.FollowUpTimeTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsFollowUpTime == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsFollowUpTime" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsFollowUpTime" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-danger" disabled>No<span style="color:#d9534f">+</span></button>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td data-column="Field Type"><label translate="no">@Model.LeadStatusTextName</label></td>
+                                <td data-column="Is Active">
+                                    <button type="button" class="btn btn-success" disabled>Active</button>
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.EmailIdTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsEmail == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsEmail" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsEmail" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    @if (Model.IsEmailFilter)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsEmailFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsEmailFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.CityTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsCity == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCity" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCity" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>No<span style="color:#d9534f">+</span></button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.StateTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsState == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsState" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsState" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button type="button" class="btn btn-success" disabled>No<span style="color:#d9534f">+</span></button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.CountryTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsCountry == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCountry" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCountry" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter by">
+                                    <button type="button" class="btn btn-success" disabled>No<span style="color:#d9534f">+</span></button>
+                                </td>
+                            </tr>
+
+                            @if (!string.IsNullOrEmpty(Model.DesignationTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.DesignationTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsDesignation == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsDesignation" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsDesignation" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        @if (Model.IsDesigFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsDesigFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsDesigFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+
+                            @if (!string.IsNullOrEmpty(Model.DateofBirthTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.DateofBirthTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsDOB == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsDOB" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsDOB" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.MarriageAnniversaryTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.MarriageAnniversaryTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsMrgAnnivarsary == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsMrgAnnivarsary" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsMrgAnnivarsary" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.OrganizationNameTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"> <label translate="no">@Model.OrganizationNameTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsOrganization == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsOrganization" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsOrganization" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        @if (Model.IsOrgNameFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsOrgNameFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsOrgNameFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.AddressTextNameTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.AddressTextNameTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsAddress == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAddress" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAddress" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success">Yes</button>
+                                    </td>
+                                </tr>
+                            }
+
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.ZoneNameTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsTimeZoneName == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsTimeZoneName" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsTimeZoneName" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-danger" disabled>No<span style="color:#d9534f">+</span></button>
+                                </td>
+                            </tr>
+
+                            @if (!string.IsNullOrEmpty(Model.SkypeIdTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.SkypeIdTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsSkypeId == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsSkypeId" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsSkypeId" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        @if (Model.IsSkypIdFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsSkypIdFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsSkypIdFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.UrlTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.UrlTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsUrl == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsUrl" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsUrl" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-danger" disabled>No<span style="color:#d9534f">+</span></button>
+                                    </td>
+                                </tr>
+                            }
+
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.ProductTypeNameTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsProductType == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsProductType" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsProductType" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    @if (Model.IsProductTypeFilter)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.LeadResourceTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsLeadResource == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsLeadResource" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsLeadResource" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    @if (Model.IsLeadSourceFilter)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsLeadSourceFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsLeadSourceFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label translate="no">@Model.LeadOwnerTextName</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsCreatedBy == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCreatedBy" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCreatedBy" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label>Created Date</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsCreatedDate == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCreatedDate" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsCreatedDate" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label>Modified Date</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsModifiedDate == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsModifiedDate" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsModifiedDate" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label>Assigned By</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsAssignedBy == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAssignedBy" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAssignedBy" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label>Assign To</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsAssignTo == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAssignTo" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAssignTo" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td data-column="Field Type"><label>Assigned Date</label></td>
+                                <td data-column="Is Active">
+
+                                    @if (Model.IsAssignedDate == true)
+                                    {
+                                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAssignedDate" onclick="changeStatus(this);">Active</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsAssignedDate" onclick="changeStatus(this);">Inactive</button>
+                                    }
+                                </td>
+
+                                <td data-column="Filter By">
+                                    <button class="btn btn-success" disabled>Yes</button>
+                                </td>
+                            </tr>
+
+                            @if (!string.IsNullOrEmpty(Model.ExpectedDateTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.ExpectedDateTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExpClosingDate == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExpClosingDate" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExpClosingDate" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExpectedProductAmountTextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.ExpectedProductAmountTextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExpDealAmount == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExpDealAmount" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExpDealAmount" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                    </td>
+                                </tr>
+                            }
+
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol1TextName))
+                            {
+                                <tr>
+                                    <td data-column="Field Type"><label translate="no">@Model.ExtraCol1TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol1 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol1" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol1" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol2TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol2TextName"><label translate="no">@Model.ExtraCol2TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol2 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol2" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol2" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol3TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol3TextName"><label translate="no">@Model.ExtraCol3TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol3 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol3" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol3" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol4TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol4TextName"><label translate="no">@Model.ExtraCol4TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol4 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol4" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol4" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol5TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol5TextName" translate="no"><label translate="no">@Model.ExtraCol5TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol5 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol5" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol5" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol6TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol6TextName" translate="no"><label translate="no">@Model.ExtraCol6TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol6 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol6" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol6" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter by">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol7TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol7TextName" translate="no"><label translate="no">@Model.ExtraCol7TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol7 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol7" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol7" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter by">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol8TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol8TextName" translate="no"><label translate="no">@Model.ExtraCol8TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol8 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol8" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol8" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsProductTypeFilter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsProductTypeFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol9TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol9TextName" translate="no"><label translate="no">@Model.ExtraCol9TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol9 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol9" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol9" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol9Filter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol9Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol9Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol10TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol10TextName" translate="no"><label translate="no">@Model.ExtraCol10TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol10 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol10" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol10" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol10Filter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol11TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol11TextName" translate="no"><label translate="no">@Model.ExtraCol11TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol11 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol11" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol11" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol12TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol12TextName" translate="no"><label translate="no">@Model.ExtraCol12TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol12 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol12" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol12" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol13TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol13TextName" translate="no"><label translate="no">@Model.ExtraCol13TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol13 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol13" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol13" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol14TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol14TextName" translate="no"><label translate="no">@Model.ExtraCol14TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol14 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol14" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol14" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol15TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol15TextName" translate="no"><label translate="no">@Model.ExtraCol15TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol15 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol15" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol15" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol16TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol16TextName" translate="no"><label translate="no">@Model.ExtraCol16TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol16 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol16" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol16" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol17TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol17TextName" translate="no"><label translate="no">@Model.ExtraCol17TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol17 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol17" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol17" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+                                        <button class="btn btn-success" disabled>Yes</button>
+                                        @*@if (Model.IsExtraCol10Filter)
+                    {
+                        <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">Yes</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol10Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                    }*@
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol18TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol18TextName" translate="no"><label translate="no">@Model.ExtraCol18TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol18 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol18" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol18" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol18Filter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol18Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol18Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol19TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol19TextName" translate="no"><label translate="no">@Model.ExtraCol19TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol19 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol19" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol19" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol19Filter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol19Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol19Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol20TextName))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol20TextName" translate="no"><label translate="no">@Model.ExtraCol20TextName</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol20 == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol20" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol20" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol20Filter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol20Filter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol20Filter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol1dropdown))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol1dropdown" translate="no"><label translate="no">@Model.ExtraCol1dropdown</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol1dropdown == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol1dropdown" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol1dropdown" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol1dropdownFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol1dropdownFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol1dropdownFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol2dropdown))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol2dropdown" translate="no"><label translate="no">@Model.ExtraCol2dropdown</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol2dropdown == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol2dropdown" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol2dropdown" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol2dropdownFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol2dropdownFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol2dropdownFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol3dropdown))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol3dropdown" translate="no"><label translate="no">@Model.ExtraCol3dropdown</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol3dropdown == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol3dropdown" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol3dropdown" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol3dropdownFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol3dropdownFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol3dropdownFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol4dropdown))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol4dropdown" translate="no"><label translate="no">@Model.ExtraCol4dropdown</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol4dropdown == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol4dropdown" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol4dropdown" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol4dropdownFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol4dropdownFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol4dropdownFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ExtraCol5dropdown))
+                            {
+                                <tr>
+                                    <td data-column="@Model.ExtraCol5dropdown" translate="no"><label translate="no">@Model.ExtraCol5dropdown</label></td>
+                                    <td data-column="Is Active">
+
+                                        @if (Model.IsExtraCol5dropdown == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol5dropdown" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeVisibleStatus?FldNM=IsExtraCol5dropdown" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Filter By">
+
+                                        @if (Model.IsExtraCol5dropdownFilter)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol5dropdownFilter" onclick="changeFilterStatus(this);">Yes</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/LeadSetting/ChangeFilterStatus?FldNM=IsExtraCol5dropdownFilter" onclick="changeFilterStatus(this);">No<span style="color:#d9534f">+</span></button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<script>
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+
+    function changeFilterStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    //curr.text("No");
+                    curr.html('No<span style="color:#d9534f">+</span>')
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Yes");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+</script>
+
+
+
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>

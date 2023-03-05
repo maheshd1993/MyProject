@@ -1,0 +1,156 @@
+﻿@model Traders.Models.EmployeeLogHistory
+<table class="table  table-bordered tablefont" id="dest">
+    <thead class="black-white-text">
+        <tr>
+            <th>Employee Name</th>
+            <th>IP Address</th>
+            @*<th>MacAddress</th>*@
+            
+            <th>Date</th>            
+            <th>Login Time</th>
+            <th>Logout Time</th>
+            <th>Duration</th>
+            <th>Late Hour Working</th>
+            <th>Extra day Working</th>
+            <th>View Report</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.GetEmpLogHistoryModel.Count > 0)
+        {
+            foreach (var item in Model.GetEmpLogHistoryModel.ToList())
+            {
+                if (item.ExtraWorking == true)
+                {
+        <tr class="success" title="Extra Working day" style="border: 1px solid #ddd;">
+            <td translate="no" data-column="Employee Name">@item.EmpName</td>
+            <td translate="no" data-column="IP Address">@item.IPAddress</td>                      
+            @*<td data-column="Mac Address">@item.MacAddress</td>*@
+
+            
+            <td translate="no" data-column="Login Date">@item.LoginDate</td>
+            <td translate="no" data-column="Login Time">@item.LoginTime</td>            
+            <td translate="no" data-column="Logout Time">@item.LogoutTime</td>
+            <td translate="no" data-column="Duration">@item.Duration</td>
+            <td></td>
+            @if (@item.WorkingLateHours == true)
+            {
+                <td data-column="Late Hour Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+            }
+            else
+            {
+
+                <td>------</td>
+            }
+            @if (item.ExtraWorking == true)
+            {
+                <td data-column="Extra Day Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+            }
+            else
+            {
+                <td>------</td>
+            }
+            <td data-column="View Report">
+                @if (item.ProfileName.ToLower().Contains("developer") || item.ProfileName.ToLower().Contains("tester") || item.ProfileName.ToLower().Contains("designer") || item.ProfileName.Contains("QA"))
+                {
+                    <a href="/Nis/DeveloperReport/@item.EmpId/?dt=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                }
+                else
+                {
+                    <a href="/NIS/ViewRemark/@item.EmpId/?fromdate=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                    @*<a href="/Nis/ViewEmpReport/@item.EmpId/?name=@item.EmpName&&po=@item.ProfileName&&dt=@item.LoginDate">View Report</a>*@
+                }
+
+            </td>
+        </tr>
+                }
+                else if (item.WorkingLateHours == true)
+                {
+        <tr class="danger" title="Late Hours working on this date" style="border: 1px solid #ddd;">
+            <td translate="no" data-column="Employee Name">@item.EmpName</td>
+            <td translate="no" data-column="IP Address">@item.IPAddress</td>                     
+            @*<td data-column="Mac Address">@item.MacAddress</td>*@
+            <td translate="no" data-column="Login Date">@item.LoginDate</td>
+            <td translate="no" data-column="Login Time">@item.LoginTime</td>
+            <td translate="no" data-column="Logout Time">@item.LogoutTime</td>
+            <td translate="no" data-column="Duration">@item.Duration</td>
+            @if (@item.WorkingLateHours == true)
+            {
+                <td data-column="Late Hour Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+            }
+            else
+            {
+                <td>------</td>
+            }
+            @if (item.ExtraWorking == true)
+            {
+                <td data-column="Extra Day Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+            }
+            else
+            {
+                <td>------</td>
+            }
+            <td data-column="View Report">
+                @if (item.ProfileName.ToLower().Contains("developer") || item.ProfileName.ToLower().Contains("tester") || item.ProfileName.ToLower().Contains("designer") || item.ProfileName.Contains("QA"))
+                {
+                    <a href="/Nis/DeveloperReport/@item.EmpId/?dt=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                }
+                else
+                {
+                    <a href="/NIS/ViewRemark/@item.EmpId/?fromdate=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                    @*<a href="/Nis/ViewEmpReport/@item.EmpId/?name=@item.EmpName&&po=@item.ProfileName&&dt=@item.LoginDate">View Report</a>*@
+                }
+            </td>
+        </tr>
+                }
+                else
+                {
+        <tr style="border: 1px solid #ddd;">
+            <td translate="no" data-column="Employee Name">@item.EmpName</td>
+            <td translate="no" data-column="IP Address">@item.IPAddress</td>
+            @*<td data-column="Mac Address">@item.MacAddress</td>*@
+            <td translate="no" data-column="Login Date">@item.LoginDate</td>
+            <td translate="no" data-column="Login Time">@item.LoginTime</td>
+            <td translate="no" data-column="Logout Time">@item.LogoutTime</td>
+            <td translate="no" data-column="Duration">@item.Duration</td>
+            @if (@item.WorkingLateHours == true)
+            {
+                <td data-column="Late Hour Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+            }
+            else
+            {
+
+                <td data-column="Late Hour Working">------</td>
+            }
+            @if (item.ExtraWorking == true)
+            {
+                <td data-column="Extra Day Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+            }
+            else
+            {
+                <td data-column="Extra Day Working">------</td>
+            }
+            <td data-column="View Report">
+                @if (item.ProfileName.ToLower().Contains("developer") || item.ProfileName.ToLower().Contains("tester") || item.ProfileName.ToLower().Contains("designer") || item.ProfileName.Contains("QA"))
+                {
+                    <a href="/Nis/DeveloperReport/@item.EmpId/?dt=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                }
+                else
+                {
+                    <a href="/NIS/ViewRemark/@item.EmpId/?fromdate=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                    @*<a href="/Nis/ViewEmpReport/@item.EmpId/?name=@item.EmpName&&po=@item.ProfileName&&dt=@item.LoginDate">View Report</a>*@
+                }
+            </td>
+        </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10" style="text-align: center">** No Record Found</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

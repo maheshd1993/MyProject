@@ -1,0 +1,136 @@
+﻿
+@model Svam.Models.CreateItemModel
+<div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Item Details</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="row">
+                    <div class="col-xs-12">
+                        @using (Html.BeginForm("itemdetails", "master", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                            
+                            <div class="form-group">
+                                <label for="Quotation" class="control-label col-sm-3">Category:</label>
+                                <div class="col-sm-8">
+                                    <select id="ddlCategory2" name="Catid" class="form-control" required="required">
+                                        <option>Select Category </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contperson" class="control-label col-sm-3">Part Number. </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.PartNo, new { @data_val = "false",@class = "form-control",@disabled="disabled" })
+                                    @Html.ValidationMessageFor(em => em.PartNo)
+                                    @Html.HiddenFor(em=>em.PartNo)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="custname" class="control-label col-sm-3">Description </label>
+                                <div class="col-sm-8">
+                                   @Html.TextBoxFor(em => em.Description, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="unit" class="control-label col-sm-3">Unit </label>
+                                <div class="col-sm-8">
+                                    <select id="ddlUnit2" name="UnitId" class="form-control" required="required">
+                                        <option>Select Unit </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pr" class="control-label col-sm-3">Purchase Rate </label>
+                                <div class="col-sm-8">
+                                   @Html.TextBoxFor(em => em.PurchaseRate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.PurchaseRate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sr" class="control-label col-sm-3">Sales Rate </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.SalesRate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.SalesRate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="minstock" class="control-label col-sm-3">Min Stock </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.MinStock, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="minstock" class="control-label col-sm-3">Min Stock </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.MaxStock, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sr" class="control-label col-sm-3">Remarks</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Remarks, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sr" class="control-label col-sm-3"></label>
+                                <div class="col-sm-8">
+                                   @* <input type="submit" value="Save" class="btn btn-default">*@
+                                    <input id="Submit1" class="btn btn-default" type="submit" value="submit" />
+                                </div>
+                            </div>
+                            
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+<script src="/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+    $(document).ready(function () {
+        BindDDLUnit(); BindDDLCategory();
+    });
+    //Start Bind The Unit..........
+    function BindDDLUnit() {
+        $.get('/master/BindDDlunit', null, function (data) { chkBindDDlunit(data); });
+    }
+    function chkBindDDlunit(abc) {
+        var data = "";
+        var unitid = '@Model.UnitId';
+        data += "<option value= >--Select Unit--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" + abc[it].UnitName + "</option>";
+        }
+        $('#ddlUnit2').html(data).val(unitid);
+    }
+
+    //Start Bind The Category
+    
+    function BindDDLCategory() {
+        $.get('/master/BindDDlCategory', null, function (data) { chkDDLCategory(data); });
+    }
+    function chkDDLCategory(abc) {
+        var data = "";
+        var catid = '@Model.Catid';
+        data += "<option value= >--Select Category--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].ID + " >" + abc[it].Category + "</option>";
+        }
+        $('#ddlCategory2').html(data).val(catid);
+    }
+
+</script>
+
+

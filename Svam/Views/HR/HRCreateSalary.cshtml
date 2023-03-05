@@ -1,0 +1,267 @@
+﻿@{
+    ViewBag.Title = "HRCreateSalary";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@model Traders.Models.SalaryModel
+<div class="maincontainer">
+    <div class="col-sm-12">
+        @using (Html.BeginForm("HRCreateSalary", "HR", FormMethod.Post))
+        {
+            @Html.HiddenFor(em => em.SalaryID)
+            <div class="panel panel-info new_activity_form">
+                <div class="panel-heading">
+                    <strong>Create Salary</strong>
+                    <div class="row" style="padding-right: 2.5%;">
+                        <div class="col-sm-9 padd0"></div>
+
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="refwrap">
+                            <h2>Employee</h2>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Month </label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.Month, htmlAttributes: new { @class = "form-control", @placeholder = "Select Month", @autocomplete = "off" })
+                            </div>
+                            <label class="control-label col-sm-2">Employee Name <span class="errormark">*</span></label>
+                            <div class="col-sm-3">
+                                @Html.DropDownListFor(em => em.UserID, new SelectList(Model.EmployeeList, "UserID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "GetEmployeeSalary(this.value);", translate = "no", required = "required" })
+                            </div>
+
+                        </div>
+                        <div class="refwrap">
+                            <h2>Bank Detail</h2>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Bank Name <span class="errormark">*</span></label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.BankName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Bank Name", @autocomplete = "off", required = "required" })
+                            </div>
+
+                            <label class="control-label col-sm-2">Branch Name</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.BranchName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Branch Name", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">A/C Number <span class="errormark">*</span></label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.AccountNumber, htmlAttributes: new { @class = "form-control", @placeholder = "Enter A/C Number", @autocomplete = "off", required = "required" })
+                            </div>
+                            <label class="control-label col-sm-2" for="userid">IFSC Code <span class="errormark">*</span></label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.IFSCCode, htmlAttributes: new { @class = "form-control", @placeholder = "Enter IFCS Code", @autocomplete = "off", required = "required" })
+                                @*@Html.ValidationMessageFor(em => em.IFSCCode)*@
+                            </div>
+                        </div>
+
+                        <div class="refwrap">
+                            <h2>Monthly Salary Breakup</h2>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Basic Salary <span class="errormark">*</span></label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.BasicSalary, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Basic Salary", @autocomplete = "off", required = "required" })
+                            </div>
+
+                            <label class="control-label col-sm-2">H.R.A</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.HRA, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter H.R.A", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Travelling Allowance</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.TravellingAllowance, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Travelling Allowance", @autocomplete = "off" })
+                            </div>
+
+                            <label class="control-label col-sm-2">Medical Allowance</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.MedicalAllowance, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Medical Allowance", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Performance Incentive</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.PerformanceIncentive, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Performance Incentive", @autocomplete = "off" })
+                            </div>
+
+                            <label class="control-label col-sm-2">Other Benefits</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.OtherBenefits, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Other Benefits", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="refwrap">
+                            <h2>Deduction</h2>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">PF Employee Share</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.PFEmployeeShare, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter PF Employee Share", @autocomplete = "off" })
+                            </div>
+
+                            <label class="control-label col-sm-2">PF Employer Share</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.PFEmployerShare, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter PF Employer Share", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">ESIC Employer & Employee</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.ESICEmployerEmployee, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter ESIC Employer & Employee", @autocomplete = "off" })
+                            </div>
+
+                            <label class="control-label col-sm-2">TDS</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.TDS, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter TDS", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="userid">LWF</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.LWF, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter LWF", @autocomplete = "off" })
+                            </div>
+
+                            <label class="control-label col-sm-2" for="userid">Security</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.Security, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Security", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="userid">Advance</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.Advance, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Advance", @autocomplete = "off" })
+                            </div>
+
+                            <label class="control-label col-sm-2" for="userid">Leave without pay</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.LWP, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Leave without pay", @autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Other Deduction</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(em => em.OtherDeduction, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Other Deduction", @autocomplete = "off" })
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" name="Submit" value="Save" class="btn btn-success btnSave" id="btnSaveMain">
+                            <input type="button" value="Go Back" class="btn btn-danger" onclick="location.href = '/HR/HRSalary'" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<style>
+    .errormark {
+        color: red;
+    }
+</style>
+
+<script>
+    $(function () {
+        $("#Month").datepicker({
+            format: "MM-yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            onClose: function (dateText, inst) {
+                //Get the selected month value
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                alert(month);
+            }
+        });
+    }); $('.floatIntOnly').keypress(function (event) {
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+    function GetEmployeeSalary(EmployeeId) {
+        var monthof = $('#Month').val();
+        if (monthof != '') {
+            if (EmployeeId > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/HR/HRGetEmployeeSalary",
+                    data: { EmployeeID: EmployeeId, Month: monthof },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#BankName').val(data.BankName);
+                        $('#BranchName').val(data.BranchName);
+                        $('#AccountNumber').val(data.AccountNumber);
+                        $('#IFSCCode').val(data.IFSCCode);
+                        $('#BasicSalary').val(data.BasicSalary);
+                        $('#HRA').val(data.HRA);
+                        $('#TravellingAllowance').val(data.TravellingAllowance);
+                        $('#MedicalAllowance').val(data.MedicalAllowance);
+                        $('#PerformanceIncentive').val(data.PerformanceIncentive);
+                        $('#OtherBenefits').val(data.OtherBenefits);
+                        $('#PFEmployeeShare').val(data.PFEmployeeShare);
+                        $('#PFEmployerShare').val(data.PFEmployerShare);
+                        $('#ESICEmployerEmployee').val(data.ESICEmployerEmployee);
+                        $('#TDS').val(data.TDS);
+                        $('#OtherDeduction').val(data.OtherDeduction);
+                    }
+                });
+            }
+
+            else {
+                swal("Alert !", "Please Select Employee", "warning");
+            }
+
+        }
+
+        else {
+            swal("Alert !", "Please Select Month", "warning");
+        }
+
+    }
+
+    function GetExtraPayment() {
+        var EmployeeId = $('#UserID').val();
+        //var monthof = $('#Month').val();
+        if (EmployeeId > 0) {
+            if (monthof != '') {
+                $.ajax({
+                    type: "GET",
+                    url: "/HR/HRGetEmployeeSalary",
+                    data: { EmployeeID: EmployeeId, Month: monthof },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#OtherDeduction').val(data.OtherDeduction);
+                    }
+                });
+            }
+
+        }
+
+        else {
+            swal("Alert !", "Please Select Employee", "warning");
+        }
+
+    }
+</script>

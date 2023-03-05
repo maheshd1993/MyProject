@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Manage IndiaMart Setting";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@model Svam.Models.CRMIndiaMartModel
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                     @using (Html.BeginForm("ManageIndiaMartSetting", "IndiaMartSetting", FormMethod.Post))
+                    { 
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(em => em.IndiaMartID)
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <strong>Manage IndiaMart Setting</strong>
+                            </div>
+                            <div class="panel-body body_pnl">
+                                <div class="col-sm-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">Register Mobile Number<span class="madatoryfield">*</span></label>
+                                            <div class="col-sm-2">
+                                                @Html.TextBoxFor(em => em.MobileNumber, new { @class = "form-control", @type = "text", @placeholder = " Enter Register Mobile Number", @autocomplete = "off" })
+                                                @Html.ValidationMessageFor(em => em.MobileNumber, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">IndiaMart CRM Key<span class="madatoryfield">*</span></label>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(em => em.IndiaMartCRMKey, new { @class = "form-control", @placeholder = "Enter IndiaMart CRM Key", @autocomplete = "off" })
+                                                @Html.ValidationMessageFor(em => em.IndiaMartCRMKey, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <input type="submit" value="Save" class="btn btn-success">
+                            </div>
+                        </div>
+                   }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <style type="text/css">
+        .field-validation-error {
+            margin-left: 2px;
+            color: #ff0000;
+            font-size: 12px !important;
+            display: block;
+            margin-top: 43px;
+            font-weight: normal !important;
+        }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+            background-color: #ffeeee;
+        }
+    </style>
+}

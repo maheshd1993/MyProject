@@ -1,0 +1,225 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.LeadManagementModel
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />	   
+<link href="/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<script src="/timepicker/bootstrap-timepicker.js"></script>
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+        //window.location.href = "/LeadManagement";
+    }
+    if (chkmsg != '') {
+        alert(chkmsg);
+    }
+</script>
+<link href="/datepick/jquery-ui.css" rel="stylesheet" />
+<script src="/datepick/jquery-ui.js"></script>
+<div class="maincontainer">
+    <div class="col-sm-12">
+       @* <div class="col-sm-4 padd0">
+               <h1 style="border-bottom:none;">Create New Leads</h1>
+           </div>*@
+               
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Lead Management</div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Index", "LeadManagement", FormMethod.Post))
+                    {
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" align="center" valign="middle">
+                                        <div id="errormsgbox"></div>
+                                    </td>
+                                    <td align="left" valign="middle">
+                                        <input type="submit" name="Submit" value="Create" class="btn btn-danger btnSave">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right" valign="middle">
+                                        <img src="/img/user.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Client Name</strong> : </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.CustomerName, new { @class = "form-control" })
+                                    </td>
+
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Company Name </strong> : </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.CompanyName, new { @class = "form-control" })
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right" valign="middle">
+                                        <img src="/img/mobile.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Primary Ph.No.</strong> : </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.PrimaryPhNo, new { @class = "form-control" })
+                                    </td>
+
+                                    <td align="right" valign="middle">
+                                        <img src="/img/mobile.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Secondary Ph.No.</strong> : </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.SecondaryPhNo, new { @class = "form-control" })
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right" valign="middle">
+                                    <img src="/img/email.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Email</strong> : </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.Email, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(em => em.Email)
+                                    </td>
+
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16">
+                                    </td>
+                                    <td align="left" valign="middle"><strong>Website :</strong> </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.Website, new { @class = "form-control" })
+                                   </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Skype Id</strong> : </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.SkypeId, new { @class = "form-control" })
+                                    </td>
+
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Lead Source</strong> : </td>
+                                    <td align="left" valign="middle">
+                                        <select class="form-control" name="LeadSource" >
+                                           <option @(Model.LeadSource != null ? Model.LeadSource == "Email" ? "selected" : "" : null) value="Email">Email</option>
+                                            <option @(Model.LeadSource != null ? Model.LeadSource == "Software" ? "selected" : "" : null) value="Software">Software</option>
+                                            <option @(Model.LeadSource != null ? Model.LeadSource == "Kijiji.ca" ? "selected" : "" : null) value="Kijiji.ca">Kijiji.ca</option>
+                                            <option @(Model.LeadSource != null ? Model.LeadSource == "Linkedin" ? "selected" : "" : null) value="Linkedin">Linkedin</option>
+                                            <option @(Model.LeadSource != null ? Model.LeadSource == "Facebook" ? "selected" : "" : null) value="Facebook">Facebook</option>
+                                            <option @(Model.LeadSource != null ? Model.LeadSource == "Twitter" ? "selected" : "" : null) value="Twitter">Twitter</option>
+                                            <option @(Model.LeadSource != null ? Model.LeadSource == "Quora" ? "selected" : "" : null) value="Quora">Quora</option>
+                                        </select>
+                                    </td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Country :</strong> </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.Country, new { @class = "form-control" })
+                                    </td>
+
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Address :</strong> </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextAreaFor(em => em.Address, new { @class = "form-control" })
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Followup Date :</strong> </td>
+                                    <td align="left" valign="middle">
+                                        @Html.TextBoxFor(em => em.FollowUpDate, new { @class = "form-control followupdate" })
+                                    </td>
+
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Time Zone :</strong> </td>
+                                    <td align="left" valign="middle">
+                                        @*@Html.DropDownList("TimeZoneName",null,new {@class="form-control"})*@
+                                       @* @Html.TextAreaFor(em => em.timez, new { @class = "form-control" })*@
+                                    </td>
+                                </tr>
+                               @* <tr>
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16"></td>
+                                    <td align="left" valign="middle"><strong>Other Remarks :</strong> </td>
+                                    <td colspan="4" align="left" valign="middle">
+                                        @Html.TextAreaFor(em => em.OtherRemark, new { @class = "form-control" })
+                                    </td>
+                                </tr>*@
+
+                                <tr>
+                                   <td align="right" valign="middle">
+                                        <img src="/img/general.png" width="16" height="16" ></td>
+                                    <td align="left" valign="middle"><strong>Client Requirement (Description)</strong> : </td>
+                                    <td colspan="4" align="left" valign="middle">
+                                            @Html.TextAreaFor(em => em.Description, new { @class = "form-control" })
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right" valign="middle">
+                                        <img src="/img/general.png"></td>
+                                    <td align="left" valign="middle"><strong>Lead Assign :</strong> </td>
+                                    <td align="left" valign="middle">
+                                        @*@Html.DropDownList("AssignTo", null,"--Choose to Assign--",new {@class="form-control" })*@
+                                       
+                                    </td>
+                                </tr>
+
+                               
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--For Validation ....-->
+
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        
+        $('.followupdate').datepicker({
+            dateFormat: "dd/mm/yy",
+            //maxDate: 0,
+            minDate: 0,
+            onSelect: function (date_text, inst) {
+            }
+        });
+        $(".allowInt").on("keypress keyup blur", function (event) {
+            this.value = this.value.replace(/[^0-9\.]/g, '');
+            //$(this).val($(this).val().replace(/[^\d].+/, ""));
+            //if ((event.which < 48 || event.which > 57)) {
+            //    event.preventDefault();
+            //}
+        });
+    });
+</script>
+

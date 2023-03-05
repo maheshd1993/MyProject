@@ -1,0 +1,82 @@
+﻿
+@model Svam.Models.CreateUserModel
+            <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">View User</h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered modaltable">
+
+                            <tbody>
+                                <tr>
+                                    <td width="150" class="lefttd">First Name</td>
+                                    <td width="70%">@Model.FirstName</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Last Name  :</td>
+                                    <td>@Model.LastName </td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Father's Name </td>
+                                    <td>@Model.FatherName</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">DOB </td>
+                                    <td>@Model.DOB</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Contact Number :</td>
+                                    <td>@Model.PhoneNo</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Alternate Number </td>
+                                    <td>@Model.AlternatePhoneno</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Date of Join</td>
+                                    <td>@(String.Format("{0:dd MMM, yyyy}", Model.CreatedDate))</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Designation :</td>
+                                    <td>@Model.Designation</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Branch :</td>
+                                    <td>@Model.BranchName</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Email ID</td>
+                                    <td>@Model.Email</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Salary Per Month </td>
+                                    <td>@Model.SalaryPermonth</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Current Address  :</td>
+                                    <td>@Model.CurrentAddress</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Parmanent Address</td>
+                                    <td>@Model.PermanentAddress</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

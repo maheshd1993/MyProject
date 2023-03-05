@@ -1,0 +1,18 @@
+Dear Sir
+
+Still following issues are pending while working on CRM: 
+
+Not able to upload a file which is more than 3-4 MB
+
+If we close/ or portal get closed without logout then we are not able to login again
+
+Highlighted option for Status of work are not responding. - Still Pending
+
+Can't assign Form to any employee - Still Not able to assign it, no pop up of form assigned 
+
+In Member login Pending task list should be relevant to his profile. Currently it shows all pending task in each member's login. -  Task list of all members are blank no task shown even after assignment 
+Weekly Task & Daily task list shows all task instead of task of selected period. - Task list is blank now 
+    
+How can we create State & District for updation of complete Address
+
+After uploading thrice it show no record found for Bird Automotive Pvt Ltd.

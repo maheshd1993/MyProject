@@ -1,0 +1,39 @@
+$orderitems_list .= "<tr>						
+					<td style='' align='center'>
+						<table class='table-inner' width='600' cellspacing='0' cellpadding='0' border='0' align='center'>
+							<tbody><tr><td>
+									<table class='table-full1' width='183' cellspacing='0' cellpadding='0' border='0' align='left'>
+										<tbody><tr>
+											<td class='w3l-p' style='font-family: Candara, sans-serif; color:#7f8c8d; font-size:16px; line-height: 28px;' align='center'>
+											</td>
+											<td><img src='".$productimg."' style=' height:100px;' class='scale' alt='' editable='true' width='100'>
+												</td>
+										</tr><tr>
+											<td class='w3-w2' style='line-height: 0px;' height='35' align='center'>	
+											</td>
+										</tr></tbody></table><table width='1' cellspacing='0' cellpadding='0' border='0' align='left'>
+										<tbody><tr>
+											<td class='h' style='font-size: 0;line-height: 0px;border-collapse: collapse;' height='40'>
+												<p style='padding-left: 24px;'>&nbsp;</p>
+											</td></tr>
+									</tbody></table><table class='table-full2 full_2' width='183' cellspacing='0' cellpadding='0' border='0' align='left'>
+										<!--icon-->
+										<tbody><tr></tr><tr class='all_new_echo_dot'>
+											<td class='w3l-p' style='font-family: Candara, sans-serif; color:#7f8c8d; font-size:16px; line-height: 28px;' align='center'>
+												<label class='content'><a href=''>".$itemarr[0]['ItemName']."</a> (Black)
+												<p>Electronics</p></label>
+											</td>
+										</tr>
+									</tbody></table><table width='1' cellspacing='0' cellpadding='0' border='0' align='left'>
+										<tbody><tr>
+											<td class='h' style='font-size:0;line-height: 0px;border-collapse: collapse;' height='40'>
+												<p style='padding-left: 24px;'>&nbsp;</p>
+											</td>
+										</tr>
+									</tbody></table><table class='table-full3 full_3_tbl' width='183' cellspacing='0' cellpadding='0' border='0' align='left'>
+										<tbody><tr class='price_for_all_new_echo'>
+											<td class='w3l-p' style='font-family: Candara, sans-serif; color:#7f8c8d; font-size:16px; line-height: 28px;' align='center'>
+												<label class='content'><b style='color:#000;'><p>Rs.".$this->input->post('MRP')[$i]."</p>
+												</b></label><b style='color:#000;'>
+											</b></td>
+										</tr></tbody></table></td></tr></tbody></table></td></tr>";

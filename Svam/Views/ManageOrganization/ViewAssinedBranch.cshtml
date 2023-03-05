@@ -1,0 +1,316 @@
+﻿
+@model Svam.Models.ViewModel.ManageOrganizationVM
+@{
+    ViewBag.Title = "ViewAssinedBranch";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Assigned Branch Report</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-5 padd0">
+                                </div>
+                                <div class="col-sm-3 padd0 developer_paddo pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12">
+                                @using (Html.BeginForm("ViewAssinedBranch", "ManageOrganization", FormMethod.Post))
+                                {
+                                    <div class="col-sm-4">
+
+                                        @Html.DropDownList("AssignedId", new SelectList(Model.AssigntoList, "Id", "BranchName", Model.AssignedId), "Select AssignedTo Branch", new { @class = "ui fluid search dropdown ListItemCapitalize", @style = "margin-top:0px !important;" })
+                                    </div>
+                                    <div class="col-sm-8">
+
+                                        <div class="form-group f-center col-sm-8 padd0">
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(a => a.FromDate, new { @class = "form-control datefield", placeholder = "From Date", autocomplete = "off" })
+
+                                            </div>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(a => a.ToDate, new { @class = "form-control datefield", placeholder = "To Date", autocomplete = "off" })
+
+                                            </div>
+                                            <div class="col-sm-4 padd0">
+                                                <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                                <input class="btn btn-success" type="button" id="btncancel" value="Reset" onclick="location.href = '/ManageOrganization/ViewAssinedBranch'" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont " id="dest">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                @*<th><input type="checkbox" id="chkAll" /></th>*@
+                                <th>Employee Code</th>
+                                <th>Full Name</th>
+                                <th>Profile</th>
+                                <th>E-mail</th>
+                                <th>Branch Name </th>
+                                <th>Assigned Date</th>
+                                <th>Assigned To Branch</th>
+                                <th>Status</th>
+                                @*<th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.UserList.Count > 0)
+                            {
+                                int i = 1;
+                                foreach (var item in Model.UserList)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        @*<td><input type="checkbox" name="SelectedBranch" class="chk" value="@item.Id" /></td>*@
+                                        <td>@item.EmployeeCode</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.ProfileName</td>
+                                        <td><a href="#">@item.EmailID</a></td>
+                                        <td>@item.BranchName</td>
+                                        <td>@item.AssignedDate</td>
+                                        <td>@item.AssignedBranchName</td>
+                                        <td>
+                                            @if (item.IsActive)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/ManageOrganization/ChangeStatus/@item.Id" onclick="changeStatus(this);">Active</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/ManageOrganization/ChangeStatus/@item.Id" onclick="changeStatus(this);">Inactive</button>
+                                            }
+                                        </td>
+                                        @*<td>
+                                            <span class="btn btn-danger" style="cursor:pointer"><i class="fa fa-trash-o"></i> </span>
+                                        </td>*@
+                                    </tr>
+                                    i++;
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<link href="~/css/theme.blue.css" rel="stylesheet" />
+<link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<link href="~/Scripts/semantic.min.css" rel="stylesheet" />
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<script src="~/js/jquery.tablesorter.js"></script>
+<script src="~/timepicker/bootstrap-timepicker.js"></script>
+<script src="~/Scripts/semantic.min.js"></script>
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+
+    $("#dest tbody>tr").click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+    });
+
+    $('.ui.dropdown')
+        .dropdown({
+            clearable: true
+        });
+
+    //$("#chkAll").click(function () {
+    //    var allBranch = $(".chk");
+    //    var chkCurrent = $(this);
+    //    if (chkCurrent.prop("checked") == true) {
+    //        allBranch.prop("checked", true);
+    //    }
+    //    else {
+    //        allBranch.prop("checked", false);
+
+    //    }
+    //});
+</script>
+
+
+<script>
+    //////////////////////////////////////from to date function////////////////
+    $(function () {
+        var datepicker = $('#FromDate');
+        datepicker.datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+    });
+
+    $(function () {
+        var datepicker = $('#ToDate');
+        datepicker.datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+    });
+
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+</script>
+
+
+<style>
+    td {
+        cursor: pointer;
+    }
+
+    .selected {
+        background-color: #BFC9CA;
+        color: #FFF;
+    }
+</style>
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 25px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+<style type="text/css">
+    .loading {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: #0020ff36;
+        z-index: 99;
+        text-align: center;
+    }
+</style>
+
+<!--Start Loader....-->
+@*<div class="loaderimg" style="display: none" id="loader">
+
+        <div class="loadingoverlay">
+            <div class="loadingoverlayContent" style="text-align: center;">
+                Please wait. We are processing your request.<br>
+                <br>
+                <img src="~/Content/Loader/loading.gif" id="Img1" alt="Processing...">
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+

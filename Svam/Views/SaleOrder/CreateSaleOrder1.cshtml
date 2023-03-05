@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "CreateSaleOrder1";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    var webUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+}
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            @if (Session["tUser_id"] != null && @Session["T_pwd"] != null)
+                            {
+                                <iframe src="https://www.smartcapita.com/saleOrderCRM/@Session["t_crm_token"]" style="width:100%;min-height:800px;" title="Sale Order"></iframe>
+                            }
+                            else
+                            {
+                                <script>
+                                    alert("Customer group has not been assigned , Please assign Customer Group !");
+                                    window.location = "/Quotation/CreateSaleOrder";
+                                </script>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

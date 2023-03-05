@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "ViewAssignedItem";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Traders.Models.CreateUserModel
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Assigned Item</strong>
+            </div>
+            <div class="panel-body body_pnl">
+                <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                    @using (Html.BeginForm("ViewAssignedItem", "home", FormMethod.Get))
+                    {
+                        <div class="col-md-12">
+
+                            <div class="col-md-4">
+                                @if (Model.UserList != null && Model.UserList.Count > 0)
+                                {
+                                    @Html.DropDownList("userid", new SelectList(Model.UserList, "UserID", "UserName"), "Select User", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("userid", Enumerable.Empty<SelectListItem>(), "ALL", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;" })
+                                }
+                            </div>
+                            <div class="col-md-4">
+                                @if (Model.itemtypelistt != null && Model.itemtypelistt.Count > 0)
+                                {
+                                    @Html.DropDownList("itemid", new SelectList(Model.itemtypelistt, "ItemTypeId", "ItemTypeName"), "Select ItemName", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("itemid", Enumerable.Empty<SelectListItem>(), "ALL", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;" })
+                                }
+                            </div>
+                            <div class="col-md-4">
+                                <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div>
+                <br style="clear: both;">
+                <table class="table  table-bordered">
+                    <thead class="black-white-text">
+                        <tr>
+                            <th>S.No</th>
+                            <th>User Name</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Estimated Cost</th>
+                            <th>Expiry date</th>
+                            <th>Serial No</th>
+                            <th>Assign Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+                        @if (Model.ItemTypeList.Count > 0)
+                        {
+                            foreach (var item in Model.ItemTypeList)
+                            {
+                                <tr>
+
+                                    @if (item.CheckStatus == "chk")
+                                    {
+
+                                        <td>@i</td>
+                                        <td>@item.Fname</td>
+                                        <td style="display:none;"><input type="hidden" id="hdnitem" value="@item.ItemTypeId" /></td>
+                                        <td>@item.ItemTypeName</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Estimated_Cost</td>
+                                        <td>@item.Expirydate</td>
+                                        <td>@item.SerialNo</td>
+                                        <td>@item.Assigndate</td>
+
+                                        i++;
+                                    }
+
+
+                                </tr>
+
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" style="text-align: center;">** No Record Found</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

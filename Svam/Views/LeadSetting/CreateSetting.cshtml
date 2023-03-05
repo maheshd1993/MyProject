@@ -1,0 +1,567 @@
+﻿@{
+    ViewBag.Title = "CreateSetting";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    int i = 1;
+}
+
+@model Svam.Models.DTO.CreateLeadFieldDTO
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<style>
+    .add-hover:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Lead Form </strong>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("CreateSetting", "LeadSetting", FormMethod.Post))
+                                {
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Field Type</th>
+                                            <th>Field Name</th>
+                                            <th>Is Active</th>
+                                            <th>Mandatory </th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr>
+                                            <td data-column="Field Type">
+                                                <input type="hidden" id="SaveType" name="SaveType" value="New" />
+                                                <input type="hidden" id="fieldNM" name="FieldName" />
+                                                <input type="hidden" id="fldPrevType" name="FieldPreviousType" />
+                                                <select id="ddlFieldType" name="FieldType" class="form-control" required>
+                                                    <option value="">Choose Field Type</option>
+                                                    <option value="NormalText">Normal text (E.g.: Hello!)</option>
+                                                    <option value="DateText">Date (E.g.: DD/MM/YYYY)</option>
+                                                    <option value="NumberText">Number (E.g.:1 to 10)</option>
+                                                    <option value="DropDownList">Dropdown List</option>
+                                                    <option value="EmailText" disabled style="color:white;">Email</option>
+                                                    <option value="TimeText" disabled style="color:white">Time</option>
+                                                </select>
+                                            </td>
+                                            <td data-column="Field Name">
+                                                <input type="text" id="fldText" name="FieldTextName" class="form-control" placeholder="Enter text" autocomplete="autocomplete" required />
+                                            </td>
+                                            <td data-column="Is Active">
+                                                @Html.CheckBoxFor(a => a.IsVisible)
+                                                @*<input type="checkbox" id="IsVisible" name="IsVisible" />*@
+                                            </td>
+                                            <td data-column="Is Required">
+                                                @Html.CheckBoxFor(a => a.IsRequired)
+                                                @*<input type="checkbox" id="IsRequired" name="IsRequired" />*@
+                                            </td>
+                                            <td data-column="Action">
+                                                @*@if (i == 34)
+                                                    {
+                                                        <button type="button" class="btn btn-success" id="btnAddFld"></button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="submit" class="btn btn-success" id="btnAddFld">Save</button>
+                                                    }*@
+                                                <button type="submit" class="btn btn-success">Save</button>
+                                                <a href="/LeadSetting/CreateSetting" class="btn btn-danger">Reset</a>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont" id="tblFarm">
+                        <thead class="black-white-text">
+                            <tr>
+                                @*<th style="width:3%">S.No.</th>*@
+                                <th>Field Name</th>
+                                <th>Field Type</th>
+                                <th>Field Sequence</th>
+                                <th>Is Active</th>
+                                <th>Mandatory </th>
+                                <th class="noimg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.FieldNames.OrderBy(a => a.Priority))
+                            {
+                                if (!string.IsNullOrEmpty(item.TextName))
+                                {
+                                    var splitValues = item.Values.Split('/');
+                                    string fieldName = splitValues[0];
+                                    string isVisible = splitValues[1];
+                                    string isReq = splitValues[2];
+                                    string fieldType = splitValues[3];
+                                    //string seqNo = splitValues[4];
+                                    <tr>
+                                        @*<td style="width:3%">@i</td>*@
+                                        <td data-column="Field Name" translate="no">
+                                            @item.TextName
+                                            <input type="hidden" class="cssFldName" value="@fieldName" translate="no" />
+                                        </td>
+
+                                        <td data-column="Field Type">
+                                            @if (fieldType == "NormalText")
+                                            {
+                                                <b>Normal text</b>
+                                            }
+                                            else if (fieldType == "EmailText")
+                                            {
+                                                <b>Email</b>
+                                            }
+                                            else if (fieldType == "DropDownList")
+                                            {
+                                                <b>Dropdown List &nbsp;</b><div style="color:black;display:inline-block;" class="add-hover abc" data-ddlfieldname="@fieldName" data-ddltextname="@item.TextName" data-target="#Manageddlmodule" data-toggle="modal">+</div>
+                                                @*<span " id="btnLdsNamePlus" style="cursor:pointer" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>*@
+                                            }
+                                            else if (fieldType == "TimeText")
+                                            {
+                                                <b>Time</b>
+                                            }
+                                            else if (fieldType == "DateText")
+                                            {
+                                                <b>Date</b>
+                                            }
+                                            else if (fieldType == "NumberText")
+                                            {
+                                                <b>Number</b>
+                                            }
+                                            else if (fieldType == "DecimalText")
+                                            {
+                                                <b>Decimal</b>
+                                            }
+                                        </td>
+                                        <td data-column="Field Sequence" class="priority" translate="no">@item.Priority </td>
+                                        <td data-column="Is Visible">
+                                            @if (isVisible == "true")
+                                            {
+                                                <span class="text-success">Yes</span>
+
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">No<span style="color:white;">+</span></span>
+                                            }
+                                        </td>
+                                        <td data-column="Is Required">
+                                            @if (isReq == "true")
+                                            {
+                                                <span class="text-success">Yes</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">No<span style="color:white;">+</span></span>
+                                            }
+                                        </td>
+                                        <td data-column="Action">
+                                            <span translate="no" values="@item.Values" fdText="@item.TextName" class="btn btn-primary" onclick="changeText(this);" style="cursor:pointer;"><i class="fa fa-pencil"></i></span>
+                                            <span translate="no" fldNm="@item.Values" class="btn btn-danger" onclick="removeField(this);" style="cursor:pointer;"><i class="fa fa-trash-o"></i></span>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Manageddlmodule" class="modal fade" role="dialog" style="z-index:99999999">
+
+</div>
+<!-- Modal for add LeadStatus,Product Type and Lead Source-->
+@*<script src="~/js/jquery-1.11.3.min.js"></script>
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <script src="~/js/jquery-ui.min.js"></script>*@
+<script src="/js/tableSortable/jquery-1.11.3.min.js"></script>
+
+<link href="/js/tableSortable/jquery-ui.min.css" rel="stylesheet" />
+<script src="/js/tableSortable/jquery-ui.min.js"></script>
+
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+    $('.abc').on('click', function () {
+        debugger;
+        var DDLfieldname = $(this).data('ddlfieldname');
+        var ddltextname = $(this).data('ddltextname');
+
+        $.post('/LeadSetting/Viewprojectmodule', { fieldname: ddltextname, fieldtext: DDLfieldname }, function (data) {
+            jQuery('#Manageddlmodule').html(data);
+            $($(this).data("#Manageddlmodule")).show();
+        });
+    });
+
+
+</script>
+<script>
+
+    @*var limit = '@i';
+
+    $("#btnAddFld").click(function () {
+        var sType = $("#SaveType").val();
+        if (limit == "34" && sType == "New") {
+            alert('You can not add more then 10 extra fields');
+            return false
+        }
+        else {
+            return true
+        }
+    });*@
+
+
+    function changeText(obj) {
+        var currEl = $(obj);
+
+        //$("#btnAddFld").attr("type", "submit");
+        $("#SaveType").val('Old');
+        var fldValues = currEl.attr("values");
+        var fieldText = currEl.attr("fdText");
+        var myarray = fldValues.split('/');//back slash seperate field values
+        var FieldName = myarray[0];
+        var IsField = myarray[1];
+        var IsFieldReq = myarray[2];
+        var fieldType = myarray[3];
+
+        if (FieldName == "CustomerTextName") {
+            $("#IsVisible").prop("checked", true).prop("disabled", true);
+            $("#IsRequired").prop("checked", true).prop("disabled", true);
+            $("#ddlFieldType").val(fieldType).attr("selected", true).attr("disabled", true);
+        }
+        else if (FieldName == "MobileNoTextName") {
+            $("#IsVisible").prop("checked", true).prop("disabled", true);
+            $("#IsRequired").prop("checked", true).prop("disabled", true);
+            $("#ddlFieldType").val(fieldType).attr("selected", true).attr("disabled", true);
+        }
+        else if (FieldName == "LeadStatusTextName") {
+            $("#IsVisible").prop("checked", true).prop("disabled", true);
+            $("#IsRequired").prop("checked", true).prop("disabled", true);
+            $("#ddlFieldType").val(fieldType).attr("selected", true).attr("disabled", true);
+        }
+        else if (FieldName == "LeadOwnerTextName") {
+            $("#IsVisible").attr("checked", true).attr("disabled", true);
+            $("#IsRequired").prop("checked", true).prop("disabled", true);
+            $("#ddlFieldType").val(fieldType).attr("selected", true).attr("disabled", true);
+        }
+        else if (FieldName == "FollowDateTextName") {
+            $("#IsVisible").prop("checked", true).prop("disabled", true);
+            $("#IsRequired").prop("checked", true).prop("disabled", true);
+            $("#ddlFieldType").val(fieldType).attr("selected", true).attr("disabled", true);
+        }
+        else if (FieldName == "DescriptionTextName") {
+            $("#IsVisible").prop("checked", true).attr("disabled", true);
+            $("#IsRequired").prop("checked", true).attr("disabled", true);
+            $("#ddlFieldType").val(fieldType).attr("selected", true).attr("disabled", true);
+        }
+        else {
+
+            if (IsField == "true") {
+                $("#IsVisible").prop("checked", true).prop("disabled", false);
+            }
+            else {
+                $("#IsVisible").prop("checked", false).prop("disabled", false);
+            }
+            if (IsFieldReq == "true") {
+                $("#IsRequired").prop("checked", true).prop("disabled", false);
+            }
+            else {
+                $("#IsRequired").prop("checked", false).prop("disabled", false);
+            }
+
+            if (FieldName == "EmailIdTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+            }
+            else if (FieldName == "FollowUpTimeTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+            }
+            else if (FieldName == "FollowupTimeinISTTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+            }
+            else if (FieldName == "CountryTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+                $("#fldText").attr("input", true).attr("disabled", true);
+                $("#IsVisible").attr("checked", true).attr("disabled", true);
+
+            }
+            else if (FieldName == "StateTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+                $("#fldText").attr("input", true).attr("disabled", true);
+                $("#IsVisible").attr("checked", true).attr("disabled", true);
+            }
+            else if (FieldName == "CityTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+                $("#fldText").attr("input", true).attr("disabled", true);
+                $("#IsVisible").attr("checked", true).attr("disabled", true);
+            }
+            else if (FieldName == "LeadResourceTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+            }
+            else if (FieldName == "ProductTypeNameTextName") {
+                $("#ddlFieldType").val(fieldType).prop("selected", true).prop("disabled", true).css("color", "black");
+            }
+            else if (FieldName == "ZoneNameTextName") {
+                $("#ddlFieldType").val(fieldType).attr("selected", true).attr("disabled", true);
+                $("#fldText").attr("input", true).attr("disabled", true);
+                $("#IsVisible").attr("checked", true).attr("disabled", true);
+            }
+            else {
+                $("#ddlFieldType").val(fieldType).prop("selected", true);
+            }
+
+
+        }
+
+        $("#fieldNM").val(FieldName);
+        $("#fldText").val(fieldText);
+        $("#fldPrevType").val(fieldType);
+        window.scrollTo(0, 0);
+        //for (var i = 0; i < myarray.length; i++) {
+        //    //console.log(myarray[i]);
+        //    $("#rgts").append('<li>' + myarray[i] + '</li>');
+        //}
+        //$("#myselect option:selected").text();
+        //alert($(this).find("option:selected").text());
+    }
+
+
+    $("#IsVisible").click(function () {
+        if ($(this).is(":checked")) {
+            //if ($("#IsRequired").is(":checked")) {
+
+            //}
+        }
+        else if ($(this).is(":not(:checked)")) {
+            $("#IsRequired").prop("checked", false);
+        }
+    });
+    function addItem(obj) {
+        debugger;
+        var self = $(obj);
+        var DDLfieldname = self.attr('ddlfieldname');
+        var ddltextname = self.attr('ddltextname');
+        $("#txtDDLfieldname").val(DDLfieldname);
+        $("#txtDDLfieldtext").val(ddltextname);
+    };
+
+    //$("#btnSaveDDLItem").click(function () {
+    //    debugger;
+    //    var ddlfieldname = $("#txtDDLfieldname").val();
+    //    var ddlfieldtext = $("#txtDDLfieldtext").val();
+    //    var itemname = $("#txtDDLItemName").val();
+    //    jQuery.post("/common/Adddropdownitem", { fieldname: ddlfieldname, fieldtext: ddlfieldtext, ItemName: itemname }, function (res) {
+    //        var data = JSON.parse(res);//deserialize json data
+    //        if (data.Msg == "ok") {
+    //            alert('Add Successfully !');
+    //            //append in drop down list
+    //            //$('#' + dlid).append(`<option value="${data.ItemId}" selected="true">${data.AddedItem}</option>`);
+
+    //            //$("#ddlMsg").text('');
+    //            //$("#txtDDLId").val('');
+    //            //$("#txtDDLType").val('');
+    //            //$("#txtDDLItemName").val('');
+    //            //jQuery("#addItemModal").modal('hide');
+    //        }
+    //    })
+    //});
+
+    function removeField(obj) {
+        var fieldName = $(obj).attr('fldNm');
+        var myarray = fieldName.split('/');//back slash seperate field values
+        var FldName = myarray[0];
+
+
+        if (FldName == "CustomerTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "MobileNoTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "LeadStatusTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "LeadOwnerTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "FollowDateTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "DescriptionTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "EmailIdTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "CountryTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "StateTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "CityTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "FollowUpTimeTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "FollowupTimeinISTTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "ZoneNameTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "LeadResourceTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "ProductTypeNameTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "DesignationTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "OrganizationNameTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "AddressTextNameTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "UrlTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "SkypeIdTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "DateofBirthTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "MarriageAnniversaryTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "ExpectedDateTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+        else if (FldName == "ExpectedProductAmountTextName") {
+            swal("Alert !", '** Sorry! you can not delete this field.', "warning");
+            return false
+        }
+
+
+        $.get('/LeadSetting/HideField', { FieldName: FldName }, function (data) {
+            if (data == 'ok') {
+                $(obj).closest("tr").remove();
+            }
+            else if (data == 'err') {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+</script>
+
+
+<script type="text/javascript">
+    var jq = $.noConflict();
+    jq(function () {
+
+
+        //Helper function to keep table row from collapsing when being sorted
+        var fixHelperModified = function (e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+            $helper.children().each(function (index) {
+                jq(this).width($originals.eq(index).width())
+            });
+            return $helper;
+        };
+
+        //Make diagnosis table sortable
+        jq("#tblFarm tbody").sortable({
+            helper: fixHelperModified,
+            stop: function (event, ui) { renumber_table('#tblFarm') }
+        }).disableSelection();
+    });
+
+    //Renumber table rows
+    function renumber_table(tableID) {
+        $(tableID + " tr").each(function () {
+            count = $(this).parent().children().index($(this)) + 1;
+            $(this).find('.priority').html(count);
+            fldName = $(this).find('.cssFldName').val();
+            if (fldName != undefined) {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("FieldPriority", "LeadSetting1")',
+                    content: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: { fieldName: fldName, Priority: count },
+                    success: function (d) {
+
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // TODO: Show error
+                    }
+                });
+            }
+        });
+    }
+</script>

@@ -1,0 +1,744 @@
+﻿@{
+    ViewBag.Title = "Challan";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Svam.Models.ChallanCreateModel
+@using (Html.BeginForm("Challan", "sales", FormMethod.Post, new { id = "submitForm" }))
+{
+    <div class="maincontainer" style="min-height: 200px;">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>Create Challan </div>
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="custname">Customer Name  </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.CustomerName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.CustomerName)
+                                    @Html.HiddenFor(em => em.CustomerID)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="contperson">Contact Person. </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.ContactPerson, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.ContactPerson)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="shipwarehouse">Email </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.Email)
+                                </div>
+                            </div>
+
+                            <div class="form-group divHide">
+                                <label class="control-label col-sm-3" for="billingaddress">Choose Billing Address </label>
+                                <div class="col-sm-8">
+                                    <select id="ddlBillingAddress" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="billingaddress">Billing Address </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.BillingAddress, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.BillingAddress)
+                                </div>
+                            </div>
+
+                           
+                        </div>
+
+                        <!--Start Second Div..-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="qdate">Choose Quotation </label>
+                                <div class="col-sm-8">
+                                    <select id="ddlquotation" name="QuotationNo" onchange="appplyQNo(this);" class="form-control">
+                                        <option>--Select Quotation--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="contnumber">Contact No. </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.ConatctNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.ConatctNo)
+                                </div>
+                            </div>
+
+                            <div class="form-group divHide ">
+                                <label class="control-label col-sm-3" for="billingaddress">Choose Shipping Address </label>
+                                <div class="col-sm-8">
+                                    <select id="ddlShippingAddress" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="contperson">Shipping Address. </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.ShippingAddess, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.ShippingAddess)
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                <label class="control-label col-sm-3" for="contperson">Source Branch </label>
+                                <div class="col-sm-8">
+                                    <select id="ddlbranch" class="form-control" name="BranchId">
+                                        <option>Select Branch</option>
+                                    </select>
+                                </div>
+                            </div>*@
+
+                             <div class="form-group">
+                                <label class="control-label col-sm-3" for="billingaddress">Challan Date </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.ChallanDate, new { @class = "form-control datepik1" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-th-list" aria-hidden="true"></i>Item Details
+            <div class="rightbtntop"><a href="javascript:void(0)" style="width: 100%;" class="addbtn" id="addnewItemRows"><i aria-hidden="true" class="fa fa-plus"></i>Add Row</a></div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table table-striped table table-hover tabledata scrolltable table-bordered">
+                            <thead>
+                                <tr>
+
+                                    <th width="12%">Part No. </th>
+                                    <th width="20%">Description</th>
+                                    <th width="7%">Qty</th>
+                                    <th width="7%">Rate</th>
+                                    <th width="7%">Amount</th>
+                                    <th width="7%">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tblItemdetailsrow">
+                                @{double SubtotalAmt = 0;}
+                                @for (int i = 0; i < Model.ChallanItemDetailsModelList.Count; i++)
+                                {
+                                
+                                    <tr>
+                                        @if (Model.QuotationNo != null)
+                                        {
+                                            SubtotalAmt += Convert.ToDouble(Model.ChallanItemDetailsModelList[i].Amount);
+                                            <td>
+                                                @Html.HiddenFor(em => em.ChallanItemDetailsModelList[i].PartNo)
+                                                @Html.DisplayFor(em => em.ChallanItemDetailsModelList[i].SKU)
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            @*<td class="applyItemchk">
+                                                @Html.CheckBoxFor(em => em.ChallanItemDetailsModelList[i].BillableChk)
+                                            </td>*@
+                                            <td>
+                                                <select class="form-control tdselect ddlitem" onchange="fillDataWithDDL(this)" name="ChallanItemDetailsModelList[0].PartNo" id="ChallanItemDetailsModelList_0__PartNo">
+                                                    <option>Select</option>
+                                                </select>
+                                            </td>
+                                        }
+                                        <td>
+                                            <p>@Html.DisplayFor(em => em.ChallanItemDetailsModelList[i].Description)</p>
+                                            
+                                        </td>
+                                        <td>@Html.TextBoxFor(em => em.ChallanItemDetailsModelList[i].Qty, new { @class = "form-control", @onchange = "ApplyItemAmount(this);" })
+                                           @* @Html.HiddenFor(em => em.ChallanItemDetailsModelList[i].Rate, new {@class="hdrate" })
+                                            @Html.HiddenFor(em => em.ChallanItemDetailsModelList[i].Amount, new { @class = "itmcalamt"})*@
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(em => em.ChallanItemDetailsModelList[i].Rate, new { @class = "form-control itmdis", @onchange = "UpdateIteSaleRate(this);" })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(em => em.ChallanItemDetailsModelList[i].Amount, new { @class = "form-control itmcalamt", })
+                                        </td>
+                                        <td class="actiontd">
+                                            <a href="javascript:void(0)" class="dltrow deleterow" onclick="abc(this)">Delete</a>
+                                            @Html.HiddenFor(em => em.ChallanItemDetailsModelList[i].hdRemoveID)
+                                        </td>
+                                    </tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="col-md-8 padd0">
+                        <div class="form-horizontal">
+                            <div class="form-group remarksbox">
+                                <label style="text-align: left;" class="control-label col-sm-2" for="">Remaks </label>
+                                <div class="col-sm-12">
+                                    @Html.TextAreaFor(em => em.Remarks, new { @class = "form-control remakstextbox", @placeholder = "Remaks" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 padd0">
+                    </div>
+                    <div class="totalwrap">
+                        <table id="tblItmSubtable" class="table table-striped totaltable table-bordered">
+                            <tr>
+                                <th width="40%">Sub Total</th>
+                                <th width="20%">%</th>
+                                <th width="20%">Amount</th>
+                            </tr>
+
+                            <tr>
+                                <td>Total Amount</td>
+                                <td></td>
+                                <td>
+                                    <input type="text" id="ItmTotalTaxAmt" name="ItmTotalTaxAmt" class="inputstyle1 clsCount" value="@SubtotalAmt" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- end item details -->
+
+    
+
+    <div class="col-sm-12 t-right">
+        <input type="submit" name="Submit" value="Save" class="btn mainbtn2">
+        <input type="button" class="btn  mainbtn" onclick="location.href = '/Sales/ManageChallan'" value="Cancel">
+    </div>
+}
+<br style="clear: both;" />
+<br style="clear: both;" />
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+
+
+    <script>
+        //Start To All Item Details here.............
+        (function () {
+            AllItemDeatails('');
+            GetDepartment();
+
+            $(".datepik1").datepicker().datepicker("setDate", new Date());
+
+            if ('@Model.QuotationNo' != "") {
+                jQuery('.rightbtntop').hide();   //Hide Add Rows
+
+                jQuery('.divHide').hide();
+            }
+
+            jQuery('.hdrows').hide();
+        })();
+
+        //Start To Get All User in Dropdownlist......
+        function AllItemDeatails(ddlclass) {
+            jQuery.get('/common/GetAllItemDeatails', null, function (data) {
+                chkAllItemDeatails(data, ddlclass)
+            });
+        }
+
+        function chkAllItemDeatails(abc, ddlclass) {
+            var data = "";
+            data += "<option value= >--Select Item--</option>";
+            for (var it in abc) {
+                data += "<option data-item=" + abc[it].ItemName + " data-rate=" + abc[it].salerate + " value=" + abc[it].ID + ">" + abc[it].SKU + "</option>";
+            }
+            if (ddlclass != '') {
+                $('.' + ddlclass).html(data)
+            }
+            else {
+                $('.ddlitem').html(data)
+            }
+        }
+
+        $('#addnewItemRows').click(function () {
+            var rowCount = $('#tblItemdetailsrow tr').length;
+            var ddlclass = "ddlitem" + rowCount;
+            $('#tblItemdetailsrow').append('<tr><td><select class="form-control tdselect ' + ddlclass + '" onchange="fillDataWithDDL(this)" id="ChallanItemDetailsModelList_' + rowCount + '__PartNo" name="ChallanItemDetailsModelList[' + rowCount + '].PartNo"></select></td><td><p></p></td><td><input type="text" name="ChallanItemDetailsModelList[' + rowCount + '].Qty" placeholder="Qty" onchange="ApplyItemAmount(this);" id=ChallanItemDetailsModelList_' + rowCount + '__Qty></td><td><input type="text" id="ChallanItemDetailsModelList_' + rowCount + '__Rate" class="form-control" name="ChallanItemDetailsModelList[' + rowCount + '].Rate" onchange = "UpdateIteSaleRate(this);" placeholder="Rate"/></td><td><input type="text" class="form-control itmcalamt " id="ChallanItemDetailsModelList_' + rowCount + '__Amount" name="ChallanItemDetailsModelList[' + rowCount + '].Amount" placeholder="Amount"></td><td class="actiontd"><a class="dltrow deleterow" onclick="abc(this)" href="javascript:void(0)">Delete</a></td></tr>');
+            //$('#tblItemdetailsrow').append('<tr><td><select class="form-control tdselect ' + ddlclass + '" onchange="fillDataWithDDL(this)" id="ChallanItemDetailsModelList_' + rowCount + '__PartNo" name="ChallanItemDetailsModelList[' + rowCount + '].PartNo"></select></td><td><p></p></td><td><input type="text" class="form-control" name="ChallanItemDetailsModelList[' + rowCount + '].Qty" placeholder="Qty" onchange="ApplyItemAmount(this);" id=ChallanItemDetailsModelList_' + rowCount + '__Qty ><input class="hdrate" id="ChallanItemDetailsModelList_' + rowCount + '__Rate" name="ChallanItemDetailsModelList[' + rowCount + '].Rate" type="hidden" /><input class="itmcalamt" id="ChallanItemDetailsModelList_' + rowCount + '__Amount" name="ChallanItemDetailsModelList[' + rowCount + '].Amount" type="hidden" /> </td><td class="actiontd"><a class="dltrow deleterow" onclick="abc(this)" href="javascript:void(0)">Delete</a><input id="ChallanItemDetailsModelList_' + rowCount + '__hdRemoveID" name="ChallanItemDetailsModelList[' + rowCount + '].hdRemoveID" type="hidden" /></td></tr>');
+            AllItemDeatails(ddlclass);
+            ItemCheckboxApply();
+        });
+
+
+        function abc(param) {
+            var self = jQuery(param);
+            self.parent().find('input[type="hidden"]').val('1');   //Apply the 1 on remove row....
+            self.closest('tr').hide();
+        }
+
+        //Start Calculation of Item Details...........
+        var ItemAmount = 0;
+        function ApplyItemAmount(param) {
+            var self = jQuery(param);
+            var qty = self.val();
+            var salerate = self.parent().next('td').find('input').val();
+            var total = qty * salerate;
+            self.parent().next('td').next('td').find('input').val(total.toFixed(2));   //Apply the Amount.....
+
+            CalculateFinalPrice();
+        }
+
+        function UpdateIteSaleRate(param) {
+            var self = jQuery(param);
+            var newrate = self.val();
+            var qty = self.parent().prev('td').find('input').val();
+            var total = qty * newrate;
+            self.parent().next('td').find('input').val(total);   //Apply the Amount.....
+
+            CalculateFinalPrice();
+        }
+
+       
+
+        //Start To View Product Taxes Group....
+        jQuery('.PopProductTaxgroup').click(function () {
+            var brd = '';
+            jQuery.get('/common/GetProducttaxGroup', null, function (data) {
+                for (var item in data) {
+                    brd += "<div class='col-sm-12'><input type='radio' class='' name='producttaxgropid' text='abc' value='" + data[item].Id + "' /><label> " + data[item].TaxgroupName + "</label></div>";
+                }
+                $('#frmProductTaxGroup').html(brd);
+            });
+        });
+
+        //Start To Apply Product Taxes Group
+
+        jQuery('.btnapply').click(function () {
+            var productTaxgroupId = $("input:radio[name='producttaxgropid']:checked").val();
+            var productTaxgroupName = $("input:radio[name='producttaxgropid']:checked").parent().find('label').text();
+
+            var TotalTaxamt = 0;
+            var amt = parseFloat(jQuery('#ItmTotalTaxAmt').val()); //ItemAmount;
+            var ApplyTaxGroupnametext = productTaxgroupName + "(";
+            if (productTaxgroupId != '') {
+                jQuery.get('/common/getProductTaxbytaxGroupId', { taxgroupid: productTaxgroupId }, function (data) {
+
+                    for (var it in data) {
+                        var taxamt = (amt * data[it].PercentValues) / 100;
+                        var calSCharge = 0;
+                        if (data[it].Surcharge != '' && data[it].Surcharge != 0.00) {
+                            calSCharge = (taxamt * data[it].Surcharge) / 100;
+                        }
+                        TotalTaxamt += taxamt + calSCharge;
+
+                        //Calcualte texes name............
+                        if (ApplyTaxGroupnametext != '') {
+                            ApplyTaxGroupnametext += data[it].TaxName + ":" + data[it].PercentValues + "%" + ",";
+                            if (data[it].Surcharge != '' && data[it].Surcharge != 0.00) {
+                                ApplyTaxGroupnametext += " Surcharge:" + data[it].Surcharge + "%";
+                            }
+                        }
+                    }
+                    amt += TotalTaxamt;
+                    ApplyTaxGroupnametext += ")";
+                    jQuery('#productApplyTaxesText').val(ApplyTaxGroupnametext);
+                    jQuery('#ItmTaxGroupAmt').val(TotalTaxamt.toFixed(2));
+                    CalculateFinalPrice();
+                });
+            }
+
+
+
+            //$("#tblItmSubtable").find('tr').slice(5, -1).remove()
+            //jQuery('.ItmTaxgrouprow').closest('table').find('tr:last').prev().after('<tr><td>vat123</td><td>5123</td><td>50</td></tr>');
+
+            //alert(productTaxgroupId + '-' + productTaxgroupName);
+        });
+
+        //Common Function start here............
+
+        function fillDataWithDDL(param) {
+            var self = jQuery(param);
+            // get the values...........
+            var rate = $("option:selected", self).data('rate');
+            var item = $("option:selected", self).data('item');
+
+            // get the values...........
+
+            self.closest('td').next('td').find('p').text(item);  //Display Item Name
+            self.parent().next('td').next('td').find('input').val(1);  //Display Default..Qty
+            var calamt = 1 * parseFloat(rate);
+            self.parent().next('td').next('td').next('td').find('input').val(parseFloat(rate));  //Display Default..rate
+            self.parent().next('td').next('td').next('td').next('td').find('input').val(calamt);  //Display Default..Amt
+
+            CalculateFinalPrice();   //calculate subtotal Price
+        }
+
+        function GetDepartment() {
+            jQuery.get('/common/GetAllDepartment', null, function (data) { chkBindDepartment(data) });
+        }
+
+        function chkBindDepartment(abc) {
+            var data = "";
+            data += "<option value= >--Select Department--</option>";
+            for (var it in abc) {
+                data += "<option value=" + abc[it].Id + " >" + abc[it].DepartmentName + "</option>";
+            }
+            $('.getdepartment').html(data)
+        }
+
+        var mas = '@al';
+        var chkmsg = '@alchk';
+        if (mas != '') {
+            swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+        }
+        if (chkmsg != '') {
+            alert(chkmsg);
+        }
+
+        function CalculateFinalPrice() {
+            var sum = 0;
+            $('.itmcalamt').each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            });
+          
+            jQuery('#ItmTotalTaxAmt').val(sum.toFixed(2));
+
+            //return sum;
+        }
+
+        jQuery('.ddlquotationtype').change(function () {
+            ItemCheckboxApply();
+        });
+
+        function ItemCheckboxApply() {
+            if ($(".ddlquotationtype option:selected").text() == 'Project') {
+                //jQuery('.applyItemchk').css('display', 'block');
+                jQuery('.applyItemchk').show();
+                jQuery('.itmdis').removeClass('Itmdisabletext');
+
+            }
+            else {
+                jQuery('.applyItemchk').hide();
+                jQuery('.itmdis').addClass('Itmdisabletext');
+            }
+        }
+
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+            if ('@Model.CustomerID' != null) {
+                BindQuotationDDL('@Model.CustomerID');
+            }
+            GetSourceBranchList();
+        });
+        //All common Function....................
+        $("#CustomerName").autocomplete({
+            autoFocus: false,
+            source: function (request, response) {
+                $.ajax({
+                    url: '/Home/GetCustomerDetails',
+                    data: { reqstr: request.term },
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Customer, value: item.Id + "#" + item.Email + "#" + item.contactno };
+                        }))
+                    },
+                    beforeSend: function () {
+                        $('.loaderimg').show();
+                    },
+                    complete: function () {
+                        $(".loaderimg").hide();
+                    }
+                })
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $(this).val(ui.item.label)
+                // $("#CustomerName").val(ui.item.label);
+                var Selectteditem = ui.item.value;
+                var data = ui.item.value;
+                var arr = data.split('#');
+
+                $("#CustomerID").val(arr[0]);
+                $("#Email").val(arr[1]);
+                $('#ConatctNo').val(arr[2]);
+
+                if (arr[0] != '') {
+                    BindQuotationDDL(arr[0]);
+                    BindBillingDDL(arr[0]);
+                    BindShippingDDL(arr[0]);
+                }
+
+
+                return false;
+            }
+        });
+
+
+        //Bind Quotation Dropdown
+        function BindQuotationDDL(customerid) {
+            jQuery.post('/sales/GetQuotationByCustomer', { CustomerId: customerid }, function (data) { chkBindQuotationDDL(data) });
+        }
+        function chkBindQuotationDDL(abc) {
+            var data = "";
+            var QID = '@Model.QID';
+            data += "<option value= >--Select Quotation--</option>";
+            for (var it in abc) {
+                data += "<option value=" + abc[it].Id + " >" + abc[it].QuotationNo + "</option>";
+            }
+            $('#ddlquotation').html(data).val(QID);
+
+        }
+
+        function appplyQNo(param) {
+            var self = jQuery(param);
+            var pr = self.val();
+            window.location = "/sales/Challan/?QNo=" + pr + "";
+        }
+
+
+        //Start To get the Source Branch.........
+        function GetSourceBranchList() {
+            jQuery.get('/common/Getbranchlist', null, function (data) { chkBindSourceBranchList(data) });
+        }
+
+        function chkBindSourceBranchList(abc) {
+            var data = "";
+            var BrnchId = '@Model.BranchId';
+            data += "<option value= >--Select Branch--</option>";
+            for (var it in abc) {
+                data += "<option value=" + abc[it].Id + " >" + abc[it].BranchName + " (" + abc[it].CityName + ")" + "</option>";
+
+            }
+            $('#ddlbranch').html(data).val(BrnchId);
+        }
+
+        //Bind Billing Address Dropdown
+        function BindBillingDDL(customerid) {
+            var Addresstype = 'Billing Address';
+            jQuery.post('/home/GetCustomerAddressByParam', { CustomerId: customerid, AddressType: Addresstype }, function (data) { chkBindBillingDDL(data) });
+        }
+        function chkBindBillingDDL(abc) {
+            var data = "";
+            data += "<option value= >--Select Billing Address--</option>";
+            for (var it in abc) {
+                data += "<option data-adrs='" + abc[it].Address + "' value=" + abc[it].Id + " >" + abc[it].AddressName + "</option>";
+            }
+            $('#ddlBillingAddress').html(data)
+
+        }
+
+        jQuery('#ddlBillingAddress').change(function () {
+            jQuery('#BillingAddress').val($("option:selected", jQuery(this)).data('adrs'));
+        });
+
+        //Bind Shipping Address Dropdown
+        function BindShippingDDL(customerid) {
+            var Addresstype = 'Shipping Address';
+            jQuery.post('/home/GetCustomerAddressByParam', { CustomerId: customerid, AddressType: Addresstype }, function (data) { chkBindShippingDDL(data) });
+        }
+        function chkBindShippingDDL(abc) {
+            var data = "";
+            data += "<option value= >--Select Shipping Address--</option>";
+            for (var it in abc) {
+                data += "<option data-adrs='" + abc[it].Address + "' value=" + abc[it].Id + " >" + abc[it].AddressName + "</option>";
+            }
+            $('#ddlShippingAddress').html(data)
+        }
+        jQuery('#ddlShippingAddress').change(function () {
+            jQuery('#ShippingAddess').val($("option:selected", jQuery(this)).data('adrs'));
+        });
+
+    </script>
+
+    <script>
+        function test_skill(junkVal) {
+
+            junkVal = Math.floor(junkVal);
+            var obStr = new String(junkVal);
+            numReversed = obStr.split("");
+            actnumber = numReversed.reverse();
+
+            if (Number(junkVal) >= 0) {
+                //do nothing
+            }
+            else {
+                alert('wrong Number cannot be converted');
+                return false;
+            }
+            if (Number(junkVal) == 0) {
+                document.getElementById('container').innerHTML = obStr + '' + 'Rupees Zero Only';
+                return false;
+            }
+            if (actnumber.length > 9) {
+                alert('Oops!!!! the Number is too big to covertes');
+                return false;
+            }
+
+            var iWords = ["Zero", " One", " Two", " Three", " Four", " Five", " Six", " Seven", " Eight", " Nine"];
+            var ePlace = ['Ten', ' Eleven', ' Twelve', ' Thirteen', ' Fourteen', ' Fifteen', ' Sixteen', ' Seventeen', ' Eighteen', ' Nineteen'];
+            var tensPlace = ['dummy', ' Ten', ' Twenty', ' Thirty', ' Forty', ' Fifty', ' Sixty', ' Seventy', ' Eighty', ' Ninety'];
+
+            var iWordsLength = numReversed.length;
+            var totalWords = "";
+            var inWords = new Array();
+            var finalWord = "";
+            j = 0;
+            for (i = 0; i < iWordsLength; i++) {
+                switch (i) {
+                    case 0:
+                        if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                            inWords[j] = '';
+                        }
+                        else {
+                            inWords[j] = iWords[actnumber[i]];
+                        }
+                        inWords[j] = inWords[j] + ' Only';
+                        break;
+                    case 1:
+                        tens_complication();
+                        break;
+                    case 2:
+                        if (actnumber[i] == 0) {
+                            inWords[j] = '';
+                        }
+                        else if (actnumber[i - 1] != 0 && actnumber[i - 2] != 0) {
+                            inWords[j] = iWords[actnumber[i]] + ' Hundred and';
+                        }
+                        else {
+                            inWords[j] = iWords[actnumber[i]] + ' Hundred';
+                        }
+                        break;
+                    case 3:
+                        if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                            inWords[j] = '';
+                        }
+                        else {
+                            inWords[j] = iWords[actnumber[i]];
+                        }
+                        if (actnumber[i + 1] != 0 || actnumber[i] > 0) {
+                            inWords[j] = inWords[j] + " Thousand";
+                        }
+                        break;
+                    case 4:
+                        tens_complication();
+                        break;
+                    case 5:
+                        if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                            inWords[j] = '';
+                        }
+                        else {
+                            inWords[j] = iWords[actnumber[i]];
+                        }
+                        if (actnumber[i + 1] != 0 || actnumber[i] > 0) {
+                            inWords[j] = inWords[j] + " Lakh";
+                        }
+                        break;
+                    case 6:
+                        tens_complication();
+                        break;
+                    case 7:
+                        if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                            inWords[j] = '';
+                        }
+                        else {
+                            inWords[j] = iWords[actnumber[i]];
+                        }
+                        inWords[j] = inWords[j] + " Crore";
+                        break;
+                    case 8:
+                        tens_complication();
+                        break;
+                    default:
+                        break;
+                }
+                j++;
+            }
+
+            function tens_complication() {
+                if (actnumber[i] == 0) {
+                    inWords[j] = '';
+                }
+                else if (actnumber[i] == 1) {
+                    inWords[j] = ePlace[actnumber[i - 1]];
+                }
+                else {
+                    inWords[j] = tensPlace[actnumber[i]];
+                }
+            }
+            inWords.reverse();
+            for (i = 0; i < inWords.length; i++) {
+                finalWord += inWords[i];
+            }
+            //document.getElementById('SpnAmtInWorld').innerHTML = obStr + '  ' + finalWord;
+            //document.getElementById('AmtinWords').innerHTML = finalWord;
+            jQuery('#AmtinWords').val(finalWord);
+        }
+    </script>
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<!-- modal popup Item Details Group Taxes -->
+<div id="taxespopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Product Text Group
+                </h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden;">
+
+                <form id="frmProductTaxGroup">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="float: left;" class="btn mainbtn2 btnapply" data-dismiss="modal">Apply tax</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

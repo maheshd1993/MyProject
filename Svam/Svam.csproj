@@ -1,0 +1,2736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6AB15AD8-0571-491B-B04C-2CC031C59BA2}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Svam</RootNamespace>
+    <AssemblyName>Svam</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>44383</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting, Version=3.5.6.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.Core.3.5.6\lib\net40\AttributeRouting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting.Web, Version=3.5.6.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.Core.Web.3.5.6\lib\net40\AttributeRouting.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AttributeRouting.Web.Mvc, Version=3.5.6.0, Culture=neutral, PublicKeyToken=c10f85d521a011a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\AttributeRouting.3.5.6\lib\net40\AttributeRouting.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=3.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ClosedXML">
+      <HintPath>..\..\..\..\CRM(NIS)\8Feb17\Traders\Traders\bin\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\..\..\..\..\Daily Report\CRM(NIS)\8Feb17\Traders\Traders\bin\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.1\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Excel">
+      <HintPath>..\..\..\..\Browser Download\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.19.4.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.19.4\lib\net45\Google.Protobuf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4, Version=1.2.6.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.1.2.6\lib\net46\K4os.Compression.LZ4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams, Version=1.2.6.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.Streams.1.2.6\lib\net46\K4os.Compression.LZ4.Streams.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="K4os.Hash.xxHash, Version=1.0.6.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Hash.xxHash.1.0.6\lib\net46\K4os.Hash.xxHash.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LinqToExcel">
+      <HintPath>..\..\..\..\Browser Download\LinqToExcel-master\src\LinqToExcel\bin\Debug\net35\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.0.31.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.31\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.EntityFramework, Version=8.0.28.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.EntityFramework.8.0.28\lib\net452\MySql.Data.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime, Version=2.4.13.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NodaTime.2.4.13\lib\net45\NodaTime.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.PdfGenerator">
+      <HintPath>..\..\CPSS\Svam\bin\NReco.PdfGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Remotion.Linq">
+      <HintPath>..\..\..\..\Browser Download\LinqToExcel-master\src\LinqToExcel\bin\Debug\net35\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TimeZoneConverter, Version=3.4.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
+      <HintPath>..\packages\TimeZoneConverter.3.4.0\lib\net45\TimeZoneConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="ZstdNet, Version=1.4.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.31\lib\net452\ZstdNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AttributeRoutingConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="AutoMapperConfig\AutomapperConfig.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CategoriesProductsController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMCreateLeadDynamicTextController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMCustomerListForTicketController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTicketErrorTypeController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTicketProductTypeController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTicketStatusListController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTicketUrgencyTypeController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMViewLeadDynamicFieldsController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_AddTicketDescriptionJsonController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_AddTicketDescriptionWithFieController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_AddTicketTeamRemarkController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_AssignTicketsToUserController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_Create_Ticket_FileController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_Create_Ticket_JsonController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_GetDateFormatGlobalyController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_GetTicketByTicketIdController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_NavigationController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_ProdTypeLeadSourceVisibilityController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_TicketAssignToUserListController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_TicketFieldDynamicTextController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_TicketSelectDateTypesController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_TicketUserListController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_ViewLeadsSelectDateListController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_ViewTicketController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_ViewTicketDescriptionController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRM_ViewTicketTeamRemarkController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\TestApiController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FacebookApi\FBLeadsController.cs" />
+    <Compile Include="Controllers\FacebookApi\webhooksController.cs" />
+    <Compile Include="Controllers\FacebookWebhookApiController.cs" />
+    <Compile Include="Controllers\FormManagementController.cs" />
+    <Compile Include="Controllers\GeneralModuleApis\CRM_GeneralController.cs" />
+    <Compile Include="Controllers\LeadSetting1Controller.cs" />
+    <Compile Include="Controllers\LeadSettingController.cs" />
+    <Compile Include="Controllers\CRMPaymentController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTodayDOBMarriageAnniversaryController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMLeadCreateUpdateTestController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMPaymentController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTodayFollowUpController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMViewAssignedLeadFilterController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMAddLeadDescriptionController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMAddleadDescriptionTestController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMAssignToUserController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMCityController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMLeadCreateUpdateController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMLeadSummaryReportController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMStateController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMCountryController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMProductTypeController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMLeadSourceController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMLeadStatusController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTimeZoneController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTodayLeadsController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMUserListController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMViewAssignedLeadController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMViewDescriptionController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMViewLeadByIDController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMViewLeadController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMTrackSalePersonController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMViewLeadFilterController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CustomMultipartFormDataStreamProvider.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\InMemoryMultipartFormDataStreamProvider.cs" />
+    <Compile Include="Controllers\CRMTargetPerformanceController.cs" />
+    <Compile Include="Controllers\crmwebhooksController.cs" />
+    <Compile Include="Controllers\EcomCheckoutController.cs" />
+    <Compile Include="Controllers\commonController.cs" />
+    <Compile Include="Controllers\DailyworkController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\EcomRegisterController.cs" />
+    <Compile Include="Controllers\EmailTemplateController.cs" />
+    <Compile Include="Controllers\EmpController.cs" />
+    <Compile Include="Controllers\ExcelImportExport.cs" />
+    <Compile Include="Controllers\FileManagerController.cs" />
+    <Compile Include="Controllers\homeController.cs" />
+    <Compile Include="Controllers\HRController.cs" />
+    <Compile Include="Controllers\IndiaMartSettingController.cs" />
+    <Compile Include="Controllers\LeadManagementController.cs" />
+    <Compile Include="Controllers\LeaveManagementController.cs" />
+    <Compile Include="Controllers\EcomLoginController.cs" />
+    <Compile Include="Controllers\ManageOrganizationController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_AddEmailSetupController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_EmailTemplateMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_EmpProfileMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_ErrorTypeMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_GetEmailSetupController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_IndiaMartMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_InterviewStatusMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_LeadFormMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_LeadSourceMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_LeadStatusMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_LeadsViewReportMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_LeaveNameMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_ProductTypesMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_TicketFormMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_TicketsViewMasterController.cs" />
+    <Compile Include="Controllers\MasterApis\CRM_UrgencyMasterController.cs" />
+    <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\NISController.cs" />
+    <Compile Include="Controllers\OrderHistoryController.cs" />
+    <Compile Include="Controllers\PlaceOrderController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\projectController.cs" />
+    <Compile Include="Controllers\QuotationController.cs" />
+    <Compile Include="Controllers\SaleOrderController.cs" />
+    <Compile Include="Controllers\Services\CRMSmartCapitaLoginController.cs" />
+    <Compile Include="Controllers\Services\CRM_FollowUpTimeController.cs" />
+    <Compile Include="Controllers\Services\getLeadDescriptionController.cs" />
+    <Compile Include="Controllers\Services\getMappedUsersController.cs" />
+    <Compile Include="Controllers\Services\getLeadsController.cs" />
+    <Compile Include="Controllers\Services\getTodayLeadController.cs" />
+    <Compile Include="Controllers\Services\getTodayFollowupController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMLoginController.cs" />
+    <Compile Include="Controllers\Services\logindetailsController.cs" />
+    <Compile Include="Controllers\CRMSmartCapitaAPI\CRMLogOutController.cs" />
+    <Compile Include="Controllers\TestApis\CRMCreateLeadKeyValueController.cs" />
+    <Compile Include="Controllers\TestApis\CRMLeadCreateUpdateCheckController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TicketCustomController.cs" />
+    <Compile Include="Controllers\TicketEscalationSchedularController.cs" />
+    <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Controllers\TrackSalePersonController.cs" />
+    <Compile Include="Controllers\UpdateDeliveryAddressController.cs" />
+    <Compile Include="Controllers\ZoneController.cs" />
+    <Compile Include="EF\acc_accountingrulebook.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_accountingrulereferences.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_accountingrules.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_accountsubtypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_accounttypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_advancepayment.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_advancereceipt.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_bankaccounts.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_bankstatements.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_chartofaccounts.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_countries.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_countriesold.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_expenses.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_finopeningbalance.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_generalledger.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_journalvoucherlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_journalvouchers.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_operatingexpenses.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_otherincomes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_pettycash.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_slgroups.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\acc_tallyexports.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\active.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\address.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\addresstype.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\addto_wishlist.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\allocate.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\all_custom_menu.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\all_menu.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\all_menu13march21.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\all_menu_17july19.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\all_menu_23july19.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\all_menu_30jan.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\amazoncategory.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\amazonproduct.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\amazonrootcategory.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ast_assetdepreciations.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ast_assetmaintenance.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ast_assettracking.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\attributes_label.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\bank_master.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\barcodesetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\barcodewholesale.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\blog.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\blog_category.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\blog_sub_category.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\cashbankbook.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\cashbankbookcustomer.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\chalandet.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\chalandetblack.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\challanamst.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\challanamstblack.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\challanorder.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\challan_returninwardlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\challan_returntaxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\challan_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\challan_taxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\checkbox.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ci_session.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ci_sessions.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ci_session_temp.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\colour_name.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\company_profile.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_branches.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_city.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_city_live.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_countrymaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_departments.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_measurementunits.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_monthmaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_organizations.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_state.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_taskstatuscodes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_transactionterbill.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_transactiontypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\com_vehicles.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\consignee.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\contactu.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\createprintorder.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\creditnote.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_assignedtootherorganization.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_assignitemtypeuser.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_commonactivityremarktbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_createleadsetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_createleadstbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_create_lead_field_sequence.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_customizedformfieldtextname.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_delayedfollowuprecordtbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_emailsetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_emailtemplate.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_errortype.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_exceptionlogging.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_extrapayment.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_fbleadadsmaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_filemanager.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_formrequest_tbl.cs" />
+    <Compile Include="EF\crm_indiamartsetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_intervewstatus.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_interviewdescriptiontbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_interviewscheduletbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_itemtypetbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_jobprofiletbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leadassignhistorytbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leaddescriptiontbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leaddropdownlist_tbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leadreminderbyuser.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leadrequesttbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leadsource_tbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leadstatus_tbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leadsupdatetblhistory.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leaverequest_tbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_leavetypename.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_mappeduserotherbranch.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_newseventtbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_producttypetbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_projectmoduletbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_projectstatus_tbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_projecttbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_roleassigntbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_salarydetail.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_salaryhistory.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_saledetailtbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_salestarget.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_tbl_nipldeveloper_dailyreort.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_tbl_nipl_emp_attendance.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_termcondition.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_tickestmap.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticketcreatesetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticketdropdownlist_tbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticketescalationmaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticketfieldnamecustomized.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticketfilesimages.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticketremarkforteam.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_tickets.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticketviewsetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_ticket_field_sequence.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_tracksaleperson.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_urgency.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_usercompanytypetbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_userdocuments.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_userprofile.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_userprofiles.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_usertbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_viewleadsetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_workassigntbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_workdescriptiontbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\crm_zonetbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\currentdesktopversion.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customer.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customercrdr.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customerpayinfo.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customerpayinfo_11jan2018.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customersadvance.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customersgroup.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customersgroupdetail.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customers_sites.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customertype.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customer_address.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customer_ledger.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\customizedinvoiceformate.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\dashboard.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\debitnote.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\departmentdetail.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\discounted_offers.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\discount_coupon.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\dispatch_modes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\division.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\einvoicesetup.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\emaildetail.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\emp_details.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\emp_grade.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\expire.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\faq_que_ans.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\faq_topic.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\fgstk.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\fgstkline.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\financeby.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\flipkartcategory.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\flipkartproduct.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\gallery_group.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\goodsissuevoucher.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\goodsissuevoucherline.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\grnpaid_info.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\grnpaid_infoblack.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\group.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\gst_master.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\interstoretransfer.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\interstoretransferline.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\investor.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\invoice_additionalformat.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_addadjustment.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_adjust_type.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_billofmateriallines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_fatmawamaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_inventorycentre.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_inventoryrack.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_inventorystock.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_inventorystock2.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_inventorystock_remove.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itebilltoragetypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itembrand.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itembrands.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemcategories.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemcategorytypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itempricecost.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itempricesales.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itempurchasealertsettings.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemsku.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemsku1.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemsku_4jan.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemsku_prices.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemsku_remove.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemstoragetypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemsubcategories.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemsubsubcategories.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_itemtypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\inv_stockadjustlog.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\items_related_images.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\itemtype.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\item_columns_access.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\item_groups.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\item_saleorder.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\item_supplierpurchaseprices.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\jwl_addkarigar.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\jwl_inventorystock.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\jwl_itemcategories.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\jwl_itemsku.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\jwl_itemsubcategories.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\jwl_itemsubsubcategories.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\key.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\location.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\login.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\login_authentication.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\machine_rent.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\master1.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\masterdump.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\masterkeyversion.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\materialmasterexpens.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\material_master.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\menu_access.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\mm.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\multilabeldiscount.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\niscrm.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>niscrm.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\niscrm.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\niscrm.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>niscrm.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EF\notification.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\online_addtocart.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\online_cancel_orders.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\online_orders.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\online_orders_log.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\online_return_orders.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\orderitem.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\orders_amazone.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\orderupdatestatu.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\partycrdr.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\partycrdr_old11dec.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\payment_gateways.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pincodewisetaxmaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pmt_creditcardtypeslookup.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pogrn_taxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\po_taxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\po_type.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\price.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\product.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\promotions_coupon.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\purchase_order_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\purchase_requisition_tbl.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\purchase_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_paymentmode.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_pr.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_prline.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_purchasegoodsreceived.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_purchasegoodsreceivedlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_purchasegrnorder.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_purchasegrnorderlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_purchaseorder.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_purchaseorderlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_purchaseordertypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_return.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_returnlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_returntaxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_supplierdeposit.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_suppliers.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_suppliers_backup11sep.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_suppliertypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\pur_taxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\quotation_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\redeem_points.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\refrel_points.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\refunditem.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\registration.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\route.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\saleprice.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sales_order_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sales_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sale_finance.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sale_finance_details.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_discountrules.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_paymentmode.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_quotaxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_returninwardlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_returninwards.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_returntaxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_salesorderdeliveries.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_salesorderlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_salesorderlinesvoid.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_salesorders.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_salesordertypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_salespersonmaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_sotaxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_taxdetails.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_transferoutlines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_transferouts.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sal_unsaveddatamisuse.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\seo_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\shipping_api.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\shipping_charge.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\shipping_groups.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\shipping_rates.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\size_name.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\smsapisetting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sms_template.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\social_signin.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sr_tablereservations.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sr_tablereservationtypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sr_tables.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sr_tabletypes.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\subscriptions_level.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\subscriptions_payment_history.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\subscription_cart.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\subscription_history.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\supplierpayinfo.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\supplier_ledger.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\syncstatu.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sys_applicationpreferences.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\taxmaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\taxrule.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\taxtypemaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblcustomertransportdetail.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblprodecdemo.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblserialno.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblsettingdetail.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbltransporter.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_bankcharges.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_daywisecash.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_daywisecashexpense.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_description_spec.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_disperitempercustomer.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_fatmawalines.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_groupname.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_headings.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_permissions.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_productattribute.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_productkey.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_productsubcription_type.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_quotation.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_reasons.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_report_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_saleorder.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_schememaster.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_selling_product.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_selling_product_title.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_synccheck.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_tagcategory.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_tagcategorywithotherpage.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tbl_useraddress.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\temp_chalandet.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\temp_challanmast.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\temp_companyorders.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\time_zone.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\transaction_details.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\t_login.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\t_roles.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\t_userlogin.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\t_year_of_operation.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\user_access.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\vouchernumberformate.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\wallet.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\website_banner.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\website_clients.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\website_gallery.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\website_images.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\website_services.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\website_statistics.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\whatsapp_setting.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\whatsapp_share.cs">
+      <DependentUpon>niscrm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AddDescTestModel.cs" />
+    <Compile Include="Models\APILeadModel.cs" />
+    <Compile Include="Models\APILeadSummaryModel.cs" />
+    <Compile Include="Models\ApiModel\AddTicketDescriptionDTO.cs" />
+    <Compile Include="Models\ApiModel\AssignTicketApiDTO.cs" />
+    <Compile Include="Models\ApiModel\CreateLeadDynamicAPIModel.cs" />
+    <Compile Include="Models\ApiModel\CreateTicketApiDTO.cs" />
+    <Compile Include="Models\ApiModel\CreateTicketDynamicFieldsAPIModel.cs" />
+    <Compile Include="Models\ApiModel\EmailSetupDTO.cs" />
+    <Compile Include="Models\ApiModel\EmailTemplateApiModel.cs" />
+    <Compile Include="Models\ApiModel\ErrorTypeApiModel.cs" />
+    <Compile Include="Models\ApiModel\FieldsSequenceModel.cs" />
+    <Compile Include="Models\ApiModel\FieldTypeModel.cs" />
+    <Compile Include="Models\ApiModel\InterviewStatusApiModel.cs" />
+    <Compile Include="Models\ApiModel\JobProfileDTO.cs" />
+    <Compile Include="Models\ApiModel\LeadModel.cs" />
+    <Compile Include="Models\ApiModel\LeadSourceApiModel.cs" />
+    <Compile Include="Models\ApiModel\LeadStatusApiModel.cs" />
+    <Compile Include="Models\ApiModel\LeadsViewReportApiModel.cs" />
+    <Compile Include="Models\ApiModel\LeaveTypeApiDTO.cs" />
+    <Compile Include="Models\ApiModel\MenuPermissionsModel.cs" />
+    <Compile Include="Models\ApiModel\ProdTpLeadSrcTermVM.cs" />
+    <Compile Include="Models\ApiModel\ProductTypeApiModel.cs" />
+    <Compile Include="Models\ApiModel\SelectDateTypesDTO.cs" />
+    <Compile Include="Models\ApiModel\TicketFormFieldAddUpdateModel.cs" />
+    <Compile Include="Models\ApiModel\TicketsViewMasterApiModel.cs" />
+    <Compile Include="Models\ApiModel\TimeZoneApiModel.cs" />
+    <Compile Include="Models\ApiModel\TktFormFieldsModel.cs" />
+    <Compile Include="Models\ApiModel\UpdateTicketsViewPostDTO.cs" />
+    <Compile Include="Models\ApiModel\UrgencyTypeApiModel.cs" />
+    <Compile Include="Models\ApiModel\ViewGeneralRemarkApiModel.cs" />
+    <Compile Include="Models\ApiModel\ViewLeadDynamicFildsApiModel.cs" />
+    <Compile Include="Models\ApiModel\ViewTicketApiModel.cs" />
+    <Compile Include="Models\APITrackSalePerson.cs" />
+    <Compile Include="Models\APLViewDescription.cs" />
+    <Compile Include="Models\ChallanCreateModel.cs" />
+    <Compile Include="Models\CRMLeaveTypeNameModel.cs" />
+    <Compile Include="Models\CRMQutationsaleModel.cs" />
+    <Compile Include="Models\CRMTicketModel.cs" />
+    <Compile Include="Models\CRMUrgencyModel.cs" />
+    <Compile Include="Models\CreateGRNModel.cs" />
+    <Compile Include="Models\CreateInvoiceModel.cs" />
+    <Compile Include="Models\CreatePurchaseReturnModel.cs" />
+    <Compile Include="Models\CreateQuotationModel.cs" />
+    <Compile Include="Models\CreateSaleReturnModel.cs" />
+    <Compile Include="Models\CRMEmailSettingModel.cs" />
+    <Compile Include="Models\CRMErrorTypeModel.cs" />
+    <Compile Include="Models\CRMIndiaMartModel.cs" />
+    <Compile Include="Models\CRMLeadModel.cs" />
+    <Compile Include="Models\CRMPaymentModel.cs" />
+    <Compile Include="Models\CRMTargetSaleModel.cs" />
+    <Compile Include="Models\CurrencyToWordINR.cs" />
+    <Compile Include="Models\DTO\AddLeadDescrResponseDTO.cs" />
+    <Compile Include="Models\DTO\CompanyIdBranchIdDTO.cs" />
+    <Compile Include="Models\DTO\CreateLeadSettingDTO.cs" />
+    <Compile Include="Models\DTO\CreateTicketSettingDTO.cs" />
+    <Compile Include="Models\DTO\CustomerListModel.cs" />
+    <Compile Include="Models\DTO\DateAndFormat.cs" />
+    <Compile Include="Models\DTO\FBLeadModel.cs" />
+    <Compile Include="Models\DTO\FollowUpTimeConvertedDTO.cs" />
+    <Compile Include="Models\DTO\LeadFieldPriorityDTO.cs" />
+    <Compile Include="Models\DTO\LeadRemindersDTO.cs" />
+    <Compile Include="Models\DTO\NotificationCountModel.cs" />
+    <Compile Include="Models\DTO\ResellerDetailDTO.cs" />
+    <Compile Include="Models\DTO\SMSApiModel.cs" />
+    <Compile Include="Models\DTO\TicketEscalationMasterDTO.cs" />
+    <Compile Include="Models\DTO\TicketsEscalateDTO.cs" />
+    <Compile Include="Models\DTO\TimeZoneDTO.cs" />
+    <Compile Include="Models\DTO\UserCredential.cs" />
+    <Compile Include="Models\DTO\ViewLeadSettingDTO.cs" />
+    <Compile Include="Models\DTO\ViewTecketSettingDTO.cs" />
+    <Compile Include="Models\EmailTemplateModel.cs" />
+    <Compile Include="Models\EmployeeAttandaceReportModel.cs" />
+    <Compile Include="Models\EncodeDecodeForBase64.cs" />
+    <Compile Include="Models\ExceptionLogging.cs" />
+    <Compile Include="Models\CRMFileManagerModel.cs" />
+    <Compile Include="Models\FBApiModel\JsonData.cs" />
+    <Compile Include="Models\LeadSummaryChartModel.cs" />
+    <Compile Include="Models\MasterModel.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Mailer\EmailUtility.cs" />
+    <Compile Include="Mailer\TemplateGenerator.cs" />
+    <Compile Include="Models\CreateSupplierModel.cs" />
+    <Compile Include="Models\CRMmodel.cs" />
+    <Compile Include="Models\DataAccessLayer.cs" />
+    <Compile Include="Models\EmployeeLogHistory.cs" />
+    <Compile Include="Models\FlatObject.cs" />
+    <Compile Include="Models\HRModel.cs" />
+    <Compile Include="Models\LeadManagementModel.cs" />
+    <Compile Include="Models\Menumodel.cs" />
+    <Compile Include="Models\NisDeveloperModel.cs" />
+    <Compile Include="Models\NoCacheAttribute.cs" />
+    <Compile Include="Models\PieChartModel.cs" />
+    <Compile Include="Models\PrintQuotationModel.cs" />
+    <Compile Include="Models\Purchase.cs" />
+    <Compile Include="Models\QuotationModel.cs" />
+    <Compile Include="Models\StackedChartData.cs" />
+    <Compile Include="Models\TrackSalePersonModel.cs" />
+    <Compile Include="Models\ViewModel\ManageOrganizationVM.cs" />
+    <Compile Include="Models\ViewModel\QuotationReportVM.cs" />
+    <Compile Include="Models\ViewModel\SaleOrderVM.cs" />
+    <Compile Include="Models\ViewModel\TicketCustomerVM.cs" />
+    <Compile Include="Models\ViewModel\ViewUserModel.cs" />
+    <Compile Include="Models\ViewPOModel.cs" />
+    <Compile Include="Models\ViewQuotationModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CommonRepository.cs" />
+    <Compile Include="UtilityManager\Constant.cs" />
+    <Compile Include="UtilityManager\EncriptAES.cs" />
+    <Compile Include="UtilityManager\StringCipher.cs" />
+    <Compile Include="UtilityManager\Utility.cs" />
+    <Compile Include="_Class\apiclasses.cs" />
+    <Compile Include="_Class\CommanUtility.cs" />
+    <Compile Include="_Class\DataUtility.cs" />
+    <Compile Include="_Class\ecomclasses.cs" />
+    <Compile Include="_Class\EPPlusExcel.cs" />
+    <Compile Include="_Class\ExcelApiTest.cs" />
+    <Compile Include="_Class\ExcelDataReaderExtensions.cs" />
+    <Compile Include="_Class\ExcelDataSetConfiguration.cs" />
+    <Compile Include="_Class\ExcelDataTableConfiguration.cs" />
+    <Compile Include="_Class\ExcelReader.cs" />
+    <Compile Include="_Class\ImportExcelToDataTable.cs" />
+    <Compile Include="_Class\IQueryableApplySortExtension.cs" />
+    <Compile Include="_Class\LeadWeeklyChartModel.cs" />
+    <Compile Include="_Class\LinqToDatatable.cs" />
+    <Compile Include="_Class\RequiredIfAttribute.cs" />
+    <Compile Include="_Class\UserCompanyBranchId.cs" />
+    <Compile Include="_Class\UserRegModel.cs" />
+    <Compile Include="_Class\WrappingHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\jquery-ui-1.10.4.min.css" />
+    <Content Include="Content\jquery.jqChart.css" />
+    <Content Include="Content\Loader\loader.css" />
+    <Content Include="Content\Loader\loading.gif" />
+    <Content Include="css\barchart.css" />
+    <Content Include="css\bootstrap-datepicker.css" />
+    <Content Include="css\bootstrap-datetimepicker.min.css" />
+    <Content Include="css\bootstrap-multiselect.css" />
+    <Content Include="css\bootstrap-theme.css" />
+    <Content Include="css\bootstrap-timepicker.min.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\checktree_icon.png" />
+    <Content Include="css\CustomStyleSheet_Old.css" />
+    <Content Include="css\CustomStyleSheet.css" />
+    <Content Include="css\datecalender.css" />
+    <Content Include="css\dtree.css" />
+    <Content Include="css\easy-responsive-tabs.css" />
+    <Content Include="css\font-awesome.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\graffcss.css" />
+    <Content Include="css\graffjs.js" />
+    <Content Include="css\highCheckTree.css" />
+    <Content Include="css\ionicons.min.css" />
+    <Content Include="css\jquery-ui.css" />
+    <Content Include="css\mystyle_29_01_2021.css" />
+    <Content Include="css\mystyle.css" />
+    <Content Include="css\mystyle_1.css" />
+    <Content Include="css\mystyle_28sept.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\style_27.css" />
+    <Content Include="css\theme.blue.css" />
+    <Content Include="datepick\datepick.css" />
+    <Content Include="datepick\images\ui-icons_222222_256x240.png" />
+    <Content Include="datepick\jquery-ui.css" />
+    <Content Include="datepick\jquery-ui.js" />
+    <Content Include="editor\editor.css" />
+    <Content Include="editor\editor.js" />
+    <Content Include="EF\niscrm.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>niscrm.edmx</DependentUpon>
+      <LastGenOutput>niscrm.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EF\niscrm.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>niscrm.edmx</DependentUpon>
+      <LastGenOutput>niscrm.cs</LastGenOutput>
+    </Content>
+    <Content Include="Global.asax" />
+    <Content Include="HTML\assignedlead.html" />
+    <Content Include="HTML\assignlead.html" />
+    <Content Include="HTML\confirmedorder.html" />
+    <Content Include="HTML\createbranch.html" />
+    <Content Include="HTML\createcategory.html" />
+    <Content Include="HTML\createnewleads - Copy.html" />
+    <Content Include="HTML\createnewleads.html" />
+    <Content Include="HTML\createprofile.html" />
+    <Content Include="HTML\createquotation - Copy.html" />
+    <Content Include="HTML\createquotation.html" />
+    <Content Include="HTML\createquotation_20feb.html" />
+    <Content Include="HTML\createrole.html" />
+    <Content Include="HTML\createsupplier.html" />
+    <Content Include="HTML\createsupplier666666666.html" />
+    <Content Include="HTML\createuser.html" />
+    <Content Include="HTML\createuserform.html" />
+    <Content Include="HTML\createusers.html" />
+    <Content Include="HTML\css\barchart.css" />
+    <Content Include="HTML\css\bootstrap-theme.css" />
+    <Content Include="HTML\css\bootstrap-timepicker.min.css" />
+    <Content Include="HTML\css\bootstrap.css" />
+    <Content Include="HTML\css\checktree_icon.png" />
+    <Content Include="HTML\css\createnewleads.html" />
+    <Content Include="HTML\css\dtree.css" />
+    <Content Include="HTML\css\easy-responsive-tabs.css" />
+    <Content Include="HTML\css\font-awesome.css" />
+    <Content Include="HTML\css\font-awesome.min.css" />
+    <Content Include="HTML\css\graffcss.css" />
+    <Content Include="HTML\css\graffjs.js" />
+    <Content Include="HTML\css\highCheckTree.css" />
+    <Content Include="HTML\css\ionicons.min.css" />
+    <Content Include="HTML\css\jquery-ui.css" />
+    <Content Include="HTML\css\mystyle.css" />
+    <Content Include="HTML\css\style.css" />
+    <Content Include="HTML\details.html" />
+    <Content Include="HTML\generategrn.html" />
+    <Content Include="HTML\home.html" />
+    <Content Include="HTML\img\add.png" />
+    <Content Include="HTML\img\addnote.png" />
+    <Content Include="HTML\img\arrowdown.gif" />
+    <Content Include="HTML\img\asc_sort.gif" />
+    <Content Include="HTML\img\badadd.png" />
+    <Content Include="HTML\img\bg.jpg" />
+    <Content Include="HTML\img\calender.png" />
+    <Content Include="HTML\img\desc_sort.gif" />
+    <Content Include="HTML\img\dhl.png" />
+    <Content Include="HTML\img\email.png" />
+    <Content Include="HTML\img\fedexlogo.png" />
+    <Content Include="HTML\img\general.png" />
+    <Content Include="HTML\img\info.png" />
+    <Content Include="HTML\img\loginbg.png" />
+    <Content Include="HTML\img\loginusericon.png" />
+    <Content Include="HTML\img\logo.png" />
+    <Content Include="HTML\img\misc.png" />
+    <Content Include="HTML\img\mobile.png" />
+    <Content Include="HTML\img\no_sort.gif" />
+    <Content Include="HTML\img\pattern-bg.gif" />
+    <Content Include="HTML\img\qwewe.png" />
+    <Content Include="HTML\img\satisfaction.png" />
+    <Content Include="HTML\img\send.png" />
+    <Content Include="HTML\img\sendmail.png" />
+    <Content Include="HTML\img\sese.png" />
+    <Content Include="HTML\img\tntLogo.png" />
+    <Content Include="HTML\img\ui-icons_444444_256x240.png" />
+    <Content Include="HTML\img\unifyexlogo.png" />
+    <Content Include="HTML\img\user.png" />
+    <Content Include="HTML\img\usps.png" />
+    <Content Include="HTML\index.html" />
+    <Content Include="HTML\itemdetails.html" />
+    <Content Include="HTML\js\bootstrap-timepicker.js" />
+    <Content Include="HTML\js\bootstrap.min.js" />
+    <Content Include="HTML\js\calendar.js" />
+    <Content Include="HTML\js\custom.js" />
+    <Content Include="HTML\js\dtree.js" />
+    <Content Include="HTML\js\highchecktree.js" />
+    <Content Include="HTML\js\jquery-ui.js" />
+    <Content Include="HTML\js\jquery.min.js" />
+    <Content Include="HTML\js\sorttable.js" />
+    <Content Include="HTML\leadsource.html" />
+    <Content Include="HTML\leadstatus.html" />
+    <Content Include="HTML\managecity.html" />
+    <Content Include="HTML\managecountary.html" />
+    <Content Include="HTML\managestate.html" />
+    <Content Include="HTML\measurement.html" />
+    <Content Include="HTML\message.html" />
+    <Content Include="HTML\purchase.html" />
+    <Content Include="HTML\purchaseorder.html" />
+    <Content Include="HTML\purchaserequisition.html" />
+    <Content Include="HTML\purchasereturns.html" />
+    <Content Include="HTML\quotations.html" />
+    <Content Include="HTML\quotationsent.html" />
+    <Content Include="HTML\quotationtype.html" />
+    <Content Include="HTML\reports.html" />
+    <Content Include="HTML\roleinformation.html" />
+    <Content Include="HTML\rolemanagement.html" />
+    <Content Include="HTML\roles.html" />
+    <Content Include="HTML\salesreturn.html" />
+    <Content Include="HTML\tax.html" />
+    <Content Include="HTML\typeoflead.html" />
+    <Content Include="HTML\updatedlead.html" />
+    <Content Include="HTML\updatedlead22222.html" />
+    <Content Include="HTML\users.html" />
+    <Content Include="HTML\viewleads.html" />
+    <Content Include="HTML\viewmonthly.html" />
+    <Content Include="HTML\viewquotation - Copy.html" />
+    <Content Include="HTML\viewsales.html" />
+    <Content Include="HTML\viewusers.html" />
+    <Content Include="img\add.png" />
+    <Content Include="img\addnote.png" />
+    <Content Include="img\arrowdown.gif" />
+    <Content Include="img\asc_sort.gif" />
+    <Content Include="img\badadd.png" />
+    <Content Include="img\bg.jpg" />
+    <Content Include="img\breaked.png" />
+    <Content Include="img\breaked1.png" />
+    <Content Include="img\calender.png" />
+    <Content Include="img\crm.png" />
+    <Content Include="img\demo_wait.gif" />
+    <Content Include="img\desc_sort.gif" />
+    <Content Include="img\email.png" />
+    <Content Include="img\favicon.PNG" />
+    <Content Include="img\general.png" />
+    <Content Include="img\info.png" />
+    <Content Include="img\loginbg.png" />
+    <Content Include="img\loginusericon.png" />
+    <Content Include="img\login_bg.jpg" />
+    <Content Include="img\logo.png" />
+    <Content Include="img\l_573.jpeg" />
+    <Content Include="img\main-back.png" />
+    <Content Include="img\misc.png" />
+    <Content Include="img\mobile.png" />
+    <Content Include="img\mystyle.css" />
+    <Content Include="img\nislogo.png" />
+    <Content Include="img\no_sort.gif" />
+    <Content Include="img\pageloader.gif" />
+    <Content Include="img\pattern-bg.gif" />
+    <Content Include="img\qwewe.png" />
+    <Content Include="img\satisfaction.png" />
+    <Content Include="img\send.png" />
+    <Content Include="img\sendmail.png" />
+    <Content Include="img\sese.png" />
+    <Content Include="img\shape-bg-2.png" />
+    <Content Include="img\shape-bg-3.png" />
+    <Content Include="img\shape-bg.png" />
+    <Content Include="img\ui-icons_444444_256x240.png" />
+    <Content Include="img\user-login.PNG" />
+    <Content Include="img\user.jpg" />
+    <Content Include="img\user.png" />
+    <Content Include="img\Warning.png" />
+    <Content Include="js\bootstrap-datepicker.js" />
+    <Content Include="js\bootstrap-datetimepicker.min.js" />
+    <Content Include="js\bootstrap-multiselect.js" />
+    <Content Include="js\bootstrap-timepicker.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\calendar.js" />
+    <Content Include="js\colorpicker\css\colorpicker.css" />
+    <Content Include="js\colorpicker\css\layout.css" />
+    <Content Include="js\colorpicker\images\blank.gif" />
+    <Content Include="js\colorpicker\images\colorpicker_background.png" />
+    <Content Include="js\colorpicker\images\colorpicker_hex.png" />
+    <Content Include="js\colorpicker\images\colorpicker_hsb_b.png" />
+    <Content Include="js\colorpicker\images\colorpicker_hsb_h.png" />
+    <Content Include="js\colorpicker\images\colorpicker_hsb_s.png" />
+    <Content Include="js\colorpicker\images\colorpicker_indic.gif" />
+    <Content Include="js\colorpicker\images\colorpicker_overlay.png" />
+    <Content Include="js\colorpicker\images\colorpicker_rgb_b.png" />
+    <Content Include="js\colorpicker\images\colorpicker_rgb_g.png" />
+    <Content Include="js\colorpicker\images\colorpicker_rgb_r.png" />
+    <Content Include="js\colorpicker\images\colorpicker_select.gif" />
+    <Content Include="js\colorpicker\images\colorpicker_submit.png" />
+    <Content Include="js\colorpicker\images\custom_background.png" />
+    <Content Include="js\colorpicker\images\custom_hex.png" />
+    <Content Include="js\colorpicker\images\custom_hsb_b.png" />
+    <Content Include="js\colorpicker\images\custom_hsb_h.png" />
+    <Content Include="js\colorpicker\images\custom_hsb_s.png" />
+    <Content Include="js\colorpicker\images\custom_indic.gif" />
+    <Content Include="js\colorpicker\images\custom_rgb_b.png" />
+    <Content Include="js\colorpicker\images\custom_rgb_g.png" />
+    <Content Include="js\colorpicker\images\custom_rgb_r.png" />
+    <Content Include="js\colorpicker\images\custom_submit.png" />
+    <Content Include="js\colorpicker\images\select.png" />
+    <Content Include="js\colorpicker\images\select2.png" />
+    <Content Include="js\colorpicker\images\slider.png" />
+    <Content Include="js\colorpicker\index.html" />
+    <Content Include="js\colorpicker\js\colorpicker.js" />
+    <Content Include="js\colorpicker\js\eye.js" />
+    <Content Include="js\colorpicker\js\jquery.js" />
+    <Content Include="js\colorpicker\js\layout.js" />
+    <Content Include="js\colorpicker\js\utils.js" />
+    <Content Include="js\CommonJs\createQuotation.js" />
+    <Content Include="js\CommonJs\GetDataController.js" />
+    <Content Include="js\custom.js" />
+    <Content Include="js\dropdownCheckbox\css\bootstrap-3.1.1.min.css" />
+    <Content Include="js\dropdownCheckbox\css\bootstrap-multiselect.css" />
+    <Content Include="js\dropdownCheckbox\js\bootstrap-2.3.2.min.js" />
+    <Content Include="js\dropdownCheckbox\js\bootstrap-multiselect.js" />
+    <Content Include="js\dtree.js" />
+    <Content Include="js\jquery-3.6.0.js" />
+    <Content Include="js\jquery-ui.new.js" />
+    <Content Include="js\jquery-1.11.3.min.js" />
+    <Content Include="js\colorpicker\images\Thumbs.db" />
+    <EntityDeploy Include="EF\niscrm.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>niscrm.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="EF\niscrm.edmx.diagram">
+      <DependentUpon>niscrm.edmx</DependentUpon>
+    </Content>
+    <None Include="js\jquery-1.7.1.intellisense.js" />
+    <Content Include="js\jquery-ui.js" />
+    <Content Include="js\jquery-ui.min.js" />
+    <Content Include="js\jquery.datepick.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.num2words.js" />
+    <Content Include="js\jquery.tablesorter.js" />
+    <Content Include="js\sorttable.js" />
+    <Content Include="js\StandingOrderDatePicker.js" />
+    <Content Include="js\tableSortable\jquery-1.11.3.min.js" />
+    <Content Include="js\tableSortable\jquery-ui.min.css" />
+    <Content Include="js\tableSortable\jquery-ui.min.js" />
+    <Content Include="js\translator.js" />
+    <Content Include="MailTemplate\ExtraWorking.html" />
+    <Content Include="MailTemplate\LateNightWorking.html" />
+    <Content Include="MailTemplate\SalarySlip.html" />
+    <Content Include="Scripts\ckeditor\adapters\jquery.js" />
+    <Content Include="Scripts\ckeditor\ckeditor.js" />
+    <Content Include="Scripts\ckeditor\config.js" />
+    <Content Include="Scripts\ckeditor\contents.css" />
+    <Content Include="Scripts\ckeditor\images\spacer.gif" />
+    <Content Include="Scripts\ckeditor\lang\af.js" />
+    <Content Include="Scripts\ckeditor\lang\ar.js" />
+    <Content Include="Scripts\ckeditor\lang\bg.js" />
+    <Content Include="Scripts\ckeditor\lang\bn.js" />
+    <Content Include="Scripts\ckeditor\lang\bs.js" />
+    <Content Include="Scripts\ckeditor\lang\ca.js" />
+    <Content Include="Scripts\ckeditor\lang\cs.js" />
+    <Content Include="Scripts\ckeditor\lang\cy.js" />
+    <Content Include="Scripts\ckeditor\lang\da.js" />
+    <Content Include="Scripts\ckeditor\lang\de.js" />
+    <Content Include="Scripts\ckeditor\lang\el.js" />
+    <Content Include="Scripts\ckeditor\lang\en-au.js" />
+    <Content Include="Scripts\ckeditor\lang\en-ca.js" />
+    <Content Include="Scripts\ckeditor\lang\en-gb.js" />
+    <Content Include="Scripts\ckeditor\lang\en.js" />
+    <Content Include="Scripts\ckeditor\lang\eo.js" />
+    <Content Include="Scripts\ckeditor\lang\es.js" />
+    <Content Include="Scripts\ckeditor\lang\et.js" />
+    <Content Include="Scripts\ckeditor\lang\eu.js" />
+    <Content Include="Scripts\ckeditor\lang\fa.js" />
+    <Content Include="Scripts\ckeditor\lang\fi.js" />
+    <Content Include="Scripts\ckeditor\lang\fo.js" />
+    <Content Include="Scripts\ckeditor\lang\fr-ca.js" />
+    <Content Include="Scripts\ckeditor\lang\fr.js" />
+    <Content Include="Scripts\ckeditor\lang\gl.js" />
+    <Content Include="Scripts\ckeditor\lang\gu.js" />
+    <Content Include="Scripts\ckeditor\lang\he.js" />
+    <Content Include="Scripts\ckeditor\lang\hi.js" />
+    <Content Include="Scripts\ckeditor\lang\hr.js" />
+    <Content Include="Scripts\ckeditor\lang\hu.js" />
+    <Content Include="Scripts\ckeditor\lang\id.js" />
+    <Content Include="Scripts\ckeditor\lang\is.js" />
+    <Content Include="Scripts\ckeditor\lang\it.js" />
+    <Content Include="Scripts\ckeditor\lang\ja.js" />
+    <Content Include="Scripts\ckeditor\lang\ka.js" />
+    <Content Include="Scripts\ckeditor\lang\km.js" />
+    <Content Include="Scripts\ckeditor\lang\ko.js" />
+    <Content Include="Scripts\ckeditor\lang\ku.js" />
+    <Content Include="Scripts\ckeditor\lang\lt.js" />
+    <Content Include="Scripts\ckeditor\lang\lv.js" />
+    <Content Include="Scripts\ckeditor\lang\mk.js" />
+    <Content Include="Scripts\ckeditor\lang\mn.js" />
+    <Content Include="Scripts\ckeditor\lang\ms.js" />
+    <Content Include="Scripts\ckeditor\lang\nb.js" />
+    <Content Include="Scripts\ckeditor\lang\nl.js" />
+    <Content Include="Scripts\ckeditor\lang\no.js" />
+    <Content Include="Scripts\ckeditor\lang\pl.js" />
+    <Content Include="Scripts\ckeditor\lang\pt-br.js" />
+    <Content Include="Scripts\ckeditor\lang\pt.js" />
+    <Content Include="Scripts\ckeditor\lang\ro.js" />
+    <Content Include="Scripts\ckeditor\lang\ru.js" />
+    <Content Include="Scripts\ckeditor\lang\sk.js" />
+    <Content Include="Scripts\ckeditor\lang\sl.js" />
+    <Content Include="Scripts\ckeditor\lang\sr-latn.js" />
+    <Content Include="Scripts\ckeditor\lang\sr.js" />
+    <Content Include="Scripts\ckeditor\lang\sv.js" />
+    <Content Include="Scripts\ckeditor\lang\th.js" />
+    <Content Include="Scripts\ckeditor\lang\tr.js" />
+    <Content Include="Scripts\ckeditor\lang\ug.js" />
+    <Content Include="Scripts\ckeditor\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\lang\vi.js" />
+    <Content Include="Scripts\ckeditor\lang\zh-cn.js" />
+    <Content Include="Scripts\ckeditor\lang\zh.js" />
+    <Content Include="Scripts\ckeditor\lang\_languages.js" />
+    <Content Include="Scripts\ckeditor\lang\_translationstatus.txt" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\cs.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\cy.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\da.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\de.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\el.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\eo.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\fa.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\fi.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\fr.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\gu.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\he.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\it.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\ku.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\mk.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\nb.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\nl.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\no.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\pt-br.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\ro.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\sk.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\tr.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\ug.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\vi.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\zh-cn.js" />
+    <Content Include="Scripts\ckeditor\plugins\a11yhelp\lang\_translationstatus.txt" />
+    <Content Include="Scripts\ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="Scripts\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="Scripts\ckeditor\plugins\adobeair\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\ajax\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\autogrow\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\bbcode\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Scripts\ckeditor\plugins\colordialog\dialogs\colordialog.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\bg.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\cs.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\cy.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\da.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\de.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\el.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\eo.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\et.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\fa.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\fi.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\fr.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\gu.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\he.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\hr.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\it.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\ku.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\nb.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\nl.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\no.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\pl.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\pt-br.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\sk.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\tr.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\ug.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\vi.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\zh-cn.js" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\lang\_translationstatus.txt" />
+    <Content Include="Scripts\ckeditor\plugins\devtools\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Scripts\ckeditor\plugins\div\dialogs\div.js" />
+    <Content Include="Scripts\ckeditor\plugins\docprops\dialogs\docprops.js" />
+    <Content Include="Scripts\ckeditor\plugins\docprops\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\find\dialogs\find.js" />
+    <Content Include="Scripts\ckeditor\plugins\flash\dialogs\flash.js" />
+    <Content Include="Scripts\ckeditor\plugins\flash\images\placeholder.png" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\button.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\checkbox.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\form.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\hiddenfield.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\radio.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\select.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\textarea.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\dialogs\textfield.js" />
+    <Content Include="Scripts\ckeditor\plugins\forms\images\hiddenfield.gif" />
+    <Content Include="Scripts\ckeditor\plugins\iframedialog\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\iframe\dialogs\iframe.js" />
+    <Content Include="Scripts\ckeditor\plugins\iframe\images\placeholder.png" />
+    <Content Include="Scripts\ckeditor\plugins\image\dialogs\image.js" />
+    <Content Include="Scripts\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="Scripts\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="Scripts\ckeditor\plugins\link\images\anchor.gif" />
+    <Content Include="Scripts\ckeditor\plugins\liststyle\dialogs\liststyle.js" />
+    <Content Include="Scripts\ckeditor\plugins\pagebreak\images\pagebreak.gif" />
+    <Content Include="Scripts\ckeditor\plugins\pastefromword\filter\default.js" />
+    <Content Include="Scripts\ckeditor\plugins\pastetext\dialogs\pastetext.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\dialogs\placeholder.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\bg.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\cs.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\cy.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\da.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\de.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\el.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\eo.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\et.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\fa.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\fi.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\fr.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\he.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\hr.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\it.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\ku.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\nb.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\nl.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\no.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\pl.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\pt-br.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\sk.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\tr.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\ug.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\vi.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\zh-cn.js" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\lang\_translationstatus.txt" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\placeholder.gif" />
+    <Content Include="Scripts\ckeditor\plugins\placeholder\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\preview\preview.html" />
+    <Content Include="Scripts\ckeditor\plugins\scayt\dialogs\options.js" />
+    <Content Include="Scripts\ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_address.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_blockquote.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_div.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_h1.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_h2.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_h3.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_h4.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_h5.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_h6.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_p.png" />
+    <Content Include="Scripts\ckeditor\plugins\showblocks\images\block_pre.png" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\dialogs\smiley.js" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\angel_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\angry_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\broken_heart.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\confused_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\cry_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\devil_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\embaressed_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\envelope.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\heart.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\kiss.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\lightbulb.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\omg_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\regular_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\sad_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\shades_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\teeth_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\thumbs_down.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\thumbs_up.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\tounge_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\whatchutalkingabout_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\smiley\images\wink_smile.gif" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\cs.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\cy.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\de.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\el.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\eo.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\et.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\fa.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\fi.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\fr.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\he.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\hr.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\it.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\ku.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\nb.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\nl.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\no.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\pt-br.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\tr.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\ug.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\zh-cn.js" />
+    <Content Include="Scripts\ckeditor\plugins\specialchar\lang\_translationstatus.txt" />
+    <Content Include="Scripts\ckeditor\plugins\stylesheetparser\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\styles\styles\default.js" />
+    <Content Include="Scripts\ckeditor\plugins\tableresize\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <Content Include="Scripts\ckeditor\plugins\table\dialogs\table.js" />
+    <Content Include="Scripts\ckeditor\plugins\templates\dialogs\templates.js" />
+    <Content Include="Scripts\ckeditor\plugins\templates\templates\default.js" />
+    <Content Include="Scripts\ckeditor\plugins\templates\templates\images\template1.gif" />
+    <Content Include="Scripts\ckeditor\plugins\templates\templates\images\template2.gif" />
+    <Content Include="Scripts\ckeditor\plugins\templates\templates\images\template3.gif" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\dialogs\uicolor.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\bg.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\cs.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\cy.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\da.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\de.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\el.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\eo.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\et.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\fa.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\fi.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\fr.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\he.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\hr.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\it.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\ku.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\mk.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\nb.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\nl.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\no.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\pl.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\pt-br.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\sk.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\tr.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\ug.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\vi.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\zh-cn.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\lang\_translationstatus.txt" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\uicolor.gif" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\yui\assets\hue_bg.png" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\yui\assets\hue_thumb.png" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\yui\assets\picker_mask.png" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\yui\assets\picker_thumb.png" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\yui\assets\yui.css" />
+    <Content Include="Scripts\ckeditor\plugins\uicolor\yui\yui.js" />
+    <Content Include="Scripts\ckeditor\plugins\wsc\dialogs\ciframe.html" />
+    <Content Include="Scripts\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <Content Include="Scripts\ckeditor\plugins\wsc\dialogs\wsc.css" />
+    <Content Include="Scripts\ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <Content Include="Scripts\ckeditor\plugins\xml\plugin.js" />
+    <Content Include="Scripts\ckeditor\skins\kama\dialog.css" />
+    <Content Include="Scripts\ckeditor\skins\kama\editor.css" />
+    <Content Include="Scripts\ckeditor\skins\kama\icons.png" />
+    <Content Include="Scripts\ckeditor\skins\kama\icons_rtl.png" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\dialog_sides.gif" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\dialog_sides.png" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\dialog_sides_rtl.png" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\mini.gif" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\noimage.png" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\sprites.png" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\sprites_ie6.png" />
+    <Content Include="Scripts\ckeditor\skins\kama\images\toolbar_start.gif" />
+    <Content Include="Scripts\ckeditor\skins\kama\skin.js" />
+    <Content Include="Scripts\ckeditor\skins\kama\templates.css" />
+    <Content Include="Scripts\ckeditor\skins\office2003\dialog.css" />
+    <Content Include="Scripts\ckeditor\skins\office2003\editor.css" />
+    <Content Include="Scripts\ckeditor\skins\office2003\icons.png" />
+    <Content Include="Scripts\ckeditor\skins\office2003\icons_rtl.png" />
+    <Content Include="Scripts\ckeditor\skins\office2003\images\dialog_sides.gif" />
+    <Content Include="Scripts\ckeditor\skins\office2003\images\dialog_sides.png" />
+    <Content Include="Scripts\ckeditor\skins\office2003\images\dialog_sides_rtl.png" />
+    <Content Include="Scripts\ckeditor\skins\office2003\images\mini.gif" />
+    <Content Include="Scripts\ckeditor\skins\office2003\images\noimage.png" />
+    <Content Include="Scripts\ckeditor\skins\office2003\images\sprites.png" />
+    <Content Include="Scripts\ckeditor\skins\office2003\images\sprites_ie6.png" />
+    <Content Include="Scripts\ckeditor\skins\office2003\skin.js" />
+    <Content Include="Scripts\ckeditor\skins\office2003\templates.css" />
+    <Content Include="Scripts\ckeditor\skins\v2\dialog.css" />
+    <Content Include="Scripts\ckeditor\skins\v2\editor.css" />
+    <Content Include="Scripts\ckeditor\skins\v2\icons.png" />
+    <Content Include="Scripts\ckeditor\skins\v2\icons_rtl.png" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\dialog_sides.gif" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\dialog_sides.png" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\dialog_sides_rtl.png" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\mini.gif" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\noimage.png" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\sprites.png" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\sprites_ie6.png" />
+    <Content Include="Scripts\ckeditor\skins\v2\images\toolbar_start.gif" />
+    <Content Include="Scripts\ckeditor\skins\v2\skin.js" />
+    <Content Include="Scripts\ckeditor\skins\v2\templates.css" />
+    <Content Include="Scripts\ckeditor\themes\default\theme.js" />
+    <Content Include="Scripts\CreateLeadSetting.js" />
+    <Content Include="Scripts\CreateTicketSetting.js" />
+    <Content Include="Scripts\hideshow.js" />
+    <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.11.1.min.js" />
+    <Content Include="Scripts\jquery-1.5.2.min.js" />
+    <Content Include="js\nodaTimeZones.json" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery.equalHeight.js" />
+    <Content Include="Scripts\jquery.jstree.js" />
+    <Content Include="Scripts\jquery.tablesorter.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="HTML\css\bootstrap.css.map" />
+    <Content Include="HTML\fonts\fontawesome-webfont.eot" />
+    <Content Include="HTML\fonts\fontawesome-webfont.svg" />
+    <Content Include="HTML\fonts\fontawesome-webfont.ttf" />
+    <Content Include="HTML\fonts\fontawesome-webfont.woff" />
+    <Content Include="HTML\fonts\fontawesome-webfont.woff2" />
+    <Content Include="HTML\fonts\FontAwesome.otf" />
+    <Content Include="HTML\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="HTML\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="HTML\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="HTML\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="HTML\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="HTML\fonts\ionicons.eot" />
+    <Content Include="HTML\fonts\ionicons.svg" />
+    <Content Include="HTML\fonts\opensans-regular-webfont.eot" />
+    <Content Include="HTML\fonts\opensans-regular-webfont.svg" />
+    <Content Include="HTML\fonts\opensans-regular-webfont.ttf" />
+    <Content Include="HTML\fonts\opensans-regular-webfont.woff" />
+    <Content Include="HTML\fonts\opensans-regular-webfont.woff2" />
+    <Content Include="HTML\fonts\roboto-medium-webfont.eot" />
+    <Content Include="HTML\fonts\roboto-medium-webfont.svg" />
+    <Content Include="HTML\fonts\roboto-medium-webfont.ttf" />
+    <Content Include="HTML\fonts\roboto-medium-webfont.woff" />
+    <Content Include="HTML\fonts\roboto-medium-webfont.woff2" />
+    <Content Include="HTML\fonts\roboto-regular-webfont.eot" />
+    <Content Include="HTML\fonts\roboto-regular-webfont.svg" />
+    <Content Include="HTML\fonts\roboto-regular-webfont.woff" />
+    <Content Include="HTML\fonts\roboto-regular-webfont.woff2" />
+    <Content Include="css\bootstrap.css.map" />
+    <Content Include="fonts\opensans-regular-webfont.eot" />
+    <Content Include="fonts\opensans-regular-webfont.svg" />
+    <Content Include="fonts\opensans-regular-webfont.ttf" />
+    <Content Include="fonts\opensans-regular-webfont.woff" />
+    <Content Include="fonts\opensans-regular-webfont.woff2" />
+    <Content Include="fonts\roboto-medium-webfont.eot" />
+    <Content Include="fonts\roboto-medium-webfont.svg" />
+    <Content Include="fonts\roboto-medium-webfont.ttf" />
+    <Content Include="fonts\roboto-medium-webfont.woff" />
+    <Content Include="fonts\roboto-medium-webfont.woff2" />
+    <Content Include="fonts\roboto-regular-webfont.eot" />
+    <Content Include="fonts\roboto-regular-webfont.svg" />
+    <Content Include="fonts\roboto-regular-webfont.woff" />
+    <Content Include="fonts\roboto-regular-webfont.woff2" />
+    <None Include="Properties\PublishProfiles\CRMSmartcapita.pubxml" />
+    <Content Include="Sample\LeadUpload.xlsx" />
+    <Content Include="Sample\FacebookLeadSample.xlsx" />
+    <None Include="Properties\PublishProfiles\SmartcapitaCRM.pubxml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\JsTree\index.js" />
+    <Content Include="Scripts\JsTree\jquery.jstree.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\semantic.min.css" />
+    <Content Include="Scripts\semantic.min.js" />
+    <Content Include="Scripts\SweetAlert\CRMAlert.png" />
+    <Content Include="Scripts\SweetAlert\sweetalert-dev.js" />
+    <Content Include="Scripts\SweetAlert\sweetalert.css" />
+    <Content Include="Scripts\SweetAlert\sweetalert.min.js" />
+    <Content Include="Scripts\SweetAlert\thumbs-up.jpg" />
+    <Content Include="Scripts\themes\apple\bg.jpg" />
+    <Content Include="Scripts\themes\apple\d.png" />
+    <Content Include="Scripts\themes\apple\dot_for_ie.gif" />
+    <Content Include="Scripts\themes\apple\style.css" />
+    <Content Include="Scripts\themes\apple\throbber.gif" />
+    <Content Include="Scripts\themes\classic\d.gif" />
+    <Content Include="Scripts\themes\classic\d.png" />
+    <Content Include="Scripts\themes\classic\dot_for_ie.gif" />
+    <Content Include="Scripts\themes\classic\style.css" />
+    <Content Include="Scripts\themes\classic\throbber.gif" />
+    <Content Include="Scripts\themes\default-rtl\d.gif" />
+    <Content Include="Scripts\themes\default-rtl\d.png" />
+    <Content Include="Scripts\themes\default-rtl\dots.gif" />
+    <Content Include="Scripts\themes\default-rtl\style.css" />
+    <Content Include="Scripts\themes\default-rtl\throbber.gif" />
+    <Content Include="Scripts\themes\default\d.gif" />
+    <Content Include="Scripts\themes\default\d.png" />
+    <Content Include="Scripts\themes\default\style.css" />
+    <Content Include="Scripts\themes\default\throbber.gif" />
+    <Content Include="Scripts\viewLeadScript.js" />
+    <Content Include="timepicker\bootstrap-timepicker.js" />
+    <Content Include="timepicker\bootstrap-timepicker.min.css" />
+    <Content Include="timepicker\bootstrap.css" />
+    <Content Include="timepicker\bootstrap.min.js" />
+    <Content Include="timepicker\jquery-1.11.3.min.js" />
+    <Content Include="timepicker\time.html" />
+    <Content Include="timepicker\timepicker.js" />
+    <Content Include="translate.google.com\cleardot.gif" />
+    <Content Include="translate.google.com\te_ctrl3.gif" />
+    <Content Include="translate.google.com\translate_a\element.js" />
+    <Content Include="translate.google.com\translate_a\elementa0d8.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Master\Leadstatus.cshtml" />
+    <Content Include="Views\Master\Country.cshtml" />
+    <Content Include="Views\Master\State.cshtml" />
+    <Content Include="Views\Master\City.cshtml" />
+    <Content Include="Views\Master\Leadsource.cshtml" />
+    <Content Include="Views\Master\Quotationtype.cshtml" />
+    <Content Include="Views\Shared\_PartialViewLeadDescription.cshtml" />
+    <Content Include="Views\Master\typeofleads.cshtml" />
+    <Content Include="Views\Shared\_ViewLeadInfo.cshtml" />
+    <Content Include="Views\Shared\_UserInfo.cshtml" />
+    <Content Include="Views\home\managesupplier.cshtml" />
+    <Content Include="Views\Shared\_ViewSupplierinfo.cshtml" />
+    <Content Include="Views\Shared\_UpdateSupplierinfo.cshtml" />
+    <Content Include="Views\Purchase\requisition.cshtml" />
+    <Content Include="Views\Master\category.cshtml" />
+    <Content Include="Views\Shared\_CategoryUpdateInfo.cshtml" />
+    <Content Include="Views\Master\measurementunit.cshtml" />
+    <Content Include="Views\Shared\_UnitUpdateInfo.cshtml" />
+    <Content Include="Views\Master\itemdetails.cshtml" />
+    <Content Include="Views\Shared\_ItemUpdateInfo.cshtml" />
+    <Content Include="Views\Shared\_ViewLeadSearchByParam.cshtml" />
+    <Content Include="Views\Purchase\Ordergeneration.cshtml" />
+    <Content Include="Views\Purchase\ViewPR.cshtml" />
+    <Content Include="Views\Master\department.cshtml" />
+    <Content Include="Views\Master\TaxManagement.cshtml" />
+    <Content Include="Views\Shared\_MasterManageTaxValues.cshtml" />
+    <Content Include="Views\home\ViewQuotation.cshtml" />
+    <Content Include="Views\home\createquotation.cshtml" />
+    <Content Include="Views\Master\QuotationStatus.cshtml" />
+    <Content Include="Views\home\ManageBranch.cshtml" />
+    <Content Include="Views\Master\ServiceDetails.cshtml" />
+    <Content Include="Views\Master\servicetax.cshtml" />
+    <Content Include="Views\Shared\_MasterManageServiceTaxValues.cshtml" />
+    <Content Include="Views\Master\customerdetails.cshtml" />
+    <Content Include="Views\Shared\_MasterCustomerAddress.cshtml" />
+    <Content Include="Views\Shared\_PrintQuotation.cshtml" />
+    <Content Include="Views\Shared\_ViewPRinfo.cshtml" />
+    <Content Include="Views\Shared\_ViewQuotationDetailsInfo.cshtml" />
+    <Content Include="Views\Purchase\ManagePO.cshtml" />
+    <Content Include="Views\Shared\_PODetailInfo.cshtml" />
+    <Content Include="Views\Sales\Challan.cshtml" />
+    <Content Include="Views\Sales\Invoice.cshtml" />
+    <Content Include="Views\Sales\ManageChallan.cshtml" />
+    <Content Include="Views\Sales\Manageinvoice.cshtml" />
+    <Content Include="Views\Sales\ManageSalesreturn.cshtml" />
+    <Content Include="Views\Sales\CreateSalesreturn.cshtml" />
+    <Content Include="Views\Purchase\ManagePurchasereturn.cshtml" />
+    <Content Include="Views\Purchase\CreatePurchasereturn.cshtml" />
+    <Content Include="Views\Purchase\ManageGrn.cshtml" />
+    <Content Include="Views\Purchase\CreateGrn.cshtml" />
+    <Content Include="Views\Shared\_ChallanDetailInfoByChNo.cshtml" />
+    <Content Include="Views\Shared\_InvoiceDetailInfoByInvoiceNo.cshtml" />
+    <Content Include="Views\Shared\_GrnDetailInfo.cshtml" />
+    <Content Include="Views\home\confirmorder.cshtml" />
+    <Content Include="Views\Shared\_PurchaseReturnDetailInfo.cshtml" />
+    <Content Include="Views\Shared\_SaleReturnDetailInfo.cshtml" />
+    <Content Include="Views\Sales\Manageserviceinvoice.cshtml" />
+    <Content Include="Views\Sales\CreateServiceinvoice.cshtml" />
+    <Content Include="Views\Shared\_ServiceInvoiceDetailInfoByServieInvoiceNo.cshtml" />
+    <Content Include="Views\Dailywork\Assign.cshtml" />
+    <Content Include="Views\Dailywork\ourwork.cshtml" />
+    <Content Include="Views\Dailywork\ViewAssigned.cshtml" />
+    <Content Include="Views\home\LeadReport.cshtml" />
+    <Content Include="Views\HR\CreateInterviewSchdule.cshtml" />
+    <Content Include="Views\HR\Dashboard.cshtml" />
+    <Content Include="Views\HR\Index.cshtml" />
+    <Content Include="Views\HR\manage_profile.cshtml" />
+    <Content Include="Views\HR\ViewInterviewSchedule.cshtml" />
+    <Content Include="Views\LeadManagement\Index.cshtml" />
+    <Content Include="Views\LeadManagement\show.cshtml" />
+    <Content Include="Views\NIS\Alert.cshtml" />
+    <Content Include="Views\NIS\Developer.cshtml" />
+    <Content Include="Views\NIS\DeveloperReport.cshtml" />
+    <Content Include="Views\NIS\LoginHistory.cshtml" />
+    <Content Include="Views\NIS\Remark.cshtml" />
+    <Content Include="Views\NIS\ViewActivityReport.cshtml" />
+    <Content Include="Views\NIS\ViewRemark.cshtml" />
+    <Content Include="Views\project\add.cshtml" />
+    <Content Include="Views\project\AddModule.cshtml" />
+    <Content Include="Views\Shared\_FilterCommonActivityRemark.cshtml" />
+    <Content Include="Views\Shared\_FilterDevloperActivityDatewiseByUser.cshtml" />
+    <Content Include="Views\Shared\_FilterLoghistoryByUser.cshtml" />
+    <Content Include="Views\Shared\_FilterManagedLeadsByDate.cshtml" />
+    <Content Include="Views\Shared\_LeadReportInfoList.cshtml" />
+    <Content Include="Views\Shared\_PartialCommonSearch.cshtml" />
+    <Content Include="Views\Shared\_PartialProductName.cshtml" />
+    <Content Include="Views\Shared\_PartialUserArchivesData.cshtml" />
+    <Content Include="Views\Shared\_PartialViewMappeduserLeads.cshtml" />
+    <Content Include="Views\Shared\_SearchInterviewScheduleByText.cshtml" />
+    <Content Include="Views\Shared\_ViewDeveloperActivityRemark.cshtml" />
+    <Content Include="Views\Emp\Attandance.cshtml" />
+    <Content Include="Views\LeaveManagement\LeaveRequest.cshtml" />
+    <Content Include="Views\Shared\_LeadReportPartial.cshtml" />
+    <Content Include="Views\Shared\_DelayedLeadReportInfoList.cshtml" />
+    <Content Include="Views\HR\HRSalary.cshtml" />
+    <Content Include="Views\HR\HRCreateSalary.cshtml" />
+    <Content Include="Views\LeaveManagement\LeaveRequestView.cshtml" />
+    <Content Include="Views\HR\EmployeeLeaveRequest.cshtml" />
+    <Content Include="Views\HR\EmployeeLeaveRequestDetail.cshtml" />
+    <Content Include="Views\Master\ManageLeadStatus.cshtml" />
+    <Content Include="Views\Master\ManageLeadSource.cshtml" />
+    <Content Include="Views\Master\ManageProductType.cshtml" />
+    <Content Include="Views\Master\ManageInterViewStatus.cshtml" />
+    <Content Include="Views\Master\ManageEmailSetting.cshtml" />
+    <Content Include="Views\TrackSalePerson\TrackSales.cshtml" />
+    <Content Include="Views\CRMPayment\Payment.cshtml" />
+    <Content Include="Views\TrackSalePerson\ViewTrackMap.cshtml" />
+    <Content Include="Views\CRMTargetPerformance\CRMTargetPerformanceList.cshtml" />
+    <Content Include="Views\CRMTargetPerformance\AddModifiyTargetSale.cshtml" />
+    <Content Include="Views\CRMTargetPerformance\ViewTargerAchived.cshtml" />
+    <Content Include="Views\HR\ManageAdvance.cshtml" />
+    <Content Include="Views\HR\AddModifyManageAdvance.cshtml" />
+    <Content Include="Views\HR\ManualAttendance.cshtml" />
+    <Content Include="Views\HR\AddModifyManualAttendance.cshtml" />
+    <Content Include="Views\FileManager\ManageFile.cshtml" />
+    <Content Include="Views\IndiaMartSetting\ManageIndiaMartSetting.cshtml" />
+    <Content Include="Views\Quotation\ManageQuotation.cshtml" />
+    <Content Include="Views\Quotation\EditQuotation.cshtml" />
+    <Content Include="Views\EmailTemplate\ManageTemplate.cshtml" />
+    <Content Include="Views\EmailTemplate\CreateManageTemplate.cshtml" />
+    <Content Include="Views\Master\ManageErrorType.cshtml" />
+    <Content Include="Views\Master\ManageUrgency.cshtml" />
+    <Content Include="Views\Tickets\CreateTicket.cshtml" />
+    <Content Include="Views\Tickets\ViewTicket.cshtml" />
+    <Content Include="Views\Shared\_PartialViewTicketDescription.cshtml" />
+    <Content Include="Views\Test\Stacked100BarChart.cshtml" />
+    <Content Include="Views\ManageOrganization\UserListByBranch.cshtml" />
+    <Content Include="Views\ManageOrganization\ViewAssinedBranch.cshtml" />
+    <Content Include="Views\LeadSetting\ViewLeadSetting.cshtml" />
+    <Content Include="Views\Shared\_PartialViewTodayFollowupLeadPopUp.cshtml" />
+    <Content Include="Views\Shared\_PartialViewTicketPopUp.cshtml" />
+    <Content Include="Views\Shared\EmpAttendaceDetail.cshtml" />
+    <Content Include="Views\HR\createusers.cshtml" />
+    <Content Include="Views\HR\users.cshtml" />
+    <Content Include="Views\HR\UserDocuments.cshtml" />
+    <Content Include="Views\home\UserDocuments.cshtml" />
+    <Content Include="Views\Shared\_QuoatationDetailInfoByQtNo.cshtml" />
+    <Content Include="Views\TicketCustom\ViewTicketSetting.cshtml" />
+    <Content Include="Views\TicketCustom\CreateTicketSetting.cshtml" />
+    <Content Include="Views\LeadSetting1\CreateSetting1.cshtml" />
+    <Content Include="Views\LeadSetting1\ViewLeadSetting.cshtml" />
+    <Content Include="Views\LeadSetting1\CreateSetting.cshtml" />
+    <Content Include="Views\LeadSetting\CreateSetting.cshtml" />
+    <Content Include="Views\LeadSetting1\ViewLeadSetting1.cshtml" />
+    <Content Include="Views\Test\TZones.cshtml" />
+    <Content Include="js\timezones.json" />
+    <Content Include="Views\CRMErrorType\ManageErrorType.cshtml" />
+    <Content Include="Views\Error\ErrorView.cshtml" />
+    <Content Include="Views\Error\InternalServerError.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Master\ManageLeaveType.cshtml" />
+    <Content Include="Views\Test\TC.cshtml" />
+    <Content Include="Views\SaleOrder\SaleOrderReport.cshtml" />
+    <Content Include="Views\Shared\_SaleOrderReportDetail.cshtml" />
+    <Content Include="Views\Quotation\CreateQuotation.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailByQuotNo.cshtml" />
+    <Content Include="Views\SaleOrder\CreateSaleOrder.cshtml" />
+    <Content Include="Views\Shared\_PartialworkDescription.cshtml" />
+    <Content Include="Views\Dailywork\ProjectAssign.cshtml" />
+    <Content Include="Views\home\UserWorkDetails.cshtml" />
+    <Content Include="Views\Shared\_CustomerWorkLeadReport.cshtml" />
+    <Content Include="Views\Shared\_PartialClosedProjectDetails.cshtml" />
+    <Content Include="Views\Master\ManageProjectStatus.cshtml" />
+    <Content Include="Views\Shared\_LeadDropDownModuel.cshtml" />
+    <Content Include="Views\SaleOrder\CreateSaleOrder1.cshtml" />
+    <Content Include="Views\Shared\_TicketDropDownModule.cshtml" />
+    <Content Include="Views\Shared\_QuatationDropDownModule1.cshtml" />
+    <Content Include="Views\Quotation\CreateQuotation1.cshtml" />
+    <Content Include="Views\Shared\_SaleOrderDropDownModule.cshtml" />
+    <Content Include="Views\Master\ManageItemType.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforPersonalclient.cshtml" />
+    <Content Include="Views\Quotation\ManageQuotation1.cshtml" />
+    <Content Include="Views\Quotation\TermCondition.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSahilcompanyelectosupply.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSahilcompanyACE.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSahilcompanyLT.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSahilcompanypowertrading.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSahilcompanysahilpower.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSahilcompanywolke9.cshtml" />
+    <Content Include="Views\Shared\_ManageQuatationDropDownModule.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSahilcompanyaceengineers.cshtml" />
+    <Content Include="Views\home\ViewAssignedItem.cshtml" />
+    <Content Include="Views\Shared\_ViewBookinglistforpersonal.cshtml" />
+    <Content Include="Views\home\BookingReport.cshtml" />
+    <Content Include="Views\home\AssigntoassignBy.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforARIH.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforGOYM.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforNEW5.cshtml" />
+    <Content Include="Views\Shared\_GetQuotationDetailsforSNK4.cshtml" />
+    <Content Include="Views\FormManagement\Form16Request.cshtml" />
+    <Content Include="Views\HR\EmployeeForm16Request.cshtml" />
+    <Content Include="Views\FormManagement\Form16RequestView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="EF1\" />
+    <Folder Include="EmployeeDocuments\" />
+    <Folder Include="ExcelFileUpload\" />
+    <Folder Include="FileManager\" />
+    <Folder Include="LeadAttachment\" />
+    <Folder Include="PDF\SalarySlip\" />
+    <Folder Include="ProjectAttachment\" />
+    <Folder Include="TicketAttachment\" />
+    <Folder Include="WorkAttachment\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\ionicons.eot" />
+    <Content Include="fonts\ionicons.svg" />
+    <Content Include="Views\home\AssignLeadShow.cshtml" />
+    <Content Include="Views\home\assignrole.cshtml" />
+    <Content Include="Views\home\Assign_Leads_Management.cshtml" />
+    <Content Include="Views\home\createleads.cshtml" />
+    <Content Include="Views\home\createrole.cshtml" />
+    <Content Include="Views\home\createusers.cshtml" />
+    <Content Include="Views\home\Index.cshtml" />
+    <Content Include="Views\home\leadnotify.cshtml" />
+    <Content Include="Views\home\login.cshtml" />
+    <Content Include="Views\home\message.cshtml" />
+    <Content Include="Views\home\NewsEvent.cshtml" />
+    <Content Include="Views\home\Notification.cshtml" />
+    <Content Include="Views\home\OurMappeduser.cshtml" />
+    <Content Include="Views\home\OurMappeduserDeveloper.cshtml" />
+    <Content Include="Views\home\OurMappeduserSales.cshtml" />
+    <Content Include="Views\home\ourUsersArchives.cshtml" />
+    <Content Include="Views\home\roleinformation.cshtml" />
+    <Content Include="Views\home\users.cshtml" />
+    <Content Include="Views\home\viewleads.cshtml" />
+    <Content Include="Views\home\viewmonthly.cshtml" />
+    <Content Include="Views\home\viewsales.cshtml" />
+    <Content Include="Views\Shared\_LayoutSiteMaster.cshtml" />
+    <Content Include="Views\Shared\_PartialMenu.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>4365</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1880/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

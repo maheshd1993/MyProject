@@ -1,0 +1,57 @@
+﻿@model Traders.Models.ViewInterviewSchedule
+<table class="table  table-bordered">
+    <thead class="black-white-text">
+        <tr>
+            <th>#</th>
+            <th>Candidate</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Resume</th>
+            <th>Resume Title</th>
+            <th>Experiance</th>
+            <th>Location</th>
+            <th>Designation</th>
+            <th>Profile</th>
+            <th>Followup Date</th>
+            <th>Interview Date</th>
+            <th>Remarks</th>
+            <th>Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{int i = 1;}
+        @if (Model.ViewinterviewSchedulemodelList.Count > 0)
+        {
+            foreach (var item in Model.ViewinterviewSchedulemodelList.OrderByDescending(em => em.CreatedDate))
+            {
+            <tr>
+                <td translate="no" data-column="Sr. No.">@i</td>
+                <td translate="no" data-column="Sr. No."><a href="/Hr/CreateInterviewSchdule/@item.Id">@item.CandidateName</a></td>
+                <td translate="no" data-column="Mobile No.">@item.Mobile</td>
+                <td translate="no" data-column="Email">@item.Email</td>
+                <td translate="no" data-column="Resume"><a href="/@item.ResumeID" target="_blank">View</a></td>
+                <td translate="no" data-column="Resume Title">@item.ResumeTitle</td>
+                <td translate="no" data-column="Experience">@item.Experiance</td>
+                <td translate="no" data-column="Location">@item.CurrentLocation</td>
+                <td translate="no" data-column="Designation">@item.CurrentDesignation</td>
+                <td translate="no" data-column="Profile">@item.ProfileName</td>
+                <td translate="no" data-column="Followup Date">@item.FollowUpDate</td>
+                <td translate="no" data-column="Interview Date">@item.InterviewDate</td>
+                <td translate="no" data-column="Remarks">@item.Remarks</td>
+                <td translate="no" data-column="Status">@item.CurrentStatus</td>
+
+            </tr>
+                i++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="14" style="text-align: center;">** No Record Found</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

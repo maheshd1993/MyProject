@@ -1,0 +1,237 @@
+﻿@{
+    Layout = null;
+}
+@model Traders.Models.LoginModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/img/favicon.PNG" type="image/x-icon">
+    <title>CRM SmartCapita</title>
+    <link href="~/css/bootstrap.css" rel="stylesheet">
+    <link href="~/css/CustomStyleSheet.css" rel="stylesheet" />
+    <link href="~/css/mystyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <style>
+        .foter-botom-area {
+            background: #ffffff;
+            padding: 5px 0 5px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: white;
+            text-align: center;
+        }
+
+        .frgt {
+            width: 51%;
+            margin: auto;
+            background-color: #eef5ff !important;
+            padding: 15px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="loginbg">
+    <div class="rows">
+        <div class="container">
+            <div class="logincontainer">
+                <div class="col-md-6">
+                    <h3>Member Login</h3>
+                    <img src="~/img/user-login.png" class="img-responsive nicole_lo_go" alt="logo">
+                </div>
+                <div class="col-md-6 loginm">
+                    <img src="~/img/nislogo.png" class="img-responsive nicole_lo_go" alt="logo">
+                    @* <h3>Login</h3>*@
+                    @using (Html.BeginForm("login", "home", FormMethod.Post))
+                    {
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.TextBoxFor(em => em.UserNameOrEmail, new { @class = "form-control username", @placeholder = "Enter username or email", @autocomplete = "off", @autofocus = "" })
+                            @Html.ValidationMessageFor(em => em.UserNameOrEmail)
+                            <input type="hidden" id="hdTimeZone" />
+                        </div>
+                        <div style="margin-bottom: 20px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            @Html.PasswordFor(em => em.Password, new { @class = "form-control password", @placeholder = "Enter password", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(em => em.Password)
+                        </div>
+
+                        @*<div class="input-group" style="margin-bottom: 10px">
+                                <div class="checkbox mr5 col-sm-12 padd0">
+                                    <label class="padd0"><input type="checkbox" value="" >
+                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Residential Pickup</label>
+                                </div>
+                            </div>*@
+                        <button type="submit" class="btn bluebtn btn-block btn-ripple"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Login</button>
+                        <p style="text-align: center;margin-bottom: 60px;">
+                            or <br>
+
+                            <a href="https://www.smartcapita.com/" class="text-primary text-center" style="text-decoration: none;color:blue">Create an account</a>
+                            <br />
+                            <span>Forgot password? <a href="#" data-toggle="modal" data-target="#ForgotPwd" style="color:red;">Click Here</a> </span>
+                        </p>
+                        @*<span class="LoginError">@TempData["alert"]</span>*@
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <section class="foter-botom-area ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-4 col-xs-12 text-center">
+                    <a href="https://www.smartcapita.com/aboutus" style="color:black;" target="_blank">About Us</a>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-12 text-center">
+                    <a href="https://www.smartcapita.com/contactus" style="color:black;" target="_blank">Contact Us</a>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-12 text-center">
+                    <a href="https://www.smartcapita.com/privacy-policy" style="color:black;" target="_blank">Privacy Policy</a>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-12 text-center">
+                    <a href="https://www.smartcapita.com/termsandconditions" style="color:black;" target="_blank">Terms and Conditions</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Modal Forgot Password-->
+    <div id="ForgotPwd" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="width: 65%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close cls" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        <span>Forgot Password</span>
+                        
+                    </h4>
+                </div>
+                <div class="modal-body over-hidden">
+                    <div class="form-horizontal">
+                        <div class="row frgt">
+                            <div class="col-md-12  forgot-form">
+                                <p>Please enter your email address below and we will send you information to change your password.</p>
+                                <span style="color: green"></span>
+                                <span style="color:red"></span>
+                                <label class="label-default" for="un">Email Address</label>
+                                <input id="email" name="email" class="form-control" type="text" required="" autocomplete="off"><br>
+                            </div>
+                            @*<div class="col-md-12  forgot-return" style="display:none;">
+                                    <h2>Reset Password Sent</h2>
+                                    <p>An email has been sent to your address with a reset password you can use to access your account.</p>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span style="margin-left: 10px; float: left;" id="spnMsg"></span>
+                    <button type="submit" class="btn btn-success btn-ripple" id="btnSendMail">Submit</button>
+                    <button type="button" class="btn btn-danger cls" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@*<script src="~/Scripts/jquery-1.7.1.min.js"></script>*@
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="~/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var alchk = TempData["alert"];
+}
+<script type="text/javascript">
+    var chkmsg = '@alchk';
+    if (chkmsg != '') {
+        //swal({ title: "Alert!", text: chkmsg, imageUrl: "/Scripts/SweetAlert/CRMAlert.png" });
+        swal("Oops", chkmsg, "error");
+        $('#Password').focus();
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getTimeZone();
+    });
+    function getTimeZone() {
+        var offset = new Date().getTimezoneOffset(),
+            o = Math.abs(offset);
+        var tz = (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
+        jQuery('#hdTimeZone').val(tz);
+    }
+
+    $("#btnSendMail").click(function () {
+
+        var emailVal = jQuery("#email").val();
+        if (emailVal != '') {
+            //if (IsEmail(email) == false) {
+            //    jQuery("#spnMsg").text("Please enter valid email address").css("color", "red");
+            //    return false;
+            //}
+            $.post("/common/ForgotPassword", { UserEmail: emailVal }, function (res) {
+                if (res == "ok") {
+                    jQuery("#spnMsg").text("An email has been sent to your address with a reset password you can use to access your account.").css("color", "green");
+                    jQuery("#email").val('');
+                   // $('#ForgotPwd').modal('hide');
+                }
+                else {
+                    jQuery("#spnMsg").text(res).css("color", "red");
+                }
+            });
+        }
+        else {
+            jQuery("#spnMsg").text("Please enter email address").css("color", "red");
+            return false;
+        }
+    });
+
+    //function IsEmail(email) {
+    //    var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    //    if (!regex.test(email)) {
+    //        return false;
+    //    } else {
+    //        return true;
+    //    }
+    //}
+
+
+    jQuery(".cls").click(function () {
+        jQuery("#email").val('');
+        jQuery("#spnMsg").text('');
+    });
+</script>
+
+<style>
+    .field-validation-error {
+        margin-left: 2px;
+        color: #ff0000;
+        font-size: 12px;
+        display: block;
+        margin-top: 47px;
+        font-weight: normal !important;
+    }
+
+    /*.field-validation-valid {
+        display: none;
+    }*/
+
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+
+    /*.field-validation-valid {
+        display: none;
+    }*/
+</style>

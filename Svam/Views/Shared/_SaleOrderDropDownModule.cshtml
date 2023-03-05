@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "_SaleOrderDropDownModule";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Svam.Models.CRMQutationsaleModel
+<div class="modal-dialog" style="z-index:9999999999;position:fixed;top:10%;left:50%;transform:translateX(-50%)">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" translate="no">Company Name<span class="madatoryfield">*</span></label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    @if (Model.joinlist != null && Model.joinlist.Count > 0)
+                                    {
+                                        @Html.DropDownListFor(em => em.ID, new SelectList(Model.joinlist, "ID", "Organization", Model.ID), new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(em => em.ID, Enumerable.Empty<SelectListItem>(), new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                    }
+                                    @Html.ValidationMessageFor(em => em.ID)
+                                </div>
+                                <input type="hidden" id="Id" value="0" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="regno"></label>
+                            <div class="col-sm-6">
+                                <input type="submit" id="btnSave" class="btn mainbtn2" value="Submit">
+                                <span id="spnMessage"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+    $('#btnSave').click(function () {
+        var dp = $('#ID option:selected').val();
+        debugger;
+        jQuery.post('/SaleOrder/GetCompanydetail', { id: dp }, function (data) {
+            debugger;
+            if (data != null) {
+                window.location = "/SaleOrder/CreateSaleOrder1/";
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,352 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.EmployeeLogHistory
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Employee Login History</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <input class="btn btn-success pull-right" id="btnExport" type="button" value="Export" style="margin-right: 5px;    margin-top: 3px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                <div class="col-sm-3">
+                                    @*<select id="ddlEmployee" class="form-control" style="margin-top: 0px !important;" translate="no">
+                                        <option>Select Employee</option>
+                                    </select>*@
+                                    @if (Model.AssignUserList != null && Model.AssignUserList.Count > 0)
+                                    {
+                                        @Html.DropDownList("ddlEmployee", new SelectList(Model.AssignUserList, "UserID", "UserName"), "Select Employee", new { @class = "form-control  ListItemCapitalize ", @style = "margin-top:0px !important;" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("ddlEmployee", Enumerable.Empty<SelectListItem>(), "Select Employee", new { @class = "form-control  ListItemCapitalize ", @style = "margin-top:0px !important;" })
+                                    }
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" translate="no" id="txtFrmDate" class="form-control datefield" name="FromDate" placeholder="From Date" required="required" autocomplete="off" readonly/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" translate="no" id="ToDate" class="form-control datefield" name="ToDate" placeholder="To Date" required="required" autocomplete="off" readonly/>
+                                </div>
+                                <div class="col-sm-2 padd0">
+                                    <input type="button" onclick='FilterData();' id="btnFilterLogHistory" class="btn btn-danger" style="margin-left: 10px;" value="Filter" />
+                                    <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/HR'" />
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" id="divBindData" style="overflow-x: scroll;">
+                    <table  class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>IP Address</th>
+                                <th>TimeZone</th>
+                                <th>Date</th>
+                                <th>Login Time</th>
+                                <th>Logout Time</th>
+                                <th>Duration</th>
+                                <th>Late Hour Working</th>
+                                <th>Extra day Working</th>
+                                <th>View Report</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.GetEmpLogHistoryModel.Count > 0)
+                            {
+                                foreach (var item in Model.GetEmpLogHistoryModel.OrderByDescending(em => em.LoginDate).ToList())
+                                {
+                                    if (item.ExtraWorking == true)
+                                    {
+                                        <tr class="success" title="Extra Working day" style="border: 1px solid #ddd;">
+                                            <td translate="no" class="ListItemCapitalize" data-column="Employee Name">@item.EmpName</td>
+                                            <td translate="no" data-column="IP Address">@item.IPAddress</td>
+                                            @if (item.TimeZone == "")
+                                            {
+                                                <td translate="no" data-column="TimeZone">IST</td>
+                                            }
+                                            else
+                                            {
+                                                <td translate="no" data-column="TimeZone">@item.TimeZone</td>
+                                            }
+                                            <td translate="no" data-column="Date">@item.LoginDate</td>
+                                            <td translate="no" data-column="Login Time">@item.LoginTime</td>
+                                            <td translate="no" data-column="Logout Time">@item.LogoutTime</td>
+                                            <td translate="no" data-column="Duration">@item.Duration</td>
+                                            @if (@item.WorkingLateHours == true)
+                                            {
+                                                <td data-column="Late Hour Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td  data-column="Extra Day Working">------</td>
+                                            }
+                                            @if (item.ExtraWorking == true)
+                                            {
+                                                <td data-column="Extra Day Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td>------</td>
+                                            }
+                                            <td data-column="View Report">
+                                                @if (item.ProfileName.ToLower().Contains("developer") || item.ProfileName.ToLower().Contains("tester") || item.ProfileName.ToLower().Contains("designer") || item.ProfileName.Contains("QA"))
+                                                {
+                                                    <a href="/Nis/DeveloperReport/@item.EmpId/?dt=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="/NIS/ViewRemark/@item.EmpId/?fromdate=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                                                    @*<a href="/Nis/ViewEmpReport/@item.EmpId/?name=@item.EmpName&&po=@item.ProfileName&&dt=@item.LoginDate">View Report</a>*@
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                    else if (item.WorkingLateHours == true)
+                                    {
+                                        <tr class="danger" title="Late Hours working on this date" style="border: 1px solid #ddd;">
+                                            <td translate="no" class="ListItemCapitalize" data-column="Employee Name">@item.EmpName</td>
+                                            <td translate="no" data-column="IP Address">@item.IPAddress</td>
+                                            @if (item.TimeZone == "")
+                                            {
+                                                <td translate="no" data-column="TimeZone">IST</td>
+                                            }
+                                            else
+                                            {
+                                                <td translate="no" data-column="TimeZone">@item.TimeZone</td>
+                                            }
+                                            <td translate="no" data-column="Date">@item.LoginDate</td>
+                                            <td translate="no" data-column="Login Time">@item.LoginTime</td>
+                                            <td translate="no" data-column="Logout Time">@item.LogoutTime</td>
+                                            <td translate="no" data-column="Duration">@item.Duration</td>
+                                            @if (@item.WorkingLateHours == true)
+                                            {
+                                                <td data-column="Late Hour Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td data-column="Late Hour Working">------</td>
+                                            }
+                                            @if (item.ExtraWorking == true)
+                                            {
+                                                <td data-column="Extra Day Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td data-column="Extra Day Working">------</td>
+                                            }
+                                                <td data-column="View Report">
+                                                    @if (item.ProfileName.ToLower().Contains("developer") || item.ProfileName.ToLower().Contains("tester") || item.ProfileName.ToLower().Contains("designer") || item.ProfileName.Contains("QA"))
+                                                    {
+                                                        <a href="/Nis/DeveloperReport/@item.EmpId/?dt=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/NIS/ViewRemark/@item.EmpId/?fromdate=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                                                        @*<a href="/Nis/ViewEmpReport/@item.EmpId/?name=@item.EmpName&&po=@item.ProfileName&&dt=@item.LoginDate">View Report</a>*@
+                                                    }
+                                                </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr style="border: 1px solid #ddd;">
+                                            <td translate="no" class="ListItemCapitalize" data-column="Employee Name">@item.EmpName</td>
+                                            <td translate="no" data-column="IP Address">@item.IPAddress</td>
+                                            @if (item.TimeZone == "")
+                                            {
+                                                <td translate="no" data-column="TimeZone">IST</td>
+                                            }
+                                            else
+                                            {
+                                                <td translate="no" data-column="TimeZone">@item.TimeZone</td>
+                                            }
+                                            <td translate="no" data-column="Date">@item.LoginDate</td>
+                                            <td translate="no" data-column="Login Time">@item.LoginTime</td>
+                                            <td translate="no" data-column="Logout Time">@item.LogoutTime</td>
+                                            <td translate="no" data-column="Duration">@item.Duration</td>
+                                            @if (@item.WorkingLateHours == true)
+                                            {
+                                                <td data-column="Extra Hour Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+                                            }
+                                            else
+                                            {
+
+                                                <td data-column="Extra Hour Working">------</td>
+                                            }
+                                            @if (item.ExtraWorking == true)
+                                            {
+                                                <td data-column="Extra Day Working"><span style="color: crimson; font-size: 14px; font-weight: bold;">Yes</span></td>
+                                            }
+                                            else
+                                            {
+                                                <td data-column="Extra Day Working">------</td>
+                                            }
+                                                <td data-column="View Report">
+                                                    @if (item.ProfileName.ToLower().Contains("developer") || item.ProfileName.ToLower().Contains("tester") || item.ProfileName.ToLower().Contains("designer") || item.ProfileName.Contains("QA"))
+                                                    {
+                                                        <a href="/Nis/DeveloperReport/@item.EmpId/?dt=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/NIS/ViewRemark/@item.EmpId/?fromdate=@item.LoginDate&toDate=@item.LoginDate">View Report</a>
+                                                        @*<a href="/Nis/ViewEmpReport/@item.EmpId/?name=@item.EmpName&&po=@item.ProfileName&&dt=@item.LoginDate">View Report</a>*@
+                                                    }
+                                                </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10" style="text-align: center">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<link href="/datepick/jquery-ui.css" rel="stylesheet" />
+    <script src="/datepick/jquery-ui.js"></script>*@
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+     var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#txtFrmDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+    });
+    $(document).ready(function () {
+        //BindEmployee();
+        $("input:text").attr("autocomplete", "off");
+    });
+    //function BindEmployee() {
+    //    $.get('/HR/GetEmployee', null, function (data) { BindEmployeeddl(data); });
+    //}
+    //function BindEmployeeddl(abc) {
+    //    console.log(abc)
+    //    var data = "";
+        
+    //    data += "<option value= >Select Employee</option>";
+    //    for (var i in abc) {
+    //        //var name = abc[i].Fname + " " + abc[i].Lname + " (" + abc[i].EmployeeCode + ")";
+    //        data += "<option value=" + abc[i].UserID + ">" + abc[i].UserName + "</option>";
+    //    }
+    //    $('#ddlEmployee').html(data);
+    //}
+    function FilterData() {
+        var frmdt = jQuery('#txtFrmDate').val();
+        var todt = jQuery('#ToDate').val();
+        //var txtSearch = jQuery('#txtSearchEmp').val();
+        var txtSearch = jQuery('#ddlEmployee option:selected').val();
+        if (txtSearch == "Select Employee") {
+            txtSearch = '';
+        }
+        //alert(txtSearch);
+        if (txtSearch != '' || (frmdt != '' && todt != '')) {
+            jQuery.post('/HR/FilterLogHistorybyDate', { SearchText: txtSearch, FromDate: frmdt, ToDate: todt }, function (data) {
+                jQuery('#divBindData').html(data);
+            });
+        }
+        else {
+            alert('Please input the proper data to  filter.');
+        }
+    }
+
+
+    $(".datepik").keypress(function (event) { event.preventDefault(); });
+    // Search User Function...........
+    jQuery('#btnSearchUser').click(function (data) {
+        SearchEmployeeData();
+    });
+
+    function SearchEmployeeData() {
+        var txtSearch = jQuery('#txtSearch').val();
+        if (txtSearch != '') {
+            jQuery.post('/Hr/SearchNisEmployee', { SearchText: txtSearch }, function (data) {
+                if (data == 'error') {
+                    alert('There is some problem!.');
+                }
+                else {
+                    jQuery('#divBindData').html(data);
+                }
+            });
+        }
+        else {
+            jQuery('#txtSearch').css('border-color', 'red');
+            alert('Please input the proper data.');
+        }
+    }
+    jQuery('#txtSearch').keypress(function (e) {
+        code = e.keyCode ? e.keyCode : e.which;
+        if (code.toString() == 13) {
+            SearchEmployeeData();
+        }
+        else {
+            var regex = new RegExp("^[a-zA-Z0-9\b]+$");
+            var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+            if (!regex.test(key)) {
+                event.preventDefault();
+                return false;
+            }
+        }
+    });
+    $("#btnExport").click(function (e) {
+        //e.preventDefault();
+        ////getting data from our table
+        //var data_type = 'data:application/vnd.ms-excel';
+        //var table_div = document.getElementById('table_wrapper');
+        ////table_div = remove
+        ////console.log(exTable);
+        //var table_html = table_div.outerHTML.replace(/ /g, '%20');
+        //var a = document.createElement('a');
+        //a.href = data_type + ', ' + table_html;
+        //a.download = 'Order_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+        //a.click();
+        debugger;
+        var result = 'data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=divBindData]').html());
+        var link = document.createElement("a");
+        document.body.appendChild(link);  // You need to add this line
+        link.download = 'EmployeeLoginHistory_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+        link.href = result;
+        link.click();
+
+
+
+    });
+</script>

@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "roleinformation";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<div class="maincontainer">
+<div class="col-sm-12">
+<h1>Role Management  
+ <button type="submit" class="btn f-right btn-danger right3">Delete Role</button> <button type="submit" class="btn f-right btn-default right3">Cancel</button> <button type="submit" class="btn f-right btn-default right3">Save </button>
+
+</h1>
+
+<div class="col-sm-12">
+<div class="panel panel-default">
+  <div class="panel-heading">New Users</div>
+  <div class="panel-body">
+  
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#roleinfo" data-toggle="tab">Role Info</a></li>
+		<li><a href="#roleassignment" data-toggle="tab">Role Assignment</a></li>
+		<li><a href="#roleusers" data-toggle="tab">Role Users</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane fade in active" id="roleinfo">
+			<br style="clear:both;"/>
+			<form class="form-horizontal">
+			  <div class="form-group">
+				<label class="control-label col-sm-2">Role Name:</label>
+				<div class="col-sm-3">
+				  <input type="text" value="admin" class="form-control">
+				</div>
+			  </div>
+			 
+
+			</form>  		
+		
+		
+		
+		
+		</div><!-- end first tabs -->
+		<div class="tab-pane fade" id="roleassignment">
+			<br style="clear:both;"/>
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-2">Create Leads :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">View Leads :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="control-label col-sm-2">View Sales :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2">Message :</label>
+					<div class="col-sm-1">
+					  <input type="radio" name="a" class="form-control">
+					</div>
+				</div>					
+			
+		
+		</div>
+
+ 
+		<div class="tab-pane fade" id="roleusers">
+		<br style="clear:both;"/> 
+			 <table class="table">
+				<thead>
+				  <tr>
+					<th width="30%">User Name</th>
+					<th width="20%">Firstname</th>
+					<th width="20%">Lastname</th>
+					<th width="20%">Email</th>
+					<th width="10%">Status</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>Admin</td>
+					<td>Ranjay</td>
+					<td>Kumar</td>
+					<td>john@example.com</td>
+					<td><select class="form-control"><option>Active</option>
+					<option>Inactive</option></select></td>					
+				  </tr>
+				</tbody>
+			  </table>			
+		</div>
+  </div>
+</div>
+</div>
+</div>
+</div></div>

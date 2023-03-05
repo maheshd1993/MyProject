@@ -1,0 +1,505 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.DashBoardLeadsModel
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+
+@*<div class="sidebarwrap">
+   <div class="panel-group" id="accordion">
+
+   <div class="panel panel-default leftpanel">
+      <div class="panel-heading c_panel">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="colapsanchor"><i aria-hidden="true" class="fa fa-calendar sideicon"></i> Last 4 Months Sales</a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse">
+		<table class="table table-striped">
+			<tbody>
+				<tr>
+					<td  colspan="2">Last Sales B/F</td>
+				</tr>
+				<tr>
+					<th >Month</th>
+					<th >Total Sales</th>
+				</tr>
+                @{
+                    var CurrentMonthDAte = System.DateTime.Now;
+                    var CurrentMonthDAte_1 = CurrentMonthDAte.AddMonths(-1);
+                    var CurrentMonthDAte_2 = CurrentMonthDAte.AddMonths(-2);
+                    var CurrentMonthDAte_3 = CurrentMonthDAte.AddMonths(-3);
+                    var CurrentMonthDAte_4 = CurrentMonthDAte.AddMonths(-4);
+                    }
+				<tr>
+					<td>@CurrentMonthDAte_1.Year-@CurrentMonthDAte_1.Month</td>
+					<td>@TempData["CurrentMonth-1"]</td>
+				</tr>
+				<tr>
+					<td>@CurrentMonthDAte_2.Year-@CurrentMonthDAte_2.Month</td>
+					<td>@TempData["CurrentMonth-2"]</td>
+				</tr>
+				<tr>
+					<td>@CurrentMonthDAte_3.Year-@CurrentMonthDAte_3.Month</td>
+					<td>@TempData["CurrentMonth-3"]</td>
+				</tr>
+				<tr>
+					<td>@CurrentMonthDAte_4.Year-@CurrentMonthDAte_4.Month</td>
+					<td>@TempData["CurrentMonth-4"]</td>
+				</tr>
+			</tbody>
+		</table>
+      </div>
+    </div>
+
+    <div class="panel panel-default leftpanel">
+          <div class="panel-heading c_panel">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse2" data-parent="#accordion" class="colapsanchor"> <i class="fa fa-paper-plane sideicon" aria-hidden="true"></i> Send Lead Request</a>
+            </h4>
+          </div>
+          <div id="collapse2" class="panel-collapse collapse">
+		     <form>
+		     <div class="form-group">
+			    <select id="ddlLeadRequst" class="form-control">
+				    <option value="NEW">NEW</option>
+			    </select>
+		     </div>
+		      <div class="form-group">
+                  @TempData["IPA"]
+			    <input type="text" id="txtNoOfLeads" placeholder="Number of Lead" class="form-control allowInt" >
+		      </div>
+		      <div class="form-group">
+			    <input type="text" id="txtState" placeholder="State" class="form-control">
+		      </div>
+		      <button id="btnSubmitLeadRequest" type="button" class="btn btn-default">Submit</button>
+		    </form>
+          </div>
+        </div>	
+
+    <div class="panel panel-default leftpanel">
+      <div class="panel-heading c_panel">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="colapsanchor"> <i class="fa fa-phone-square sideicon" aria-hidden="true"></i> Calls & Free Trial</a>
+        </h4>
+      </div>
+      <div id="collapse3" class="panel-collapse collapse">
+			<table class="table table-striped">
+				<tbody>
+					<tr>
+					  <th >&nbsp;</th>
+					  <th >Today</th>
+					  <th >Month</th>
+					</tr>
+					<tr>
+					  <td>Follow Up</td>
+					  <td>@TempData["TodayFollowCount"]</td>
+					  <td>@TempData["MonthFollowUpCount"]</td>
+					</tr>
+					<tr>
+					  <td>Calls</td>
+					  <td>@TempData["TodayCalls"]</td>
+					  <td>@TempData["MonthCalls"]</td>
+					</tr>
+					<tr>
+					  <td>Free Trial </td>
+					  <td>@TempData["TodayFreeTrail"]</td>
+					  <td>@TempData["MonthFreeTrail"]</td>
+					</tr>
+					<tr>
+					  <td>Sales</td>
+					  <td>@TempData["TodaySales"] </td>
+					  <td>@TempData["MonthSales"]</td>
+					</tr>
+				</tbody>
+			</table>
+      </div>
+	 
+    </div>
+
+<div class="sidenews">
+<h4>News & Events</h4>
+			<marquee behavior="scroll" scrollamount="5" direction="up" onmouseover="this.setAttribute('scrollamount',0);" onmouseout="this.setAttribute('scrollamount',5);"><table>
+				@foreach (var item in ViewBag.Newsresult )
+                {
+                    <tr>
+					  <td>@item.News</td>
+				    </tr>
+				
+                }
+				
+			</table>
+			</marquee>
+			</div>
+	
+
+    @*<div class="panel panel-default leftpanel">
+      <div class="panel-heading c_panel">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="colapsanchor"><i class="fa fa-history sideicon" aria-hidden="true"></i> Recent Activities</a>
+        </h4>
+      </div>
+      <div id="collapse4" class="panel-collapse collapse">
+        <div class="panel-body">Panel Body</div>
+        <div class="panel-footer">Panel Footer</div>
+      </div>
+    </div>	
+ </div>
+ </div>*@
+
+<div class="maincontainerdash" style="width: 100%;">
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i><strong>Today Leads</strong></div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Lead Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Created by</th>
+                                    <th>Follow Up Date</th>
+                                    <th>Assign By</th>
+                                    <th>Lead Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.dashboardTodayLeadsList.Count > 0)
+                                {
+                                    foreach (var item in Model.dashboardTodayLeadsList)
+                                    {
+                                        //DateTime dt = Convert.ToDateTime(item.FollowUpDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                        //string dateString = String.Format("{0:dd/MM/yyyy}", dt);
+                                    <tr>
+                                        <td><a href="/home/createleads/@item.Id" target="_blank">@item.LeadName</a></td>
+                                        <td>@item.Phone</td>
+                                        <td><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@*@dateString*@ @item.FollowUpDate</td>
+                                        <td>@item.AssignedBy</td>
+                                        <td>@item.LeadStatus</td>
+                                    </tr>    
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                                    </tr> 
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><i class="fa fa-envelope" aria-hidden="true"></i><strong>Today Follow Up</strong></div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tablefont" id="dest12">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Lead Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Created by</th>
+                                    <th>Follow Up Date</th>
+                                    <th>Assign By</th>
+                                    <th>Lead Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.dashboardTodayFollowUpLeadsList.Count > 0)
+                                {
+                                    foreach (var item in Model.dashboardTodayFollowUpLeadsList)
+                                    {
+                                        //DateTime dt = Convert.ToDateTime(item.FollowUpDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                        //string dateString = String.Format("{0:dd/MM/yyyy}", dt);                               
+                                    <tr>
+                                        <td><a href="/home/createleads/@item.Id" target="_blank">@item.LeadName</a></td>
+                                        <td>@item.Phone</td>
+                                        <td><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@item.FollowUpDate</td>
+                                        <td>@item.AssignedBy</td>
+                                        <td>@item.LeadStatus</td>
+                                    </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                                    </tr> 
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i><strong>Payment Status</strong></div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tablefont" id="dest2">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th style="width: 5%">#</th>
+                                <th style="width: 15%">Bill Number</th>
+                                <th style="width: 15%">Customer Name</th>
+                                <th style="width: 15%">Bill Date</th>
+                                <th style="width: 15%">Due Date</th>
+                                <th style="width: 15%">Balance Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @{int i = 1;}
+                            @if (Model != null)
+                            {
+                                if (Model.dashboardTodayPaymentList != null)
+                                {
+                                    if (Model.dashboardTodayPaymentList.Count > 0)
+                                    {
+                                        foreach (var item in Model.dashboardTodayPaymentList)
+                                        {
+                                            DateTime dtBilldate = Convert.ToDateTime(item.BillDate.Value.ToShortDateString().Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                            string BilldateString = String.Format("{0:dd/MM/yyyy}", dtBilldate);
+                                            DateTime dtDuedate = Convert.ToDateTime(item.BillDate.Value.ToShortDateString().Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                            string DuedateString = String.Format("{0:dd/MM/yyyy}", dtDuedate); 
+                                            
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.BillNumber</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>@BilldateString</td>
+                                                <td>@DuedateString</td>
+                                                <td>@item.BalanceAmount</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i><strong>Birthday And Marriage Anniversary</strong></div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tablefont" id="dest4">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Lead Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Created by</th>
+                                    <th>Follow Up Date</th>
+                                    <th>Assign By</th>
+                                    <th>Lead Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.dashboardTodayDOBMAList.Count > 0)
+                                {
+                                    foreach (var item in Model.dashboardTodayDOBMAList)
+                                    {
+                                    <tr>
+                                        <td><a href="/home/createleads/@item.Id" target="_blank">@item.LeadName</a></td>
+                                        <td>@item.Phone</td>
+                                        <td><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@item.FollowUpDate</td>
+                                        <td>@item.AssignedBy</td>
+                                        <td>@item.LeadStatus</td>
+                                    </tr>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">** No Record Found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i><strong>Week Leads</strong></div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tablefont" id="dest1">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Lead Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Created by</th>
+                                    <th>Follow Up Date</th>
+                                    <th>Assign By</th>
+                                    <th>Lead Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.dashboardWeekLeadsList.Count > 0)
+                                {
+                                    foreach (var item in Model.dashboardWeekLeadsList)
+                                    {
+                                    <tr>
+                                        <td><a href="/home/createleads/@item.Id" target="_blank">@item.LeadName</a></td>
+                                        <td>@item.Phone</td>
+                                        <td><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@item.FollowUpDate</td>
+                                        <td>@item.AssignedBy</td>
+                                        <td>@item.LeadStatus</td>
+                                    </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                                    </tr> 
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    @*<div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><i class="fa fa-user" aria-hidden="true"></i><strong>My Priority</strong></div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Lead Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Created by</th>
+                                    <th>Follow Up Date</th>
+                                    <th>Assign By</th>
+                                    <th>Lead Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.dashboardPriorityLeadsList.Count > 0)
+                                {
+                                    foreach (var item in Model.dashboardPriorityLeadsList)
+                                    {
+                                    <tr>
+                                        <td><a href="/home/createleads/@item.Id" target="_blank">@item.LeadName</a></td>
+                                        <td>@item.Phone</td>
+                                        <td><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@item.FollowUpDate</td>
+                                        <td>@item.AssignedBy</td>
+                                        <td>@item.LeadStatus</td>
+                                    </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                                    </tr> 
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+<!-- end maincontainer -->
+<!-- /container main  -->
+<!-- Modal -->
+<div id="modalDoses" class="modal fade" role="dialog" style="top: 20%;">
+</div>
+
+<script type="text/javascript">
+    $('.Pop').on('click', function () {
+        var frmList = $(this).data('name');
+        $.post('/common/ProductNameListDisplay', { firmList: frmList }, function (data) {
+            jQuery('#modalDoses').html(data);
+            $($(this).data("#modalDoses")).show();
+        });
+    });
+
+    jQuery('#btnSubmitLeadRequest').on('click', function () {
+        var LeadType = jQuery('#ddlLeadRequst').val();
+        var NoofLeads = jQuery('#txtNoOfLeads').val();
+        var txtState = jQuery('#txtState').val();
+        if (NoofLeads != '' && NoofLeads != 0) {
+            jQuery.post('/common/LeadRequest', { Leadtype: LeadType, NoOfLeads: NoofLeads, State: txtState }, function (data) {
+                if (data == 'success') {
+                    swal({ title: "Thank you!", text: 'Lead request submited successfully.', imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+                    jQuery('#txtNoOfLeads').val('');
+                    jQuery('#txtState').val('');
+                }
+            });
+        }
+        else {
+            alert('Please provide the No of Leads!');
+        }
+    });
+
+    $(".allowInt").on("keypress keyup blur", function (event) {
+        this.value = this.value.replace(/[^0-9\.]/g, '');
+    });
+</script>
+

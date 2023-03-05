@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Add-Module";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.AddProjectModuleModel
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info new_activity_form">
+                        <div class="panel-heading">
+                            <strong>Project Module</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0">
+
+                                </div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <input type="button" value="Back to projects" class="btn btn-danger" style="float: right;" onclick="location.href = '/project/add'" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("AddModule", "project", FormMethod.Post))
+                                {
+                                    <div class="col-sm-3">
+                                        <label style=" float right;">Project Name : @TempData["Project-Name"]</label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label style="float: right;">Add Module Name</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.ProjectModuleName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Module Name" })
+                                        @Html.ValidationMessageFor(em => em.ProjectModuleName)
+
+                                    </div>
+                                    <div class="col-sm-2 padd0">
+                                        @Html.HiddenFor(em => em.ProjectId)
+                                        @Html.HiddenFor(em => em.ModuleId)
+                                        <input id="Submit1" class="btn btn-success" type="submit" value="Submit" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 50%">Module Name </th>
+                                <th style="width: 5%">Edit</th>
+                                <th style="width:8%">Status</th>
+                                @* <th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (ViewBag.result.Count > 0)
+                            {
+                                foreach (var item in ViewBag.result)
+                                {
+                                    <tr>
+                                        <td><a href="/home/NewsEvent/@item.M_Id">@i</a></td>
+                                        <td>@item.ModuleName</td>
+                                        <td><a href="/project/AddModule/?pid=@item.PId&&mid=@item.M_Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                        <td>
+                                            @if (item.IsActive)
+                                            {
+                                                <button type="button" class="btn btn-success" sts="active" url="/project/ChangeStatusModel/?pid=@item.PId&&mid=@item.M_Id" onclick="ChangeStatusModel(this);">Active</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-danger" sts="inactive" url="/project/ChangeStatusModel/?pid=@item.PId&&mid=@item.M_Id" onclick="ChangeStatusModel(this);">Inactive</button>
+                                            }
+                                        </td>
+                                        @* <td>@item.Status</td>*@
+                                        @*<td><a href="#" onclick="return confirm('Are you sure want to delete this news events!')"><i class="fa fa-trash"></i></a></td>*@
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+    //////////////////////////onclick button to change status by id/////////////////
+    function ChangeStatusModel(obj) {
+        var baseUrl = (window.location).href; // You can also use document.URL
+        var koopId = baseUrl.substring(baseUrl.lastIndexOf('=') + 1);
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+
+</script>

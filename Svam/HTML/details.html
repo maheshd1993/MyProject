@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>CRM</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/mystyle.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/jquery-ui.css"/>	
+	<!-- graph css -->
+
+
+	
+  </head>
+
+  <body>
+<header>
+<div class="container">
+	<div class="col-sm-3 padd0">
+		<a href="index.html"><img src="img/logo.png" alt="logo"></a>
+	</div>
+	<div class="col-sm-9 padd0">
+		<div class="headerright">
+			  <a href="#" class="toplink dropdown-toggle btn toplinkuser" style="width: auto !important;" data-toggle="dropdown" title="Compose Mail" aria-expanded="false"><i aria-hidden="true" class="fa fa-user"></i> Ranjay Kumar <span class="carretdrop"></span></a>
+			  <ul class="dropdown-menu  rightdrop">
+				<li><a href="mailto:someone@example.com?Subject=Hello%20again"><i aria-hidden="true" class="fa fa-envelope-o"></i>	rkumar@nicoleinfosoft.com</a></li>
+				<li><a href="/Nis/loginHistory"><i aria-hidden="true" class="fa fa-history"></i>  Last Login Details</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#changepassword"><i aria-hidden="true" class="fa fa-exchange"></i> Change Password</a></li>
+                <li><a href="/home/OurMappeduser"><i aria-hidden="true" class="fa fa-user"></i>  Mapped User</a></li>
+				
+			</ul>
+		<a href="index.html" class="toplink btn" title="Logout"><i class="fa fa-power-off" style="color:#c9302c;" aria-hidden="true"></i></a>
+		</div>
+    </div>
+
+
+</div>
+
+
+</header>
+<!-- end header -->
+
+   <nav class="navbar navbar-default navbarstyle">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="home.html" class="homeicon"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createbranch.html">Create Branch</a></li>
+								<li><a href="createuser.html">Create User</a></li>
+								<li><a href="viewusers.html">View User</a></li>
+								<li><a href="createprofile.html">Create Profile</a></li><li><a href="createsupplier.html">Create Supplier</a></li>
+						</ul>
+            </li>
+
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Master <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							  <li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">CRM </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="leadstatus.html">Lead Status</a></li>
+										<li><a tabindex="-1" href="managecountary.html">Manage Country</a></li>
+										<li><a tabindex="-1" href="leadsource.html">Lead Source</a></li>
+										<li><a tabindex="-1" href="typeoflead.html">Type of lead</a></li>
+										<li><a tabindex="-1" href="quotationtype">Quotation Type</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="sales.html">Sales</a></li>
+								<li><a href="purchase.html">Purchase</a></li>
+								<li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">Inventory </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="createcategory.html">Category</a></li>
+										<li><a tabindex="-1" href="measurement.html">Measurement Unit</a></li>
+										<li><a tabindex="-1" href="itemdetails.html">Item Details</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="tax.html">TAX</a></li>
+						</ul>
+            </li>			
+			
+
+            <li class="dropdown active">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CRM <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createnewleads.html">Create Lead</a></li>
+								<li><a href="viewleads.html">View Lead</a></li>
+								<li><a href="assignlead.html">Assign Lead</a></li>
+								<li><a href="assignedlead.html">Assigned Lead</a></li>
+								<li><a href="createquotation.html">Create Quotation</a></li>
+								<li><a href="#">View Quotation</a></li>
+								<li><a href="#">Confirmed Order</a></li>								
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sales <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="challan.html">Challan </a></li>
+								<li><a href="invoice.html">Invoice</a></li>
+								<li><a href="salesreturn.html">Sales Return</a></li>
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchase <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="purchaserequisition.html">Purchase Requisition</a></li>
+								<li><a href="purchaseorder.html">Purchase Order Generation</a></li>
+								<li><a href="generategrn.html">GRN</a></li>
+								<li><a href="purchasereturns.html">Purchase Return</a></li>
+						</ul>
+            </li>
+			<li><a href="account.html">Account</a></li>
+			<li><a href="reports.html">Reports</a></li>
+			
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav> 
+
+
+
+<div class="maincontainer">
+
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+		  <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i> Item Details</div>
+			<div class="panel-body">
+                        <div class="col-sm-12 padd0">
+                            <div class="table-responsive">
+                                <table id="dest" class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" class="noimg padd0" style="padding:10px 0px; !important;">Sr no.</th>
+                                            <th width="10%">Part No. </th>
+                                            <th width="50%">Description</th>
+                                            <th width="10%">Qty</th>
+                                            <th width="10%">Rate</th>
+                                            <th width="10%">Amount</th>
+                                       
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										<tr>
+											<td>1</td>
+											<td>22323</td>
+											<td><p>Lorem Ipsum - All the facts - Lipsum generator</p></td>
+											<td>23</td>
+											<td>456</td>
+											<td>4000</td>
+                                         </tr>
+										<tr>
+											<td>1</td>
+											<td>22323</td>
+											<td><p>Lorem Ipsum - All the facts - Lipsum generator</p></td>
+											<td>23</td>
+											<td>456</td>
+											<td>4000</td>
+                                         </tr>
+										<tr>
+											<td>1</td>
+											<td>22323</td>
+											<td><p>Lorem Ipsum - All the facts - Lipsum generator</p></td>
+											<td>23</td>
+											<td>456</td>
+											<td>4000</td>
+                                         </tr>
+										<tr>
+											<td>1</td>
+											<td>22323</td>
+											<td><p>Lorem Ipsum - All the facts - Lipsum generator</p></td>
+											<td>23</td>
+											<td>456</td>
+											<td>4000</td>
+                                         </tr>										 
+
+									</tbody>
+                                </table>
+
+                            </div>
+							<div class="totalwrap">
+								<table class="table table-striped totaltable table-bordered">
+									<tr>
+										<th width="40%">Sub Total</th>
+										<th  width="20%">%</th>
+										<th  width="20%">Amount</th>
+									</tr>
+									<tr>
+										<td> Discount (No Tax)</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td> Handling charge (Tax)</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td> Freight  (tax in HR)</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td> VAT/CST</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td> Total Taxable Amount</td>
+										<td></td>
+										<td></td>
+									</tr>									
+									
+								</table>
+							</div>
+							
+                        </div>
+                    </div>
+                </div>
+
+
+  </div>
+<!-- end item details -->
+  
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+		  <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i> Service Details </div>
+			<div class="panel-body">
+                        <div class="col-sm-12 padd0">
+                            <div class="table-responsive">
+                                <table id="dest" class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" class="noimg padd0" style="padding:10px 0px; !important;">SN.</th>
+                                            <th width="10%">Service ID. </th>
+                                            <th width="50%">Description</th>
+                                            <th width="10%">Qty</th>
+                                            <th width="10%">Rate</th>
+                                            <th width="10%">Amount</th>
+                                       
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										<tr>
+											<td>1</td>
+											<td>#566456</td>
+											<td><p>Lorem Ipsum - All the facts - Lipsum generator</p></td>
+											<td>23</td>
+											<td>456</td>
+											<td>4000</td>
+                                         </tr>
+										<tr>
+											<td>1</td>
+											<td>#566456</td>
+											<td><p>Lorem Ipsum - All the facts - Lipsum generator</p></td>
+											<td>23</td>
+											<td>456</td>
+											<td>4000</td>
+                                         </tr>
+										<tr>
+											<td>1</td>
+											<td>#22323</td>
+											<td><p>Lorem Ipsum - All the facts - Lipsum generator</p></td>
+											<td>23</td>
+											<td>456</td>
+											<td>4000</td>
+                                         </tr>
+										 
+
+									</tbody>
+                                </table>
+
+                            </div>
+							<div class="totalwrap">
+								<table class="table table-striped totaltable table-bordered">
+									<tr>
+										<th width="40%">Sub Total</th>
+										<th  width="20%">%</th>
+										<th  width="20%">Amount</th>
+									</tr>
+									<tr>
+										<td> Service Tax</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td> Total</td>
+										<td></td>
+										<td></td>
+									</tr>
+
+								</table>
+							</div>
+							<br style="clear:both;"/>
+							<div class="totalwrap">
+								<table class="table table-striped table-bordered">
+									<tr>
+										<th width="40%">Total Taxable Amount </th>
+										<th  width="20%"></th>
+										<th  width="20%"></th>
+									</tr>
+									<tr>
+										<td> Grand Total
+</td>
+										<td></td>
+										<td></td>
+									</tr>
+									
+									<tr>
+										<td colspan="3"> Amount In Word:- </td>
+									</tr>									
+								</table>
+								
+								<form>             
+							<div class="form-group f-center col-sm-12 padd0">
+						   <div class="col-sm-3">
+							<label style="margin-top:5px;">Remarks</label></div>
+							
+						  <div class="col-sm-9">
+						  <input type="text" class="form-control" name="" placeholder="Remarks"></div>
+					   
+						</div>
+					</form>
+								
+							</div>							
+							
+                        </div>
+                    </div>
+                </div>
+
+
+  </div>
+
+<div class="col-sm-12 t-right">
+						<input type="submit" name="Submit" value="Save" class="btn mainbtn2">
+						
+						
+                        <input type="button" value="Cancel" class="btn  mainbtn" onclick="location.href = ''">
+						
+						</div>
+
+</div>
+
+
+
+</div><!-- end maincontainer -->
+ <!-- /container main  -->
+<!-- modal data -->
+  <!-- Modal  edit late fees popup inside -->
+<div id="leaddetails" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">View Lead Details</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="table-responsive">
+							<table class="table table-bordered modaltable">
+
+								<tbody>
+								  <tr>
+									<td width="150" class="lefttd">Lead Owner</td> <td width="70%">Binay Kumar</td>
+								 </tr>
+								  <tr>
+									<td class="lefttd">Customer name</td> <td>Nitin Tiwari</td>
+								 </tr>
+								  <tr>
+									<td class="lefttd">Designation :</td> <td>Jeneral Manager</td>
+								 </tr>									 
+								  <tr>
+									<td class="lefttd">Mobile No</td> <td>9810289999</td>
+								 </tr>
+
+								  <tr>
+									<td class="lefttd">Follow Date </td> <td>12/01/2017</td>
+								 </tr>
+								  <tr>
+									<td class="lefttd">Type of lead:</td> <td>CRM Requirement</td>
+								 </tr>	
+	
+								  <tr>
+									<td class="lefttd">Lead Status :</td> <td>Pending</td>
+								 </tr>	
+
+								  <tr>
+									<td class="lefttd">Customer Mail Id  :</td> <td>nitin@gmail.com</td>
+								 </tr>	
+
+
+								  <tr>
+									<td class="lefttd">Lead Source   :</td> <td>Email</td>
+								 </tr>	
+								  <tr>
+									<td class="lefttd">Country </td> <td>India</td>
+								 </tr>
+								  <tr>
+									<td class="lefttd">State </td> <td>U.P</td>
+								 </tr>								 
+								  <tr>
+									<td class="lefttd">City </td> <td>Noida</td>
+								 </tr>	
+								  <tr>
+									<td class="lefttd">Address  :</td> <td>B-134, Sector 15 NOIDA (U.P.) </td>
+								 </tr>								 
+								  <tr>
+									<td class="lefttd">Description : </td> <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</td>
+								 </tr>								 
+								</tbody>
+							  </table>
+							</div>
+						</div>
+					</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->  
+
+ 
+ 
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>	
+	<script src="js/custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="js/sorttable.js"></script>
+		<script>
+		$(function(){
+			$("#dest").addSortWidget();
+		});	
+	
+$( function() {
+$( "#datepicker,#datepicker1" ).datepicker();
+} );
+</script>		
+
+	
+
+
+  </body>
+</html>

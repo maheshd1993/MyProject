@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "CreateQuotation1";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Svam.Models.CRMQutationsaleModel
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                        </div>
+                        <div class="panel-heading">
+                            @if (Session["tUser_id"] != null && @Session["T_pwd"] != null)
+                            {
+                            //https://viren.nicoleinfosoftdemo.com/quotationsCRM/@Session["t_crm_token"]
+                            //https://www.smartcapita.com/quotationsCRM/@Session["t_crm_token"]
+                            <iframe src= "https://www.smartcapita.com/quotationsCRM/@Session["t_crm_token"]" style ="width:100%;min-height:800px;" title="Sale Order"></iframe>
+                            }
+                            else
+                            {
+                                if (Convert.ToInt32(Session["CompanyID"]) == 2682)
+                                {
+                                <script>
+                                    alert("Customer group has not been assigned , Please assign Customer Group !");
+                                    window.location = "/Quotation/CreateQuotation";
+                                </script>
+                                }
+                                else
+                                {
+                                    <iframe src="https://www.smartcapita.com/quotationsCRM/@Session["t_crm_token"]" style="width:100%;min-height:800px;" title="Sale Order"></iframe>
+                                }
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

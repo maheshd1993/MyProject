@@ -1,0 +1,586 @@
+﻿@{
+    ViewBag.Title = "ManageQuotation1";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.ViewModel.QuotationReportVM
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Sale Quotation Report</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                @*<div class="col-sm-3 padd0 developer_paddo">
+                                        <a class="btn btn-success pull-right" href="/Quotation/EditQuotation" style="color: white;margin-right: 10px;text-shadow: none;"><i></i>Create Quotation</a>
+                                    </div>*@
+                            </div>
+                            <div class="row">
+                                @using (Html.BeginForm("ManageQuotation1", "Quotation", FormMethod.Post))
+                                {
+                                    <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                        <div class="col-sm-3">
+                                            @if (Model.CustomerList != null && Model.CustomerList.Count() > 0)
+                                            {
+                                                @Html.DropDownListFor(a => a.CustomerId, Model.CustomerList, "Select Customer", new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(a => a.CustomerId, Enumerable.Empty<SelectListItem>(), "Select Customer", new { @class = "form-control" })
+                                            }
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(a => a.FromDate, new { @class = "form-control", required = "required", @readonly = "readonly", autocomplete = "autocomplete", translate = "no" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(a => a.ToDate, new { @class = "form-control", required = "required", @readonly = "readonly", autocomplete = "autocomplete", translate = "no" })
+
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select id="Q_filterstatus" name="Q_filterstatus">
+                                                <option value="0">--Select Status--</option>
+                                                <option value="3">Created </option>
+                                                <option value="4">Sent</option>
+                                                <option value="5">Follow- Up</option>
+                                                <option value="6">Closed</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2 padd0">
+                                            <input type="submit" id="btnFilterLogHistory" class="btn btn-danger" style="margin-left: 10px;" value="Filter" />
+                                            <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/Quotation/ManageQuotation1'" />
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <div class="col-sm-12 padd0">
+                                    <div id="bindSearchData" class="table-responsive">
+                                        <table class="table table-bordered tablefont" id="table">
+                                            <thead class="black-white-text">
+                                                <tr>
+                                                    <th>Sr.No.</th>
+                                                    <th>Quotation No.</th>
+                                                    <th>Quotation Date</th>
+                                                    <th>Customer Name</th>
+                                                    <th>Mobile No.</th>
+                                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2682)
+                                                    {
+                                                        <th>Status</th>
+                                                    }
+                                                    <th>Total Qty</th>
+                                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2682)
+                                                    {
+                                                        <th>Update Status</th>
+                                                    }
+                                                    <th>View Report</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.QtReport != null && Model.QtReport.Count > 0)
+                                                {
+                                                    int i = 1;
+                                                    foreach (var item in Model.QtReport)
+                                                    {
+
+                                                        string Comp = item.QuotationNo.Substring(0, 4);
+                                                        <tr>
+                                                            <td data-column="Sr.No." translate="no">@i</td>
+                                                            <td data-column="Quotation No." class="qno" translate="no">@item.QuotationNo</td>
+                                                            <td data-column="Quotation Date" translate="no">
+                                                                @String.Format("{0:" + Model.DateFormat + "}", item.QuotationDate)
+                                                            </td>
+                                                            <td data-column="Customer Name" translate="no">@item.CustomerName</td>
+                                                            <td data-column="Mobile No." translate="no">@item.MobileNo</td>
+                                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2682)
+                                                            {
+                                                                if (item.status == 3)
+                                                                {
+                                                                    <td data-column="Mobile No." translate="no">Created</td>
+                                                                }
+                                                                if (item.status == 4)
+                                                                {
+                                                                    <td data-column="Mobile No." translate="no">Sent</td>
+                                                                }
+                                                                if (item.status == 5)
+                                                                {
+                                                                    <td data-column="Mobile No." translate="no">Follow- Up</td>
+                                                                }
+                                                                if (item.status == 6)
+                                                                {
+                                                                    <td data-column="Mobile No." translate="no">Closed</td>
+                                                                }
+                                                                if (item.status == 1)
+                                                                {
+                                                                    <td data-column="Mobile No." translate="no"></td>
+                                                                }
+                                                            }
+                                                            <td data-column="Total Qty" translate="no">@item.TotalQuantity</td>
+                                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2682)
+                                                            {
+                                                                <td data-column="Quotation Staus" translate="no">
+                                                                    <select id="Q_status" name="@item.QuotationNo" onchange="saveQstatus(this);">
+                                                                        <option value="0">--Select Status--</option>
+                                                                        <option value="3">Created </option>
+                                                                        <option value="4">Sent</option>
+                                                                        <option value="5">Follow- Up</option>
+                                                                        <option value="6">Closed</option>
+                                                                    </select>
+                                                                </td>
+                                                            }
+                                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2682)
+                                                            {
+                                                                if (Comp == "BEAR")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_p(this);" data-toggle="modal" data-target="#ViewQuotationDetail_p" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                else if (Comp == "ARIH")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_ARIH(this);" data-toggle="modal" data-target="#ViewQuotationDetail_ARIH" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                else if (Comp == "GOYM")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_GOYM(this);" data-toggle="modal" data-target="#ViewQuotationDetail_GOYM" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                else if (Comp == "NEW5")
+                                                                {
+                                                                    <td data-column="View Report" translate="no"> 
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_NEW5(this);" data-toggle="modal" data-target="#ViewQuotationDetail_NEW5" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                else if (Comp == "SNK4")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_SNK4(this);" data-toggle="modal" data-target="#ViewQuotationDetail_SNK4" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                            }
+                                                            else if (Convert.ToInt32(Session["CompanyID"]) != 2644)
+                                                            {
+                                                                <td data-column="View Report" translate="no">
+                                                                    <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" onclick="getQuatationDetail(this);" data-toggle="modal" data-target="#ViewQuotationDetail" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                </td>
+                                                            }
+                                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                                            {
+                                                                if (item.Createdby == "sspowerco")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_Sahilcompanysspower(this);" data-toggle="modal" data-target="#ViewQuotationDetail_Sahilcompanysspower" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+
+                                                                }
+                                                                if (item.Createdby == "aceengineers")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_Sahilcompanyaceengineers(this);" data-toggle="modal" data-target="#ViewQuotationDetail_Sahilcompanyaceengineers" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                if (item.Createdby == "acemumbai")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_SahilcompanyACE(this);" data-toggle="modal" data-target="#ViewQuotationDetail_SahilcompanyACE" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                if (item.Createdby == "sahilpower")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_Sahilcompanysahilpower(this);" data-toggle="modal" data-target="#ViewQuotationDetail_Sahilcompanysahilpower" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                if (item.Createdby == "powertrading")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_Sahilcompanypowertrading(this);" data-toggle="modal" data-target="#ViewQuotationDetail_Sahilcompanypowertrading" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                if (item.Createdby == "electosupply")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_Sahilcompanyelectosupply(this);" data-toggle="modal" data-target="#ViewQuotationDetail_Sahilcompanyelectosupply" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+                                                                if (item.Createdby == "wolke9")
+                                                                {
+                                                                    <td data-column="View Report" translate="no">
+                                                                        <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" comid="@item.companyId" onclick="getQuatationDetail_Sahilcompanywolke9(this);" data-toggle="modal" data-target="#ViewQuotationDetail_Sahilcompanywolke9" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                    </td>
+                                                                }
+
+
+                                                            }
+
+                                                        </tr>
+                                                        i++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td style="text-align: center;" colspan="7">** No Record Found!</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        @*<div id="pagination" class="container paginationcustom">
+                                                <ul class="pagination"></ul>
+                                            </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ViewQuotationDetail" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_p" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_ARIH" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_GOYM" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_NEW5" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_SNK4" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_Sahilcompanysspower" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_SahilcompanyACE" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_Sahilcompanysahilpower" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_Sahilcompanypowertrading" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_Sahilcompanyelectosupply" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_Sahilcompanywolke9" class="modal fade" role="dialog">
+</div>
+<div id="ViewQuotationDetail_Sahilcompanyaceengineers" class="modal fade" role="dialog">
+</div>
+
+<link href="~/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+<script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
+<script src="~/timepicker/bootstrap-timepicker.js"></script>
+<script>
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+</script>
+
+<script>
+
+    function saveQstatus(obj) {
+        debugger;
+        var self = jQuery(obj);
+        var Qstatus = self.val();
+        //var Qno = $(param).parent().prev('td').prev('td').prev('td').prev('td').find('.qno').val();
+        var Qno = $(obj).attr('name');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("UpdateQuotationstatus", "Quotation")',
+            data: { QuotationNo: Qno, QuotationStatus: Qstatus },
+            error: function (xhr, status, error) {
+                //$(".loaderimg").hide();
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (data) {
+                if (data != '') {
+                    swal("Success !", data, "success");
+                    location.reload(true);
+
+                }
+
+            },
+        });
+
+    }
+
+
+    function getQuatationDetail(obj) {
+        var QtNo = $(obj).attr('qtNo');
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo", "Quotation")',
+            data: { QuotationNo: QtNo },
+            error: function (xhr, status, error) {
+                //$(".loaderimg").hide();
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail")).show();
+            },
+        });
+    }
+
+    function getQuatationDetail_p(obj) {
+        var QtNo = $(obj).attr('qtNo');
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_p", "Quotation")',
+            data: { QuotationNo: QtNo },
+            error: function (xhr, status, error) {
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_p').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_p")).show();
+            },
+        });
+    }
+
+    function getQuatationDetail_ARIH(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_ARIH", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_ARIH').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_ARIH")).show();
+            },
+        });
+    }
+
+    function getQuatationDetail_GOYM(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_GOYM", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_GOYM').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_GOYM")).show();
+            },
+        });
+    }
+    function getQuatationDetail_NEW5(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_NEW5", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_NEW5').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_NEW5")).show();
+            },
+        });
+    }
+
+    function getQuatationDetail_SNK4(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_SNK4", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_SNK4').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_SNK4")).show();
+            },
+        });
+    }
+    function getQuatationDetail_Sahilcompanysspower(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_Sahilcompanysspower", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_Sahilcompanysspower').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_Sahilcompanysspower")).show();
+            },
+        });
+    }
+
+    function getQuatationDetail_SahilcompanyACE(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_SahilcompanyACE", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_SahilcompanyACE').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_SahilcompanyACE")).show();
+            },
+        });
+    }
+
+    function getQuatationDetail_Sahilcompanysahilpower(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_Sahilcompanysahilpower", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_Sahilcompanysahilpower').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_Sahilcompanysahilpower")).show();
+            },
+        });
+    }
+
+    function getQuatationDetail_Sahilcompanypowertrading(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_Sahilcompanypowertrading", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_Sahilcompanypowertrading').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_Sahilcompanypowertrading")).show();
+            },
+        });
+    }
+    function getQuatationDetail_Sahilcompanyelectosupply(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_Sahilcompanyelectosupply", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_Sahilcompanyelectosupply').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_Sahilcompanyelectosupply")).show();
+            },
+        });
+    }
+    function getQuatationDetail_Sahilcompanywolke9(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_Sahilcompanywolke9", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_Sahilcompanywolke9').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_Sahilcompanywolke9")).show();
+            },
+        });
+    }
+    function getQuatationDetail_Sahilcompanyaceengineers(obj) {
+        var QtNo = $(obj).attr('qtNo');
+        var comid = $(obj).attr('comid');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetQuotationByQTNo_Sahilcompanyaceengineers", "Quotation")',
+            data: { QuotationNo: QtNo, multicomid: comid },
+            error: function (xhr, status, error) {
+
+                swal("Alert !", "Something went wrong!", "warning");
+            },
+            success: function (JSONdata) {
+                jQuery('#ViewQuotationDetail_Sahilcompanyaceengineers').html(JSONdata);
+                $($(this).data("#ViewQuotationDetail_Sahilcompanyaceengineers")).show();
+            },
+        });
+    }
+
+</script>
+
+<style type="text/css">
+    .field-validation-error {
+        margin-left: 2px;
+        color: #ff0000;
+        font-size: 12px !important;
+        display: block;
+        margin-top: 43px;
+        font-weight: normal !important;
+    }
+
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+</style>

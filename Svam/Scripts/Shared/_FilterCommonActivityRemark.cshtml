@@ -1,0 +1,34 @@
+﻿
+@model Traders.Models.CommonActivityRemarkModel
+
+                     @if(Model.commonActivityRemarkList.Count>0)
+                     {
+                        <div class="table-responsive">
+                                <table class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10%;">Sr no.</th>
+                                            <th>Remarks </th>
+                                            <th style="width:10%;">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int i = 1;}
+                                        @foreach (var item in Model.commonActivityRemarkList.ToList())
+                                        {
+                                            <tr>
+                                                <td translate="no">@i</td>
+                                                <td translate="no">@Html.Raw(@item.Remarks)</td>
+                                                <td translate="no">@item.Date</td>
+                                            </tr>
+                                               i++;
+                                        }
+                                    </tbody>
+                                </table>
+                        </div>
+                     }else
+                     {
+                         <div class="table-responsive">
+                         <p>no records founds!.</p>
+                         </div>
+                     }

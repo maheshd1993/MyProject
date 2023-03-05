@@ -1,0 +1,252 @@
+﻿@{
+    ViewBag.Title = "CRM Target Performance List";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+@model Svam.Models.CRMTargetSaleModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Sales Target & Performance</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <a class="btn btn-success pull-right" data-toggle="modal" data-target="#Addtarget" style="color: white;margin-right: 10px;text-shadow: none;"><i></i>Create Target</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="form-group f-center col-sm-12 padd0" style="margin-left: 5px;">
+
+                                @using (Html.BeginForm("CRMTargetPerformanceList", "CRMTargetPerformance", FormMethod.Post))
+                                {
+                                    if (Convert.ToString(Session["UserType"]) == "SuperAdmin" || !string.IsNullOrEmpty(Model.MappedUser))
+                                    {
+                                <div class="col-sm-3 viewl1">
+                                    @if (Model.oSalePersonList != null && Model.oSalePersonList.Count > 0)
+                                    {
+                                        @Html.DropDownList("SearchSalePersonName", new SelectList(Model.oSalePersonList, "SalePersonID", "SalePersonName"), "Select Sale Person", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;", translate = "no" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("SearchSalePersonName", Enumerable.Empty<SelectListItem>(), "Select Sale Person", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;", translate = "no" })
+                                    }
+                                </div>
+
+                                    }
+                                    <div class="col-sm-2">
+                                        @Html.TextBox("FromDate", null, new { @class = "form-control", @autocomplete = "off", required = "required", placeholder = "From Date",@readonly= "readonly", translate = "no" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Html.TextBox("ToDate", null, new { @class = "form-control", @autocomplete = "off", required = "required", placeholder = "To Date", @readonly = "readonly", translate = "no" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                        <input class="btn btn-success" type="button" id="btncancel" value="Reset" onclick="location.href = '/CRMTargetPerformance/CRMTargetPerformanceList'" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="overflow-x:scroll;">
+                <table class="table table-bordered tablefont" id="table">
+                    <thead class="black-white-text">
+                        <tr>
+                            <th style="width: 3%">#</th>
+                            <th style="width: 10%">Sale Person Name</th>
+                            <th style="width: 7%">From Date</th>
+                            <th style="width: 7%">To Date</th>
+                            <th style="width: 7%">Target Achieve Amount</th>
+                            <th style="width: 6%">Current Target Achieved Amount </th>
+                            <th style="width: 3%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+
+                        @if (Model.oSaleTargetModelList != null && Model.oSaleTargetModelList.Count > 0)
+                        {
+                            foreach (var item in Model.oSaleTargetModelList)
+                            {
+                                DateTime dtfrom = Convert.ToDateTime(item.sFromDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                string datefrom = String.Format("{0:"+Model.DateFormat+"}", dtfrom);
+
+                                DateTime dtto = Convert.ToDateTime(item.sToDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                string dateTo = String.Format("{0:" + Model.DateFormat + "}", dtto);
+                                <tr>
+                                    <td data-column="Sr.No." translate="no">@i</td>
+                                    <td data-column="Sales Person Name" translate="no">@item.SalePersonName</td>
+                                    <td data-column="From Date" translate="no">@datefrom</td>
+                                    <td data-column="To Date" translate="no">@dateTo</td>
+                                    <td data-column="Target Achieve Amt." translate="no">@item.TargetAchieveAmount</td>
+                                    <td data-column="Current Target Ach. Amt." translate="no">@item.CurentTargetAchieveAmount</td>
+                                    <td data-column="Action">
+                                        <a href="/CRMTargetPerformance/ViewTargerAchived/?SalePersonID=@item.SalePersonID&FromDate=@dtfrom.ToString("yyyy-MM-dd")&ToDate=@dtto.ToString("yyyy-MM-dd")">
+                                            <i class="fa fa-eye  iccn"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" style="text-align: center;">** No Record Found!</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Addtarget" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create Sales Target & Performance</h4>
+            </div>
+            @using (Html.BeginForm("AddModifiyTargetSale", "CRMTargetPerformance", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(em => em.TargetID)
+                <div class="modal-body over-hidden">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="cname">Name of Sale Person <span class="madatoryfield">*</span></label>
+                            <div class="col-sm-6">
+                                @if (Model.oSalePersonList != null && Model.oSalePersonList.Count() > 0)
+                                {
+                                    @Html.DropDownListFor(em => em.SalePersonID, new SelectList(Model.oSalePersonList, "SalePersonID", "SalePersonName"), "Select Sale Person", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;", required = "required" , translate = "no" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(em => em.SalePersonID, Enumerable.Empty<SelectListItem>(), "Select Sale Person", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;", required = "required" , translate = "no" })
+                                }
+                                @Html.ValidationMessageFor(em => em.SalePersonID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="cname">Sale Target From Month <span class="madatoryfield">*</span></label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(em => em.FromDate, new { @class = "form-control col-sm-2 FromDate", @placeholder = "From Date", @autocomplete = "off", required = "required" })
+                                @Html.ValidationMessageFor(em => em.FromDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="cname">Sale Target To Month <span class="madatoryfield">*</span></label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(em => em.ToDate, new { @class = "form-control col-sm-2 ToDate", @placeholder = "To Date", @autocomplete = "off", required = "required" })
+                                @Html.ValidationMessageFor(em => em.ToDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="cname">Target Amount <span class="madatoryfield">*</span></label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(em => em.TotalTargetAmount, new { @class = "form-control col-sm-2", @placeholder = "Target Amount", @autocomplete = "off", required = "required", translate = "no" })
+                                @Html.ValidationMessageFor(em => em.TotalTargetAmount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" value="Submit">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <link href="~/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+    <link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <script src="~/timepicker/bootstrap-timepicker.js"></script>
+
+    <script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+    </script>
+
+    <script>
+         var dateFormat = '@Session["DpDateFormat"]';
+        $(function () {
+            var datepicker1 = $('.FromDate');
+            datepicker1.datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20   
+            });
+
+            var datepicker2 = $('.ToDate');
+            datepicker2.datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20   
+            });
+        });
+
+        $(function () {
+            $('#FromDate').datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20   
+            });
+
+            $('#ToDate').datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20   
+            });
+        });
+    </script>
+    <style type="text/css">
+        .field-validation-error {
+            margin-left: 2px;
+            color: #ff0000;
+            font-size: 12px !important;
+            display: block;
+            margin-top: 43px;
+            font-weight: normal !important;
+        }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+            background-color: #ffeeee;
+        }
+    </style>
+}

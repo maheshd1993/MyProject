@@ -1,0 +1,329 @@
+﻿@{
+    ViewBag.Title = "managesupplier";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@model Svam.Models.CreateSupplierModel
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+    }
+    if (chkmsg != '') {
+        alert(chkmsg);
+    }
+
+</script>
+
+
+<div class="maincontainer">
+
+    <div class="col-sm-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-th-list" aria-hidden="true"></i>Create Supplier 
+                <div class="rightbtntop"><a href="#" class="addbtn" style="width: 100%;" data-toggle="modal" data-target="#createSupplier"><i aria-hidden="true" class="fa fa-plus"></i>Create Supplier</a></div>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table id="dest" class="table table-striped table table-hover tabledata table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="4%" class="noimg padd0" style="padding: 10px 0px; !important;">Sr no.</th>
+                                    <th width="12%">Supplier ID</th>
+                                    <th width="15%">Supplier Name</th>
+                                    <th width="10%">Mobile No</th>
+                                    <th width="10%">Email</th>
+                                    <th width="5%">State</th>
+                                    <th width="5%">City</th>
+                                    <th width="5%">Zip Code</th>
+                                    <th width="8%">TIN No</th>
+                                    <th width="5%">Pan No</th>
+                                    <th width="5%">Created Date</th>
+                                    <th width="15%" class="noimg">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int i = 1;}
+                                @foreach (var item in Model.ViewSuppliermodelList.OrderByDescending(em => em.SupplierId))
+                                {
+                                  
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.SupplierId</td>
+                                        <td>@item.SupplierName</td>
+                                        <td>@item.Mobno</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.StateName</td>
+                                        <td>@item.CityName</td>
+                                        <td>@item.ZipCode</td>
+                                        <td>@item.TaxTinNo</td>
+                                        <td>@item.PanNo</td>
+                                        <td>@(String.Format("{0:dd MMM, yyyy}", item.CreatedDate)) @*@item.CreatedDate*@</td>
+                                        <td><a href="#" title="view Details" data-supplierid="@item.SupplierId" class="viewbtn popViewDetails" data-toggle="modal" data-target="#supplierInfo">Details</a>
+                                            <a href="#" class="editbtn popUpdateInfo" data-supplierid="@item.SupplierId" title="Edit Branch" data-toggle="modal" data-target="#UpdatesupplierInfo">Edit</a>
+                                            <a href="javascript:void(0)" data-delsupplierid="@item.SupplierId" title="Delet Supplier" class="dltrow delsupplier">Delete</a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="col-sm-12">
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <!-- end item details -->
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+<!-- View Details Supplier -->
+<div id="supplierInfo" class="modal fade" role="dialog">
+</div>
+
+<!-- Update Details Supplier -->
+<div id="UpdatesupplierInfo" class="modal fade" role="dialog">
+</div>
+
+
+<!-- Modal  Create New Supplier -->
+
+<div id="createSupplier" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create Supplier</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="row">
+                    <div class="col-sm-12">
+                        @using (Html.BeginForm("createsupplier", "home", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                        
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="Quotation">Supplier Name:-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.SupplierName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.SupplierName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="Quotation">Contact No.:-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Mobno, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.Mobno)
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="Quotation">Email Id.:-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Email, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="tagcategory">TIN No. :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.TaxTinNo, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="tagcategory">Pan No. :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.PanNo, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="tagcategory">Service Tax No. :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.ServiceTaxNo, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Supplier State:-</label>
+                                <div class="col-sm-8">
+                                    <select id="DdlState" name="StateId" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Supplier City:-</label>
+                                <div class="col-sm-8">
+                                    <select id="DDlCity" name="CityId" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Zip Code :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.ZipCode, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="requisition">Address:-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.SupplierAddress, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.SupplierAddress)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="department">Opening Balance:-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.OpeningBalance, new { @class = "form-control", @onkeypress = "return isNumberKey(event)" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Remarks :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Remaks, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress"></label>
+                                <div class="col-sm-8">
+                                    <input type="submit" value="Submit" class="btn mainbtn2">
+                                </div>
+                            </div>
+                     
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //BindALLDDLCity();
+        BindDDLState();
+    });
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function BindDDLState() {
+        var Countryid = 1;
+        $.get('/master/BindDDlState', { CountryID: Countryid }, function (data) { chkBindDDLState(data); });
+    }
+    function chkBindDDLState(abc) {
+        var data = "";
+        data += "<option value= >--Select State--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" +
+             abc[it].StateName + "</option>";
+        }
+        $('#DdlState').html(data);
+    }
+
+    jQuery('#DdlState').change(function () {
+        var Stateid = jQuery(this).val();
+        if (Stateid != '') {
+            BindALLDDLCity(Stateid);
+        }
+    });
+
+    function BindALLDDLCity(stateid) {
+
+        $.get('/master/BindDDlCity', { StateID: stateid }, function (data) { chkBindDDLCity(data); });
+    }
+    function chkBindDDLCity(abc) {
+        var data = "";
+        data += "<option value= >--Select City--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" +
+             abc[it].CityName + "</option>";
+        }
+        $('#DDlCity').html(data);
+    }
+    $('.popViewDetails').on('click', function () {
+        var supplierid = $(this).data('supplierid');
+        if (supplierid != '') {
+            $.post('/common/ViewSupplierinfo', { SupplierId: supplierid }, function (data) {
+                jQuery('#supplierInfo').html(data);
+                $($(this).data("#supplierInfo")).show();
+            });
+        }
+    });
+
+    jQuery('.delsupplier').click(function () {
+        var self = jQuery(this);
+        var supplierid = self.data('delsupplierid');
+        if (supplierid != '') {
+            if (confirm('Are you sure want to delete this(' + supplierid + ') supplier!')) {
+                jQuery.post('/common/deletesupplierById', { SupplierId: supplierid }, function (data) {
+                    if (data == 'done') {
+                        self.closest("tr").remove();
+                    }
+                    else {
+                        alert(data);
+                    }
+                });
+            }
+        }
+    });
+
+    $('.popUpdateInfo').on('click', function () {
+        var supplierid = $(this).data('supplierid');
+        if (supplierid != '') {
+            $.post('/common/UpdateSupplierinfo', { SupplierId: supplierid }, function (data) {
+                jQuery('#UpdatesupplierInfo').html(data);
+                $($(this).data("#UpdatesupplierInfo")).show();
+            });
+        }
+    });
+
+</script>
+@*<script src="~/Scripts/jquery-1.7.1.min.js"></script>*@
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

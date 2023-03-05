@@ -1,0 +1,910 @@
+﻿@{
+    var cr = new Svam.Repository.CommonRepository();
+    var data = cr.GetDateFormat();
+    var localTime = data.Date;
+    var dateFormat = data.DateFormat;
+
+    string language = cr.GetCompanyLanguage(0);
+    //DateTime utcTime = DateTime.UtcNow;
+    //TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+    //DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="@(Session["CompanyFavIcon"]!=null?Convert.ToString(Session["CompanyFavIcon"]):"/img/favicon.PNG")" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Favicon-->
+    <title>SmartCapita CRM</title>
+    @System.Web.Optimization.Styles.Render("~/CRMCSS")
+
+    <style type='text/css'>
+        ifr@media (max-width: 768px) header {
+            ame .goog-te-banner-frame;
+
+        {
+            display: none !important;
+        }
+
+        body {
+            position: static !important;
+            top: 0px !important;
+        }
+
+        .goog-logo-link {
+            display: none !important;
+        }
+
+        .goog-te-gadget {
+            color: transparent !important;
+        }
+
+        .goog-tooltip {
+            display: none !important;
+        }
+
+            .goog-tooltip:hover {
+                display: none !important;
+            }
+
+        .goog-text-highlight {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+    </style>
+
+
+</head>
+<body style="padding-right: 0px !important;">
+    <div id="content-wrapper">
+
+
+        @Html.Partial("_PartialMenu")
+        <div class="wrapper">
+            <header>
+                <div class="container">
+                    <input type="hidden" value="@language" id="language" />
+                    <div class="header__menu">
+                        <div class="mobile-navigation" onclick="myFunction(this)" id="mobile-navigation">
+                            <div class="bar1"></div>
+                            <div class="bar2"></div>
+                            <div class="bar3"></div>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <form class="navbar-form2 form_navbar_2" role="search">
+                                <div class="input-group col-sm-12">
+                                    <input type="text" class="form-control txtsearch" placeholder="Search" maxlength="20">
+                                    <div class="input-group-btn">
+                                        <a class="PopSearch" data-toggle="modal" data-target="#modalDoses">
+                                            <button class="btn btn-default btn-ripple" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="headerright">
+                                @if (Session["UserType"] != null && (Convert.ToString(Session["UserType"]) == "SuperAdmin" || Convert.ToString(Session["UserType"]).ToLower().Contains("sales")))
+                                {
+                                    <div class="dropdown">
+                                        <button class="toplink btn btn-primary dropdown-toggle btn-ripple" type="button" data-toggle="dropdown">
+                                            <span class="noti fa fa-bell-o" translate="no"><span id="totalCount" style="font-weight:bold;color:#B22222;" translate="no"></span></span>
+                                        </button>
+                                        <ul class="dropdown-menu rightdrop">
+
+                                            <li>
+                                                @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="FromDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="ToDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="FilterType" value="Followup Date" />
+                                                    <span onclick="$(this).closest('form').submit();" style="cursor:pointer">Today's Followups (<span id="tdFupLd"></span>)</span>
+                                                }
+                                            </li>
+                                            <li>
+                                                @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="FromDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="ToDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="FilterType" value="Created Date" />
+                                                    <span onclick="$(this).closest('form').submit();" style="cursor:pointer">Today's new lead's  (<span id="tdNewLd"></span>)</span>
+                                                }
+                                            </li>
+                                            <li>
+                                                @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="FromDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="ToDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="FilterType" value="AssignDate" />
+                                                    <span onclick="$(this).closest('form').submit();" style="cursor:pointer">Today's assigned lead (<span id="tdAsndLd"></span>)</span>
+                                                }
+                                            </li>
+
+                                            <li>
+                                                @using (Html.BeginForm("viewExpense", "home", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="FromDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="ToDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="FilterType" value="AssignDate" />
+                                                    <span onclick="$(this).closest('form').submit();" style="cursor:pointer">Today's assigned Expense Request (<span id="tdAsndER"></span>)</span>
+                                                }
+                                            </li>
+
+                                            <li>
+                                                @using (Html.BeginForm("EmployeeForm16Request", "HR", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="FromDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="ToDate" value="@localTime.ToString(dateFormat)" />
+                                                    <input type="hidden" name="FilterType" value="AssignDate" />
+                                                    <span onclick="$(this).closest('form').submit();" style="cursor:pointer">Today's assigned Form 16 request (<span id="tdAsndFR"></span>)</span>
+                                                }
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                <a href="#" class="toplink" title="Compose Mail"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                                <a href="#" class="toplink" data-toggle="modal" data-target="#notepad" title="Notepad"><i aria-hidden="true" class="fa fa-file-text-o"></i></a>
+
+                                @if (Session["UserName"] != null)
+                                {
+                                    <a href="#" class="toplink dropdown-toggle btn toplinkuser btn-ripple" style="width: auto !important;" data-toggle="dropdown" title="Compose Mail"><i aria-hidden="true" class="fa fa-user"></i> <span translate="no">@Convert.ToString(Session["UserName"])</span> </a>
+
+                                    <ul class="dropdown-menu  rightdrop r1">
+
+                                        <li><a href="mailto:someone@example.com?Subject=Hello%20again"><i aria-hidden="true" class="fa fa-envelope-o"></i>&nbsp;@Convert.ToString(Session["UserEmail"])</a></li>
+                                        <li><a href="/Nis/loginHistory"><i aria-hidden="true" class="fa fa-history"></i>&nbsp;Last Login Details</a></li>
+                                        <li><a href="#" data-toggle="modal" data-target="#changepassword"><i aria-hidden="true" class="fa fa-exchange"></i>&nbsp;Change Password</a></li>
+                                        <li><a href="/home/OurMappeduser"><i aria-hidden="true" class="fa fa-user"></i>&nbsp;My Team</a></li>
+                                        @*<li><a href="/home/LogOut"><i aria-hidden="true" class="fa fa-sign-out"></i> Close the Day</a></li>*@
+                                    </ul>
+                                }
+                                else
+                                {
+                                    Session.Abandon();
+                                    Response.Redirect("/home/login");
+                                }
+                                <a href="/home/LogOut" class="toplink btn btn-danger btn-ripple" title="Close the day"><i class="fa fa-sign-out" aria-hidden="true" style="color: #c9302c;"></i>@*<i class="fa fa-power-off" style="color: #c9302c;" aria-hidden="true"></i>*@</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Google translater-->
+                    <div style="display:none;">
+                        <div id="google_translate_element"></div>
+
+                        <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({ pageLanguage: 'en'/*, includedLanguages: 'en,fr,hi,es,it,de'*/ }, 'google_translate_element');
+                    }
+                        </script>
+                        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                    </div>
+            </header>
+            @RenderBody()
+        </div>
+    </div>
+    <!-- Modal  Message History -->
+    <div id="messagebox" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Message Box</h4>
+                </div>
+                <div class="modal-body over-hidden">
+                    <form class="" role="form">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div>
+                                    <textarea class="form-control c_textarea2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-ripple" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal  NotePad -->
+    <div id="notepad" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Your Notepad</h4>
+                </div>
+                <div class="modal-body over-hidden">
+                    <form class="" role="form">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form>
+                                    <textarea class="form-control c_textarea2"></textarea>
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-ripple" data-dismiss="modal">Save Notepad</button>
+                    <button type="button" class="btn btn-danger btn-ripple" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start Change Password Model -->
+    <div id="changepassword" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Password</h4>
+                </div>
+                <div class="modal-body over-hidden">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Enter New Password:</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="NewPassword" placeholder="New Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="pwd">Confirm Password:</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="ReNewPassword" placeholder="Enter password">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="pwd">&nbsp;</label>
+                            <div class="col-sm-8">
+                                <button type="submit" class="btn btn-default btn-ripple" id="btnChangePassword">Save Password</button><span style="margin-left: 10px;" id="spnChangePswdAlertmsg"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-ripple" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Display of Search Data....-->
+    <div id="modalDoses" class="modal fade" role="dialog">
+    </div>
+
+    <div class="bottom-bar">
+        <div class="bottom-bar--items">
+            <div class="bottom-bar--item" onclick="location.href='/home'">
+                <input type="radio" name="bottom-bar--selected" id="bottom-bar--alpha" />
+                <label for="bottom-bar--alpha"></label>
+                <div class="icon"><i class="fa fa-home"></i></div>
+                <div class="name">Home</div>
+            </div>
+
+            <div class="bottom-bar--item" onclick="location.href='/home/createleads'">
+                <input type="radio" name="bottom-bar--selected" id="bottom-bar--bravo" />
+                <label for="bottom-bar--bravo"></label>
+                <div class="icon"><i class="fa fa-plus-square-o"></i></div>
+                <div class="name">Lead</div>
+            </div>
+
+            <div class="bottom-bar--item" onclick="location.href='/Nis/Remark'">
+                <input type="radio" name="bottom-bar--selected" id="bottom-bar--charlie" />
+                <label for="bottom-bar--charlie"></label>
+                <div class="icon"><i class="fa fa-sticky-note-o"></i></div>
+                <div class="name">Remark</div>
+            </div>
+
+            <div class="bottom-bar--item" onclick="location.href='/TrackSalePerson/TrackSales/?page=1'">
+                <input type="radio" name="bottom-bar--selected" id="bottom-bar--delta" />
+                <label for="bottom-bar--delta"></label>
+                <div class="icon"><i class="fa fa-map-marker"></i></div>
+                <div class="name">Track</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@RenderSection("scripts", required: false)
+
+<!-- include libraries(jQuery, bootstrap) -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+<script>
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+    debugger;
+        //swal("Success !", mas, "success");
+       swal({
+
+  title: "<h2 style = 'color:green;'>Success !</h2>",
+  text: "<span style='color:#097447;'>"+mas+"<span>.",
+   icon: "success",
+  html: true
+});
+
+
+
+    }
+    if (chkmsg != '') {
+        //swal("Alert !", chkmsg, "warning");
+
+        swal({
+
+  title: "<h2 style = 'color:red;'>Alert !</h2>",
+  text: "<span style='color:#d9534f;'>"+chkmsg+"<span>.",
+   icon: "success",
+  html: true
+});
+    }
+</script>
+
+<!-- include summernote css/js -->
+@*<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>*@
+
+<!--without bootstrap summernote library-->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+<script>
+    jQuery(document).ready(function () {
+        // Initialize Editor
+        jQuery('.ckeditor').summernote({
+            lang: 'es-ES', // default: 'en-US'
+            height: 200, // set editor height
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+            focus: true // set focus to editable area after initializing summernote
+        });
+
+
+        // summernote.keyup
+        jQuery('.ckeditor').on('summernote.keyup', function (we, e) {
+            //console.log('Key is released:', e.keyCode);
+            var lang1 = '@language';
+            if (lang1 != '' && lang1 != 'en') {
+
+                // Retrieve the DIV to be translated.
+                var translateDiv = document.getElementsByClassName("note-editable");
+
+                var options1 = {
+                    sourceLanguage: 'en',
+                    destinationLanguage: lang1,
+                    transliterationEnabled: true
+                };
+
+                var control1 = new google.elements.transliteration.TransliterationControl(options1);
+
+                control1.makeTransliteratable(translateDiv);
+            }
+        });
+    });
+
+
+
+    ///////////onload google translator bind company language
+    $(document).ready(function () {
+        //erases the  googtrans cookie
+        //$.get("/common/DeleteGoogtransCookie", function (resp) {
+        //    console.log(resp);
+        //});
+        //console.log(window.location.hostname);
+
+        var b =  "googtrans=";//define cookie name
+        var a = document.cookie.split(";");
+            for (var e = 0; e < a.length; e++) {
+                var f = a[e].trim();
+                if (f.indexOf(b) == 0) {
+
+                    if (window.location.hostname == "localhost")
+                    {
+                     eraseCookie("googtrans", "localhost");
+                    }
+                    else if (window.location.hostname == "demo3.nicoleinfosoftdemo.com")
+                   {
+                        setCookie("googtrans", "", 0, "/", ".nicoleinfosoftdemo.com");
+                        setCookie("googtrans", "", 0, "/");
+                    }
+                    else if (window.location.hostname == "crm.smartcapita.com")
+                    {
+                        setCookie("googtrans", "", 0, "/", ".smartcapita.com");
+                        setCookie("googtrans", "", 0, "/");
+                    }
+                }
+            }
+
+
+        //var googTrans = getCookie('googtrans');
+
+        setTimeout(function () {
+            changeLanguageByButtonClick();
+        }, 4000);
+    })
+
+    //setcookie
+    function setCookie(b, h, c, f, e) {
+        var a;
+        if (c === 0) {
+            a = ""
+        } else {
+            var g = new Date();
+            g.setTime(g.getTime() + (c * 24 * 60 * 60 * 1000));
+            a = "expires=" + g.toGMTString() + "; "
+        }
+        var e = (typeof e === "undefined") ? "" : "; domain=" + e;
+        document.cookie = b + "=" + h + "; " + a + "path=" + f + e
+    }
+    //getcookie
+    function getCookie(d) {
+        var b = d + "=";
+        var a = document.cookie.split(";");
+        for (var e = 0; e < a.length; e++) {
+            var f = a[e].trim();
+            if (f.indexOf(b) == 0) {
+                return f.substring(b.length, f.length)
+            }
+        }
+        return ""
+    }
+    // function googleTranslateElementInit() {
+    //  new google.translate.TranslateElement({
+    //  pageLanguage: 'en',
+    //  includedLanguages: 'en,ja',
+    //  defaultLanguage: 'hi',
+    //  multilanguagePage: true
+    //  }, 'google_translate_element');
+    //  }
+
+
+    function changeLanguageByButtonClick() {
+
+        //var language = document.getElementById("language").value;
+        var language = '@language';
+        if (language != '' && language != 'en') {
+            var selectField = document.querySelector("#google_translate_element select");
+            if (selectField == null) {
+                return false;
+            }
+
+            for (var i = 0; i < selectField.children.length; i++) {
+                var option = selectField.children[i];
+                // find desired langauge and change the former language of the hidden selection-field
+                if (option.value == language) {
+                    selectField.selectedIndex = i;
+                    // trigger change event afterwards to make google-lib translate this side
+                    selectField.dispatchEvent(new Event('change'));
+
+                    break;
+                }
+            }
+        }
+        else {
+            //erases the  googtrans cookie
+            //$.get("/common/DeleteGoogtransCookie", function (resp) {
+            //    console.log(resp);
+            //});
+
+            //erases the  googtrans cookie
+            //if (window.location.hostname == "localhost") {
+            //    eraseCookie("googtrans", "localhost");
+            //}
+            //else if (window.location.hostname == "demo3.nicoleinfosoftdemo.com") {
+            //    eraseCookie("googtrans", ".nicoleinfosoftdemo.com");
+            //    eraseCookie("googtrans", "demo3.nicoleinfosoftdemo.com");
+            //}
+            //else if (window.location.hostname == "crm.smartcapita.com") {
+            //    eraseCookie("googtrans", ".smartcapita.com");
+            //    eraseCookie("googtrans", "crm.smartcapita.com");
+            //}
+            //location.reload();
+        }
+    }
+
+    function createCookie(name, value, days, domain) {
+
+        if (days)
+        {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toUTCString();
+        } else
+        {
+            var expires = "";
+        }
+        document.cookie = name + "=" + value + expires + "; domain=" + domain + "; path=/";
+    }
+
+    function eraseCookie(name, domain) {
+        createCookie(name, "", -1, domain);
+    }
+
+</script>
+<script src="/js/translator.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var lang = '@language';
+        if (lang != '' && lang!='en') {
+            // Load the Google Transliterate API
+            google.load("elements", "1", {
+                packages: "transliteration"
+            });
+            function onLoad() {
+                //var language2 = document.getElementById("language").value;
+                //language2 = language2 == '' ? 'en' : language2;
+                var options = {
+                    sourceLanguage: 'en',
+                    //destinationLanguage: [google.elements.transliteration.LanguageCode.HINDI],
+                    destinationLanguage: lang,
+                    transliterationEnabled: true
+                };
+
+                var control = new google.elements.transliteration.TransliterationControl(options);
+                // Enable transliteration in the textfields with the given ids.
+                //var ids = ['first_name', 'permanant_address', 'bankbranch', 'member_name', 'father_husband', 'workingoffice_address',];
+
+                // Enable transliteration in the textfields with the given Class.
+                //var elements = document.getElementsByClassName('fname');
+
+                // Enable transliteration in the textfields with the tag name
+                //var elements = document.getElementsByTagName('input');
+                var elements = document.querySelectorAll('input,textarea,ckeditor')
+                control.makeTransliteratable(elements);
+            }
+            google.setOnLoadCallback(onLoad);
+        }
+
+    });
+</script>
+
+
+<script type="text/javascript">
+    updateNotification();
+    var tlCount = $("#totalCount");
+    var tdfup = $("#tdFupLd");
+    var tdNew = $("#tdNewLd");
+    var tdAsd = $("#tdAsndLd");
+
+    var tdAsdE = $("#tdAsndER");
+    var tdAsdF = $("#tdAsndFR");
+    function updateNotification() {
+
+        $.ajax({
+            type: 'GET',
+            url: '/common/TodayFollowUpLeadCount',
+            success: function (response) {
+
+                tlCount.text(response.TotalAllLeadCount);
+                tdfup.text(response.TodayFollowUpCount);
+                tdNew.text(response.TodayNewLeadCount);
+                tdAsd.text(response.TodayAssignLeadCount);
+                tdAsdF.text(response.TodayAssignForm16Count);
+                tdAsdE.text(response.TodayAssignExpenseCount);
+                //$.each(response, function (index, value) {
+                //    $('#notiContent').append($('<li>New contact : ' + value.ContactName + ' (' + value.ContactNo + ') added</li>'));
+                //});
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+</script>
+
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCULQLgHRlCebqOJi6D-2sd8Q2Io0nr8kM&v=3.exp"></script>*@
+<script type="text/javascript">
+    var uid =@Session["UID"]!= null ?@Session["UID"]: 0;
+
+    //if (navigator.geolocation) {
+    //    navigator.geolocation.getCurrentPosition(showPosition);
+
+    //   var lat = position.coords.latitude;
+    //   var long = position.coords.longitude;
+    //}
+    //else {
+    //    console.log("Geolocation is not supported by this browser.");
+    //}
+
+    function showPosition() {
+        navigator.geolocation.getCurrentPosition(function (position) {
+
+       var lat = position.coords.latitude;
+       var long = position.coords.longitude;var geocoder = new google.maps.Geocoder();
+        var latLng = new google.maps.LatLng(lat, long);
+
+        if (geocoder) {
+
+            geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+
+                if (status == google.maps.GeocoderStatus.OK) {
+                    //console.log(results[0].formatted_address);
+                    // $('#address').html('Address:' + results[0].formatted_address);
+
+                    if (results[0]) {
+                        var address = results[0].formatted_address;
+                        var filtered_array = results[0].address_components.filter(function (address_component) {
+                            return address_component.types.includes("country");
+                        });
+                        var country = filtered_array.length ? filtered_array[0].long_name : "";
+                        filtered_array = results[0].address_components.filter(function (address_component) {
+                            return address_component.types.includes("locality");
+                        });
+                        var city = filtered_array.length ? filtered_array[0].long_name : "";
+                        filtered_array = results[0].address_components.filter(function (address_component) {
+                            return address_component.types.includes("administrative_area_level_1");
+                        });
+                        var state = filtered_array.length ? filtered_array[0].long_name : "";
+
+                        //alert('Location found.<br/>City:' + city + '<br/>State:' + state + '<br/>Country:' + country);
+                        //alert('Address:' + results[0].formatted_address);
+
+                        //post user current location with address
+                        $.post('/common/SaveCurrentLocation', { UserId: uid,CurrLat:lat,CurrLong:long, CurrAddr: address, CurrCity: city, CurrState: state, CurrCountry: country });
+                    }
+                    else {
+                        console.log('No results found');
+                    }
+
+                }
+                else {
+                    //$('#address').html('Geocoding failed: ' + status);
+                    console.log("Geocoding failed: " + status);
+                }
+            }); //geocoder.geocode()
+            }
+        });
+
+        // Call the showPosition() function every 5 seconds
+        setTimeout(showPosition, 60 * 1000);
+    } //showPosition
+
+    showPosition();
+
+    //window.setInterval(function () {
+    //    //CountNofication();  //Call the funcation continuously after 30 sec....
+    //    showPosition(); // Call the autoUpdate() function every 1 minute
+    //}, 60 * 1000);
+
+</script>
+
+
+
+
+<script src="/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+     //feather.replace();
+
+    $('.PopSearch').on('click', function () {
+        var self = jQuery(this);
+        var searchtext = $('.txtsearch').val();
+        if (searchtext != '') {
+            $.post('/common/CommonSearch', { SearchTxt: searchtext }, function (data) {
+                jQuery('#modalDoses').html(data);
+                $($(this).data("#modalDoses")).show();
+            });
+        }
+        else {
+            alert('Please input the search data!');
+            return false;
+        }
+    });
+    jQuery('#btnChangePassword').click(function () {
+        var UID = '@Session["UID"]';
+        if (UID != '' && UID != null) {
+            var Pswd = jQuery('#NewPassword').val();
+            var Repswd = jQuery('#ReNewPassword').val();
+            if (Pswd != '' && Repswd != '') {
+                if (Pswd == Repswd) {
+                    jQuery.post('/common/userchangepswd', { NewPassword: Pswd, UserId: UID }, function (data) {
+                        if (data == 'done') {
+                            jQuery('#spnChangePswdAlertmsg').text('Password changed successfully.');
+                            jQuery('#spnChangePswdAlertmsg').css('color', 'green');
+                        }
+                        else if (data == 'fail') {
+                            jQuery('#spnChangePswdAlertmsg').text('Sorry There is some problem!. try again');
+                            jQuery('#spnChangePswdAlertmsg').css('color', 'red');
+                        }
+                    });
+                }
+                else {
+                    jQuery('#spnChangePswdAlertmsg').css('color', 'red');
+                    jQuery('#spnChangePswdAlertmsg').text('Password mismatch!.');
+                }
+            }
+            else {
+                jQuery('#NewPassword').css('border', '1px solid #ff0000');
+                jQuery('#ReNewPassword').css('border', '1px solid #ff0000');
+            }
+        }
+        else {
+            alert('Sorry you session has expiry. Please login again.');
+            window.location.href = "/home/login";
+        }
+    });
+
+    //function CountNofication() {
+    //    jQuery.get('/common/CalulateNotification', null, function (data, msg) {
+    //        if (msg == 'success') {
+    //            if (data > 0) {
+    //                jQuery('.badge').text(data);
+    //            }
+    //            else {
+    //                jQuery('.badge').css("display", "none");
+    //            }
+    //        }
+    //        else {
+    //            jQuery('.badge').css("display", "none");
+    //        }
+    //    });
+    //}
+
+    //function CountLeadNotify() {
+    //    jQuery.get('/common/CalulateLeadNotify', null, function (data, msg) {
+    //        if (msg == 'success') {
+    //            if (data > 0) {
+    //                jQuery('.badgeLeadNotify').text(data);
+    //            }
+    //            else {
+    //                jQuery('.badgeLeadNotify').css("display", "none");
+    //            }
+    //        }
+    //        else {
+    //            jQuery('.badgeLeadNotify').css("display", "none");
+    //        }
+    //    });
+    //}
+</script>
+
+<script type="text/javascript">
+    var interval = 600000; //set interval 10 minute formula(5*60000) to miliseconds
+    window.addEventListener('load', (event) => {
+        //var interval = 12000;
+        setInterval(function () { Update() }, interval);
+        function Update() {
+            $.get("/Home/GetIndiaMartLeadAsync", function (msg) {
+                console.log(msg);
+            });
+        }
+
+
+        //var timer = setInterval(function () { GetFBLeads() }, 300000);//set interval 5 minuts formula(5*60000) to miliseconds
+        //function GetFBLeads() {
+        //    clearInterval(timer);
+        //    $.get("/FBLeads/GetFBLeads", function (msg) {
+        //        if (msg) {
+        //            timer = setInterval(function () { GetFBLeads() }, 300000);
+        //            console.log(msg);
+        //        }
+
+        //    });
+        //}
+    });
+</script>
+
+<script>
+    $(function () {
+        $(window).on("scroll", function () {
+            if ($(window).scrollTop() > 50) {
+                $(".headerright").addClass("fixed1");
+            } else {
+                //remove the background property so it comes transparent again (defined in your css)
+                $(".headerright").removeClass("fixed1");
+            }
+        });
+    });
+    $(function () {
+        $(window).on("scroll", function () {
+            if ($(window).scrollTop() > 50) {
+                $(".navbarstyle").addClass("fixed2");
+            } else {
+                //remove the background property so it comes transparent again (defined in your css)
+                $(".navbarstyle").removeClass("fixed2");
+            }
+        });
+    });
+
+</script>
+
+
+<script>
+    jQuery(document).ready(function ($) {
+        var $side_menu_trigger = $('#nav-trigger'),
+            $content_wrapper = $('.main-content'),
+            $navigation = $('header');
+
+        //open-close lateral menu clicking on the menu icon
+        $side_menu_trigger.on('click', function (event) {
+            event.preventDefault();
+
+            $side_menu_trigger.toggleClass('is-clicked');
+            $navigation.toggleClass('menu-open');
+            $content_wrapper.toggleClass('menu-open').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function () {
+                // firefox transitions break when parent overflow is changed, so we need to wait for the end of the trasition to give the body an overflow hidden
+                $('body').toggleClass('overflow-hidden');
+            });
+            $('#side-nav').toggleClass('menu-open');
+
+            //check if transitions are not supported - i.e. in IE9
+            if ($('html').hasClass('no-csstransitions')) {
+                $('body').toggleClass('overflow-hidden');
+            }
+        });
+
+        //close lateral menu clicking outside the menu itself
+        $content_wrapper.on('click', function (event) {
+            if (!$(event.target).is('#menu-trigger, #menu-trigger span')) {
+                $side_menu_trigger.removeClass('is-clicked');
+                $navigation.removeClass('menu-open');
+                $content_wrapper.removeClass('menu-open').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function () {
+                    $('body').removeClass('overflow-hidden');
+                });
+                $('#side-nav').removeClass('menu-open');
+                //check if transitions are not supported
+                if ($('html').hasClass('no-csstransitions')) {
+                    $('body').removeClass('overflow-hidden');
+                }
+
+            }
+        });
+
+        //open (or close) submenu items in the lateral menu. Close all the other open submenu items.
+        $('.item-has-children').children('a').on('click', function (event) {
+            event.preventDefault();
+            $(this).toggleClass('submenu-open').next('.sub-menu').slideToggle(200).end().parent('.item-has-children').siblings('.item-has-children').children('a').removeClass('submenu-open').next('.sub-menu').slideUp(200);
+        });
+    });
+</script>
+<script>
+function myFunction(x) {
+  x.classList.toggle("change");
+}
+</script>
+<script>
+    const mobile_navigation = document.getElementById('mobile-navigation');
+    const side_navigation = document.getElementById('side-nav');
+
+    mobile_navigation.addEventListener('click',()=>{
+        if(side_navigation.classList.contains('clicked')){
+            side_navigation.classList.remove('clicked');
+        side_navigation.style.visibility = 'hidden';
+        side_navigation.style.transform = 'translateX(-250px)';
+        mobile_navigation.style.transform = 'translateX(0px)';
+        mobile_navigation.style.transition = 'all .5s';
+        side_navigation.style.transition = 'all .5s';
+        }else{
+            side_navigation.classList.add('clicked');
+        side_navigation.style.visibility = 'visible';
+        side_navigation.style.transform = 'translateX(0px)';
+        mobile_navigation.style.transform = 'translateX(250px)';
+        mobile_navigation.style.transition = 'all .5s';
+        side_navigation.style.transition = 'all .5s';
+        }
+    });
+</script>
+
+

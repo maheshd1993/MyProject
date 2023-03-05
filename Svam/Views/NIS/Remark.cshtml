@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "Activity-Remark";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+@model Traders.Models.GeneralRemarkModel
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="col-sm-4 padd0">
+
+        </div>
+        <div class="col-sm-8 ovtime col-xs-12 remark12">
+            <div class="col-sm-2 f-right">
+                <input type="button" id="btnRemark" class="btn btn-info btnSave" value="Send Mail To Admin" />
+                <span class="ExtraWorkingLoader" style="display: none; color: red">Please wait...<i class="fa fa-spinner fa-pulse"></i></span>
+            </div>
+            <div class="col-sm-2 f-right ">
+                <input type="checkbox" id="chkExtraworking" class="chk" data-name="ExtraWorking" />Extra Working
+            </div>
+            <div class="col-sm-3 f-right">
+                <input type="checkbox" id="chkLateworking" class="chk" data-name="LateNight" />Working Late Night
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 remark1">
+        @using (Html.BeginForm("Remark", "Nis", FormMethod.Post, new {id= "remarkForm", enctype = "multipart/form-data" }))
+        {
+            <div class="panel panel-info new_activity_form">
+                <div class="panel-heading">
+                    <strong>Create Daily Remark</strong>
+                    <div class="row" style="padding-right: 2.5%;">
+                        <div class="col-sm-9 padd0"></div>
+
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div class="container">
+                        <form class="form-horizontal">
+
+                            @*<br style="clear: both;" />
+                                <div class="row">
+                                </div>
+                                <br style="clear: both;" />*@
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2 label9">Remark </label>
+                                        <div class="col-sm-10">
+                                            @Html.TextAreaFor(em => em.Remark, new { @class = "ckeditor", @rows = "5" })                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+
+                                        <input type="button" value="Back to View Remark" class="btn btn-info" style="margin-top:2%;" onclick="location.href = '/Nis/ViewRemark'" />
+                                        <input type="submit" name="Submit" value="Save Remark" class="btn btn-success btnSave" style="margin-top:2%;">
+                                    </div>
+                                </div>
+                            </div>
+                            <br style="clear: both;" />
+                        </form>
+                    </div>
+
+                </div>
+            </div>}
+    </div>
+
+</div>
+
+
+
+<style>
+    label {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    .label9 {
+        padding-top: 20px;
+    }
+
+    /*.error{color:red; font-size:12px; text-transform:lowercase; display:block;}*/
+</style>
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>*@
+<script src="/js/jquery-1.11.3.min.js"></script>
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+
+    $('#remarkForm').on('submit', function (e) {
+
+        if ($('#Remark').summernote('isEmpty')) {
+            //console.log('contents is empty, fill it!');
+            //alert('contents is empty, fill it!');
+            swal("Alert !", 'contents is empty, please fill it!', "warning");
+            // cancel submit
+            e.preventDefault();
+        }
+        else {
+            // do action
+        }
+    })
+</script>
+
+<script type="text/javascript">
+
+    jQuery('#btnRemark').click(function () {
+
+        var Extraworking = false;
+        var Lateworking = false;
+        if ($('#chkExtraworking').is(":checked")) {
+            Extraworking = true;
+        }
+        if ($('#chkLateworking').is(":checked")) {
+            Lateworking = true;
+        }
+        checked = $(".chk:checked").length;
+        if (!checked) {
+            swal("Alert !", "Please check any option.", "warning");
+            return false;
+        }
+
+        if (confirm('are you sure want to send a mail to Admin about this working!')) {
+
+            //if (Extraworking == true || Lateworking == true) {
+            jQuery('#btnRemark').hide();
+            jQuery('.ExtraWorkingLoader').show();
+            jQuery.post('/common/ExtraworkingOrLateNightMark', { ExtraWorking: Extraworking, LateNightWorking: Lateworking }, function (data) {
+                if (data != '') {
+                    alert(data);
+                    $('#chkExtraworking').prop('checked', false);
+                    $('#chkLateworking').prop('checked', false);
+                    jQuery('#btnRemark').show();
+                    jQuery('.ExtraWorkingLoader').hide();
+                }
+                else {
+                    $('#chkExtraworking').prop('checked', false);
+                    $('#chkLateworking').prop('checked', false);
+                    jQuery('#btnRemark').show();
+                    jQuery('.ExtraWorkingLoader').hide();
+                }
+
+            });
+            //}
+            //else {
+            //    // alert('Please check any option.');
+            //    swal("Alert !", "Please check any option.", "warning");
+            //}
+        }
+    });
+</script>

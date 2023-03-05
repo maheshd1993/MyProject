@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "AssigntoassignBy";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.ViewLeadsModel
+<div class="maincontainer">
+    <div class="col-md-12 col-lg-12  ">
+        <div class="form-horizontal">
+            <div class="row">
+                @using (Html.BeginForm("AssigntoassignBy", "home", FormMethod.Post))
+                {
+                    <div class="panel-body body_pnl">
+                        <div class="col-md-3 col-lg-3 col-xs-12">
+                            <label class="control-label" translate="no" style="float:left;">Assign From</label>
+                            @if (Model.Userddllist != null && Model.Userddllist.Count() > 0)
+                            {
+                                @Html.DropDownList("Assignby", new SelectList(Model.Userddllist, "uid", "UserName", Convert.ToString(Session["UserddlName"])), "Select Assign From", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;width:70%;float:left;margin-left:5px;", @translate = "no" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("Assignby", Enumerable.Empty<SelectListItem>(), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;" })
+                            }
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-xs-12">
+                            <label class="control-label" translate="no" style="float:left;">Assign To</label>
+                            @if (Model.Userddllist != null && Model.Userddllist.Count() > 0)
+                            {
+                                @Html.DropDownList("Assignto", new SelectList(Model.Userddllist, "uid", "UserName", Convert.ToString(Session["UserddlName"])), "Select Assign To", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;width:70%;float:left;margin-left:5px;", @translate = "no" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("Assignto", Enumerable.Empty<SelectListItem>(), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;" })
+                            }
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xs-12">
+                            <input type="text" translate="no" class="form-control " id="FromDate" name="FromDate" data-date-format="@Session["DpDateFormat"]" placeholder="From Date" value="@Convert.ToString(Session["VLFltrFrmDt"])" required="required" readonly />
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xs-12">
+                            <input type="text" translate="no" class="form-control " id="ToDate" name="ToDate" data-date-format="@Session["DpDateFormat"]" placeholder="To Date" value="@Convert.ToString(Session["VLFltrToDt"])" required="required" readonly />
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-xs-6 padd0" style="display: inline-flex;">
+                            <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                        </div>
+                    </div>
+                }
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table  table-bordered tablefont">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Organization Name</th>
+                                        <th>Customer name</th>
+                                        <th>Mobile No</th>
+                                        <th>Whatsapp/Alt No.</th>
+                                        <th>Country</th>
+                                        <th>Follow Up Date</th>
+                                        <th>Follow Up Time</th>
+                                        <th>Assigned By</th>
+                                        <th>Assigned To</th>
+                                        <th>Assigned Date</th>
+                                        <th>Modified Date</th>
+                                        <th>Lead Status</th>
+                                        <th>Lead Source</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                    @if (Model.AssignToAssignByList.Count > 0)
+                                    {
+                                        foreach (var item in Model.AssignToAssignByList.ToList())
+                                        {
+                                            <tr>
+                                                <td translate="no" data-column="Sr.No.">@i</td>
+                                                <td translate="no" style="text-transform: capitalize" data-column="OrganizationName"><span>@(!string.IsNullOrEmpty(item.OrganizationName) ? item.OrganizationName : "N/A")</span></td>
+                                                <td translate="no" data-column="Customer"><span>@(!string.IsNullOrEmpty(item.LeadName) ? item.LeadName : "N/A")</span></td>
+                                                <td translate="no" data-column="Mob"><span>@(!string.IsNullOrEmpty(item.Mob) ? item.Mob : "N/A")</span></td>                                                
+                                                <td translate="no" data-column="ExtraCol1"><span>@(!string.IsNullOrEmpty(item.ExtraCol1) ? item.ExtraCol1 : "N/A")</span></td>
+                                                <td translate="no" data-column="Country"><span>@(!string.IsNullOrEmpty(item.Country) ? item.Country : "N/A")</span></td>
+                                                <td translate="no" data-column="FollowupDate"><span>@(!string.IsNullOrEmpty(item.FollowupDate) ? item.FollowupDate : "N/A")</span></td>
+                                                <td translate="no" data-column="FollowUpTime"><span>@(!string.IsNullOrEmpty(item.FollowUpTime) ? item.FollowUpTime : "N/A")</span></td>
+                                                <td translate="no" data-column="AssignedBy"><span>@(!string.IsNullOrEmpty(item.AssignedBy) ? item.AssignedBy : "N/A")</span></td> 
+                                                <td translate="no" data-column="AssignTo"><span>@(!string.IsNullOrEmpty(item.AssinedTo) ? item.AssinedTo : "N/A")</span></td>
+                                                <td translate="no" data-column="AssignDate"><span>@(!string.IsNullOrEmpty(item.AssignDate) ? item.AssignDate : "N/A")</span></td>
+                                                <td translate="no" data-column="ModifiedDate"><span>@(!string.IsNullOrEmpty(item.ModifiedDate) ? item.ModifiedDate : "N/A")</span></td>
+                                                <td translate="no" data-column="LeadStatus"><span>@(!string.IsNullOrEmpty(item.LeadStatus) ? item.LeadStatus : "N/A")</span></td>    
+                                                <td translate="no" data-column="LeadsourceName"><span>@(!string.IsNullOrEmpty(item.LeadsourceName) ? item.LeadsourceName : "N/A")</span></td>                                         
+                                                
+                                            </tr>
+                                            i++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8" style="text-align: center;">** No Record Found</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script>
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+
+</script>

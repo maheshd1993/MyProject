@@ -1,0 +1,70 @@
+﻿@model Traders.Models.ViewLeadsModel
+@{ 
+    var encode = new Svam.UtilityManager.StringCipher();
+}
+<div class="modal-dialog" style="width: 92%;">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Lead Report Details</h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-sm-12">
+                    @if (Model.viewleadsList.Count>0)
+                    {
+                        <table class="table table-bordered modaltable9">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>#</th>                                    
+                                    <th>Customer Name </th>
+                                    <th>Mobile Number </th>
+                                    <th>Email</th>
+                                    <th>City</th>
+                                    <th>Follow Up Date</th>
+                                    <th>Lead Status</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @{int i = 1;}
+                                @foreach (var item in Model.viewleadsList)
+                                {
+                                    DateTime dt = Convert.ToDateTime(item.FollowupDate);
+                                    string FollowUpDate = String.Format("{0:" + Model.DateFormat + "}", dt);
+                                <tr>
+                                    <td translate="no" data-column="Sr. No.">@i</td>                                   
+                                    <td translate="no" data-column="Customer Name"><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.LeadName</a></td>
+                                    <td translate="no" data-column="Mobile No."><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.Mob</a></td>
+                                    <td translate="no" data-column="Email">@item.EMail</td>                                   
+                                    <td translate="no" data-column="City">@item.City</td>
+                                    <td translate="no" data-column="Follow up date">@FollowUpDate</td>
+                                    <td translate="no" data-column="Lead Status">@item.LeadStatus</td>
+                                </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                         using (Html.BeginForm("ExportViewLeads", "home", FormMethod.Post))
+                            {
+                                TempData["ExportViewLeads"] = @Model.viewleadsList.ToList();
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-10">
+                                        <input id="Submit2" type="submit" class="btn btn-info" style="width: 100%;" value="Export to Excel">
+                                    </div>
+                                </div>
+                            }
+                    }
+                    else
+                    {
+                        <p style="text-align: center;">No records found</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

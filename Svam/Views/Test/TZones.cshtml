@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Svam.Models.DTO.TimeZoneDTO>
+@{
+    ViewBag.Title = "TZones";
+}
+
+<h2>TZones</h2>
+
+<div>
+    @*@Convert.ToString(TempData["SLTime"])*@
+
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>Id: @item.Id, ZoneName: @item.ZoneName</li>
+        }
+    </ul>
+
+    
+</div>

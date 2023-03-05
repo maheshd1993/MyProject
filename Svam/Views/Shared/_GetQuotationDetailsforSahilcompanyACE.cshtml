@@ -1,0 +1,235 @@
+﻿@model Svam.Models.ViewModel.SaleOrderVM
+
+<style>
+    .printpage {
+        font-size: 11px !important;
+        font-family: calibri !important;
+    }
+
+        .printpage h2, h4 {
+            font-size: 11px !important;
+            font-family: calibri !important;
+        }
+
+        .printpage td, th {
+            font-size: 11px !important;
+            font-family: calibri !important;
+            padding: 1px 5px !important;
+            height: 22px;
+        }
+
+        .printpage label {
+            margin-bottom: 0;
+        }
+</style>
+<div class="modal-dialog modal-lg printpage" style="font-family: calibri !important;">
+    <div class="modal-content">
+        <div class="modal-body qtmodal" id="div_print" style="padding-top: 10px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div>
+                            <h1 style="font-size: 41px;
+    color: #4f81bd;
+    font-weight:bold;
+    ">
+                                ACE ENGINEERS & CONSULTANTS
+                            </h1>
+
+                            <h2 style="color: #4f81bd;
+    font-weight:bold;font-size:31px!important;    position: relative;
+    top: -16px;
+">
+                                77-B, SECTOR-18, GURGAON, HARYANA
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="float:left;">
+                            <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                                <b>Ref.No: @Model.QuoNo</b>
+                            </div>
+                        </div>
+                        <div style="float:right;">
+                            <div class="qt_left" style="font-size: 15px;margin-right:100px;">
+                                <b>Date: - @Model.QuoDt</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*@if (Model.SaleReport != null && Model.SaleReport.Count > 0)
+                    {*@
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                            <b>To,</b>
+                        </div>
+                        <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                            <b>@Model.CustomerName</b>
+                        </div>
+                        <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                            <b>@Model.CustomerAddress</b>
+                        </div>
+                    </div>
+                </div>
+                @*}*@
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                                <b>Kind Attn. :- Mr. Sachin</b>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="qt_left" style="font-size: 15px;text-decoration: underline;margin-left: 8px;">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="qt_left" style="float:left;margin-left:8px;margin-top: 33px;font-size: 15px;font-weight: bold;">
+                            Dear Sir,
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="qt_left" style="float:left;margin-left: 8px;margin-top: 9px;font-size: 15px;font-weight: bold;">
+                        </div>
+                    </div>
+                </div>
+                @if (Model.SaleReport != null && Model.SaleReport.Count > 0)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table  table-bordered" style="margin-top:45px;font-size:12px;">
+                                <tbody>
+                                    <tr>
+                                        <th width="2%" style="font-size: 11px; height: 15px;">Sr.No </th>
+                                        <th width="15%" style="font-size: 11px; height: 15px;">Description of Equipment</th>
+                                        <th width="7%" style="font-size: 11px; height: 15px;">Particulars</th>
+                                        <th width="10%" style="font-size: 11px; height: 15px;">UNIT PRICE</th>
+                                        <th width="10%" style="font-size: 11px; height: 15px;">Total</th>
+                                        @if (Model.TaxTypeName.ToLower() != "total")
+                                        {
+
+                                            <th width="10%" style="font-size: 11px; height: 15px;">NET TAXABLE AMOUNT</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">CGST(%)</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">CGST Amount</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">SGST(%)</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">SGST/UGST Amount</th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">IGST(%) </th>
+                                                    <th width="10%" style="font-size: 11px; height: 15px;">IGST Amount </th>
+                                                    <th width="13%" style="font-size: 11px; height: 15px;">Gross Amount</th>
+                                        }
+
+                                    </tr>
+                                </tbody>
+                                <tbody>
+                                    @{int ii = 1;
+                                    }
+                                    @foreach (var item in Model.SaleReport)
+                                    {
+
+                                        <tr>
+                                            <td style="font-size: 11px;">@ii</td>
+                                            <td style="font-size: 11px;">
+                                                <p>@item.ItemName </p>
+                                            </td>
+                                            <td class="t-right" style="font-size: 11px;">@item.Qty</td>
+                                            <td class="t-right" style="font-size: 11px;">@(Model.TaxTypeName.ToLower() == "total" ? item.OurPrice : item.Price)</td>
+                                            <td class="t-right" style="font-size: 11px;">@item.Total</td>
+
+                                            @if (Model.TaxTypeName.ToLower() != "total")
+                                            {
+                                                decimal totalGrossAmt = 0.0M;
+                                                <td class="t-right" style="font-size: 11px;">@item.NetTaxable</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTPer</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTPer</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.IGSTPer</td>
+                                                        <td class="t-right" style="font-size: 11px;">@item.IGSTAmount</td>
+                                                totalGrossAmt = Convert.ToDecimal(item.NetTaxable) + Convert.ToDecimal(item.CGSTAmount) + Convert.ToDecimal(item.IGSTAmount);
+                                                <td class="t-right" style="font-size: 11px;">
+                                                    @*@{
+                                                decimal grossAmount = item.CGSTAmount + item.CGSTAmount + item.IGSTAmount;
+                                            }*@
+
+                                                    @*<span>@Model.NetAmount</span>*@
+                                                    <span>@totalGrossAmt</span>
+                                                </td>
+                                            }
+
+                                        </tr>
+                                        ii++;
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                                        }
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="qt_left" style="font-weight:bold;text-decoration: underline;font-size: 15px;font-weight: bold;margin-left:8px;margin-top:50px;">
+                            Terms and Conditions for Hiring of Winch Machine
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="qt_left" style="font-size: 15px;margin-left:70px;margin-top:37px;">
+                            @if (Model.termcondition != null)
+                            {
+                                @(new HtmlString(Model.termcondition.ToString()))
+                            }
+                            @*1. Description of Equipment: Monkey Hoist with 50 mtrs wire rope.<br />
+                                2. Lifting Capacity-As per description given below*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="margin-top:30px;">
+                        <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                            <b>With Regards,</b>
+                        </div>
+                        <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                            <b>For Ace Engineers & Consultants</b>
+                        </div>
+                        <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                            <b>@Model.CompanyEmail</b>
+                        </div>
+                        <div class="qt_left" style="font-size: 15px;margin-left: 8px;">
+                            <b> @Model.CompanyMobileNo</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="printbtnwrap" style="text-align:center">
+            <button class="btn btn-info printbtnmain" onclick="printdiv('div_print');">Print</button>
+        </div>
+        <br style="clear: both;">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+<script>
+    function printdiv(printpage) {
+        var printContents = document.getElementById(printpage).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.style.fontFamily = "calibri";
+        document.body.style.fontSize = "11";
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        window.open('/Quotation/ManageQuotation', '_self', '');
+        window.close();
+    }
+</script>

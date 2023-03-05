@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "users";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model IEnumerable<Svam.EF.crm_userdocuments>
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Manage User Documents</strong>
+                <button type="button" class="btn btn-danger pull-right" onclick="location.href='/home/users'" style="margin-top: -6px; margin-right: 5px;">Back To Users</button>
+            </div>
+            <div class="panel-body">
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="activeusers">
+                        <br style="clear: both;" />
+                        <table class="table table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>#</th>
+                                    <th>File Name</th>
+                                    <th>File</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Count() > 0)
+                                {
+                                    int i = 1;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.FilePath))
+                                                {
+                                                    <span>@item.FilePath</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.FilePath))
+                                                {
+                                                    <a href="/EmployeeDocuments/@item.FilePath" download=""><i class="fa fa-file-pdf-o"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <span>No file</span>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                <span url="/home/DeleteUserDocument/@item.Id" class="btn btn-danger" onclick="deleteFile(this);"><i class="fa fa-trash-o"></i></span>
+                                                
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4" style="text-align:center">No documents </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end first tabs -->
+
+                </div>
+            </div>
+            <!-- end first tabs -->
+        </div>
+    </div>
+</div>
+<script>
+    function deleteFile(obj) {
+
+        var geturl = $(obj).attr('url');
+        if (window.confirm('Are you sure to delete this file?')) {
+            $.ajax({
+                url: geturl,
+                //data: { CustomerID: customerID },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+
+                    if (data == "ok") {
+                        $(obj).closest("tr").remove();
+                    }
+                    else {
+                        alert("something went wrong");
+                    }
+                }
+            });
+        }
+    }
+</script>

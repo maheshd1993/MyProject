@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Svam.Models.CRMPaymentModel
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Payments</strong>
+                            <span style="margin: 10%; color: red;">@TempData["alert"]</span><span style="margin: 10%; color: green;">@TempData["success"]</span>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("Payment", "CRMPayment", FormMethod.Post))
+                                {
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" class="form-control datefield" id="FromDate" name="FromDate" placeholder="From Date" value="@TempData["MStartDate"]" required="required" autocomplete="off" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" class="form-control datefield" id="ToDate" name="ToDate" placeholder="To Date" value="@TempData["MEndDate"]" required="required" autocomplete="off" />
+                                    </div>
+                                    <div class="col-sm-2 padd0">
+                                        <input type="submit" class="btn btn-success" style="margin-left: 10px;" value="Filter" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 15%">Bill Number</th>
+                                <th style="width: 15%">Customer Name</th>
+                                <th style="width: 15%">Bill Date</th>
+                                <th style="width: 15%">Due Date</th>
+                                <th style="width: 15%">Balance Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model != null)
+                            {
+                                if (Model.CRMPaymentModelList != null)
+                                {
+                                    if (Model.CRMPaymentModelList.Count > 0)
+                                    {
+                                        foreach (var item in Model.CRMPaymentModelList)
+                                        {
+                                            DateTime dtBilldate = Convert.ToDateTime(item.BillDate.Value.ToShortDateString().Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                            string BilldateString = String.Format("{0:"+Model.DateFormat+"}", dtBilldate);
+                                            DateTime dtDuedate = Convert.ToDateTime(item.BillDate.Value.ToShortDateString().Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                            string DuedateString = String.Format("{0:" + Model.DateFormat + "}", dtDuedate);
+                                            <tr>
+                                                <td translate="no" data-column="Sr.No.">@i</td>
+                                                <td translate="no" data-column="Bill No.">@item.BillNumber</td>
+                                                <td translate="no" data-column="Customer Name">@item.CustomerName</td>
+                                                <td translate="no" data-column="Bill Date">@BilldateString</td>
+                                                <td translate="no" data-column="Due Date">@DuedateString</td>
+                                                <td translate="no" data-column="Balance Amount">@item.BalanceAmount</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+     var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#FromDate').datepicker({
+            format: dateFormat,
+            autoclose: true
+        });
+
+        $('#ToDate').datepicker({
+            format: dateFormat,
+            autoclose: true
+        });
+    });
+</script>

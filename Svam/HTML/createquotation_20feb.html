@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>CRM</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/mystyle.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/jquery-ui.css"/>	
+	<!-- graph css -->
+
+
+	
+  </head>
+
+  <body>
+<header>
+<div class="container">
+	<div class="col-sm-3 padd0">
+		<a href="index.html"><img src="img/logo.png" alt="logo"></a>
+	</div>
+	<div class="col-sm-9 padd0">
+		<div class="headerright">
+			  <a href="#" class="toplink dropdown-toggle btn toplinkuser" style="width: auto !important;" data-toggle="dropdown" title="Compose Mail" aria-expanded="false"><i aria-hidden="true" class="fa fa-user"></i> Ranjay Kumar <span class="carretdrop"></span></a>
+			  <ul class="dropdown-menu  rightdrop">
+				<li><a href="mailto:someone@example.com?Subject=Hello%20again"><i aria-hidden="true" class="fa fa-envelope-o"></i>	rkumar@nicoleinfosoft.com</a></li>
+				<li><a href="/Nis/loginHistory"><i aria-hidden="true" class="fa fa-history"></i>  Last Login Details</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#changepassword"><i aria-hidden="true" class="fa fa-exchange"></i> Change Password</a></li>
+                <li><a href="/home/OurMappeduser"><i aria-hidden="true" class="fa fa-user"></i>  Mapped User</a></li>
+				
+			</ul>
+		<a href="index.html" class="toplink btn" title="Logout"><i class="fa fa-power-off" style="color:#c9302c;" aria-hidden="true"></i></a>
+		</div>
+    </div>
+
+
+</div>
+
+
+</header>
+<!-- end header -->
+
+    <nav class="navbar navbar-default navbarstyle">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="home.html" class="homeicon"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+            <li class="dropdown ">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createbranch.html">Create Branch</a></li>
+								<li><a href="createuser.html">Create User</a></li>
+								<li><a href="viewusers.html">View User</a></li>
+								<li><a href="createprofile.html">Create Profile</a></li><li><a href="createsupplier.html">Create Supplier</a></li>
+						</ul>
+            </li>
+
+            <li class="dropdown active">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Master <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							  <li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">CRM </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="leadstatus.html">Lead Status</a></li>
+										<li><a tabindex="-1" href="managecountary.html">Manage Country</a></li>
+										<li><a tabindex="-1" href="leadsource.html">Lead Source</a></li>
+										<li><a tabindex="-1" href="typeoflead.html">Type of lead</a></li>
+										<li><a tabindex="-1" href="quotationtype">Quotation Type</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="sales.html">Sales</a></li>
+								<li><a href="purchase.html">Purchase</a></li>
+								<li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">Inventory </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="createcategory.html">Category</a></li>
+										<li><a tabindex="-1" href="measurement.html">Measurement Unit</a></li>
+										<li><a tabindex="-1" href="itemdetails.html">Item Details</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="tax.html">TAX</a></li>
+						</ul>
+            </li>			
+			
+
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CRM <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createnewleads.html">Create Lead</a></li>
+								<li><a href="viewleads.html">View Lead</a></li>
+								<li><a href="assignlead.html">Assign Lead</a></li>
+								<li><a href="assignedlead.html">Assigned Lead</a></li>
+												<li><a href="quotations.html">Quotations</a></li>
+								
+								<li><a href="confirmedorder.html">Confirmed Order</a></li>
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sales <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="challan.html">Challan </a></li>
+								<li><a href="invoice.html">Invoice</a></li>
+								<li><a href="salesreturn.html">Sales Return</a></li>
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchase <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="purchaserequisition.html">Purchase Requisition</a></li>
+								<li><a href="purchaseorder.html">Purchase Order Generation</a></li>
+								<li><a href="generategrn.html">GRN</a></li>
+								<li><a href="purchasereturns.html">Purchase Return</a></li>
+						</ul>
+            </li>
+			<li><a href="account.html">Account</a></li>
+			<li><a href="reports.html">Reports</a></li>
+			
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav> 
+
+
+<div class="maincontainer">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+		  <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i> Create Quotation</div>
+			<div class="panel-body">
+
+			<form class="form-horizontal">
+				<div class="col-sm-6 col-md-6">	
+				
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="Quotation">Quotation No:</label>
+					<div class="col-sm-8">
+					  <input type="text" class="form-control" id="Quotation">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contperson">Quotation Type. </label>
+					<div class="col-sm-8">
+					  <select class="form-control">
+						<option>Select Quotation </option>
+					  </select>
+					</div>
+				  </div>
+
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="custname">Customer Name  </label>
+					<div class="col-sm-8">
+					  <input type="text" class="form-control" id="custname">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contnumber">Contact No. </label>
+					<div class="col-sm-8">
+					  <input type="text" class="form-control" id="contnumber">
+					</div>
+				  </div>
+	
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="billingaddress">Billing Address </label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="shipaddress">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contperson">Status. </label>
+					<div class="col-sm-8">
+					  <select class="form-control">
+						<option>Status</option>
+					  </select>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contperson">Sales Person. </label>
+					<div class="col-sm-8">
+				<input type="text" class="form-control" value="Vinay Kumar" id="salesperson" readonly>
+					</div>
+				  </div>					  
+				  
+				</div>
+				<div class="col-md-6">	
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="qdate">Quotation Date. </label>
+					<div class="col-sm-8">
+					   <input type="text" class="form-control" id="datepicker1">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="vdate">Revision  No</label>
+					<div class="col-sm-8">
+					  <input type="text" class="form-control">
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contperson">Contact Person. </label>
+					<div class="col-sm-8">
+					  <input type="text" class="form-control" id="contperson">
+					</div>
+				  </div>				  
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="shipwarehouse">Email </label>
+					<div class="col-sm-8">
+					  <input type="text" class="form-control" id="email">
+					</div>
+				  </div>
+
+	
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contperson">Shipping Address. </label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="shipaddress">
+					</div>
+				  </div>	
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contperson">Source Inventory </label>
+					<div class="col-sm-8">
+					  <select class="form-control">
+						<option>Select Inventory</option>
+					  </select>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="control-label col-sm-3" for="contperson">Tax Category </label>
+					<div class="col-sm-8">
+					  <select class="form-control">
+						<option>Select Tax Category</option>
+					  </select>
+					</div>
+				  </div>
+
+				  </div>	
+			  
+				</div>
+			
+		</div>				
+   </div>
+</div>
+<!-- item details -->
+<div class="col-sm-12">
+	<div class="panel panel-default">
+		  <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>  Items  <div class="rightbtntop">  <a href="javascript:void(0)" class="addbtn" id="addrow"><i aria-hidden="true" class="fa fa-plus"></i> Add Row</a></div></div>
+			<div class="panel-body">	
+	
+				
+					<div class="scrollingdiv">
+						<div class="tablearea">
+						<table class="table table-striped table-hover table-bordered tabledata  scrolltable">
+						  <thead>
+							<tr>
+							  <th width="30">Sr.No</th>
+							  <th width="100">Item</th>
+							  <th width="200">Item Desc</th>
+							  <th width="50">Qty.</th>
+							  <th width="50">Unit Price</th>
+							  <th width="50">Disc %</th>	
+							  <th width="50">Vat %</th>
+							  <th width="50">Vat Amt</th>
+							  <th width="50">Edu %</th>
+							  <th width="50">Edu Amt</th>
+							  <th width="50">SB Case %</th>
+							  <th width="60">SB Case Amt</th>
+							  <th width="50">KKC %</th>
+							  <th width="50">KKC Amt</th>
+							  <th width="50">Amount (Rs.)</th>
+							  <th width="50">Action</th>								  
+							</tr>
+						  </thead>
+						  <tbody id="addnewrow">
+							<tr>
+							  <td><span class="count">1</span></td>
+							  <td><select class="form-control">
+										<option>Status</option>
+								  </select>
+							  </td>
+							  <td>
+								<input type="text" class="form-control" id="itemdesc">
+							  </td>
+							  <td><input type="text" class="form-control" id="qty"></td>
+							  <td><input type="text" class="form-control" id="price"></td>
+							  <td><input type="text" class="form-control" id="discount"></td>
+							  <td><input type="text" class="form-control" id="vat"></td>
+							  <td><input type="text" class="form-control" id="vatamt"></td>
+							  <td><input type="text" class="form-control" id="edu"></td>
+							  <td><input type="text" class="form-control" id="eduamt"></td>
+							  <td><input type="text" class="form-control" id="sbcase"></td>
+							  <td><input type="text" class="form-control" id="sbcaseamt"></td>
+							  <td><input type="text" class="form-control" id="kkc"></td>
+							  <td><input type="text" class="form-control" id="kkcamt"></td>
+							  <td><input type="text" class="form-control" id="inputamt"></td>
+							  <td class="actiontd"><a class="dltrow deleterow" href="#">Delete</a></td>
+							</tr>
+	
+							
+
+						  </tbody>
+						</table>
+						</div>
+					<div class="totalamount">
+					<h3>Total Amount:- <span>12547.00</span>
+					</div>
+					</div>
+	
+	
+	
+	</div></div>
+</div>
+	<!-- item details end here -->
+	
+</div><!-- end maincontainer -->
+
+
+
+<!-- service details -->
+<div class="col-sm-12">
+	<div class="panel panel-default">
+		  <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i> Services <div class="rightbtntop">  <a href="javascript:void(0)" class="addbtn" id="addrowserv"><i aria-hidden="true" class="fa fa-plus"></i> Add Row</a></div></div>
+			<div class="panel-body">					
+					
+					
+					<div class="scrollingdiv">
+						<div class="tablearea2">
+						<table class="table table-striped table-hover table-bordered tabledata noscrolltable">
+						  <thead>
+							<tr>
+							  <th width="30">Sr.No</th>
+							  <th width="100">Service ID</th>
+							  <th width="200">Description</th>
+							   <th width="50">Qty</th>
+							  <th width="50">Rate</th>
+							  <th width="50">Amount</th>
+							  <th width="100">Service Tax %</th>
+							  <th width="100">Service Tax Amt.</th>
+							  <th width="100">Amounts (Rs.)</th>
+							  <th width="50">Action</th>									  
+							</tr>
+						  </thead>
+						  <tbody id="addnewrowservices">
+							<tr>
+							  <td><span class="count">1</span></td>
+							  <td><select class="form-control">
+										<option>Status</option>
+								  </select>
+							  </td>
+							  <td>
+								<input type="text" class="form-control" id="itemdesc">
+							  </td>
+							  <td><input type="text" class="form-control" id="qty"></td>
+							  <td><input type="text" class="form-control" id="price"></td>
+							  <td><input type="text" class="form-control" id="discount"></td>
+							  <td><input type="text" class="form-control" id="vat"></td>
+							  <td><input type="text" class="form-control" id="vatamt"></td>
+							
+							
+						
+							  <td><input type="text" class="form-control" id="inputamt"></td>
+							  <td class="actiontd"><a class="dltrow deleterow" href="#">Delete</a></td>
+							</tr>
+	
+							
+
+						  </tbody>
+						</table>
+						</div>
+					<div class="totalamount2">
+					<h3>Total Amount:- <span>12547.00</span>
+					</div><br style="clear:both;"/>
+					<div class="totalamount3">
+					<h3>Grand Total:- <span>241897.00</span>
+					</div>					
+					</div>
+
+	</div>
+	<!-- item details end here -->
+		</div>
+	</div>
+			<div class="form-group">
+					<label class="control-label col-sm-2" style="width:175px;" for="contperson"></label>
+					<div class="col-sm-10 t-right">
+					  <input type="submit" name="Submit" value="Submit" class="btn mainbtn2">
+                        <input type="button" value="Reset" class="btn mainbtn">
+					</div>
+		    </div>	
+		<br style="clear:both;"/><br style="clear:both;"/>
+</div><!-- end maincontainer -->
+
+
+
+
+<!-- service details -->
+
+  
+
+ 
+ 
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>	
+	<script src="js/custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="js/sorttable.js"></script>
+		<script>
+		$(function(){
+			$("#dest").addSortWidget();
+		});	
+	
+$( function() {
+$( "#datepicker,#datepicker1" ).datepicker();
+} );
+</script>		
+
+	
+
+
+  </body>
+</html>

@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "ManageLeadStatus";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Svam.Models.LeadStatusModel
+
+<style>
+    #colorSelector div {
+        position: absolute;
+        /*top: 3px;*/
+        left: 5px;
+        width: 25px;
+        height: 25px;
+        /*border: 1px solid;*/
+        background: url(../js/colorpicker/images/select.png) center;
+    }
+</style>
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Lead Status </strong>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("ManageLeadStatus", "Master", FormMethod.Post))
+                                {
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.LeadStatusname, new { @placeholder = "Add Lead Status", @class = "form-control", @autocomplete = "off", required = "required" })
+                                        @Html.ValidationMessageFor(em => em.LeadStatusname)
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <span style="font-weight:bold">Pick color :</span>                                     
+                                        <input type="hidden" id="ColorHexValue" name="ColorHexValue" value="@Model.ColorHexValue"/>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div id="colorSelector">
+                                        <div style="background-color:@(string.IsNullOrEmpty(Model.ColorHexValue)? "#0000ff" :Model.ColorHexValue)"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-1">
+                                        <input type="submit" value="Save" class="btn btn-success">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th width="5%">#</th>
+                                <th width="60%">Lead Status Name </th>
+                                <th width="8%">Lead Status Color </th>
+                                <th width="6%">Status</th>
+                                <th width="15%" class="noimg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @foreach (var item in ViewBag.LeadStatus)
+                            {
+                                var color = string.IsNullOrEmpty(item.ColorHexValue) ? "" : item.ColorHexValue;
+                                <tr>
+                                    <td data-column="Sr.No." translate="no">@i</td>
+                                    <td data-column="Lead Status Name" translate="no">@item.LeadStatusName</td>
+                                    <td data-column="Lead Status Color">
+                                        @if (!string.IsNullOrEmpty(item.ColorHexValue))
+                                        {
+                                            <div style="width:35px;height:35px;background-color:@color"></div>
+                                        }
+                                        else
+                                        {
+                                            <span>N/A</span>
+                                        }
+                                    </td>
+                                    <td data-column="Status">
+                                        @if (item.Status == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/Master/ChangeStatus/@item.Id" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/Master/ChangeStatus/@item.Id" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                    <td data-column="Action"><a href="/Master/ManageLeadStatus/@item.Id" class="viewbtn">Edit</a></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link href="/js/colorpicker/css/colorpicker.css" rel="stylesheet" />
+<script src="~/js/colorpicker/js/jquery.js"></script>
+<script src="/js/colorpicker/js/colorpicker.js"></script>
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+    jQuery.noConflict();
+    (function ($) {
+        $(function () {
+            $('#colorSelector').ColorPicker({
+                color: '#0000ff',
+                onShow: function (colpkr) {
+                    $(colpkr).fadeIn(500);
+                    return false;
+                },
+                onHide: function (colpkr) {
+                    $(colpkr).fadeOut(500);
+                    return false;
+                },
+                onChange: function (hsb, hex, rgb) {
+                    $('#colorSelector div').css('backgroundColor', '#' + hex);
+                    $('#ColorHexValue').val('#' + hex);
+                }
+            });
+        });
+    })(jQuery);
+
+
+</script>

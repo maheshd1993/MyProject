@@ -1,0 +1,65 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">View Description</h4>
+        </div>
+        @if (ViewBag.result.Count > 0)
+        {
+            <div class="modal-body">
+                <table class="table tables table-bordered">
+                    <thead>
+                        <tr class="danger">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Ticket Status</th>
+                            <th>Attachment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+                        @foreach (var item in ViewBag.result)
+                        {
+                            <tr class="success">
+                                <td translate="no">@i</td>
+                                <td translate="no">@item.UserName</td>
+                                @if (item.CreatedOn != null)
+                                {
+                                <td translate="no">
+                                @item.CreatedOn                                
+                                </td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+                                <td translate="no">@Html.Raw(item.Message)</td>
+                                <td translate="no">@item.StatusName</td>
+                                @if (String.IsNullOrWhiteSpace(item.AttachmentFile))
+                                {
+                                    <td>--</td>
+                                }
+                                else
+                                {
+                                <td> @Html.ActionLink("Download", "TicketDownload", new { PostFile = item.AttachmentFile })</td>
+                                }
+                            </tr>  
+                            i++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="modal-body">
+                <span>No record founds.</span>
+            </div>
+        }
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

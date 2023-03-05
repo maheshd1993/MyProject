@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>CRM</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/mystyle.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/jquery-ui.css"/>	
+	<!-- graph css -->
+
+
+	
+  </head>
+
+  <body>
+<header>
+<div class="container">
+	<div class="col-sm-3 padd0">
+		<a href="index.html"><img src="img/logo.png" alt="logo"></a>
+	</div>
+	<div class="col-sm-9 padd0">
+		<div class="headerright">
+			  <a href="#" class="toplink dropdown-toggle btn toplinkuser" style="width: auto !important;" data-toggle="dropdown" title="Compose Mail" aria-expanded="false"><i aria-hidden="true" class="fa fa-user"></i> Ranjay Kumar <span class="carretdrop"></span></a>
+			  <ul class="dropdown-menu  rightdrop">
+				<li><a href="mailto:someone@example.com?Subject=Hello%20again"><i aria-hidden="true" class="fa fa-envelope-o"></i>	rkumar@nicoleinfosoft.com</a></li>
+				<li><a href="/Nis/loginHistory"><i aria-hidden="true" class="fa fa-history"></i>  Last Login Details</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#changepassword"><i aria-hidden="true" class="fa fa-exchange"></i> Change Password</a></li>
+                <li><a href="/home/OurMappeduser"><i aria-hidden="true" class="fa fa-user"></i>  Mapped User</a></li>
+				
+			</ul>
+		<a href="index.html" class="toplink btn" title="Logout"><i class="fa fa-power-off" style="color:#c9302c;" aria-hidden="true"></i></a>
+		</div>
+    </div>
+
+
+</div>
+
+
+</header>
+<!-- end header -->
+
+    <nav class="navbar navbar-default navbarstyle">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="home.html" class="homeicon"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+            <li class="dropdown ">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createbranch.html">Create Branch</a></li>
+								<li><a href="createuser.html">Create User</a></li>
+								<li><a href="viewusers.html">View User</a></li>
+								<li><a href="createprofile.html">Create Profile</a></li><li><a href="createsupplier.html">Create Supplier</a></li>
+						</ul>
+            </li>
+
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Master <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							  <li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">CRM </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="leadstatus.html">Lead Status</a></li>
+										<li><a tabindex="-1" href="managecountary.html">Manage Country</a></li>
+										<li><a tabindex="-1" href="leadsource.html">Lead Source</a></li>
+										<li><a tabindex="-1" href="typeoflead.html">Type of lead</a></li>
+										<li><a tabindex="-1" href="quotationtype">Quotation Type</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="sales.html">Sales</a></li>
+								<li><a href="purchase.html">Purchase</a></li>
+								<li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">Inventory </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="createcategory.html">Category</a></li>
+										<li><a tabindex="-1" href="measurement.html">Measurement Unit</a></li>
+										<li><a tabindex="-1" href="itemdetails.html">Item Details</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="tax.html">TAX</a></li>
+						</ul>
+            </li>			
+			
+
+            <li class="dropdown active">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CRM <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createnewleads.html">Create Lead</a></li>
+								<li><a href="viewleads.html">View Lead</a></li>
+								<li><a href="assignlead.html">Assign Lead</a></li>
+								<li><a href="assignedlead.html">Assigned Lead</a></li>
+												<li><a href="quotations.html">Quotations</a></li>
+								
+								<li><a href="confirmedorder.html">Confirmed Order</a></li>
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sales <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="challan.html">Challan </a></li>
+								<li><a href="invoice.html">Invoice</a></li>
+								<li><a href="salesreturn.html">Sales Return</a></li>
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchase <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="purchaserequisition.html">Purchase Requisition</a></li>
+								<li><a href="purchaseorder.html">Purchase Order Generation</a></li>
+								<li><a href="generategrn.html">GRN</a></li>
+								<li><a href="purchasereturns.html">Purchase Return</a></li>
+						</ul>
+            </li>
+			<li><a href="account.html">Account</a></li>
+			<li><a href="reports.html">Reports</a></li>
+			
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav> 
+
+
+
+<div class="maincontainer">
+<div class="col-sm-12">
+<div class="col-sm-12 padd0">
+<div class="panel panel-default">
+  <div class="panel-heading">Update Lead</div>
+  <div class="panel-body createleadstable">
+<table class="table table-striped">
+                            <tbody>
+
+
+                                <tr>
+                                    <td width="20" valign="middle" align="center" class="bdr_l">
+                                        <i aria-hidden="true" class="fa fa-user"></i></td>
+                                    <td class="bdr_l" width="170" valign="middle" align="left"><strong>Customer Name :</strong> </td>
+                                    <td width="200" valign="middle" align="left">
+                                        <input type="text" value="Vinay Kumar" readonly="" name="LeadOwner" id="LeadOwner" class="form-control" k7pdwid="1">
+                                    </td>
+                                    <td width="20" class="bdr" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-clock-o"></i></td>
+                                    <td width="150" valign="middle" align="left"><strong>Lead Status </strong></td>
+                                    <td width="200" class="bdr_r" valign="middle" align="left">
+                                        <select class="form-control" id="DDLLeadStatus" name="LeadStatus">
+                                            <option value="Open">Open</option>
+                                            <option value="Closed">Closed</option>
+                                            <option value="Not Interested">Not Interested</option>  
+                                            <option value="Priority">Priority</option>                                          
+                                        </select>
+                                </td></tr>
+
+                                <tr>
+                                    <td class="bdr_l" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-users"></i></td>
+                                    <td class="bdr_l" valign="middle" align="left"><strong>Contact Person </strong> : </td>
+                                    <td valign="middle" align="left">
+                                        <input type="text" value="" name="Customer" id="Customer" class="form-control" k7pdwid="2">
+                                    </td>
+
+                                    <td valign="middle" class="bdr" align="center">
+                                        <i aria-hidden="true" class="fa fa-user"></i></td>
+                                    <td valign="middle" align="left"><strong>Designation</strong> : </td>
+                                    <td class="bdr_r" valign="middle" align="left">
+                                        <input type="text" value="" name="Designation" id="Designation" class="form-control" k7pdwid="3">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                     <td class="bdr_l" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-phone-square"></i></td>
+                                    <td class="bdr_l" valign="middle" align="left"><strong>Mobile No</strong> : </td>
+                                    <td valign="middle" align="left">
+                                        <input type="text" value="" name="MobileNo" minlength="10" maxlength="10" id="MobileNo" data-val-required="*" data-val="true" class="form-control allowInt" k7pdwid="4">
+                                        <span data-valmsg-replace="true" data-valmsg-for="MobileNo" class="field-validation-valid"></span>
+                                    </td>
+
+                                    <td valign="middle" class="bdr" align="center">
+                                        <i aria-hidden="true" class="fa fa-envelope"></i>
+                                    </td>
+                                    <td valign="middle" align="left"><strong>Customer Mail Id :</strong> </td>
+                                    <td class="bdr_r" valign="middle" align="left">
+                                        <input type="text" value="" name="EmailId" id="EmailId" data-val-regex-pattern="^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$" data-val-regex="* E-mail is not valid" data-val="true" class="form-control" k7pdwid="5">
+                                       
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bdr_l" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-globe"></i></td>
+                                    <td class="bdr_l" valign="middle" align="left"><strong>Country :</strong> </td>
+                                    <td valign="middle" align="left">
+																													<select name="LeadSource" class="form-control">
+                                           <option value="Email">India</option>
+                                        </select>
+                                    </td>
+
+                                    <td valign="middle" class="bdr" align="center">
+                                        <i aria-hidden="true" class="fa fa-globe"></i></td>
+                                    <td valign="middle" align="left"><strong>State :</strong> </td>
+                                    <td class="bdr_r" valign="middle" align="left">
+																													<select name="LeadSource" class="form-control">
+                                           <option value="Email">New Delhi</option>
+                                        </select>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td class="bdr_l" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-globe"></i></td>
+                                    <td class="bdr_l" valign="middle" align="left"><strong>City :</strong> </td>
+                                    <td valign="middle" align="left">
+                                        <select name="LeadSource" class="form-control">
+                                           <option value="Email">New Delhi</option>
+                                        </select>
+                                    </td>
+
+                                    <td valign="middle" class="bdr" align="center">
+                                        <i aria-hidden="true" class="fa fa-map-marker"></i></td>
+                                    <td valign="middle" align="left"><strong>Address  :</strong> </td>
+                                    <td  class="bdr_r" valign="middle" align="left">
+                                        <input type="text" value="" name="OrganizationName" id="OrganizationName" class="form-control" k7pdwid="9">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    
+
+                                    <td class="bdr_l" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-calendar"></i></td>
+                                    <td class="bdr_l" valign="middle" align="left"><strong>Follow Date :</strong> </td>
+                                    <td valign="middle" align="left">
+                                        <input type="text" value="" name="FollowDate" id="datepicker1" class="form-control">
+                                    </td>
+									  <td valign="middle" class="bdr" align="center">
+                                        <i aria-hidden="true" class="fa fa-bars"></i></td>
+									 <td valign="middle" align="left">
+									<strong>Lead Source : </strong></td>
+									
+									<td  class="bdr_r" valign="middle" align="left">
+                                        <select name="LeadSource" class="form-control">
+                                           <option value="Email">Just-Dial</option>
+                                            <option value="Software">Software</option>
+                                            <option value="Kijiji.ca">Kijiji.ca</option>
+                                            <option value="Linkedin">Linkedin</option>
+                                            <option value="Facebook">Facebook</option>
+                                            <option value="Twitter">Twitter</option>
+                                            <option value="Quora">Quora</option>
+                                           
+                                            <option value="IndiaMart">IndiaMart</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                               
+
+                                <tr>
+                                    <td class="bdr_l" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-bars"></i></td>
+                                    <td class="bdr_l" valign="middle" align="left"><strong>Type of lead:</strong> </td>
+                                    <td  valign="middle" align="left">
+                                       <select name="LeadSource" class="form-control">
+                                           <option value="">Open</option>
+                                        </select>
+                                        
+                                    </td>
+									<td class="bdr_r"colspan="3">
+
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td class="bdr_b bdr_r bdr_l" valign="middle" align="center">
+                                        <i aria-hidden="true" class="fa fa-book"></i></td>
+                                    <td class="bdr_b" valign="middle" align="left"><strong>Description</strong> : </td>
+                                    <td  class="bdr_b bdr_r" valign="middle" align="left" colspan="4">
+                            <button class="btn mainbtn" data-toggle="modal" data-target="#viewdescription">View Description</button>
+								 <button class="btn mainbtn2" data-toggle="modal" data-target="#adddescription">Add Description</button>  
+<button class="btn mainbtn" onclick="location.href='createquotation.html'">Send Quotation</button> 								 </td>
+                                </tr>
+								                                             
+
+                            </tbody>
+                        </table>
+						<div class="col-sm-3"></div>
+						<div class="col-sm-5">
+						
+                        
+						</div>
+  
+  
+  
+  
+  
+  </div>
+</div>
+</div>
+
+
+
+
+</div>
+
+
+
+</div><!-- end maincontainer -->
+ 
+ <!-- modal -->
+ <!-- Modal  edit late fees popup inside -->
+<div id="viewdescription" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">View Description</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+						 <table class="table dashtable table-bordered">
+							<thead>
+							  <tr>
+								<th>Sr.No</th>
+								<th>Date</th>
+								<th>Description</th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr>
+								<td>1</td>
+								<td>22/01/2017</td>
+								<td>Lorem ipsum dolor site amet, couer adicingLorem ipsum dolor site amet, couer adicingLorem .</td>
+							  </tr>
+							  <tr>
+								<td>2</td>
+								<td>14/01/2017</td>
+								<td>Lorem ipsum dolor site amet, couer adicingLorem ipsum dolor site amet, couer adicingLorem .</td>
+							  </tr>
+							</tbody>
+						  </table>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->  
+ 
+ 
+<!-- modal -->
+ <!-- Modal  edit late fees popup inside -->
+<div id="adddescription" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Add Description</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <form class="" role="form">
+					<div class="row">
+						<div class="col-xs-12">
+							<form>
+								<textarea class="form-control c_textarea2" placeholder="Write Description here...">
+								</textarea>
+								<br style="clear:both;"/>
+							<input type="submit" class="btn btn-default" value="Submit">
+							</form>
+						</div>
+		
+					</div>
+				</form>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->  
+
+ 
+ 
+ 
+ 
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="js/jquery-ui.js"></script>	
+	<script src="js/custom.js"></script>
+		<script>
+		
+		$(function() {
+		  // bind change event to select
+		  $('.dynamic_select').on('change', function() {
+			var url = $(this).val(); // get selected value
+			if (url) { // require a URL
+			  window.location = url; // redirect
+			}
+			return false;
+		  });
+		});		
+		$( function() {
+		$( "#datepicker,#datepicker1" ).datepicker();
+		} );	
+		
+		</script>
+		
+	
+
+
+  </body>
+</html>

@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "TC";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>How to type in Hindi language in text box</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!--without bootstrap summernote library-->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+    <script src="/js/translator.js"></script>
+ 
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                //const range = $.summernote.range;  // range utility
+                // Retrieve the DIV to be translated.
+               
+                // Initialize Editor
+                jQuery('.ckeditor').summernote({
+                    lang: 'en-ES', // default: 'en-ES'
+                    height: 200, // set editor height
+                    minHeight: null, // set minimum height of editor
+                    maxHeight: null, // set maximum height of editor
+                    focus: true, // set focus to editable area after initializing summernote,
+                    //callbacks: {
+                    //    onKeyup: function (e) {
+                    //        //console.log('Key is released:', e.keyCode);
+                    //        var translateDiv = document.getElementsByClassName("note-editable");
+
+                    //        var options1 = {
+                    //            sourceLanguage: 'en',
+                    //            destinationLanguage: 'hi',
+                    //            transliterationEnabled: true
+                    //        };
+
+                    //        var control1 = new google.elements.transliteration.TransliterationControl(options1);
+
+                    //        control1.makeTransliteratable(translateDiv);
+                    //    }
+                    //}
+                });
+
+
+                
+               
+                // summernote.keyup
+                jQuery('.ckeditor').on('summernote.keyup', function (we, e) {
+                    //console.log('Key is released:', e.keyCode);
+                   
+                    // Retrieve the DIV to be translated.
+                    var translateDiv = document.getElementsByClassName("note-editable");
+                    //// Log info
+                    //for (var i = 0; i < translateDiv.length; i++)
+                    //{
+                    //    const li = document.createElement('li');
+                    //li.textContent = `${translateDiv[i].nodeName}, ${translateDiv[i].nodeValue}`;
+                    //    log.appendChild(li);
+                    //}
+                    var options1 = {
+                        sourceLanguage: 'en',                        
+                        destinationLanguage: 'hi',
+                        transliterationEnabled: true
+                    };
+
+                    var control1 = new google.elements.transliteration.TransliterationControl(options1);
+                           
+                    control1.makeTransliteratable(translateDiv);                   
+                });
+            });
+
+
+                // Load the Google Transliterate API
+                google.load("elements", "1", {
+                packages: "transliteration"
+        });
+
+            function onLoad() {             
+                    var options = {
+                sourceLanguage: 'en',
+            //destinationLanguage: [google.elements.transliteration.LanguageCode.HINDI],
+                        destinationLanguage: 'hi',                     
+            transliterationEnabled: true
+        };
+
+        var control = new google.elements.transliteration.TransliterationControl(options);
+        // Enable transliteration in the textfields with the given ids.
+        //var ids = ['first_name', 'permanant_address', 'bankbranch', 'member_name', 'father_husband', 'workingoffice_address',];
+
+        // Enable transliteration in the textfields with the given Class.
+        //var elements = document.getElementsByClassName('fname');
+
+        // Enable transliteration in the textfields with the tag name
+        //var elements = document.getElementsByTagName('input');
+        var elements = document.querySelectorAll('input,textarea');
+        control.makeTransliteratable(elements);
+}
+
+google.setOnLoadCallback(onLoad);
+
+
+            
+    </script>
+</head>
+<body>
+    <table width="50%" style="border:1px solid #06F;background-color:#CFC">
+        <tR>
+            <td>Input :</td>
+            <Td><input type="text" name="first_name" id="first_name" class="fname"></Td>
+            <td>
+                <textarea id="txtDescription" class="form-control ckeditor" style="height: 80px;" name="txtDescription"></textarea>
+            </td>
+        </tR>
+    </table>
+
+    <hr />
+    <p>Nodes in the original address:</p>
+    <ol id="log"></ol>
+</body>
+</html>

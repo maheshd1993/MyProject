@@ -1,0 +1,53 @@
+﻿@model Traders.Models.CreateLeadsModel
+
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        </div>
+        <div class="modal-body">
+            <table class="table tables table-bordered">
+                <thead>
+                    <tr class="danger">
+                        <th>#</th>
+                        <th>Customer Name</th>
+                        <th>Booking Date</th>
+                        <th>Venue Name</th>
+                        <th>Event Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1;}
+                    @if (Model.createlist.Count > 0)
+                    {
+                        foreach (var item in Model.createlist)
+                        {
+                            <tr class="success">
+                                <td translate="no" data-column="Sr. No.">@i</td>
+                                <td translate="no" data-column="Name">@item.Customer</td>
+                                <td translate="no" data-column="Name">@item.ExtraCol9</td>
+                                <td translate="no" data-column="Name">@item.Dp2name</td>
+                                <td translate="no" data-column="Name">@item.Dp1name</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" style="text-align:center;"> ** No Record Found !!</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>
+

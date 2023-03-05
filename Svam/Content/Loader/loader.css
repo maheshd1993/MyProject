@@ -1,0 +1,45 @@
+﻿
+.loadingoverlay
+{
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: Black url(~/Images/loading_bg.png) repeat;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+.loadingoverlayContent
+{
+    z-index: 0;
+    margin: 199px auto;
+    font-family: Calibri;
+    font-size: 22px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+
+.loadingoverlay1
+{
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: Black url(~/Images/loading_bg.png) repeat;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+.loadingoverlayContent1
+{
+    z-index: 0;
+    margin: 199px auto;
+    font-family: Calibri;
+    font-size: 22px;
+    font-weight: bold;
+    color: #FFFFFF;
+}

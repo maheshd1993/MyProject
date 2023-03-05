@@ -1,0 +1,405 @@
+﻿@{
+    ViewBag.Title = "CreateSetting";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    int i = 0;
+}
+
+@model Svam.Models.DTO.CreateLeadFieldDTO
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
+    legend a {
+        color: inherit;
+    }
+
+    legend.legendStyle {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    fieldset.fsStyle {
+        font-family: Verdana, Arial, sans-serif;
+        font-size: small;
+        font-weight: normal;
+        border: 1px solid #999999;
+        padding: 4px;
+        margin: 5px;
+    }
+
+    legend.legendStyle {
+        font-size: 90%;
+        color: #888888;
+        background-color: transparent;
+        font-weight: bold;
+    }
+
+    legend {
+        width: auto;
+        border-bottom: 0px;
+    }
+
+    mark {
+        background-color: yellow;
+    }
+</style>
+
+<div class="maincontainer">
+
+    <div class="col-sm-12">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Create Custom Form </strong>
+                <input type="submit" value="Save" class="btn btn-success pull-right" style="margin-top: -6px;" />&nbsp;&nbsp;
+                <a href="/LeadSetting1/CreateSetting" class="btn btn-info pull-right" style="margin-top: -6px;margin-right: 1%;">Reset</a>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("ViewLeadSetting", "LeadSetting", FormMethod.Post))
+                {
+                    <div class="tab-content">
+                        <!-- end first tabs -->
+                        <div class="tab-pane fade in active" id="roleassignment">
+                            <br style="clear: both;" />
+                            <div class="form-horizontal">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6">Would you like to change form name?</label>
+                                                <div class="col-sm-6">
+                                                    @Html.TextBoxFor(a => a.FormTextName, new { @class = "form-control", placeholder = "Enter form name" })
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6">Would you like to change text?</label>
+                                                <div class="col-sm-6">
+                                                    @Html.TextBoxFor(a => a.HeaderMenuTextName, new { @class = "form-control", placeholder = "Enter text" })
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <input type="hidden" id="SaveType" name="SaveType" />
+                                    <input type="hidden" id="fieldNM" name="FieldName" />
+                                    <div class="col-md-4">
+                                        <label class="control-label col-sm-10">Change field name or visibility or mandatory:</label>
+
+                                        <select id="fields" class="form-control">
+                                            <option value="">Select Field</option>
+                                            @foreach (var item in Model.FieldNames)
+                                            {
+                                                if (!string.IsNullOrEmpty(item.TextName))
+                                                {
+                                                    <option value="@item.Values">@item.TextName</option>
+
+                                                    i++;
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+
+
+                                    <span>@i</span>
+                                    <br />
+                                    @if (i == 34)
+                                    {
+                                        <span class="btn btn-primary" style="cursor:pointer" onclick="window.alert('You can not add more then 10 extra fields')"><i class="fa fa-plus-square"></i>Add New Field </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-primary" style="cursor:pointer" id="btnAddFld"><i class="fa fa-plus-square"></i>Add New Field </span>
+                                    }
+                                </div>
+
+                                <div class="row" style="display:none" id="gDivFldType">
+                                    <div class="form-group">
+                                        <label>Choose field type:</label>
+                                    </div>
+                                    <br />
+                                    @if(Model.NormalFieldCount>0)
+                                    {
+                                    <div class="col-md-3">
+                                        <input type="radio" name="FieldType" id="NormalText" class="rdbtnNew" value="NormalText" /> <b>Normal text</b>
+                                        <span>(Example: Hello!)</span>
+                                    </div>
+                                    }
+                                    
+                                    @if (Model.DateFieldCount > 0)
+                                    {
+                                        <div class="col-md-3">
+                                            <input type="radio" name="FieldType" id="DateText" class="rdbtnNew" value="DateText" /> <b>Date</b>
+                                            <span>(Example:DD/MM/YYYY)</span>
+                                        </div>
+                                    }
+
+                                    @if (Model.NumericFieldCount > 0)
+                                    {
+                                        <div class="col-md-3">
+                                            <input type="radio" name="FieldType" id="NumberText" class="rdbtnNew" value="NumberText" /> <b>Number</b>
+                                            <span>(Example:1 to 10)</span>
+                                        </div>
+                                    }
+
+                                    @if (Model.DecimalFieldCount > 0)
+                                    {
+                                        <div class="col-md-3">
+                                            <input type="radio" name="FieldType" id="DecimalText" class="rdbtnNew" value="DecimalText" /> <b>Decimal</b>
+                                            <span>(Example: Rs. 2.50)</span>
+                                        </div>
+                                    }
+
+                                    <br />
+                                        <div class="form-group">
+                                            Available fields according field type
+                                            <span>Normal Field: @Model.NormalFieldCount</span>
+                                            <br />
+                                            <span>Number Field: @Model.NumericFieldCount</span>
+                                            <br />
+                                            <span>Decimal Field: @Model.DecimalFieldCount</span>
+                                            <br />
+                                            <span>Date Field: @Model.DateFieldCount</span>
+                                        </div>
+                                </div>
+
+                                <div class="row" style="display:none" id="gDiv">
+                                    <div class="col-md-10">
+                                        <fieldset class="fsStyle">
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-6">Enter field name: </label>
+                                                <div class="col-sm-6"> 
+                                                    <span id="spnReqFieldMsg" style="display:none;">you can only change this field name</span><br />
+                                                    <input type="text" id="fldText" name="FieldTextName" class="form-control" placeholder="Enter text" autocomplete="autocomplete" required />
+                                                </div>
+                                                <div class="row" id="divVisible" style="display:none">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this field on form or mandatory:
+                                                        <input type="checkbox" id="IsVisible" name="IsVisible" />
+                                                    </label>
+                                                    <div class="row" style="display:none" id="divRequired">
+                                                        <label>Is Mandatory</label><br />
+                                                        <div class="col-sm-1">
+                                                            @Html.RadioButtonFor(a => a.IsRequired, true, new { id = "IsReqYes" }) Yes
+
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            @Html.RadioButtonFor(a => a.IsRequired, false, new { id = "IsReqNo" }) No
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <a href="/LeadSetting1/CreateSetting" class="btn btn-primary pull-right">Cancel</a>
+                                                    @*<button type="button" id="btnCancel" class="btn btn-danger">Cancel</button>*@
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@*<script src="~/Scripts/jquery-1.7.1.min.js"></script>*@
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script>
+    
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+
+
+    $("#btnAddFld").click(function () {
+
+        $("#SaveType").val('New');//insert save type to text box for new field add
+        $("#gDivFldType").show();
+        $("#spnReqFieldMsg").hide();
+        $("#divVisible").show(); 
+        if ($('input[name="FieldType"]:checked').length) {
+            // at least one of the radio buttons was checked
+            return true; // allow whatever action would normally happen to continue
+        }
+        else {
+            $('input[name="FieldType"]').attr("required", true);
+            // no radio button was checked
+            //return false; // stop whatever action would normally happen
+        }
+    });
+
+
+    function changeText (obj) {
+        $('input[name="FieldType"]').attr("required", false);
+
+        $("#btnAddFld").hide();//hide add new button for prevent confliction
+
+        $("#SaveType").val('');
+        $("#gDivFldType").hide();//hide field type div
+
+        $("#gDiv").show();//show field text box div
+
+        var fldValues = $(this).val();
+        var fieldText = $(this).find("option:selected").text()
+        var myarray = fldValues.split('/');//back slash seperate field values
+        var FieldName = myarray[0];
+        var IsField = myarray[1];
+        var IsFieldReq = myarray[2];
+
+        if (FieldName == "CustomerTextName") {
+            $("#spnReqFieldMsg").show();
+            $("#divVisible").hide();           
+        }
+        else if (FieldName == "MobileNoTextName") {
+            $("#spnReqFieldMsg").show();
+            $("#divVisible").hide(); 
+        }
+        else if (FieldName == "LeadStatusTextName") {
+            $("#spnReqFieldMsg").show();
+            $("#divVisible").hide(); 
+        }
+        else if (FieldName == "LeadOwnerTextName") {
+            $("#spnReqFieldMsg").show();
+            $("#divVisible").hide(); 
+        }
+        else if (FieldName == "FollowDateTextName") {
+            $("#spnReqFieldMsg").show();
+            $("#divVisible").hide(); 
+        }
+        else if (FieldName == "DescriptionTextName") {
+            $("#spnReqFieldMsg").show();
+            $("#divVisible").hide(); 
+        }
+        //else if (FieldName == "Country") {
+        //    $("#spnReqFieldMsg").hide();
+        //    $("#divVisible").show();
+        //    $("#fldText").attr("readonly", true);
+        //}
+        //else if (FieldName == "State") {
+        //    $("#spnReqFieldMsg").hide();
+        //    $("#divVisible").show();
+        //    $("#fldText").attr("readonly", true);
+        //}
+        //else if (FieldName == "City") {
+        //    $("#spnReqFieldMsg").hide();
+        //    $("#divVisible").show();
+        //    $("#fldText").attr("readonly", true);
+        //}
+        else {
+            $("#spnReqFieldMsg").hide();
+            $("#divVisible").show(); 
+            $("#fldText").attr("readonly", false);
+        }
+
+
+        if (IsField == "true") {
+            $("#IsVisible").attr("checked", true);
+            $("#divRequired").show();
+        }
+        if (IsFieldReq == "true") {
+            $("#IsReqYes").attr("checked", true);
+        }
+        else {
+            $("#IsReqNo").attr("checked", true);
+        }
+
+       
+        $("#fieldNM").val(FieldName);
+        $("#fldText").val(fieldText);
+
+        //for (var i = 0; i < myarray.length; i++) {
+        //    //console.log(myarray[i]);
+        //    $("#rgts").append('<li>' + myarray[i] + '</li>');
+        //}
+        //$("#myselect option:selected").text();
+        //alert($(this).find("option:selected").text());
+    }
+
+
+    $("#IsVisible").click(function () {
+        if ($(this).is(":checked")) {
+            $("#divRequired").show();
+            //console.log("Checkbox is checked.");
+        }
+        else if ($(this).is(":not(:checked)")) {
+            $("#divRequired").hide();
+            $("#IsReqNo").prop("checked", true);
+            //console.log("Checkbox is unchecked.");
+        }
+    });
+</script>
+
+<script>
+
+    //$('.rdbtnNew').click(function () {
+    //    var rdValue = $(this).val();
+    //    //if (rdValue.length > 0) {
+    //    //    $("#divNewField").show();
+    //    //}
+    //    //else {
+    //    //    alert("Please select field type");
+    //    //}
+    //    //$('input[name="fldType"]:checked').val();
+    //});
+
+    //$("#btnCancel").click(function () {
+    //    $("#btnAddFld").show();//hide add new button for prevent confliction
+    //    $("#fieldNM").val('');
+    //    $("#fldText").val('');
+    //    $("#IsVisible").attr("checked", false);
+    //    $("#divRequired").hide();
+    //    $("#IsReqNo").attr("checked", true);
+    //    $('input[name="FieldType"]').attr("checked", false);
+    //    $('input[name="FieldType"]').attr("required", false);
+    //    $("#SaveType").val('');//blank save type to text box for new field add
+    //    $("#gDivFldType").hide();
+    //});
+
+    //$("#IsNewVisible").click(function () {
+    //    if ($(this).is(":checked")) {
+    //        $("#divNewRequired").show();
+    //        //console.log("Checkbox is checked.");
+    //    }
+    //    else if ($(this).is(":not(:checked)")) {
+    //        $("#divNewRequired").hide();
+    //        $("#IsNewReqNo").prop("checked", true);
+    //        //console.log("Checkbox is unchecked.");
+    //    }
+    //});
+
+</script>
+

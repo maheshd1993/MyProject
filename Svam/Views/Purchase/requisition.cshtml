@@ -1,0 +1,282 @@
+﻿@{
+    ViewBag.Title = "requisition";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Svam.Models.PurchaseRequitionModel
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+<div class="maincontainer">
+    @using (Html.BeginForm("requisition", "purchase", FormMethod.Post))
+    {
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>Purchase	Requisition</div>
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="form-horizontal">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="custname">Date :- </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(em => em.PrDate, new { @class = "form-control datepik1" })
+                                        @Html.ValidationMessageFor(em => em.PrDate)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="Quotation">Transaction Type:-</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="TransactionType" required="required">
+                                            <option value="Direct">Direct</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="Quotation">Requester:-</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddluser" name="RequesterId" class="form-control getuser" required="required">
+                                            <option id="1">Satish (user)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="Quotation">Transaction  No:-</label>
+                                    <div class="col-sm-8">
+
+                                        @Html.TextBoxFor(em => em.TransactionNo, new { @class = "form-control Itmdisabletext" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="contperson">Department:- </label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control getdepartment" name="DepartmentId" required="required">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 padd0">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-th-list" aria-hidden="true"></i>Item Details
+                    <div class="rightbtntop"><a href="javascript:void(0)" style="width: 100%;" class="addbtn" id="addrowbtn"><i aria-hidden="true" class="fa fa-plus"></i>Add Row</a></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-sm-12 padd0">
+                            <div class="table-responsive">
+                                <table class="table table-striped table table-hover tabledata scrolltable table-bordered">
+                                    <thead>
+                                        <tr>
+                                            @*<th width="4%" class="noimg padd0" style="padding: 10px 0px;">Sr no.</th>*@
+                                            <th width="12%">Part No. </th>
+                                            <th width="35%">Description</th>
+                                            <th width="5%">Unit</th>
+                                            <th width="5%">Qty</th>
+                                            <th width="10%">Required by date</th>
+                                            <th width="22%">Remaks</th>
+                                            <th width="5%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="purchaserequisition">
+
+                                        @for (int i = 0; i < Model.purchaseReqModelList.Count; i++)
+                                        {
+                                            <tr>
+                                                @*<td><span class="count">1</span></td>*@
+                                                <td>
+                                                    <select class="form-control tdselect ddlitem" onchange="fillDataWithDDL(this)" id="purchaseReqModelList_0__PartNo" name="purchaseReqModelList[0].PartNo">
+                                                        <option>Select</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <p></p>
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    @Html.TextBoxFor(em => em.purchaseReqModelList[i].RequiredQty, new { @class = "form-control", @placeholder = "Qty" })</td>
+                                                <td>
+
+                                                    @Html.TextBoxFor(em => em.purchaseReqModelList[i].RequiredByDate, new { @class = "form-control pik", @placeholder = "Select Date" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(em => em.purchaseReqModelList[i].Remarks, new { @class = "form-control", @placeholder = "Remarks" })
+
+                                                </td>
+
+                                                <td class="actiontd"><a href="#" class="dltrow deleterow remove">Remove</a></td>
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12 padd0">
+
+                            <div class="col-md-12 padd0">
+                                <div class="form-horizontal">
+                                    <div class="form-group remarksbox">
+                                        <label class="control-label col-sm-2 t-left" for="">Remaks </label>
+                                        <div class="col-sm-12">
+
+                                            @Html.TextAreaFor(em => em.Remarks, new { @class = "form-control remakstextbox", @placeholder = "Remaks" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-sm-12 t-right">
+                @*<input type="button" onclick="location.href = ''" class="btn mainbtn2" value="Cancle">*@
+                <input type="submit" class="btn mainbtn" value="Submit">
+            </div>
+
+        </div>
+        <!-- end item details -->
+    }
+</div>
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+
+
+    <script>
+        (function () {
+            AllItemDeatails('');
+            GetDepartment();
+            getUser();
+            $(".datepik1").datepicker().datepicker("setDate", new Date());
+        })();
+
+        //Start To Get All User in Dropdownlist......
+        function AllItemDeatails(ddlclass) {
+
+            jQuery.get('/common/GetAllItemDeatails', null, function (data) {
+                chkAllItemDeatails(data, ddlclass)
+
+            });
+        }
+
+        function chkAllItemDeatails(abc, ddlclass) {
+            var data = "";
+            data += "<option value= >--Select Item--</option>";
+            for (var it in abc) {
+                data += "<option data-item=" + abc[it].ItemName + " data-unit=" + abc[it].UnitName + " value=" + abc[it].ID + ">" + abc[it].SKU + "</option>";
+            }
+            if (ddlclass != '') {
+                $('.' + ddlclass).html(data)
+            }
+            else {
+                $('.ddlitem').html(data)
+            }
+        }
+
+
+        function fillDataWithDDL(param) {
+            var self = jQuery(param);
+            // get the values...........
+            var unit = $("option:selected", self).data('unit');
+            var item = $("option:selected", self).data('item');
+
+            // get the values...........
+            self.closest('td').next('td').find('p').text(item);
+            self.closest('td').next('td').next('td').text(unit);
+        }
+
+        //Start To Bind All Department........
+        function GetDepartment() {
+            jQuery.get('/common/GetAllDepartment', null, function (data) { chkBindDepartment(data) });
+        }
+
+        function chkBindDepartment(abc) {
+            var data = "";
+            data += "<option value= >--Select Department--</option>";
+            for (var it in abc) {
+                data += "<option value=" + abc[it].Id + " >" + abc[it].DepartmentName + "</option>";
+            }
+            $('.getdepartment').html(data)
+        }
+
+        //Start To Bind All Requester User
+        //Start To Get All User in Dropdownlist......
+        function getUser() {
+            jQuery.get('/common/GetAllusers', null, function (data) { chkBindgetUser(data) });
+        }
+
+        function chkBindgetUser(abc) {
+            var data = "";
+            var uid = '@Model.RequesterId';
+        data += "<option value= >--Select User--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" + abc[it].Fname + " " + abc[it].Lname + "</option>";
+        }
+        $('#ddluser').html(data).val(uid);
+    }
+
+    var mas = '@al';
+        var chkmsg = '@alchk';
+        if (mas != '') {
+            swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+        }
+        if (chkmsg != '') {
+            alert(chkmsg);
+        }
+
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".pik").datepicker();
+
+            $('#addrowbtn').click(function () {
+                var rowCount = $('#purchaserequisition tr').length;
+                var ddlclass = "ddlitem" + rowCount;
+                $('#purchaserequisition').append('<tr><td><select class="form-control tdselect ' + ddlclass + '" onchange="fillDataWithDDL(this)" id="purchaseReqModelList_' + rowCount + '__PartNo" name="purchaseReqModelList[' + rowCount + '].PartNo"></select></td><td><p></p></td><td></td><td><input type="text" class="form-control" id="purchaseReqModelList_' + rowCount + '__RequiredQty" name="purchaseReqModelList[' + rowCount + '].RequiredQty" placeholder="Qty"></td><td><input type="text" class="form-control pik" id="purchaseReqModelList_' + rowCount + '__RequiredByDate" name="purchaseReqModelList[' + rowCount + '].RequiredByDate" placeholder="Select Date"/></td><td><input type="text" class="form-control" id="purchaseReqModelList_' + rowCount + '__Remarks" name="purchaseReqModelList[' + rowCount + '].Remarks" placeholder="Remarks"></td><td class="actiontd"><a class="dltrow deleterow" onclick="abc(this)" href="javascript:void(0)">Remove</a></td></tr>');
+                $(".pik").datepicker();
+
+                AllItemDeatails(ddlclass);
+                //jQuery.get('/common/GetAllItemDeatails', null, function (data) { chkAllItemDeatails(data) });
+
+            });
+        });
+
+        function abc(param) {
+            var self = jQuery(param);
+            self.closest('tr').hide();
+        }
+    </script>
+
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+
+

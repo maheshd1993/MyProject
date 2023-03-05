@@ -1,0 +1,154 @@
+﻿<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Manage Customer Address  <span style="margin: 10%;">@TempData["CustomerId"]</span></h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="cname">Address Name:-</label>
+                            <div class="col-sm-6">
+                                <input type="text" id="txtAddressName" class="form-control clr" />
+                                <input type="hidden" id="hdCid" value="@TempData["CustomerId"]" />
+                                 <input type="hidden" id="AdressId" value="0" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="cname">Address Type:-</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="ddlAddressType">
+                                    <option value="Billing Address">Billing Address</option>
+                                    <option value="Shipping Address">Shipping Address</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="cname">Address:-</label>
+                            <div class="col-sm-6">
+                                <textarea id="txtAddress" class="form-control clr"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="regno"></label>
+                            <div class="col-sm-6">
+                                <input type="submit" id="btnSave" class="btn mainbtn2" value="Submit">
+                                <span id="spnMessage"></span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+
+                    <table class="table table-bordered modaltable9">
+                        <thead>
+                            <tr>
+                                <th width="50">Sr.No</th>
+                                <th width="150">Address Name</th>
+                                <th width="300">Address Type</th>
+                                <th width="300">Address</th>
+                                <th width="50">Address</th>
+                            </tr>
+
+                        </thead>
+                        <tbody id="divBindData">
+                            @{int i = 1;}
+                            @foreach (var item in ViewBag.result)
+                            {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.AddressName</td>
+                                <td>@item.AddressType</td>
+                                <td>@item.Address</td>
+                                <td><a href="javascript:void(0)" onclick="UpdateAddress('@item.Id');">Update</a></td>
+                            </tr>
+                                i++;
+                            }
+                          
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery('#btnSave').click(function () {
+        var adresId = jQuery('#AdressId').val();
+        var customerId = jQuery('#hdCid').val();
+        var adressname = jQuery('#txtAddressName').val();
+        var AddressType = jQuery('#ddlAddressType').val();
+        var address = jQuery('#txtAddress').val();
+        
+        if (customerId != '' && adressname != '' && AddressType != '' && address != '') {
+            jQuery('#btnSave').hide();
+            jQuery.post('/master/ManageCustomerAddress', {AdressId:adresId, CustomerId: customerId, AddressName: adressname, AddressType: AddressType, Address: address }, function (data) {
+                jQuery('#spnMessage').text(data);
+                jQuery('#btnSave').show();
+                jQuery('.clr').val('');
+                BindAddress(customerId);
+            });
+        }
+        else {
+            alert('Please input all the required field');
+        }
+    });
+
+    function BindAddress(cid) {
+        jQuery.post('/master/RefreshAddressByCustomer', { CustomerId: cid }, function (data) {
+            if (data != '') {
+                var brd = '';
+                var i = 1;
+                for (var item in data) {
+                    //brd += "<tr><td>" + i + "</td><td>" + data[item].AddressName + "</td><td>" + data[item].AddressType + "</td><td>" + data[item].Address + "</td></tr>";
+                    brd += "<tr><td>" + i + "</td><td>" + data[item].AddressName + "</td><td>" + data[item].AddressType + "</td><td>" + data[item].Address + "</td><td><a href='javascript:void(0)' onclick='UpdateAddress(" + data[item].Id + ");'>Update</a></td></tr>";
+                    i++;
+                }
+                $('#divBindData').html(brd);
+            }
+        });
+    }
+
+
+    function UpdateAddress(adrsid) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Updateduseraddress", "master")',
+            data: { AdressId: adrsid },
+                error: function (xhr, status, error) {
+                    $(".loaderimg").hide();
+                },
+                success: function (JSONdata) {
+                    $("#AdressId").val(JSONdata.Id);
+                    $("#hdCid").val(JSONdata.CustomerId)
+                    $("#txtAddressName").val(JSONdata.AddressName);
+                    $("#ddlAddressType").val(JSONdata.AddressType);
+                    $("#txtAddress").val(JSONdata.Address);
+                },
+                beforeSend: function () {
+                    if (adrsid != '')
+                        $('.loaderimg').show();
+
+                    else
+                        return false;
+                },
+                complete: function () {
+                    $(".loaderimg").hide();
+                }
+            });
+        }
+   
+</script>

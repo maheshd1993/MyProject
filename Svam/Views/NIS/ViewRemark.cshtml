@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "ViewRemark";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Traders.Models.CommonActivityRemarkModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><strong>View Daily Remark</strong>   <span style="margin-left: 12%; color: #c9302c;">@TempData["MapUserName"]</span></div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                <div class="col-sm-3">
+                                    <input type="text" id="frmDate" class="form-control datefield" name="FromDate" placeholder="From Date" required="required" autocomplete="off" readonly/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" id="Todate" class="form-control datefield" name="ToDate" placeholder="To Date" required="required" autocomplete="off" readonly/>
+                                </div>
+                                <div class="col-sm-2 padd0">
+                                    <input id="btnFilterReport" class="btn btn-success" style="margin-left: 10px;" type="button" value="Filter" />
+                                    <a href="/Nis/ViewRemark"><input class="btn btn-danger" type="button" value="Reset" /></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" id="DivBindFilerRemarks">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>User Name</th>
+                                <th>Profile</th>
+                                <th>Remarks </th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.commonActivityRemarkList.Count > 0)
+                            {
+                                foreach (var item in Model.commonActivityRemarkList.OrderByDescending(em => em.Date))
+                                {
+                                    <tr>
+                                        <td data-column="Sr.No." translate="no">@i</td>
+                                        <td data-column="User Name" translate="no">@item.UserName</td>
+                                        <td data-column="Profile" translate="no">@item.Profile</td>
+                                        <td data-column="Remarks" translate="no">@Html.Raw(@item.Remarks)</td>
+                                        <td data-column="Date" translate="no">@item.Date</td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" style="text-align:center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script type="text/javascript">
+     var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#frmDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+
+        $('#Todate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+    });
+
+    jQuery('#btnFilterReport').click(function () {
+        var empId = '@ViewContext.RouteData.Values["Id"]';
+        var frmdt = jQuery('#frmDate').val();
+        var todt = jQuery('#Todate').val();
+        if (frmdt != '' && todt != '') {
+            jQuery.post('/Nis/FilterCommonRemarks', { id: '', fromdate: frmdt, toDate: todt }, function (data) {
+                jQuery('#DivBindFilerRemarks').html(data);
+            });
+        }
+        else {
+            alert('Please select the date to filter the Data.');
+        }
+    });
+</script>
+

@@ -1,0 +1,214 @@
+﻿@{
+    ViewBag.Title = "ViewQuotation";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.ViewQuotationModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-th-list" aria-hidden="true"></i>Quotations
+		 
+                    <div class="rightbtntop">
+                        <a href="/home/createquotation" style="width: 100%;" class="addbtn"><i aria-hidden="true" class="fa fa-plus"></i> Create Quotation</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("ViewQuotation", "home", FormMethod.Post))
+                    {
+                    <div class="form-horizontal">
+
+                        <div class="col-sm-2">
+                            <div>
+                                <select class="form-control" id="ddlquotationstatus" name="filterText" style="margin-top: 0;">
+                                    <option>--Select--</option>
+                                   
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                            <input type="text" placeholder="Search Customer" name="CustomerName" class="form-control" value="@TempData["Customer"]">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="form-group f-center col-sm-6 padd0">
+                            <div class="col-sm-4">
+                                <input type="text" placeholder="From Date" name="StartDate" value="@TempData["SD"]" class="form-control datepik1">
+                            </div>
+
+                            <div class="col-sm-4">
+                                <input type="text" placeholder="To Date" name="Enddate" value="@TempData["ED"]" class="form-control datepik1" >
+                            </div>
+                            <div class="col-sm-4 padd0">
+                                <input type="submit" value="Filter" style="margin-left: 10px;" class="btn mainbtn" id="Submit1">
+                                <input type="button" onclick="location.href = '/home/ViewQuotation'" value="Reset" class="btn mainbtn2">
+                            </div>
+
+                        </div>
+                    </div>
+                    }
+                    <div class="devider"></div>
+
+                    <div class="col-sm-12 padd0">
+                        <div class="table-responsive">
+                            <table class="table table-striped table table-hover tabledata table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="30" class="noimg padd0" style="padding: 10px 0px; !important;">Sr no.</th>
+                                        <th width="160">Customer Name </th>
+                                        <th width="80">Quotation No</th>
+                                        <th width="40">Rev.No</th>
+                                        <th width="80">Quotation Date</th>
+                                        <th width="140">Sales Person</th>
+                                        <th width="80">Quo. Amt</th>
+                                        <th width="70">Tax Amt</th>
+                                        <th width="60">Type</th>
+                                        <th width="70">Status</th>
+                                        <th width="130">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                    @foreach (var item in Model.viewquotationlistModel.OrderByDescending(em=>em.QuotationNo).ThenByDescending(em=>em.RevisionNo))
+                                    {
+                                        <tr>
+                                            <td >@i</td>
+                                            <td>@item.CustomerName</td>
+                                            <td>@item.QuotationNo</td>
+                                            <td>@item.RevisionNo</td>
+                                            <td>@item.QuotationDate</td>
+                                            <td>@item.SalesPerson</td>
+                                            <td>@item.GrandTotal</td>
+                                            <td>@item.TotalTaxAmt</td>
+                                            <td>@item.QuotationType</td>
+                                            <td>@item.QuotationStatus</td>
+                                            <td class="actiontd">
+                                                @if(item.Editable==true)
+                                                {
+                                                <a title="Edit Branch" class="editbtn" href="/home/createquotation/@item.Id/@item.RevisionNo">Update</a>
+                                                }
+                                                <a class="viewbtn ViewQuotaiondetails"  title="view Details" data-toggle="modal" data-target="#viewQuotationDetails" data-qno="@item.QuotationNo" data-revno="@item.RevisionNo" href="#">Details</a>
+                                                <a data-toggle="modal" data-target="#quotationsprint" data-qno="@item.QuotationNo" class="printbtn printquotation" title="Print" href="#">Print</a>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+
+                            <div class="container paginationcustom">
+                                <ul class="pagination"></ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!--Print Model-PopUp-->
+<div class="modal fade" id="quotationsprint" role="dialog">
+    
+
+</div>
+
+<!--Quotation Details Model-PopUp-->
+<div class="modal fade" id="viewQuotationDetails" role="dialog">
+    
+
+</div>
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+
+<script>
+
+    $(document).ready(function () {
+        $(".datepik1").datepicker();
+        GetQuotationStatus();
+    });
+
+    $('.printquotation').on('click', function () {
+        var qno = $(this).data('qno');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("PrintQuotationByQID", "home")',
+            data: { QNo: qno },
+                error: function (xhr, status, error) {
+                    $(".loaderimg").hide();
+                },
+                success: function (JSONdata) {
+                    jQuery('#quotationsprint').html(JSONdata);
+                    $($(this).data("#quotationsprint")).show();
+                },
+                beforeSend: function () {
+                    if (qno != '')
+                        $('.loaderimg').show();
+
+                    else
+                        return false;
+                },
+                complete: function () {
+                    $(".loaderimg").hide();
+                }
+        });
+    });
+
+
+    $('.ViewQuotaiondetails').on('click', function () {
+        var self = $(this);
+        var qno = self.data('qno');
+        var revno = self.data('revno');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ViewQuotationByQID", "home")',
+            data: { QNo: qno,Revno:revno },
+            error: function (xhr, status, error) {
+                $(".loaderimg").hide();
+            },
+            success: function (JSONdata) {
+                jQuery('#viewQuotationDetails').html(JSONdata);
+                $($(this).data("#viewQuotationDetails")).show();
+            },
+            beforeSend: function () {
+                if (qno != '')
+                    $('.loaderimg').show();
+
+                else
+                    return false;
+            },
+            complete: function () {
+                $(".loaderimg").hide();
+            }
+        });
+    });
+
+    //Start To get Quotation Status....
+    function GetQuotationStatus() {
+        jQuery.get('/common/Getquotationstatus', null, function (data) { chkBindquotationStatus(data) });
+    }
+
+    function chkBindquotationStatus(abc) {
+        var data = "";
+        var text = '@TempData["FilterText"]';
+            data += "<option value= >--Quotation Type--</option>";
+            for (var it in abc) {
+                data += "<option value=" + abc[it].QStatusName + " >" + abc[it].QStatusName + "</option>";
+            }
+            $('#ddlquotationstatus').html(data).val(text);
+        }
+
+   
+</script>
+
+}

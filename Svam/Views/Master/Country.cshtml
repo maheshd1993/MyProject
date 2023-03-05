@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Country";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.CountryModel
+
+
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>Manage Country</div>
+                <div class="panel-body">
+                        @using(Html.BeginForm("Country","Master",FormMethod.Post))
+                        {
+                            <div class="form-group f-center col-sm-6 padd0">
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Countryname, new {@placeholder="Add Country",@class="form-control" })
+                                    @Html.ValidationMessageFor(em=>em.Countryname)
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <input type="submit" value="Submit" class="btn mainbtn">
+                                </div>
+                            </div>
+                        }
+                    <div class="devider"></div>
+
+                    <div class="col-sm-12 padd0">
+                        <div class="table-responsive">
+                            <table class="table table-striped table table-hover tabledata table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="5%" class="noimg padd0" style="padding: 10px 0px; !important;">Sr no.</th>
+                                        <th width="60%">Countary Name </th>
+                                        <th width="20%">Add State</th>
+                                        <th width="12%">Status</th>
+                                        <th width="15%" class="noimg">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                    @foreach (var item in ViewBag.CountryList)
+                                    {
+                                       <tr>
+                                        <td>@i</td>
+                                        <td>@item.CountryName</td>
+                                        <td><a href="/master/State/@item.Id"><i class="fa fa-plus" aria-hidden="true"></i>Add State</a></td>
+                                        <td><a href="javascript:void(0)" class="achangeStatus" data-id="@item.Id" >@item.Status</a></td>
+                                        <td><a href="/Master/Country/@item.Id" class="viewbtn">Edit</a></td>
+                                    </tr>
+                                        i++;
+                                    }
+                                   
+                                </tbody>
+                            </table>
+
+                            <div class="container paginationcustom">
+                                <ul class="pagination">
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+    }
+    if (chkmsg != '') {
+        alert(chkmsg);
+    }
+
+    jQuery('.achangeStatus').click(function () {
+        var self = jQuery(this);
+        var status = self.text();
+        var tblName = "country_tbl";
+        var colname = "Status";
+        var id = self.data('id');
+        if (id != '' && status != '') {
+            jQuery.post('/common/SetCommonStatus', { TableName: tblName, Id: id, Status: status,ColName:colname }, function (data) {
+
+            });
+        }
+        alert(id + '-' + status);
+    });
+
+</script>

@@ -1,0 +1,309 @@
+﻿@model Svam.Models.ViewModel.ManageOrganizationVM
+@{
+    ViewBag.Title = "UserListByBranch";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<link href="~/css/theme.blue.css" rel="stylesheet" />
+<link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<link href="~/Scripts/semantic.min.css" rel="stylesheet" />
+
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Organization Branch Report</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-5 padd0">
+                                </div>
+                                <div class="col-sm-3 padd0 developer_paddo pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="panel-body body_pnl">
+                                <div class="col-sm-12">
+                                    @using (Html.BeginForm("UserListByBranch", "ManageOrganization", FormMethod.Post))
+                                    {
+                                        <div class="col-sm-4">
+                                                @Html.TextBoxFor(a => a.Term, new { @class = "form-control", placeholder = "Search by branch name" })
+
+                                            </div>
+                                            <div class="col-sm-8">
+
+                                                <div class="form-group f-center col-sm-8 padd0">
+                                                    <div class="col-sm-4">
+                                                        @Html.TextBoxFor(a => a.FromDate, new { @class = "form-control datefield", placeholder = "From Date" })
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        @Html.TextBoxFor(a => a.ToDate, new { @class = "form-control datefield", placeholder = "To Date" })
+
+                                                    </div>
+                                                    <div class="col-sm-4 padd0">
+                                                        <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                                        <input class="btn btn-success" type="button" id="btncancel" value="Reset" onclick="location.href = '/ManageOrganization/AssignOrganization'" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    }
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 " style="margin-top: -8px;">
+                    <div class="col-md-4">
+                        @using (Html.BeginForm("UserListByBranch", "ManageOrganization", FormMethod.Post))
+                        {
+                            @Html.DropDownList("sBranchId", new SelectList(Model.AssigntoList, "Id", "BranchName"), "Select Branch", new { @class = "ui fluid search dropdown ListItemCapitalize", @style = "margin-top:0px !important;",onchange="this.form.submit()" })
+                        }
+                    </div>
+                    <div class="col-md-2">
+                        <span class="btn btn-primary btn-sm" style="cursor: none;">Total Record : @(Model.TotalRecord)</span>
+                    </div>
+                    @using (Html.BeginForm("AssignedOrganization", "ManageOrganization", FormMethod.Post))
+                    {
+                        <div class="col-md-4">
+                            @Html.DropDownList("AssignedId", new SelectList(Model.AssigntoList, "Id", "BranchName"), "Select Assign To", new { @class = "ui fluid search dropdown ListItemCapitalize", @style = "margin-top:0px !important;" })
+                        </div>
+                        <div class="col-md-1">
+                            <input class="btn btn-success" style="margin-left: 10px;" type="submit" value="Assign" id="SubmitAssigned" />
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered tablefont " id="dest">
+                                    <thead class="black-white-text">
+                                        <tr>
+                                            <th style="width: 3%">
+                                                <input type="checkbox" id="chkAll" />
+                                            </th>
+                                            <th>Employee Code</th>
+                                            <th>Full Name</th>
+                                            <th>Profile</th>
+                                            <th>E-mail</th>
+                                            <th>Branch Name </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.UserList.Count > 0)
+                                        {
+                                            foreach (var item in Model.UserList)
+                                            {
+
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" name="SelectedBranch" class="chk" value="@item.Id" />
+                                                    </td>
+                                                    <td>@item.EmployeeCode</td>
+                                                    <td>@item.UserName</td>
+                                                    <td>@item.ProfileName</td>
+                                                    <td>@item.EmailID</td>
+                                                    <td>@item.BranchName</td>
+                                                </tr>
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @*@using (Html.BeginForm("ExportViewLeads", "home", @ViewContext.RouteData.Values["id"], FormMethod.Post))
+                {
+                    TempData["ExportViewLeads"] = @Model.viewleadsList.ToList();
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-10">
+                            <input id="Submit2" type="submit" class="btn btn-info" style="width: 100%;" value="Export to Excel">
+                        </div>
+                    </div>
+                }*@
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="~/js/jquery.tablesorter.js"></script>
+<script src="~/timepicker/bootstrap-timepicker.js"></script>
+<script src="~/Scripts/semantic.min.js"></script>
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+
+    $("#dest tbody>tr").click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+    });
+
+    $('.ui.dropdown')
+        .dropdown({
+            clearable: true
+        });
+
+    $("#chkAll").click(function () {
+        var allBranch = $(".chk");
+        var chkCurrent = $(this);
+        if (chkCurrent.prop("checked") == true) {
+            allBranch.prop("checked", true);
+        }
+        else {
+            allBranch.prop("checked", false);
+
+        }
+    });
+</script>
+
+
+<script>
+    //////////////////////////////////////from to date function////////////////
+    $(function () {
+        var datepicker = $('#FromDate');
+        datepicker.datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+    });
+
+    $(function () {
+        var datepicker = $('#ToDate');
+        datepicker.datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+    });
+</script>
+
+
+<style>
+    td {
+        cursor: pointer;
+    }
+
+    .selected {
+        background-color: #BFC9CA;
+        color: #FFF;
+    }
+</style>
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 25px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+<style type="text/css">
+    .loading {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: #0020ff36;
+        z-index: 99;
+        text-align: center;
+    }
+</style>
+
+<!--Start Loader....-->
+@*<div class="loaderimg" style="display: none" id="loader">
+
+        <div class="loadingoverlay">
+            <div class="loadingoverlayContent" style="text-align: center;">
+                Please wait. We are processing your request.<br>
+                <br>
+                <img src="~/Content/Loader/loading.gif" id="Img1" alt="Processing...">
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+

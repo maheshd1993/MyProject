@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "AddModifyManageAdvance";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Traders.Models.AdvanceModel
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        @using (Html.BeginForm("AddModifyManageAdvance", "HR", FormMethod.Post))
+        {
+            @Html.HiddenFor(em => em.AdvanceID)
+            <div class="panel panel-info new_activity_form">
+                <div class="panel-heading">
+                    <strong>Create Extra Payment</strong>
+                    <div class="row" style="padding-right: 2.5%;">
+                        <div class="col-sm-9 padd0"></div>
+                        <div class="col-sm-3 padd0 developer_paddo">
+                            <input type="button" value="Back to Extra Payment List" class="btn btn-danger  pull-right" style="margin-right: 5px;" onclick="location.href = '/HR/ManageAdvance'" />
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Employee Name</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(em => em.UserID, new SelectList(Model.EmployeeList, "UserID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "GetEmployeeSalary(this.value);" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Month</label>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(em => em.Month, htmlAttributes: new { @class = "form-control", @placeholder = "Select Month", @autocomplete = "off", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Extra Amount</label>
+                            <div class="col-sm-2">
+                                @Html.TextBoxFor(em => em.AdvanceAmount, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Advance Amount", @autocomplete = "off" , @required = "required" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <input type="submit" name="Submit" value="Save" class="btn btn-success btnSave " id="btnSaveMain" style="margin-left:450px;">
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+     var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#Month').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+    });
+    $('.floatIntOnly').keypress(function (event) {
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+
+    function GetEmployeeSalary(EmployeeId) {
+        if (EmployeeId > 0) {
+            $.ajax({
+                type: "GET",
+                url: "/HR/HRGetEmployeeSalary",
+                data: { EmployeeID: EmployeeId },
+                dataType: "json",
+                success: function (data) {
+                    $('#BankName').val(data.BankName);
+                    $('#BranchName').val(data.BranchName);
+                    $('#AccountNumber').val(data.AccountNumber);
+                    $('#BasicSalary').val(data.BasicSalary);
+                    $('#HRA').val(data.HRA);
+                    $('#TravellingAllowance').val(data.TravellingAllowance);
+                    $('#MedicalAllowance').val(data.MedicalAllowance);
+                    $('#PerformanceIncentive').val(data.PerformanceIncentive);
+                    $('#OtherBenefits').val(data.OtherBenefits);
+                    $('#PFEmployeeShare').val(data.PFEmployeeShare);
+                    $('#PFEmployerShare').val(data.PFEmployerShare);
+                    $('#ESICEmployerEmployee').val(data.ESICEmployerEmployee);
+                    $('#TDS').val(data.TDS);
+                    $('#OtherDeduction').val(data.OtherDeduction);
+                }
+            });
+        }
+        else {
+            swal("Alert !", "Please Select Employee", "warning");
+        }
+    }
+
+</script>

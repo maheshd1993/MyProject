@@ -1,0 +1,904 @@
+﻿@{
+    ViewBag.Title = "View Ticket";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.CRMTicketModel
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+
+    string email = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.EmailIDText) ? Model.columnVal.EmailIDText : "Email Address";
+    string custNm = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.NameText) ? Model.columnVal.NameText : "Customer Name";
+    string phoneNo = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.PhoneNumberText) ? Model.columnVal.PhoneNumberText : "Phone Number";
+    string errType = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ErrorTypeIDText) ? Model.columnVal.ErrorTypeIDText : "Error Type";
+    string prdType = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ProductTypeIDText) ? Model.columnVal.ProductTypeIDText : "Product Type";
+    string urgType = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.UrgencyIDText) ? Model.columnVal.UrgencyIDText : "Urgency";
+    string tktStatus = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.StatusIDText) ? Model.columnVal.StatusIDText : "Status";
+    string tktSubject = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.subjectText) ? Model.columnVal.subjectText : "Ticket Subject";
+
+}
+
+<link href="~/css/theme.blue.css" rel="stylesheet" />
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Tickets</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-5 padd0">
+                                </div>
+                                <div class="col-sm-3 padd0 developer_paddo pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            @using (Html.BeginForm("ViewTicket", "tickets", FormMethod.Get))
+                            {
+                                <div class="col-sm-12" style="margin-bottom: 15px;">
+                                    @if (Convert.ToString(Session["UserType"]) == "SuperAdmin" || !string.IsNullOrEmpty(Model.MappedUser))
+                                    {
+                                        var SearchUserID = string.IsNullOrEmpty(Convert.ToString(Session["SearchUserID"])) ? 0 : Convert.ToInt32(Session["SearchUserID"]);
+                                        <div class="col-sm-3">
+                                            <select class="form-control ListItemCapitalize" id="SearchUserID" name="SearchUserID" onchange="this.form.submit()" style="margin-top:0px !important;">
+                                                <option value="">Select User</option>
+                                                @if (Model.UserList != null && Model.UserList.Count > 0)
+                                                {
+                                                    <option value="0">ALL</option>
+                                                    foreach (var item in Model.UserList)
+                                                    {
+                                                        <option value="@item.UserID" translate="no" @if (SearchUserID == item.UserID) { <text> selected="selected" </text>   }>@item.UserName</option>
+                                                    }
+                                                }
+                                            </select>
+
+                                            @*@if (Model.UserList != null && Model.UserList.Count > 0)
+                                                {
+                                                    @Html.DropDownList("SearchUserID", new SelectList(Model.UserList, "UserID", "UserName", SearchUserID), "ALL", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("SearchUserID", Enumerable.Empty<SelectListItem>(), "ALL", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;" })
+                                                }*@
+                                        </div>
+                                    }
+
+                                    <div class="col-sm-3">
+                                        @{
+                                            var errId = Session["ErrorTypeName"] != null ? Convert.ToString(Session["ErrorTypeName"]) : string.Empty;
+                                        }
+                                        <select class="form-control ListItemCapitalize" id="ErrorTypeName" name="ErrorTypeName" onchange="this.form.submit()" style="margin-top: 0px !important;">
+                                            <option value="">Select <text translate="no">@errType</text></option>
+                                            @if (Model.ErrorTypeList != null && Model.ErrorTypeList.Count > 0)
+                                            {
+                                                foreach (var item in Model.ErrorTypeList)
+                                                {
+                                                    <option value="@item.ErrorTypeName" translate="no" @if (errId == item.ErrorTypeName) { <text> selected="selected" </text>   }>@item.ErrorTypeName</option>
+                                                }
+                                            }
+                                        </select>
+
+                                        @*@if (Model.ErrorTypeList != null && Model.ErrorTypeList.Count > 0)
+                                            {
+                                                @Html.DropDownList("ErrorTypeName", new SelectList(Model.ErrorTypeList, "ErrorTypeName", "ErrorTypeName", Convert.ToString(Session["ErrorTypeName"])), String.Format("Select {0}", errType), htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("ErrorTypeName", Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", errType), htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;" })
+                                            }*@
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        @{
+                                            var urgId = Session["UrgencyName"] != null ? Convert.ToString(Session["UrgencyName"]) : string.Empty;
+                                        }
+                                        <select class="form-control ListItemCapitalize" id="UrgencyName" name="UrgencyName" onchange="this.form.submit()" style="margin-top: 0px !important;">
+                                            <option value="">Select <text translate="no">@urgType</text></option>
+                                            @if (Model.UrgencyList != null && Model.UrgencyList.Count > 0)
+                                            {
+                                                foreach (var item in Model.UrgencyList)
+                                                {
+                                                    <option value="@item.UrgencyName" translate="no" @if (urgId == item.UrgencyName) { <text> selected="selected" </text>   }>@item.UrgencyName</option>
+                                                }
+                                            }
+                                        </select>
+                                        @*@if (Model.UrgencyList != null && Model.UrgencyList.Count > 0)
+                                            {
+                                                @Html.DropDownList("UrgencyName", new SelectList(Model.UrgencyList, "UrgencyName", "UrgencyName", Convert.ToString(Session["UrgencyName"])), String.Format("Select {0}", urgType), htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("UrgencyName", Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", urgType), htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;" })
+                                            }*@
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        @Html.DropDownListFor(em => em.TicketStatusID, new SelectList(Model.TicketStatusList, "TicketStatusID", "TicketStatusName", Model.TicketStatusID), String.Format("Select {0}", tktStatus), htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;" })
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12" style="margin-bottom: 15px;">
+                                    <div class="col-sm-2">
+                                        @Html.DropDownListFor(a => a.DateType, new List<SelectListItem> { new SelectListItem { Value="cDate",Text= "Created Date" },
+                                          new SelectListItem { Value="mDate",Text= "Modified Date" } , new SelectListItem { Value="assigndate",Text= "Assigned Date" }
+                                          }, "Select Date", htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;" })
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control datefield" id="SearchFromDate" name="SearchFromDate" data-date-format="@Session["DpDateFormat"]" placeholder="From Date" value="@Convert.ToString(Session["SearchFromDate"])" readonly />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control datefield" id="SearchToDate" name="SearchToDate" data-date-format="@Session["DpDateFormat"]" placeholder="To Date" value="@Convert.ToString(Session["SearchToDate"])" readonly />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" name="SearchTerm" placeholder="Search by TicketNo/Customer/Mobile/Email" value="@Convert.ToString(TempData["SearchTerm"])">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                        <input class="btn btn-success" type="button" id="btncancel" value="Reset" onclick="location.href = '/Tickets/ResetTicketFilter'" />
+                                    </div>
+                                </div>
+                                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("AssignTicketToUser", "Tickets", FormMethod.Post))
+            {
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12" style="margin-top: -8px;">
+                        <div class="form-group pull-right col-xs-12">
+                            <div class="col-sm-6 col-xs-6" style="">
+                                @if (Model.AssignUserList != null && Model.AssignUserList.Count > 0)
+                                {
+                                    @Html.DropDownList("UserAssignTo", new SelectList(Model.AssignUserList, "UserID", "UserName"), "Select Assign To", new { @class = "form-control  ListItemCapitalize ", @style = "margin-top:0px !important;" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("UserAssignTo", Enumerable.Empty<SelectListItem>(), "Select Assign To", new { @class = "form-control  ListItemCapitalize ", @style = "margin-top:0px !important;" })
+                                }
+                            </div>
+                            <div class="col-sm-1 col-xs-6">
+                                <input class="btn btn-success" style="margin-left: 10px;" type="submit" value="Assign" id="SubmitAssigned" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-12">
+                            <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#modalSendEmail" style="color: white; display: none;" id="btnSendEmail">Send Email</button>
+                        </div>
+                        <div class="col-md-2 pull-right col-xs-12">
+                            <span class="btn btn-primary btn-sm" style="cursor: none;">Total Tickets : @(Model.TotalTicket == null ? 0 : Model.TotalTicket)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" style="overflow-x: scroll !important;">
+                        <table class="table table-bordered tablefont ">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" name="chkAllTickets" class="chkAll" />
+                                    </th>
+                                    <th>Ticket No.</th>
+                                    <th translate="no">@custNm</th>
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsEmailID))
+                                    {
+                                        <th translate="no">@email</th>
+                                    }
+                                    <th translate="no">@phoneNo</th>
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsErrorTypeID))
+                                    {
+                                        <th translate="no">@errType</th>
+                                    }
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsUrgencyID))
+                                    {
+                                        <th translate="no">@urgType</th>
+                                    }
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsStatusID))
+                                    {
+                                        <th translate="no">@tktStatus</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.Issubject)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.subjectText) ? Model.columnVal.subjectText : "Ticket Subject")</th>
+                                    }
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsCreatedBy))
+                                    {
+                                        <th>Created By</th>
+                                    }
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsCreatedDate))
+                                    {
+                                        <th>Created Date</th>
+                                    }
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsAssignedTo))
+                                    {
+                                        <th>Assigned To</th>
+                                    }
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsAssignedBy))
+                                    {
+                                        <th>Assigned By</th>
+                                    }
+                                    @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsModifiedDate))
+                                    {
+                                        <th>Modified Date</th>
+                                    }
+                                    <th>Assigned Date</th>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <th>Spare Part Status</th>
+                                    }
+                                    @if ((Model.columnVal != null && Model.columnVal.IsProductTypeID))
+                                    {
+                                        <th translate="no">@prdType</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol1)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1Text) ? Model.columnVal.ExtraCol1Text : "Additional 1")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol2)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol2Text) ? Model.columnVal.ExtraCol2Text : "Additional 2")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol3)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol3Text) ? Model.columnVal.ExtraCol3Text : "Additional 3")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol4)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol4Text) ? Model.columnVal.ExtraCol4Text : "Additional 4")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol5)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol5Text) ? Model.columnVal.ExtraCol5Text : "Additional 5")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.ISExtraCol6)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol6Text) ? Model.columnVal.ExtraCol6Text : "Additional 6")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.ISExtraCol7)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol7Text) ? Model.columnVal.ExtraCol7Text : "Additional 7")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.ISExtraCol8)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol8Text) ? Model.columnVal.ExtraCol8Text : "Additional 8")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol9)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol9Text) ? Model.columnVal.ExtraCol9Text : "Additional 9")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol10)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol10Text) ? Model.columnVal.ExtraCol10Text : "Additional 10")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol11)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol11Text) ? Model.columnVal.ExtraCol11Text : "Additional 11")</th>
+                                    }
+                                    @if (Model.columnVal != null && Model.columnVal.IsExtraCol12)
+                                    {
+                                        <th translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol12Text) ? Model.columnVal.ExtraCol12Text : "Additional 12")</th>
+                                    }
+                                    @*@if (Model.columnVal != null && Model.columnVal.IsImageCol1)
+                                        {
+                                            <th>@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ImageCol1Text) ? Model.columnVal.ImageCol1Text : "Additional Image 1")</th>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsImageCol2)
+                                        {
+                                            <th>@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ImageCol2Text) ? Model.columnVal.ImageCol2Text : "Additional Image 2")</th>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsImageCol3)
+                                        {
+                                            <th>@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ImageCol3Text) ? Model.columnVal.ImageCol3Text : "Additional image 3")</th>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsImageCol4)
+                                        {
+                                            <th>@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ImageCol4Text) ? Model.columnVal.ImageCol4Text : "Additional Image 4")</th>
+                                        }*@
+                                    <th>Action for Customer</th>
+                                    <th>Action for Team</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.CRMTicketModelList != null && Model.CRMTicketModelList.Count > 0)
+                                {
+                                    foreach (var item in Model.CRMTicketModelList)
+                                    {
+
+                                        <tr style="background:@(item.TicketStatusName=="Open"?"#00ff99":"#ff8080")">
+                                            <td data-column="Select">
+                                                <input type="checkbox" name="MapperTickets" class="chk" value="@item.TicketID" />
+                                            </td>
+                                            <td data-column="Ticket No.">
+                                                <a href="/Tickets/CreateTicket/@item.TicketID">@item.TicketNo</a>
+                                            </td>
+                                            <td data-column="@custNm" translate="no">@item.CustomerName</td>
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsEmailID))
+                                            {
+                                                <td data-column="@email" translate="no">@item.EmailID</td>
+                                            }
+                                            <td data-column="@phoneNo" translate="no">@item.PhoneNumber</td>
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsErrorTypeID))
+                                            {
+                                                <td data-column="@errType" translate="no">@item.ErrorTypeName</td>
+                                            }
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsUrgencyID))
+                                            {
+                                                <td data-column="@urgType" translate="no">@item.UrgencyName</td>
+                                            }
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsStatusID))
+                                            {
+                                                <td data-column="@tktStatus" translate="no">@item.TicketStatusName</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.Issubject)
+                                            {
+                                                <td data-column="@tktSubject" translate="no">@item.TicketSubject</td>
+                                            }
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsCreatedBy))
+                                            {
+                                                <td data-column="Created By" translate="no">@item.CreatedBy</td>
+                                            }
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsCreatedDate))
+                                            {
+                                                <td data-column="Created Date" translate="no">@item.CreatedDate</td>
+                                            }
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsAssignedTo))
+                                            {
+                                                <td data-column="Assigned To" translate="no">@(!string.IsNullOrEmpty(item.AssignedToName) ? item.AssignedToName : "N/A")</td>
+                                            }
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsAssignedBy))
+                                            {
+                                                <td data-column="Assigned By" translate="no">@(!string.IsNullOrEmpty(item.AssignedByName) ? item.AssignedByName : "N/A")</td>
+                                            }
+                                            @if (Model.columnVal == null || (Model.columnVal != null && Model.columnVal.IsModifiedDate))
+                                            {
+                                                <td data-column="Modified Date" translate="no">@(!string.IsNullOrEmpty(item.ModifiedDate) ? item.ModifiedDate : "N/A")</td>
+                                            }
+                                            <td data-column="Assigned Date" translate="no">@(!string.IsNullOrEmpty(item.AssignDate) ? item.AssignDate : "N/A")</td>
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                            {
+                                                @*<td data-column="spares status" translate="no"  style="cursor: pointer;"  onclick="showConfirmBox(this)">@item.Sparepartstatus</td>*@
+                                                <td><a href="#" data-column="spares status" translate="no" data-ticketid="@item.TicketID" style="cursor: pointer;"  class="showConfirmBox">@item.Sparepartstatus</a></td>
+
+                                            }
+                                           <td style="display:none;"><input type="hidden" value="@item.TicketID" id="hdid" name="hdid"/></td>
+                                            @if ((Model.columnVal != null && Model.columnVal.IsProductTypeID))
+                                            {
+                                                <td data-column="@prdType" translate="no">@item.ProductTypeName</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol1)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol1Text))" translate="no">@item.ExtraCol1</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol2)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol2Text))" translate="no">@item.ExtraCol2</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol3)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol3Text))" translate="no">@item.ExtraCol3</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol4)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol4Text))" translate="no">@item.ExtraCol4</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol5)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol5Text))" translate="no">@item.ExtraCol5</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.ISExtraCol6)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol6Text))" translate="no">@item.ExtraCol6</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.ISExtraCol7)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol7Text))" translate="no">@item.ExtraCol7</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.ISExtraCol8)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol8Text))" translate="no">@item.ExtraCol8</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol9)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol9Text))" translate="no">
+                                                    @if (!string.IsNullOrEmpty(item.ExtraCol9))
+                                                    {
+                                                        <span translate="no">@item.ExtraCol9</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                </td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol10)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol10Text))" translate="no">
+                                                    @if (!string.IsNullOrEmpty(item.ExtraCol10))
+                                                    {
+                                                        <span translate="no">@item.ExtraCol10</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                </td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol11)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol11Text))" translate="no">@item.ExtraCol11</td>
+                                            }
+                                            @if (Model.columnVal != null && Model.columnVal.IsExtraCol12)
+                                            {
+                                                <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol12Text))" translate="no">@item.ExtraCol12</td>
+                                            }
+                                            @*@if (Model.columnVal != null && Model.columnVal.IsImageCol1)
+                                                {
+                                                    <td data-column="@(!string.IsNullOrEmpty(Model.columnVal.ExtraCol12Text))">
+                                                        @if (!string.IsNullOrEmpty(item.ImageCol1))
+                                                        {
+                                                            <a href="/TicketAttachment/@item.ImageCol1" download="" class="btn btn-primary">Download</a>
+                                                        }
+                                                    </td>
+                                                }
+                                                @if (Model.columnVal != null && Model.columnVal.IsImageCol2)
+                                                {
+                                                    <td>
+                                                        @if (!string.IsNullOrEmpty(item.ImageCol2))
+                                                        {
+                                                            <a href="/TicketAttachment/@item.ImageCol2" download="" class="btn btn-primary">Download</a>
+                                                        }
+                                                    </td>
+                                                }
+                                                @if (Model.columnVal != null && Model.columnVal.IsImageCol3)
+                                                {
+                                                    <td>
+                                                        @if (!string.IsNullOrEmpty(item.ImageCol3))
+                                                        {
+                                                            <a href="/TicketAttachment/@item.ImageCol3" download="" class="btn btn-primary">Download</a>
+                                                        }
+                                                    </td>
+                                                }
+                                                @if (Model.columnVal != null && Model.columnVal.IsImageCol4)
+                                                {
+                                                    <td>
+                                                        @if (!string.IsNullOrEmpty(item.ImageCol4))
+                                                        {
+                                                            <a href="/TicketAttachment/@item.ImageCol4" download="" class="btn btn-primary">Download</a>
+                                                        }
+                                                    </td>
+                                                }*@
+
+                                            <td data-column="Action for Customer">
+                                                <span>
+                                                    <a href="#" data-toggle="modal" class="AddDescriptcls" data-target="#AddDescript" data-ticketstatus="@item.TicketStatusName" data-ticketid="@item.TicketID" data-ticketno="@item.TicketNo" data-customername="@item.CustomerName" data-useremail="@item.EmailID" title="Add Description"><i aria-hidden="true" class="fa fa-plus-circle  icon"></i></a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-ticketid="@item.TicketID" title="View Description"><i class="fa fa-eye  iccn" aria-hidden="true"></i></a>
+                                                </span>
+
+                                            </td>
+                                            <td data-column="Action for Team">
+
+                                                <span>
+                                                    <a href="#" data-toggle="modal" class="AddRmkclk" data-target="#AddTeamRemark" data-ticketstatus="@item.TicketStatusName" data-ticketid="@item.TicketID" data-ticketno="@item.TicketNo" data-assignedto="@item.AssignedTo" title="Add Team Remark"><i aria-hidden="true" class="fa fa-plus-circle  icon"></i></a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="PopViewRmk" data-toggle="modal" data-target="#ViewRemark" data-ticketid="@item.TicketID" title="View Team Remark"><i class="fa fa-eye  iccn" aria-hidden="true"></i></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="15" style="text-align: center">** No Record Found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="container paginationcustom">
+                            <ul class="pagination">
+                                @{int pages = Convert.ToInt32(ViewData["NoOfPages"]);}
+                                @{int url = Convert.ToInt32(Request.QueryString["page"]);}
+                                @{string pageUrl = Convert.ToString(ViewData["url"]);}
+                                @if (pages != 0 && pages != 1)
+                                {
+                                    for (int index = 1; index <= pages; index++)
+                                    {
+                                        string path = pageUrl + index;
+                                        if (url == 0)
+                                        {
+                                            url = 1;
+                                        }
+                                        <li class="@(index == url ? "active" : "")"><a href="/Tickets/ViewTicket/?page=@index&ErrorTypeName=@(Convert.ToString(Session["ErrorTypeName"]))&UrgencyName=@(Convert.ToString(Session["UrgencyName"]))&SearchUserID=@(Convert.ToString(Session["SearchUserID"]))&SearchFromDate=@(Convert.ToString(Session["SearchFromDate"]))&SearchToDate=@(Convert.ToString(Session["SearchToDate"]))&DateType=@Model.DateType&TicketStatusID=@Model.TicketStatusID">@index</a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                                    }
+        </div>
+    </div>
+</div>
+
+<div id="AddDescript" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Description</h4>
+                <input type="hidden" id="hdnticketId" />
+            </div>
+            <div class="modal-body over-hidden" style="overflow-x: scroll !important;">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email" style="text-align: left;">Ticket Status</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="hdnTicketStatusName" name="hdnTicketStatusName" />
+                            <input type="hidden" id="hdnUserEmailId" name="hdnUserEmailId" />
+                            <input type="hidden" id="hdnCustomerName" name="hdnCustomerName" />
+                            <input type="hidden" id="hdnTicketNo" name="hdnTicketNo" />
+                            <label class="control-label col-sm-4" style="text-align: left;" id="TicketStatus"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Description </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtDescription" class="form-control ckeditor" style="height: 120px;" name="txtDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Upload</label>
+                        <div class="col-sm-3">
+                            <input type="file" id="Postfile" name="Postfile" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span style="margin-left: 10px;" id="spndescAlertmsg"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnAddDescription" onclick="SaveDescription()">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ViewDescript" class="modal fade" role="dialog">
+</div>
+
+<!--add team remark and view remark modal-popup-->
+
+<div id="AddTeamRemark" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Remark</h4>
+
+                <input type="hidden" id="TktId" name="hdnTktId" />
+            </div>
+            <div class="modal-body over-hidden" style="overflow-x: scroll !important;">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Ticket Status</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="hdnTStatusName" name="hdnTStatusName" />
+                            <input type="hidden" id="hdnAssignedTo" name="hdnAssignedTo" />
+                            <input type="hidden" id="hdnTktNo" name="hdnTktNo" />
+                            <label class="control-label col-sm-4" style="text-align: left;" id="TStatus"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Remark </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtRemark" class="form-control ckeditor" style="height: 120px;" name="txtRemark"></textarea>
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                            <label class="control-label col-sm-2" style="text-align: left;">Upload</label>
+                            <div class="col-sm-3">
+                                <input type="file" id="Postfile" name="Postfile" class="form-control" />
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span style="margin-left: 10px;" id="spnRemarkAlertmsg"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnAddRemark" onclick="SaveRemark()">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ViewRemark" class="modal fade" role="dialog">
+</div>
+
+<!--Modal- Tickets PopUp -->
+<div id="TicketsModal" class="modal fade" role="dialog"></div>
+<div class="overlay" id="overlay" hidden>
+    <div class="confirm-box">
+        <div onclick="closeConfirmBox()" class="close">&#10006;</div>
+        <h2>Confirmation</h2>
+        <p>All Spare part have been submitted or not!</p>
+        <input type="hidden" id="tid" name="tid"/>
+        <button onclick="isConfirm(true)">Yes</button>
+        <button onclick="isConfirm(false)">No</button>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<style>
+    .overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 2;
+    }
+
+    .confirm-box {
+        position: fixed;
+        width: 50%;
+        height: 150px;
+        top: 2%;
+        left: 25%;
+        text-align: center;
+        background: white;
+    }
+
+    .close {
+        cursor: pointer;
+    }
+</style>
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#SearchFromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#SearchToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+
+    jQuery('input[name="chkAllTickets"]').click(function () {
+        if ($(this).is(':checked')) {
+            jQuery('.chk').prop('checked', true);
+        } else {
+            jQuery('.chk').prop('checked', false);
+        }
+    });
+
+    $('.PopViewDesc').on('click', function () {
+        var self = jQuery(this);
+        var ticketid = self.data("ticketid");
+        if (ticketid != '') {
+            $.post('/Tickets/ViewTicketDecsription', { tid: ticketid }, function (data) {
+                jQuery('#ViewDescript').html(data);
+                $($(this).data("#ViewDescript")).show();
+            });
+        }
+    });
+
+    jQuery('.AddDescriptcls').on('click', function () {
+        var self = jQuery(this);
+        var ticketid = self.data("ticketid");
+        var ticektstatus = self.data("ticketstatus");
+        var userEmail = self.data("useremail");
+        var ticketNo = self.data("ticketno");
+        var custName = self.data("customername");
+        $('#hdnTicketStatusName').val(ticektstatus);
+        $('#TicketStatus').html(ticektstatus);
+        $('#hdnticketId').val(ticketid);
+        $('#hdnUserEmailId').val(userEmail);
+        $('#hdnTicketNo').val(ticketNo);
+        $('#hdnCustomerName').val(custName);
+    });
+
+    function SaveDescription() {
+
+        var ticketID = $('#hdnticketId').val();
+        var ticketstatus = $('#hdnTicketStatusName').val();
+        var uEmailId = $('#hdnUserEmailId').val();
+        var ticketNum = $('#hdnTicketNo').val();
+        var customerNM = $('#hdnCustomerName').val();
+        var fileData = new FormData();
+        var fileUpload = $("#Postfile").get(0);
+        var files = fileUpload.files;
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+        //var editorval = CKEDITOR.instances['txtDescription'].getData();
+        var editorval = $('#txtDescription').summernote('code');
+        fileData.append('TicketID', ticketID);
+        fileData.append('txtDescription', editorval);
+        fileData.append('TicketStatusName', ticketstatus);
+        fileData.append('EmailId', uEmailId);
+        fileData.append('TicketNo', ticketNum);
+        fileData.append('CustomerName', customerNM);
+        if (ticketID != '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Tickets/AddDescriptionTicket');
+            xhr.send(fileData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    swal("Success !", xhr.responseText, "success");
+                    //CKEDITOR.instances['txtDescription'].setData('');
+                    $('#txtDescription').summernote('code', '');
+                    $('#AddDescript').modal('hide');
+                }
+                else {
+                    swal("Alert !", '** Somthing went wrong.', "warning");
+                }
+            }
+            return false;
+        }
+        else {
+            swal("Alert !", '** Somthing went wrong.', "warning");
+        }
+    }
+
+    //////////////////add team remark and view remark script///////////////
+    $('.PopViewRmk').on('click', function () {
+        var self = jQuery(this);
+        var ticketid = self.data("ticketid");
+        if (ticketid != '') {
+            $.post('/Tickets/ViewTicketTeamRemark', { tid: ticketid }, function (data) {
+                jQuery('#ViewRemark').html(data);
+                $($(this).data("#ViewRemark")).show();
+            });
+        }
+    });
+
+    $('.showConfirmBox').on('click', function () {
+        debugger;
+        var self = jQuery(this);
+        var ticketid = self.data("ticketid");
+        document.getElementById("overlay").hidden = false;
+        $("#tid").val(ticketid);
+
+    });
+    function closeConfirmBox() {
+        var self = jQuery(this);
+        var ticketid = self.data("ticketid");
+        document.getElementById("overlay").hidden = true;
+        $("#tid").val(ticketid);
+
+    }
+
+    function isConfirm(answer) {
+        debugger;
+        if (answer) {
+            text = "Submitted";
+            var ticketid = $("#tid").val();
+            $.post('/Tickets/ChangeStatus', {tid: ticketid,txt: text }, function (data) {
+                if (data == "ok") {
+                    location.reload();
+                }
+
+            })
+            //$("#Sparepartstatus").val(text);
+
+        } else {
+            text = "Pending";
+            var ticketid = $("#tid").val();
+            $.post('/Tickets/ChangeStatus', { tid: ticketid, txt: text }, function (data) {
+                if (data == "ok") {
+                    location.reload();
+                }
+
+            })
+            //$("#Sparepartstatus").val(text);
+        }
+        closeConfirmBox();
+    }
+
+    jQuery('.AddRmkclk').on('click', function () {
+        var self = jQuery(this);
+        var ticketid = self.data("ticketid");
+        var ticektstatus = self.data("ticketstatus");
+        var assignTo = self.data("assignedto");
+        var ticketNo = self.data("ticketno");
+        $('#hdnTStatusName').val(ticektstatus);
+        $('#TStatus').html(ticektstatus);
+        $('#TktId').val(ticketid);
+        $('#hdnAssignedTo').val(assignTo);
+        $("#hdnTktNo").val(ticketNo);
+    });
+
+    function SaveRemark() {
+        var ticketID = $('#TktId').val();
+        var ticketstatus = $('#hdnTStatusName').val();
+        var assignedUserId = $('#hdnAssignedTo').val();
+        var tktNumber = $("#hdnTktNo").val();
+        var fileData = new FormData();
+        //var fileUpload = $("#Postfile").get(0);
+        //var files = fileUpload.files;
+        //for (var i = 0; i < files.length; i++) {
+        //    fileData.append(files[i].name, files[i]);
+        //}
+        //var editorval = CKEDITOR.instances['txtRemark'].getData();
+        var editorval = $("#txtRemark").summernote('code');
+        fileData.append('TicketID', ticketID);
+        fileData.append('txtDescription', editorval);
+        fileData.append('TicketStatusName', ticketstatus);
+        fileData.append('TicketNo', tktNumber);
+        fileData.append('AssignedTo', assignedUserId == '' || assignedUserId == null ? 0 : assignedUserId);
+        if (ticketID != '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Tickets/AddTicketTeamRemark');
+            xhr.send(fileData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    swal("Success !", xhr.responseText, "success");
+                    //CKEDITOR.instances['txtRemark'].setData('');
+                    $("#txtRemark").summernote('code', '');
+                    $('#AddTeamRemark').modal('hide');
+                }
+                else {
+                    swal("Alert !", '** Somthing went wrong.', "warning");
+                }
+            }
+            return false;
+        }
+        else {
+            swal("Alert !", '** Somthing went wrong.', "warning");
+        }
+    }
+
+</script>
+
+<!--On page load show tickets  script-->
+<script type="text/javascript">
+    $(window).on('load', function () {
+        $.get('/Tickets/TicketPopUp', function (data) {
+            if (data != "No record found") {
+                jQuery('#TicketsModal').html(data);
+                jQuery('#TicketsModal').modal('show');
+            }
+        });
+
+    });
+</script>
+<!--On page load show tickets script end-->

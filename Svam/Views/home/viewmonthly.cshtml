@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "viewmonthly";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.ViewArchivesModel
+<link href="~/datepick/jquery-ui.css" rel="stylesheet" />
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        @*<h1>View Monthly
+           @if (Convert.ToString(Session["IsMapped"]) != null && Convert.ToString(Session["IsMapped"]) != "")
+            {
+               <button class="btn f-right btn-default right3" onclick="location.href = '/home/ourUsersArchives'">Our User</button>
+           }
+        </h1>*@
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><strong>View Monthly </strong><span style="margin-left: 12%; color: #c9302c;">@TempData["DisplayDate"]</span></div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("viewmonthly", "home", FormMethod.Post))
+                        {
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="from">From :</label>
+                                    <input type="text" id="StartDate" placeholder="StartDate" name="StartDate" class="form-control datefield">
+                                </div>
+                                <div class="form-group">
+                                    <label for="to">To:</label>
+                                    <input type="text" id="EndDate" name="EndDate" placeholder="EndDate" class="form-control datefield">
+                                </div>
+                                <button type="submit" class="btn btn-success">Filter</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table  table-bordered" id="dest">
+                    <thead class="black-white-text">
+                        <tr>
+                            <th>User Name </th>
+                            <th>Follow Up Date</th>
+                            <th>Lead Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.viewarchivesList.Count > 0)
+                        {
+                            foreach (var item in Model.viewarchivesList.OrderByDescending(em => em.FollowupDate))
+                            {
+                                 
+	                                <tr>
+                                        <td>@item.LeadOwner</td>
+                                        <td>@item.FollowupDate</td>
+                                        <td>@item.LeadStatus</td>
+                                    </tr>
+                                 
+                            }
+                        }
+                        else
+                        {
+
+                            <tr>
+                                <td colspan="3" style="text-align: center;">** No Records Found</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="modalDoses" class="modal fade" role="dialog" style="top: 20%;">
+</div>
+
+<script src="~/datepick/jquery-ui.js"></script>
+<script>
+    //$(document).ready(function () {
+    //    //Datepicker Popups calender to Choose date
+    //    $("#StartDate").datepicker({
+    //        dateFormat: "dd/mm/yy",
+    //        //maxDate: 0,
+    //        //minDate: 0,
+    //        onSelect: function (date) {
+    //            var date2 = $('#StartDate').datepicker('getDate');
+    //            date2.setDate(date2.getDate() + 1);
+    //            $('#EndDate').datepicker('setDate', date2);
+    //            //sets minDate to dt1 date + 1
+    //            $('#EndDate').datepicker('option', 'minDate', date2);
+    //        }
+    //    });
+    //    $("#EndDate").datepicker({
+    //        dateFormat: "dd/mm/yy",
+    //        //maxDate:0,
+    //        //minDate: 0,
+    //        onClose: function () {
+    //            var dt1 = $('#StartDate').datepicker('getDate');
+    //            var dt2 = $('#EndDate').datepicker('getDate');
+    //            if (dt2 <= dt1) {
+    //                var minDate = $('#EndDate').datepicker('option', 'minDate');
+    //                $('#EndDate').datepicker('setDate', minDate);
+    //            }
+    //        }
+    //    });
+
+    //});
+    $(function () {
+        $('#StartDate').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+
+        $('#EndDate').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+    });
+
+    $('.Pop').on('click', function () {
+        var frmList = $(this).data('name');
+        $.post('/common/ProductNameListDisplay', { firmList: frmList }, function (data) {
+            jQuery('#modalDoses').html(data);
+            $($(this).data("#modalDoses")).show();
+        });
+    });
+	</script>
+

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>CRM</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/mystyle.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/jquery-ui.css"/>	
+	<!-- graph css -->
+
+
+	
+  </head>
+
+  <body>
+<header>
+<div class="container">
+	<div class="col-sm-3 padd0">
+		<a href="index.html"><img src="img/logo.png" alt="logo"></a>
+	</div>
+	<div class="col-sm-9 padd0">
+		<div class="headerright">
+			  <a href="#" class="toplink dropdown-toggle btn toplinkuser" style="width: auto !important;" data-toggle="dropdown" title="Compose Mail" aria-expanded="false"><i aria-hidden="true" class="fa fa-user"></i> Ranjay Kumar <span class="carretdrop"></span></a>
+			  <ul class="dropdown-menu  rightdrop">
+				<li><a href="mailto:someone@example.com?Subject=Hello%20again"><i aria-hidden="true" class="fa fa-envelope-o"></i>	rkumar@nicoleinfosoft.com</a></li>
+				<li><a href="/Nis/loginHistory"><i aria-hidden="true" class="fa fa-history"></i>  Last Login Details</a></li>
+				<li><a href="#" data-toggle="modal" data-target="#changepassword"><i aria-hidden="true" class="fa fa-exchange"></i> Change Password</a></li>
+                <li><a href="/home/OurMappeduser"><i aria-hidden="true" class="fa fa-user"></i>  Mapped User</a></li>
+				
+			</ul>
+		<a href="index.html" class="toplink btn" title="Logout"><i class="fa fa-power-off" style="color:#c9302c;" aria-hidden="true"></i></a>
+		</div>
+    </div>
+
+
+</div>
+
+
+</header>
+<!-- end header -->
+
+    <nav class="navbar navbar-default navbarstyle">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="home.html" class="homeicon"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createbranch.html">Create Branch</a></li>
+								<li><a href="createuser.html">Create User</a></li>
+								<li><a href="viewusers.html">View User</a></li>
+								<li><a href="createprofile.html">Create Profile</a></li><li><a href="createsupplier.html">Create Supplier</a></li>
+						</ul>
+            </li>
+
+            <li class="dropdown active">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Master <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							  <li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">CRM </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="leadstatus.html">Lead Status</a></li>
+										<li><a tabindex="-1" href="managecountary.html">Manage Country</a></li>
+										<li><a tabindex="-1" href="leadsource.html">Lead Source</a></li>
+										<li><a tabindex="-1" href="typeoflead.html">Type of lead</a></li>
+										<li><a tabindex="-1" href="quotationtype">Quotation Type</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="sales.html">Sales</a></li>
+								<li><a href="purchase.html">Purchase</a></li>
+								<li class="dropdown-submenu">
+								<a class="test" tabindex="-1" href="#">Inventory </a>
+									<ul class="dropdown-menu">
+										<li><a tabindex="-1" href="createcategory.html">Category</a></li>
+										<li><a tabindex="-1" href="measurement.html">Measurement Unit</a></li>
+										<li><a tabindex="-1" href="itemdetails.html">Item Details</a></li>
+									</ul>
+							   </li><!-- end crm li -->	
+								<li><a href="tax.html">TAX</a></li>
+						</ul>
+            </li>			
+			
+
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CRM <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="createnewleads.html">Create Lead</a></li>
+								<li><a href="viewleads.html">View Lead</a></li>
+								<li><a href="assignlead.html">Assign Lead</a></li>
+								<li><a href="assignedlead.html">Assigned Lead</a></li>
+												<li><a href="quotations.html">Quotations</a></li>
+								
+								<li><a href="confirmedorder.html">Confirmed Order</a></li>
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sales <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="challan.html">Challan </a></li>
+								<li><a href="invoice.html">Invoice</a></li>
+								<li><a href="salesreturn.html">Sales Return</a></li>
+						</ul>
+            </li>
+            <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchase <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+								<li><a href="purchaserequisition.html">Purchase Requisition</a></li>
+								<li><a href="purchaseorder.html">Purchase Order Generation</a></li>
+								<li><a href="generategrn.html">GRN</a></li>
+								<li><a href="purchasereturns.html">Purchase Return</a></li>
+						</ul>
+            </li>
+			<li><a href="account.html">Account</a></li>
+			<li><a href="reports.html">Reports</a></li>
+			
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav> 
+
+
+<div class="maincontainer">
+
+	<div class="col-sm-12">
+		
+	
+		
+		
+		<div class="panel panel-default">
+		  <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>  Tax Category <div class="rightbtntop"> 
+		  <a href="#" class="addbtn" data-toggle="modal" data-target="#createleadsource"><i aria-hidden="true" class="fa fa-plus"></i> Create Tax Category</a></div></div>
+			<div class="panel-body mainpanel">
+			<div class="smalltable2">
+			<div class="table-responsive">
+                                <table class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%" class="noimg padd0" style="padding:10px 0px; !important;">Sr no.</th>
+                                            <th width="50%">Tax Category</th>
+											<th width="25%">Percentage</th>
+                                        </tr>
+                                    </thead>
+										<tbody>
+
+                                            
+											<tr>
+                                                <td>1</td>
+                                                <td>xyz</td>
+												<td></td>
+										   </tr>
+											<tr>
+                                                <td>2</td>
+                                                <td>abc</td>
+												<td></td>
+										   </tr>
+											<tr>
+                                                <td>3</td>
+                                                <td>bbc</td>
+												<td></td>
+										   </tr>
+																			   
+										   
+											
+											</tbody>
+										</table>
+					
+					</div>	
+
+					<br style="clear:both;"/>
+					
+<div class="table-responsive">
+                                <table class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="55" class="noimg padd0" style="padding:10px 0px; !important;">Sr no.</th>
+                                            <th width="300">Tax Group</th>
+											<th width="140">Action</th>
+											
+                                        </tr>
+                                    </thead>
+										<tbody>
+
+                                            
+								<tr>
+                                                <td>3</td>
+                                                <td>bbc</td>
+												<td><a data-target="#leaddetails" data-toggle="modal" class="viewbtn" href="#">Add</a> <a class="editbtn" href="#">Update</a> <a class="dltrow" href="#">Delete</a></td>
+										   </tr>
+											<tr>
+                                                <td>3</td>
+                                                <td>bbc</td>
+												<td><a data-target="#leaddetails" data-toggle="modal" class="viewbtn" href="#">Add</a> <a class="editbtn" href="#">Update</a> <a class="dltrow" href="#">Delete</a></td>
+										   </tr>
+																			   
+										   
+											
+											</tbody>
+										</table>
+					
+					</div>						
+
+		
+			
+			
+                        
+				
+                    </div>
+                </div>
+
+
+  </div>
+<!-- end item details -->
+  
+
+
+
+</div>
+
+
+
+</div><!-- end maincontainer -->
+ <!-- /container main  -->
+ <!-- Modal  edit late fees popup inside -->
+<div id="createleadsource" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Tax Category</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+					<div class="row">
+						<div class="col-sm-12">
+							
+				<form class="form-horizontal">
+		
+				  <div class="form-group">
+					<label class="control-label col-sm-4" for="cname">Create Tax Category:-</label>
+					<div class="col-sm-6">
+					<input type="text" class="form-control" id="cname">
+					</div>
+				  </div>
+				  
+		 <div class="form-group">
+		 <label class="control-label col-sm-4" for="regno"></label>
+		       <div class="col-sm-6">
+			   <input type="button" onclick="location.href = ''" class="btn mainbtn2" value="Submit">
+			   
+						
+                 
+				</div></div>				  
+				</form>							
+							
+							
+							
+							
+						</div>
+					</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div> 
+<!-- Modal  edit late fees inside end -->  
+ 
+ 
+ 
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.js"></script>	
+	<script src="js/custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="js/sorttable.js"></script>
+		<script>
+		$(function(){
+			$("#dest").addSortWidget();
+		});	
+	
+$( function() {
+$( "#datepicker,#datepicker1" ).datepicker();
+} );
+</script>		
+
+	
+
+
+  </body>
+</html>

@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "ManageSalesreturn";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Svam.Models.ViewSalesReturnModel
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-th-list" aria-hidden="true"></i>Manage Sales Return
+                    <div class="rightbtntop">
+                        <a href="/sales/CreateSalesreturn" class="addbtn" style="width: 100%;"><i aria-hidden="true" class="fa fa-plus"></i>Create Sales Return</a>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+
+                        <div class="col-sm-12 padd0">
+                            <div id="bindSearchData" class="table-responsive">
+                                <table id="dest" class="table table-striped table table-hover tabledata table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="4%" class="noimg padd0" style="padding: 10px 0px;">Sr no.</th>
+                                            <th width="12%">Sale ReturnNo</th>
+                                            <th width="7%">Sale Return Date</th>
+                                            <th width="12%">Order No</th>
+                                            <th width="8%">Order Date</th>
+                                            <th width="5%">Customer Name</th>
+                                            <th width="10%" class="noimg">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @{int i = 1;}
+                                        @foreach (var item in Model.ViewSalesReturnModelList)
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>@item.SaleReturnNo</td>
+                                                <td>@item.SaleReturnDate</td>
+                                                <td>@item.SaleOrderNo</td>
+                                                <td>@item.SaleOrderDate</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>
+                                                    <a href="#" class="viewbtn ViewSReturDetailsInfo" data-sreturnno="@item.SaleReturnNo" data-toggle="modal" data-target="#ViewSReturDetails">Details</a>
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+                                        
+                                    </tbody>
+                                </table>
+
+                                <div id="pagination" class="container paginationcustom">
+                                    <ul class="pagination">
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ViewSReturDetails" class="modal fade" role="dialog">
+</div>
+
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+
+    <script>
+
+        $('.ViewSReturDetailsInfo').on('click', function () {
+            var Retno = $(this).data('sreturnno');
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("ViewSalesReturnDetailsInfobyRetunNo", "sales")',
+                data: { SaleReturnNo: Retno },
+                error: function (xhr, status, error) {
+                    $(".loaderimg").hide();
+                },
+                success: function (JSONdata) {
+                    jQuery('#ViewSReturDetails').html(JSONdata);
+                    $($(this).data("#ViewSReturDetails")).show();
+                },
+                beforeSend: function () {
+                    if (Retno != 0)
+                        $('.loaderimg').show();
+
+                    else
+                        return false;
+                },
+                complete: function () {
+                    $(".loaderimg").hide();
+                }
+            });
+        });
+
+    </script>
+
+    <style>
+        .modaltable9 {
+            margin-top: 20px;
+        }
+
+            .modaltable9 th {
+                font-size: 12px;
+                background: #333;
+                color: #fff;
+                text-align: center;
+                padding: 7px !important;
+            }
+
+            .modaltable9 td {
+                text-align: center;
+                padding: 6px !important;
+            }
+
+        .desc p {
+            font-size: 12px;
+        }
+    </style>
+}
+

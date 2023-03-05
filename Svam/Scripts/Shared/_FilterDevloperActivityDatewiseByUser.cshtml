@@ -1,0 +1,77 @@
+﻿@model Traders.Models.DeveloperActivityModel
+
+
+<div class="table-responsive">
+
+    <table class="table  table-bordered tablefont" id="dest">
+        <thead class="black-white-text">
+            <tr>
+                <th>#</th>
+                <th>Employee Code</th>
+                <th>Employee Name</th>
+                <th>Project Name </th>
+                <th>Module Name</th>
+                <th>General Remark</th>
+                <th>Code Remark</th>
+                <th>DB Remark</th>
+                <th>Js/Css Remark</th>
+                <th>Support Needed</th>
+                <th>File</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.DeveloperactivityModelList.Count > 0)
+            {
+                int i = 1;
+                foreach (var item in Model.DeveloperactivityModelList)
+                {
+                    <tr>
+                        <td translate="no" data-column="Sr.No.">@i</td>
+                        <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
+                        <td translate="no" data-column="Employee Name">@item.FullName</td>
+                        <td translate="no" data-column="Project Name">@item.ProjectName</td>
+                        <td translate="no" data-column="Module Name">@item.ModuleName</td>
+                        <td  data-column="General Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="General" data-remark="GeneralRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                        <td  data-column="Code Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="Code" data-remark="CodeModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                        <td  data-column="DB Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="DB" data-remark="DBModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                        <td  data-column="JS/CSS Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="JS/CSS" data-remark="JsModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                        <td translate="no" data-column="Support Needed">@item.SupportNeeded</td>
+                        @if (!string.IsNullOrEmpty(item.CodeFile))
+                        {
+                            <td><a href="/ExcelFileUpload/@item.CodeFile"><i class="fa fa-file-o" aria-hidden="true"></i> View</a>   </td>
+                        }
+                        else
+                        {
+                            <td><span>-----</span></td>
+                        }
+                        <td data-column="Date">@item.CreatedDate</td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" style="text-align:center;">** No Record Found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $('.PopViewDesc').on('click', function () {
+
+        var Id = jQuery(this).data('id');
+        var RemarkName = jQuery(this).data('name');
+        var remarkcoll = jQuery(this).data('remark');
+        if (Id != '' && RemarkName != '' && remarkcoll != '') {
+            $.post('/Nis/ViewDeveloperActivityRemark', { ActivityId: Id, Remark: RemarkName, RemarkColl: remarkcoll }, function (data) {
+                jQuery('#ViewDescript').html(data);
+                $($(this).data("#ViewDescript")).show();
+            });
+        }
+    });
+</script>

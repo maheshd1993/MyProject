@@ -1,0 +1,834 @@
+﻿@model Svam.Models.DTO.ViewLeadSettingDTO
+@{
+    ViewBag.Title = "ViewLeadSetting";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    legend a {
+        color: inherit;
+    }
+
+    legend.legendStyle {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    fieldset.fsStyle {
+        font-family: Verdana, Arial, sans-serif;
+        font-size: small;
+        font-weight: normal;
+        border: 1px solid #999999;
+        padding: 4px;
+        margin: 5px;
+    }
+
+    legend.legendStyle {
+        font-size: 90%;
+        color: #888888;
+        background-color: transparent;
+        font-weight: bold;
+    }
+
+    legend {
+        width: auto;
+        border-bottom: 0px;
+    }
+
+    mark {
+        background-color: yellow;
+    }
+</style>
+
+<div class="maincontainer">
+    @using (Html.BeginForm("ViewLeadSetting", "LeadSetting", FormMethod.Post))
+    {
+        @Html.HiddenFor(a => a.Id)
+        @Html.HiddenFor(a => a.IsActive)
+        @Html.HiddenFor(a => a.CompanyID)
+        @Html.HiddenFor(a => a.BranchID)
+        @Html.HiddenFor(a => a.CreatedDate)
+        <div class="col-sm-12">
+
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Manage Customize View Report </strong>
+                    <input id="Submit1" type="submit" value="Save" class="btn btn-success pull-right" style="margin-top: -6px;" />
+                </div>
+                <div class="panel-body">
+
+                    <div class="tab-content">
+                        <!-- end first tabs -->
+                        <div class="tab-pane fade in active" id="roleassignment">
+                            <br style="clear: both;" />
+                            <div class="form-horizontal">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#rpttn" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ReportTextName) ? Model.ReportTextName : "View Lead Report")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="rpttn">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-6">Change report name <mark>@(Model != null && !string.IsNullOrEmpty(Model.ReportTextName) ? Model.ReportTextName : "View Lead Report")</mark>: To</label>
+                                                    <div class="col-sm-6">
+                                                        @Html.TextBoxFor(a => a.ReportTextName, new { @class = "form-control", placeholder = "Enter report name" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#tltn" href="#">@(Model != null && !string.IsNullOrEmpty(Model.TotalLeadTextName) ? Model.TotalLeadTextName : "Total Lead")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="tltn">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-6">Change text <mark>@(Model != null && !string.IsNullOrEmpty(Model.TotalLeadTextName) ? Model.TotalLeadTextName : "Total Lead")</mark>: To</label>
+                                                    <div class="col-md-6">
+                                                        @Html.TextBoxFor(a => a.TotalLeadTextName, new { @class = "form-control", placeholder = "Enter text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#ldstn" href="#">@(Model != null && !string.IsNullOrEmpty(Model.LeadSampleTextName) ? Model.LeadSampleTextName : "Lead Sample")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="ldstn">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-6">Change text <mark>@(Model != null && !string.IsNullOrEmpty(Model.LeadSampleTextName) ? Model.LeadSampleTextName : "Lead Sample")</mark>: To</label>
+                                                    <div class="col-md-6">
+                                                        @Html.TextBoxFor(a => a.LeadSampleTextName, new { @class = "form-control", placeholder = "Enter text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#fbldstn" href="#">@(Model != null && !string.IsNullOrEmpty(Model.FBLeadSampleTextName) ? Model.FBLeadSampleTextName : "Facebook Lead Sample")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="fbldstn">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-6">Change text <mark>@(Model != null && !string.IsNullOrEmpty(Model.FBLeadSampleTextName) ? Model.FBLeadSampleTextName : "Facebook Lead Sample")</mark>: To</label>
+                                                    <div class="col-md-6">
+                                                        @Html.TextBoxFor(a => a.FBLeadSampleTextName, new { @class = "form-control", placeholder = "Enter text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <h3>Mandatory Columns for displayed on report</h3>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#custChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.CustomerTextName) ? Model.CustomerTextName : "Customer Name")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="custChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">@(Model != null && !string.IsNullOrEmpty(Model.CustomerTextName) ? Model.CustomerTextName : "Customer Name"):</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="checkbox" name="Customer" class="form-control checkboxheight" checked="checked" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#mobChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.MobileNoTextName) ? Model.MobileNoTextName : "Mobile Number")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="mobChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">@(Model != null && !string.IsNullOrEmpty(Model.MobileNoTextName) ? Model.MobileNoTextName : "Mobile Number"):</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="checkbox" name="Mob" class="form-control checkboxheight" checked="checked" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#fupChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.FollowDateTextName) ? Model.FollowDateTextName : "Follow Up Date")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="fupChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">@(Model != null && !string.IsNullOrEmpty(Model.FollowDateTextName) ? Model.FollowDateTextName : "Follow Up Date"):</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="checkbox" name="FUD" class="form-control checkboxheight" checked="checked" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#lsChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.LeadStatusTextName) ? Model.LeadStatusTextName : "Lead Status")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="lsChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-4">@(Model != null && !string.IsNullOrEmpty(Model.LeadStatusTextName) ? Model.LeadStatusTextName : "Lead Status"):</label>
+                                                    <div class="col-sm-1">
+                                                        <input type="checkbox" name="LeadStatus" class="form-control checkboxheight" checked="checked" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#searchChkbox" href="#">Search Box</a>
+                                            </legend>
+                                            @{ string custNm = Model != null && !string.IsNullOrEmpty(Model.CustomerTextName) ? Model.CustomerTextName : "Customer Name";
+                                                string mobNO = Model != null && !string.IsNullOrEmpty(Model.MobileNoTextName) ? Model.MobileNoTextName : "Mobile Number";
+                                                string email = Model != null && !string.IsNullOrEmpty(Model.EmailIdTextName) ? Model.EmailIdTextName : "Customer e-mail";
+                                                string desig = Model != null && !string.IsNullOrEmpty(Model.DesignationTextName) ? Model.DesignationTextName : "Designation";
+                                                string orgNm = Model != null && !string.IsNullOrEmpty(Model.OrganizationNameTextName) ? Model.OrganizationNameTextName : "Organization Name";
+                                                string skyId = Model != null && !string.IsNullOrEmpty(Model.SkypeIdTextName) ? Model.SkypeIdTextName : "Skype ID";
+
+                                            }
+                                            <div class="collapse in" id="searchChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-6">Tick checkbox to display this search box on report: @Html.CheckBoxFor(a => a.IsTermFilter)</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" placeholder="Search by @custNm, @mobNO, @email, @desig, @orgNm, @skyId etc.." disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    
+                                </div>
+
+                                <!--Start Optinal fields-->
+                                <h3>Additional Columns</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#emailChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.EmailIdTextName) ? Model.EmailIdTextName : "Email")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="emailChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsEmail)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#CityChkbox" href="#">City</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="CityChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsCity)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#countryChkbox" href="#">Country</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="countryChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsCountry)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#stateChkbox" href="#">State</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="stateChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsState)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#desigChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.DesignationTextName) ? Model.DesignationTextName : "Designation")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="desigChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsDesignation)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#dobChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.DateofBirthTextName) ? Model.DateofBirthTextName : "Date of birth")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="dobChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsDOB)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#mrgAniChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.MarriageAnniversaryTextName) ? Model.MarriageAnniversaryTextName : "Marriage Anniversary")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="mrgAniChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsMrgAnnivarsary)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#orgChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.OrganizationNameTextName) ? Model.OrganizationNameTextName : "Organization Name")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="orgChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsOrganization)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#addrsChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.AddressTextNameTextName) ? Model.AddressTextNameTextName : "Address")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="addrsChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsAddress)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#tznChkbox" href="#">Time Zone Name</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="tznChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsTimeZoneName)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#skypChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.SkypeIdTextName) ? Model.SkypeIdTextName : "Skype ID")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="skypChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsSkypeId)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#urlChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.UrlTextName) ? Model.UrlTextName : "URL")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="urlChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsUrl)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#prdtpChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ProductTypeNameTextName) ? Model.ProductTypeNameTextName : "Product Type")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="prdtpChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsProductType)</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Is filter by this column on report: @Html.CheckBoxFor(a => a.IsProductTypeFilter)</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#ldresChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.LeadResourceTextName) ? Model.LeadResourceTextName : "Lead Source")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="ldresChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsLeadResource)
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Is filter by this column on report: @Html.CheckBoxFor(a => a.IsLeadSourceFilter)</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#ldownerChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.LeadOwnerTextName) ? Model.LeadOwnerTextName : "Created By")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="ldownerChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsCreatedBy)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#crtdateChkbox" href="#">Created Date</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="crtdateChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsCreatedDate)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#mdChkbox" href="#">Modified Date</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="mdChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsModifiedDate)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#abChkbox" href="#">Assigned By</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="abChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsAssignedBy)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#astChkbox" href="#">Assign To</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="astChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsAssignTo)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#asdChkbox" href="#">Assigned Date</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="asdChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsAssignedDate)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#expDateChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExpectedDateTextName) ? Model.ExpectedDateTextName : "Expected Closing Date")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="expDateChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExpClosingDate)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#expAmtChkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExpectedProductAmountTextName) ? Model.ExpectedProductAmountTextName : "Expected Deal Amount")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="expAmtChkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExpDealAmount)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol1Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol1TextName) ? Model.ExtraCol1TextName : "Additional 1")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol1Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol1)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol2Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol2TextName) ? Model.ExtraCol2TextName : "Additional 2")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol2Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol2)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol3Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol3TextName) ? Model.ExtraCol3TextName : "Additional 3")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol3Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol3)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol4Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol4TextName) ? Model.ExtraCol4TextName : "Additional 4")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol4Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol4)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol5Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol5TextName) ? Model.ExtraCol5TextName : "Additional 5")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol5Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol5)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol6Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol6TextName) ? Model.ExtraCol6TextName : "Additional 6")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol6Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol6)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol7Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol7TextName) ? Model.ExtraCol7TextName : "Additional 7")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol7Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol7)</label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol8Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol8TextName) ? Model.ExtraCol8TextName : "Additional 8")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol8Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol8)
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol9Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol9TextName) ? Model.ExtraCol9TextName : "Additional 9")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol9Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol9)</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Is filter by this column on report: @Html.CheckBoxFor(a => a.IsExtraCol9Filter)</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset class="fsStyle">
+                                            <legend class="legendStyle">
+                                                <a data-toggle="collapse" data-target="#extCol10Chkbox" href="#">@(Model != null && !string.IsNullOrEmpty(Model.ExtraCol10TextName) ? Model.ExtraCol10TextName : "Additional 10")</a>
+                                            </legend>
+
+                                            <div class="collapse in" id="extCol10Chkbox">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">
+                                                        Tick checkbox to display this column on report: @Html.CheckBoxFor(a => a.IsExtraCol10)
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-9">Is filter by this column on report: @Html.CheckBoxFor(a => a.IsExtraCol10Filter)</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>

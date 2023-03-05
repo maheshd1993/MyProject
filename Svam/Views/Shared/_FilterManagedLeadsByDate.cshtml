@@ -1,0 +1,66 @@
+﻿
+@model Traders.Models.LeadManagementModel
+
+                @if(Model.leadManagementmodelList.Count>0)
+                {
+                        <div class="table-responsive">
+                                <table class="table table-striped table table-hover tabledata table-bordered" id="dest">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr no.</th>
+                                            <th>Client Name </th>
+                                            <th>Mob.No. </th>
+                                            <th>Country</th>
+                                            <th>Follow Up date</th>
+                                            <th>Lead Status</th>
+                                            <th>Created_at</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                          int i = 1;//Convert.ToInt32(ViewData["DeclareIndex"]);
+                                          }
+                                        @foreach (var item in Model.leadManagementmodelList)
+                                        {
+                                            
+                                            <tr>
+                                                <td>@i</td>
+                                                <td><a href="/LeadManagement/Index/@item.Id">@item.CustomerName</a></td>
+                                                <td>@item.PrimaryPhNo</td>
+                                                <td>@item.Country</td>
+                                                <td>@item.FollowUpDate</td>                                                
+                                                <td>@item.LeadStatus</td>
+                                                <td>@item.Created_at</td>
+                                            </tr>
+                                           i++;
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div class="container paginationcustom">
+                                    <ul class="pagination">
+                                        @{int pages = Convert.ToInt32(ViewData["NoOfPages"]);}
+                                        @{int url = Convert.ToInt32(Request.QueryString["page"]);}
+                                        @{string pageUrl = Convert.ToString(ViewData["url"]);}
+                                        @if (pages != 0 && pages != 1)
+                                        {
+                                            for (int index = 1; index <= pages; index++)
+                                            {
+                                                string path = pageUrl + index;
+                                                if (url == 0)
+                                                {
+                                                    url = 1;
+                                                }
+                                            <li class="@(index == url ? "active" : "")"><a  href="/home/viewleads/?page=@index">@index</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                }
+            else
+            {
+                    <div class="table-responsive">
+                    <p>No records founds.</p>
+                    </div>
+            }

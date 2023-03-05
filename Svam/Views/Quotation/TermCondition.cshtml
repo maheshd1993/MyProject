@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "TermCondition";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<style>
+    .note-editor.note-airframe, .note-editor.note-frame {
+        display: none;
+    }
+</style>
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@model Svam.Models.crmtermcondition
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Create Terms & Conditions</strong>
+                        </div>
+                    </div>
+                    @using (Html.BeginForm("TermCondition", "Quotation", FormMethod.Post))
+                    {
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email" style="text-align: left;">Company Name</label>
+                            <div class="col-sm-4">
+                                @if (Model.joinlist != null && Model.joinlist.Count > 0)
+                                {
+                                    @Html.DropDownListFor(em => em.orgId, new SelectList(Model.joinlist, "orgId", "Organization", Model.orgId), new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(em => em.orgId, Enumerable.Empty<SelectListItem>(), new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                }
+                                @Html.ValidationMessageFor(em => em.orgId)
+                            </div>
+
+                        </div>
+                        <input type="hidden" id="id" name="id" value="" />
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email" style="text-align: left;">Add Description</label>
+                            <div class="col-sm-10">
+                                <textarea id="TermCondition" class="form-control ckeditor" style="height: 80px;" name="TermCondition"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-success" id="btnAddDescription">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th width="5%">#</th>
+                                <th width="70%">Term and Condition</th>
+                                <th width="70%">Company Name</th>
+                                <th width="12%">Status</th>
+                                <th width="10%" class="noimg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+
+                            @foreach (var item in ViewBag.termconditionList)
+                            {
+                                <tr>
+                                    <td data-column="Sr.No." translate="no">@i</td>
+                                    <td data-column="Product Type Name" translate="no">@item.TermCondition</td>
+                                    <th data-column="Company Name" translate="no">@item.orgname</th>
+                                    <td data-column="Status">
+                                        @if (item.Status == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/Quotation/ChangetermStatus/@item.Id" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/Quotation/ChangetermStatus/@item.Id" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+                                    <td><button type="button" class="btn btn-success" id="@item.Id" url="/Quotation/Geteditor/@item.Id" onclick="Getvalue(this);">Edit</button></td>
+                                    @*<td data-column="Action"><a href="/Quotation/TermCondition/@item.Id" class="viewbtn">Edit</a></td>*@
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script>
+    function Getvalue(obj) {
+        debugger;
+        var curr = $(obj);
+        var txtid = curr.attr("id");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            debugger;
+            if (data != null) {
+                CKEDITOR.instances['TermCondition'].setData(data["TermCondition"]);
+                $('#id').val(data["Id"]);
+                $("#orgId option[value='" + data["orgId"] + "']").prop("selected", true);
+                //$('#orgId').val(data["orgID"]);
+                $('#orgId').attr("style", "pointer-events: none;");
+                //$('#orgId option:not(:selected)').attr('disabled', true);
+                //window.location = "/Quotation/TermCondition/" + data["Id"] + "";
+            }
+        });
+    }
+
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+</script>

@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "Attandance";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.EmployeeAttandaceReportModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+
+        <div class="form-horizontal">
+            <div class="f-center col-sm-9 padd0">
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><strong>Employee Attendence</strong>   <span style="margin-left: 12%; color: red;">@TempData["alert"]</span></div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("Attandance", "Emp", FormMethod.Post))
+                                {
+                                    <div class="col-sm-2">
+                                        @Html.TextBoxFor(a => a.StartDate, new { @class = "form-control datefield", placeholder = "From Date", required = "required", autocomplete = "off", @readonly = "readonly", translate = "no" })
+                                        @* <input type="text" class="form-control datefield" name="startdate" id="startdate" placeholder="From Date" required="required" autocomplete="off" />*@
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Html.TextBoxFor(a => a.EndDate, new { @class = "form-control datefield", placeholder = "To Date", required = "required", autocomplete = "off", @readonly = "readonly", translate = "no" })
+                                        @*<input type="text" class="form-control datefield" name="enddate" id="enddate" placeholder="To Date" required="required" autocomplete="off" />*@
+                                    </div>
+                                    if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <div class="form-group">
+
+                                            <label class="control-label col-sm-2" translate="no">Company Name</label>
+
+                                            <div class="col-sm-3">
+                                                <div class="input-group">
+                                                    @if (Model.CompanyTypeList != null && Model.CompanyTypeList.Count > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.CompanyTypeID, new SelectList(Model.CompanyTypeList, "CompanyTypeID", "CompanyTypeName", Model.CompanyTypeID), new { @class = "form-control ListItemCapitalize", translate = "no", required = "required" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(em => em.CompanyTypeID, Enumerable.Empty<SelectListItem>(), new { @class = "form-control ListItemCapitalize" })
+                                                    }
+                                                    @Html.ValidationMessageFor(em => em.CompanyTypeID)
+
+                                                    @*<span data-toggle="modal" data-target="#addItemModal" ddlId="CompanyTypeID" ddltype="CompanyType" ddlText="CompanyTypeName" onclick="addItem(this);" id="btnPrdTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                            <i class="glyphicon glyphicon-plus-sign"></i>
+                                                        </span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="col-sm-4 padd0">
+                                        <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                        <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/Emp/Attandance'" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Employee</th>
+                                    <th>Present (On Time) </th>
+                                    <th>Present (Off Time)</th>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                                    {
+                                        <th style="display:none;">Extra Hours Day</th>
+                                    }
+                                    else
+                                    {
+                                        <th>Extra Hours Day</th>
+                                    }
+                                    @*  <th>Extra Working Day(9Hours)</th>
+                                        <th>Extra Working Day(< 9Hours)</th>*@
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                                    {
+                                        <th style="display:none;">Sat/Sun</th>
+                                    }
+                                    else
+                                    {
+                                        <th>Sat/Sun</th>
+                                    }
+                                    @*  <th>Casual Leave</th>
+                                        <th>Medical Leave</th>
+                                        <th>Paid Leave</th>*@
+                                    <th>Absent</th>
+                                    <th>Total</th>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <th>Company Name</th>
+                                    }
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int i = 1;}
+                                @if (Model.EmployeeAttandaceReportModelList.Count > 0)
+                                {
+                                    foreach (var item in Model.EmployeeAttandaceReportModelList.ToList())
+                                    {
+                                        <tr>
+                                            <td translate="no" data-column="Sr.No.">@i</td>
+                                            <td translate="no" style="text-transform: capitalize" data-column="Employee">@item.EmpName</td>
+                                            <td translate="no" data-column="present (On Time)"><a href="#">@item.PresentOnTime</a></td>
+                                            <td translate="no" data-column="Present (Off Time)"><a href="#">@item.PresentOFFTime</a></td>
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                                            {
+                                                <td translate="no" data-column="Extra Hours Day" style="display:none;"><a>@item.ExtraHoursDay</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td translate="no" data-column="Extra Hours Day"><a>@item.ExtraHoursDay</a></td>
+                                            }
+                                            @*   <td data-column="Extra Working Day (9Hours)"></td>
+                                                <td data-column="Extra Working Day(more than 9hrs)"></td>*@
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                                            {
+                                                <td translate="no" data-column="Sat/Sun" style="display:none;"><a>@item.SatAndSun</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td translate="no" data-column="Sat/Sun"><a>@item.SatAndSun</a></td>
+                                            }
+                                            @*  <td data-column="Casual Leave"></td>
+                                                <td data-column="Medical Leave"></td>
+                                                <td data-column="Paid Leave"></td>*@
+                                            <td translate="no" data-column="Absent">@item.Absent</td>
+                                            <td translate="no" data-column="Total">@item.Total</td>
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                            {
+                                                <th translate="no" data-column="CompanyTypeName">@item.CompanyName</th>
+                                            }
+                                            <td data-column="Action">
+                                                <span>
+                                                    <a href="#" translate="no" data-toggle="modal" data-target="#ViewDescript" empId="@item.EmpId" empName="@item.EmpName" title="View" onclick="getEmpAD(this);"><i class="fa fa-eye  iccn" aria-hidden="true"></i></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">** No Record Found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal View-Description-->
+<div id="ViewDescript" class="modal fade" role="dialog"></div>
+
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script>
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#StartDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+        $('#EndDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+
+    var sDate = '@Model.StartDate';
+    var eDate = '@Model.EndDate';
+    /////////////////Employee Attendance details///////////////////////////
+    function getEmpAD(obj) {
+        var self = $(obj);
+        var empId = self.attr("empId");
+        var empName = self.attr("empName");
+        if (empId != '') {
+            $.post('/Emp/GetAttendanceDetails', { startdate: sDate, enddate: eDate, EmpName: empName, UID: empId }, function (data) {
+                jQuery('#ViewDescript').html(data);
+                $($(this).data("#ViewDescript")).show();
+            });
+        }
+    };
+</script>

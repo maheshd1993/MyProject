@@ -1,0 +1,138 @@
+USE `niscrm`;
+DROP procedure IF EXISTS `P_GetAssignedLeadsByUser`;
+
+DELIMITER $$
+USE `niscrm`$$
+CREATE DEFINER=`satish`@`%` PROCEDURE `P_GetAssignedLeadsByUser`(
+p_Uid int,
+p_StartDate varchar(100),
+p_EndDate varchar(100)
+)
+begin
+select cl.*,(CONCAT(ut.Fname,' ',ut.Lname))as LeadOwnerName,
+(CONCAT(ut2.Fname,' ',ut2.Lname))as AssignByUserName,
+(CONCAT(ut3.Fname,' ',ut3.Lname))as AssignToUserName from 
+CreateLeadstbl cl  join
+Usertbl ut on cl.LeadOwner=ut.Id  Left join
+Usertbl ut2 on cl.AssignedBy=ut2.Id
+Left join Usertbl ut3 on cl.AssignTo=ut3.Id  
+where 
+/*(cl.AssignedBy=p_Uid 
+or 
+(cl.LeadOwner = p_Uid 
+and 
+(cl.AssignedBy != p_Uid || cl.AssignedBy != null))) 
+and 
+cl.AssignedDate between p_StartDate and p_EndDate;*/
+cl.AssignedDate between p_StartDate and p_EndDate
+AND
+(cl.LeadOwner=p_Uid 
+OR
+(cl.AssignedBy=p_Uid or cl.AssignedBy!=null)
+OR
+(cl.AssignTo=p_Uid OR cl.AssignTo!=null));
+end$$
+
+DELIMITER ;
+
+-----------------
+USE `niscrm`;
+DROP procedure IF EXISTS `T_GetViewLeadsByDate`;
+
+DELIMITER $$
+USE `niscrm`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `T_GetViewLeadsByDate`(          
+p_Leadowner int ,      
+p_StartDate varchar(100),      
+p_EndDate varchar(100)         
+)
+begin          
+if(p_Leadowner!=0) then          
+select CLt.*,ut.Fname,ut.Lname,
+case when (clt.AssignTo is null) then ''  when (clt.AssignTo = clt.LeadOwner) then '' else (SELECT CONCAT(Fname ,' ', Lname) from usertbl u where clt.AssignTo=u.Id) end as AssinedTo,
+case when (clt.AssignedBy is null) then ''  else (SELECT CONCAT(Fname ,' ', Lname) from usertbl u where clt.AssignedBy=u.Id) end as AssinedBy from CreateLeadstbl CLt join          
+usertbl ut on clt.LeadOwner=ut.Id 
+where 
+DATE_FORMAT(str_to_date(CLt.date, '%m/%d/%Y'), '%Y%m')
+between 
+DATE_FORMAT(str_to_date(p_StartDate , '%m/%d/%Y'), '%Y%m') 
+and 
+DATE_FORMAT(str_to_date(p_EndDate, '%m/%d/%Y'), '%Y%m')
+and  
+((CLt.LeadOwner=p_Leadowner and clt.AssignTo is null) or clt.AssignTo=p_Leadowner OR CLt.AssignedBy=p_Leadowner
+or find_in_set(CLt.LeadOwner, (SELECT MappedUsers FROM usertbl WHERE ID = p_Leadowner))
+or find_in_set(CLt.AssignTo, (SELECT MappedUsers FROM usertbl WHERE ID = p_Leadowner))
+);          
+else          
+select CLt.*,ut.Fname,ut.Lname,
+case when (clt.AssignTo is null) then ''  when (clt.AssignTo = clt.LeadOwner) then '' else (SELECT CONCAT(Fname ,' ', Lname) from usertbl u where clt.AssignTo=u.Id) end as AssinedTo,
+case when (clt.AssignedBy is null) then '' else (SELECT CONCAT(Fname ,' ', Lname) from usertbl u where clt.AssignedBy=u.Id) end as AssinedBy from CreateLeadstbl CLt join          
+usertbl ut on clt.LeadOwner=ut.Id 
+where 
+DATE_FORMAT(str_to_date(CLt.date, '%m/%d/%Y'), '%Y%m')
+between 
+DATE_FORMAT(str_to_date(p_StartDate , '%m/%d/%Y'), '%Y%m') 
+and 
+DATE_FORMAT(str_to_date(p_EndDate, '%m/%d/%Y'), '%Y%m');
+end if;      
+end$$
+
+DELIMITER ;
+
+--------------------
+USE `niscrm`;
+DROP procedure IF EXISTS `T_GetViewLeadsByDate`;
+
+DELIMITER $$
+USE `niscrm`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `T_GetViewLeadsByDate`(          
+p_Leadowner int ,      
+p_StartDate varchar(100),      
+p_EndDate varchar(100)         
+)
+begin          
+if(p_Leadowner!=0) then          
+select clt.*,ut.Fname,ut.Lname,
+case when (clt.AssignTo is null) then ''  when (clt.AssignTo = clt.LeadOwner) then '' else (SELECT CONCAT(Fname ,' ', Lname) from usertbl u where clt.AssignTo=u.Id) end as AssinedTo,
+case when (clt.AssignedBy is null) then ''  else (SELECT CONCAT(Fname ,' ', Lname) from usertbl u
+ where clt.AssignedBy=u.Id) end as AssinedBy 
+ from CreateLeadstbl clt join          
+usertbl ut on clt.LeadOwner=ut.Id 
+where 
+DATE_FORMAT(str_to_date(CLt.date, '%m/%d/%Y'), '%m/%d/%Y')
+between 
+DATE_FORMAT(str_to_date(p_StartDate , '%m/%d/%Y'), '%m/%d/%Y') 
+and 
+DATE_FORMAT(str_to_date(p_EndDate, '%m/%d/%Y'), '%m/%d/%Y')
+and  
+(
+	clt.LeadOwner=p_Leadowner
+	OR
+	(clt.AssignedBy is null and clt.AssignTo is null) 
+	or 
+	clt.AssignTo=p_Leadowner OR clt.AssignedBy=p_Leadowner
+	or 
+	find_in_set(clt.LeadOwner, (SELECT MappedUsers FROM usertbl WHERE ID = p_Leadowner))
+	or 
+	find_in_set(clt.AssignTo, (SELECT MappedUsers FROM usertbl WHERE ID = p_Leadowner))
+);          
+else          
+select CLt.*,ut.Fname,ut.Lname,
+case when (clt.AssignTo is null) then ''  when (clt.AssignTo = clt.LeadOwner) then '' else (SELECT CONCAT(u.Fname ,' ', u.Lname) from usertbl u where clt.AssignTo=u.Id) end as AssinedTo,
+case when (clt.AssignedBy is null) then '' else (SELECT CONCAT(u.Fname ,' ', u.Lname) from usertbl u 
+where 
+clt.AssignedBy=u.Id) end as AssinedBy 
+from 
+CreateLeadstbl CLt 
+join          
+usertbl ut on clt.LeadOwner=ut.Id 
+where 
+DATE_FORMAT(str_to_date(CLt.date, '%m/%d/%Y'), '%m/%d/%Y')
+between 
+DATE_FORMAT(str_to_date(p_StartDate , '%m/%d/%Y'), '%m/%d/%Y') 
+and 
+DATE_FORMAT(str_to_date(p_EndDate, '%m/%d/%Y'), '%m/%d/%Y');
+end if;      
+end$$
+DELIMITER ;
+

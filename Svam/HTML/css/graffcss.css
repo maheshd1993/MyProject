@@ -1,0 +1,26 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300&subset=latin,latin-ext);
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #e4e8ed;
+    min-height: 100vh;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.example-box {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.example__headline {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 50px;
+}

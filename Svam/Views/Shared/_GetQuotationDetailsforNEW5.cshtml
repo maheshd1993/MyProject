@@ -1,0 +1,504 @@
+﻿@model Svam.Models.ViewModel.SaleOrderVM
+
+<style>
+    section {
+        padding: 10px;
+    }
+
+    th, td {
+        border: 1px solid #000;
+    }
+
+    thead, tbody {
+        border: 1px solid #000;
+    }
+
+    h2 {
+        color: #6438c0;
+    }
+
+    h4 {
+        color: #fff;
+    }
+
+    .table-bordered tbody tr:nth-child(even) {
+        background-color: #35496c;
+        color: #fff !important;
+    }
+
+    .table-bordered tbody tr:nth-child(odd) {
+        background-color: #5d75a0;
+        color: #fff !important;
+    }
+
+    .Quotation {
+        box-shadow: 5px 10px 10px #323f58;
+        background: #35496c;
+        color: #fff !important;
+        padding: 16px;
+        border-radius: 20px;
+        height: 242px;
+        margin-bottom: 20px;
+    }
+
+    tr td {
+        padding: 10px;
+    }
+
+    .as-th th {
+        border: none;
+    }
+
+    .as-th td {
+        border: none;
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    .printpage {
+        font-size: 15px !important;
+        font-family: calibri !important;
+    }
+
+        .printpage h2, h4 {
+            font-size: 15px !important;
+            font-family: calibri !important;
+        }
+
+        .printpage td, th {
+            font-size: 15px !important;
+            font-family: calibri !important;
+            padding: 1px 5px !important;
+            height: 22px;
+        }
+
+        .printpage label {
+            margin-bottom: 0;
+        }
+</style>
+
+<section>
+    <div class="modal-dialog modal-lg printpage" style="font-family: calibri !important;">
+        <div class="modal-content">
+            <div class="modal-body qtmodal" id="div_print" style="padding-top: 10px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h2>Quotation </h2>
+                            <p> Quotation No #  &nbsp; &nbsp; &nbsp; &nbsp;  <b> @Model.QuoNo </b></p>
+                            <p> Quotation Date #  &nbsp; &nbsp; &nbsp;   <b> @Model.QuoDt </b></p>
+                            <p>
+                                Created by   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <b>
+                                    @Model.CreatedBy
+                                </b>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <img src="data:image/png;base64,@Model.imagepath" style="width:105px;height:105px;">
+                        </div>
+                        <div class="col-md-6" style="width:50%!important;float:left;">
+                            <div class="Quotation">
+                                <h4> Quotation From  </h4>
+                                <p> <b>@Model.Organization</b></p>
+                                <p>
+                                    @Model.CompanyAddress
+                                    <br>
+                                    <b> GSTIN:  </b>@Model.PanNo<br>                                   
+                                    <b>Email:</b> @Model.CompanyEmail<br>
+                                    <b> Phone:  </b>@Model.CompanyMobileNo<br>
+                                    @*<b> Ram Prakash Yadav:  </b>@Model.CompanyAlternateNo<br>
+                                    <b> S.P.YADAV: </b> @Model.CustomerMobileNo<br>*@
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="width:50%!important;float:left;">
+                            <div class="Quotation">
+                                <h4> Quotation For </h4>
+                                <p>
+                                    <b>
+                                        @Model.CustomerName
+
+                                    </b>
+                                </p>
+                                <p>
+                                    @Model.CustomerAddress
+                                    <br>
+                                    <b> GSTIN:  </b>@Model.RegistrationNo <br>
+                                    <b>PAN:  </b>@Model.customerpanNO <br>
+
+                                </p>
+
+                            </div>
+                        </div>
+                        @if (Model.SaleReport != null && Model.SaleReport.Count > 0)
+            {
+                            <table class="table table-striped printtable table-hover table-bordered" style="margin-top: 5px;">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: 15px; height: 15px;">Sr.No </th>
+                                        <th style="font-size: 15px; height: 15px;">Item</th>
+
+                                        <th style="font-size: 15px; height: 15px;">Unit </th>
+                                        <th style="font-size: 15px; height: 15px;">HSN Code  </th>
+                                        <th style="font-size: 15px; height: 15px;">M.R.P Rate </th>
+                                        <th style="font-size: 15px; height: 15px;">Discount </th>
+
+                                        <th style="font-size: 15px; height: 15px;">Net Price  </th>
+                                        <th style="font-size: 15px; height: 15px;">Qun.  </th>
+                                        <th style="font-size: 15px; height: 15px;">Total Amount </th>
+                                        @*@if (Model.TaxTypeName.ToLower() != "total")
+                                            {
+
+                                                <th style="font-size: 15px; height: 15px;">NET TAXABLE AMOUNT</th>
+                                                <th style="font-size: 15px; height: 15px;">CGST(%)</th>
+                                                <th style="font-size: 15px; height: 15px;">CGST Amount</th>
+                                                <th style="font-size: 15px; height: 15px;">SGST(%)</th>
+                                                <th style="font-size: 15px; height: 15px;">SGST/UGST Amount</th>
+                                                <th style="font-size: 15px; height: 15px;">IGST(%) </th>
+                                                <th style="font-size: 15px; height: 15px;">IGST Amount </th>
+                                                <th style="font-size: 15px; height: 15px;">Gross Amount</th>
+                                            }*@
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int ii = 1;
+                                    }
+                                    @foreach (var item in Model.SaleReport)
+                                    {
+                                        decimal tp = Convert.ToDecimal(item.Qty) * Convert.ToDecimal(item.Price);
+
+                                        decimal discountprice = 0.0M;
+                                        discountprice = Convert.ToDecimal(tp) * Convert.ToDecimal(item.DisPer) / 100;
+
+                                        decimal Netprice = Convert.ToDecimal(tp) - Convert.ToDecimal(discountprice);
+
+                                        <tr>
+                                            <td style="font-size: 11px;">@ii</td>
+                                            <td style="font-size: 11px;">
+                                                <p>@item.ItemName </p>
+                                            </td>
+                                            <td class="t-right" style="font-size: 11px;">@item.unit  </td>
+                                            <td class="t-right" style="font-size: 11px;">@item.HSN  </td>
+                                            <td class="t-right" style="font-size: 11px;">@String.Format("{0:0.00}", item.Price)</td>
+
+                                            <td class="t-right" style="font-size: 11px;">@String.Format("{0:0.00}", item.DisPer)</td>
+                                            <td class="t-right" style="font-size: 11px;">@String.Format("{0:0.00}", Netprice)</td>
+                                            <td class="t-right" style="font-size: 11px;">@item.Qty</td>
+                                            <td class="t-right" style="font-size: 11px;">@String.Format("{0:0.00}", Netprice)</td>
+
+                                            @*@if (Model.TaxTypeName.ToLower() != "total")
+                                            {
+                                                decimal totalGrossAmt = 0.0M;
+                                                <td class="t-right" style="font-size: 11px;">@item.NetTaxable</td>
+                                                <td class="t-right" style="font-size: 11px;">
+                                                    @item.CGSTPer
+                                                </td>
+
+                                                <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                <td class="t-right" style="font-size: 11px;">
+                                                    @item.CGSTPer
+                                                </td>
+                                                <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                <td class="t-right" style="font-size: 11px;">
+                                                    @item.IGSTPer
+                                                </td>
+                                                <td class="t-right" style="font-size: 11px;">@item.IGSTAmount</td>
+                                                totalGrossAmt = Convert.ToDecimal(item.NetTaxable) + Convert.ToDecimal(item.CGSTAmount) + Convert.ToDecimal(item.IGSTAmount);
+                                                <td class="t-right" style="font-size: 11px;">
+                                                   
+                                                    <span>@totalGrossAmt</span>
+                                                </td>
+                                            }*@
+
+                                        </tr>
+                                        <tr>
+
+                                            <td colspan="3" style="text-align: center;">  Terms & Conditions </td>
+                                            <td colspan="3" style="text-align: center;">  Remark:- </td>
+
+                                            <td style="text-align: right;">  Total  </td>
+                                            <td style="text-align: right;">  @item.Qty   </td>
+                                            <td style="text-align: right;">@String.Format("{0:0.00}", Netprice)</td>
+
+                                        </tr>
+                                        decimal totalGrossAmt1 = 0.0M;
+                                        decimal grandtotla = 0.0M;
+                                        totalGrossAmt1 = Convert.ToDecimal(item.NetTaxable) + Convert.ToDecimal(item.CGSTAmount) + Convert.ToDecimal(item.IGSTAmount);
+                                        grandtotla = Convert.ToDecimal(totalGrossAmt1) + Convert.ToDecimal(item.Total);
+                                        <tr>
+                                            <td rowspan="3" colspan="3" style="text-align: right;">  </td>
+                                            <td rowspan="3" colspan="3" style="text-align: right;">  </td>
+
+                                            <td colspan="2" style="text-align: right;">  GST @item.GSTPer </td>
+                                            <td style="text-align: right;">  @item.GSTAmount </td>
+
+                                        </tr>
+
+                                        decimal tamt = Convert.ToDecimal(item.GSTAmount) + Convert.ToDecimal(Netprice);
+                                        <tr>
+
+                                            <td colspan="2" style="text-align: right;">  Grand Total  </td>
+                                            <td style="text-align: right;">@String.Format("{0:0.00}", tamt)</td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td colspan="3" style="text-align: right;">  For @Model.CreatedBy  </td>
+
+
+                                        </tr>
+
+
+
+                                        ii++;
+                                    }
+
+                                </tbody>
+                            </table>
+                                        }
+
+
+
+
+                                        @*<div class="col-md-12 mt-4" style="margin-top:12px;">
+
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col"> HSN </th>
+                                                            <th scope="col">Taxable Value  </th>
+                                                            <th colspan="2" scope="col"> IGST </th>
+                                                            <th colspan="2" scope="col"> CGST </th>
+                                                            <th colspan="2" scope="col"> SGST </th>
+                                                            <th scope="col"> Total </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row"></th>
+                                                            <td></td>
+                                                            <td>Rate</td>
+                                                            <td>Amount</td>
+                                                            <td>Rate</td>
+                                                            <td>Amount</td>
+                                                            <td>Rate</td>
+                                                            <td>Amount</td>
+
+                                                            <td> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td scope="row"> 8482</td>
+                                                            <td>₹150</td>
+                                                            <td>0% </td>
+                                                            <td> ₹0</td>
+                                                            <td> 9%</td>
+                                                            <td> ₹13.5  </td>
+                                                            <td> 9%</td>
+                                                            <td> ₹13.5   </td>
+                                                            <td>
+                                                                ₹177
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="9" scope="row"> <b> Total Tax In Words: One Hundered Seventy Seven ONLY </b></td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>*@
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="printbtnwrap" style="text-align:center">
+                                <button class="btn btn-info printbtnmain" onclick="printdiv('div_print');">Print</button>
+                            </div>
+                            <br style="clear: both;">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <script>
+                    function printdiv(printpage) {
+
+                        var printContents = document.getElementById(printpage).innerHTML;
+                        var originalContents = document.body.innerHTML;
+                        document.body.style.fontFamily = "calibri";
+                        document.body.style.fontSize = "11";
+                        document.body.innerHTML = printContents;
+                        window.print();
+                        document.body.innerHTML = originalContents;
+                        window.open('/Quotation/ManageQuotation', '_self', '');
+                        window.close();
+                    }
+                    //nearestWholeNumber();
+                    //function nearestWholeNumber() {
+                    //    var x = document.getElementById("spTotal").innerHTML;
+                    //    var decimals = x - Math.floor(x);
+                    //    var round = 1 - decimals;
+                    //    if (decimals <= 0) {
+                    //        round = 0.00;
+                    //        document.getElementById("spRound").innerHTML = round.toFixed(2);
+                    //    }
+                    //    else if (decimals >= 0.5) {
+                    //        document.getElementById("spGrandTotal").innerHTML = Math.round(x) + ".00";
+                    //        test_skill(Math.round(x));
+                    //        document.getElementById("spRound").innerHTML = round.toFixed(2);
+                    //        //document.getElementById("spAmountInWord").innerHTML = test_skill(Math.round(x));
+                    //    }
+                    //    else {
+
+                    //        document.getElementById("spGrandTotal").innerHTML = Math.floor(x) + ".00";
+                    //        document.getElementById("spRound").innerHTML = decimals.toFixed(2);
+                    //        test_skill(Math.floor(x));
+                    //        //document.getElementById("spAmountInWord").innerHTML = test_skill(Math.floor(x));
+                    //    }
+                    //    // document.getElementById("spRound").innerHTML = round.toFixed(2);
+                    //    //console.log(decimals.toFixed(2));
+                    //};
+                    //function test_skill(junkVal) {
+                    //    junkVal = Math.floor(junkVal);
+                    //    var obStr = new String(junkVal);
+                    //    numReversed = obStr.split("");
+                    //    actnumber = numReversed.reverse();
+
+                    //    if (Number(junkVal) >= 0) {
+                    //        //do nothing
+                    //    }
+                    //    else {
+                    //        alert('wrong Number cannot be converted');
+                    //        return false;
+                    //    }
+                    //    if (Number(junkVal) == 0) {
+                    //        document.getElementById('container').innerHTML = obStr + '' + 'Rupees Zero Only';
+                    //        return false;
+                    //    }
+                    //    if (actnumber.length > 9) {
+                    //        alert('Oops!!!! the Number is too big to covertes');
+                    //        return false;
+                    //    }
+
+                    //    var iWords = ["Zero", " One", " Two", " Three", " Four", " Five", " Six", " Seven", " Eight", " Nine"];
+                    //    var ePlace = ['Ten', ' Eleven', ' Twelve', ' Thirteen', ' Fourteen', ' Fifteen', ' Sixteen', ' Seventeen', ' Eighteen', ' Nineteen'];
+                    //    var tensPlace = ['dummy', ' Ten', ' Twenty', ' Thirty', ' Forty', ' Fifty', ' Sixty', ' Seventy', ' Eighty', ' Ninety'];
+
+                    //    var iWordsLength = numReversed.length;
+                    //    var totalWords = "";
+                    //    var inWords = new Array();
+                    //    var finalWord = "";
+                    //    j = 0;
+                    //    for (i = 0; i < iWordsLength; i++) {
+                    //        switch (i) {
+                    //            case 0:
+                    //                if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                    //                    inWords[j] = '';
+                    //                }
+                    //                else {
+                    //                    inWords[j] = iWords[actnumber[i]];
+                    //                }
+                    //                inWords[j] = inWords[j] + ' Only';
+                    //                break;
+                    //            case 1:
+                    //                tens_complication();
+                    //                break;
+                    //            case 2:
+                    //                if (actnumber[i] == 0) {
+                    //                    inWords[j] = '';
+                    //                }
+                    //                else if (actnumber[i - 1] != 0 && actnumber[i - 2] != 0) {
+                    //                    inWords[j] = iWords[actnumber[i]] + ' Hundred and';
+                    //                }
+                    //                else {
+                    //                    inWords[j] = iWords[actnumber[i]] + ' Hundred';
+                    //                }
+                    //                break;
+                    //            case 3:
+                    //                if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                    //                    inWords[j] = '';
+                    //                }
+                    //                else {
+                    //                    inWords[j] = iWords[actnumber[i]];
+                    //                }
+                    //                if (actnumber[i + 1] != 0 || actnumber[i] > 0) {
+                    //                    inWords[j] = inWords[j] + " Thousand";
+                    //                }
+                    //                break;
+                    //            case 4:
+                    //                tens_complication();
+                    //                break;
+                    //            case 5:
+                    //                if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                    //                    inWords[j] = '';
+                    //                }
+                    //                else {
+                    //                    inWords[j] = iWords[actnumber[i]];
+                    //                }
+                    //                if (actnumber[i + 1] != 0 || actnumber[i] > 0) {
+                    //                    inWords[j] = inWords[j] + " Lakh";
+                    //                }
+                    //                break;
+                    //            case 6:
+                    //                tens_complication();
+                    //                break;
+                    //            case 7:
+                    //                if (actnumber[i] == 0 || actnumber[i + 1] == 1) {
+                    //                    inWords[j] = '';
+                    //                }
+                    //                else {
+                    //                    inWords[j] = iWords[actnumber[i]];
+                    //                }
+                    //                inWords[j] = inWords[j] + " Crore";
+                    //                break;
+                    //            case 8:
+                    //                tens_complication();
+                    //                break;
+                    //            default:
+                    //                break;
+                    //        }
+                    //        j++;
+                    //    }
+
+                    //    function tens_complication() {
+                    //        if (actnumber[i] == 0) {
+                    //            inWords[j] = '';
+                    //        }
+                    //        else if (actnumber[i] == 1) {
+                    //            inWords[j] = ePlace[actnumber[i - 1]];
+                    //        }
+                    //        else {
+                    //            inWords[j] = tensPlace[actnumber[i]];
+                    //        }
+                    //    }
+                    //    inWords.reverse();
+                    //    for (i = 0; i < inWords.length; i++) {
+                    //        finalWord += inWords[i];
+                    //    }
+                    //    //document.getElementById('SpnAmtInWorld').innerHTML = obStr + '  ' + finalWord;
+                    //    //document.getElementById('AmtinWords').innerHTML = finalWord;
+                    //    //alert(finalWord);
+                    //    //document.getElementById("spAmountInWord").innerHTML = finalWord;
+                    //    //jQuery('#spAmountInWord').innerHTML(finalWord);
+                    //}
+                    //function printdiv(printpage) {
+
+                    //    var printContents = document.getElementById(printpage).innerHTML;
+                    //    var originalContents = document.body.innerHTML;
+                    //    document.body.style.fontFamily = "calibri";
+                    //    document.body.style.fontSize = "11";
+                    //    document.body.innerHTML = printContents;
+                    //    window.print();
+                    //    document.body.innerHTML = originalContents;
+                    //    window.open('/Quotation/ManageQuotation', '_self', '');
+                    //    window.close();
+                    //}
+                </script>

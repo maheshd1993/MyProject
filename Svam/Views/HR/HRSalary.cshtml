@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "HRSalary";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+
+@model Traders.Models.SalaryModel
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Salary </strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <input type="button" value="Create Salary" onclick="location.href = '/HR/HRCreateSalary'" class="btn btn-success pull-right pull-right" style="margin-right: 5px;margin-top: 3px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("HRSalary", "HR", FormMethod.Post))
+                                {
+                                    <div class="col-sm-2" style="margin-top: -5px">
+                                        @Html.DropDownList("EmployeeName", new SelectList(Model.EmployeeList, "UserID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" class="form-control " id="Month" name="Month" data-date-format="@Session["Myformat"]" placeholder = "Select Month"  value="@Convert.ToString(Session["Myformat"])"/>
+                                        @*@Html.TextBoxFor(em => em.Month, htmlAttributes: new { @class = "form-control", @placeholder = "Select Month", @autocomplete = "off", translate = "no" })*@
+                                    </div>
+                                    <div class="col-sm-1 col-xs-6">
+                                        <input type="submit" value="Filter" style="margin-left: 10px;" class="btn btn-success" id="Submit1" name="filter1">
+                                    </div>
+                                    <div class="col-sm-1 col-xs-6">
+                                        <input type="button" value="Reset" class="btn btn-danger" id="Reset" name="filter1" onclick="location.href = '/HR/HRSalary'">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Employee Code</th>
+                                <th>Month</th>
+                                <th>Bank Name</th>
+                                <th>Branch Name</th>
+                                <th>Account Number</th>
+                                <th>Total Salary</th>
+                                <th>Action</th>
+                                <th>Download</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+
+                            @if (Model.SaleryHistoryList != null)
+                            {
+                                if (Model.SaleryHistoryList.Count > 0)
+                                {
+                                    foreach (var item in Model.SaleryHistoryList)
+                                    {
+                                        <tr>
+                                            <td translate="no" data-column="Sr.No.">@i</td>
+                                            <td translate="no" data-column="Full Name">@item.FullName</td>
+                                            <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
+                                            <td translate="no" data-column="Month">@item.Month</td>
+                                            <td translate="no" data-column="Bank Name">@item.BankName</td>
+                                            <td translate="no" data-column="Branch Name">@item.BranchName</td>
+                                            <td data-column="Account No." translate="no">@item.AccountNumber</td>
+                                            <td data-column="Total Salary" translate="no">@item.TotalSalary</td>
+                                            <td data-column="Action"><a href="@Url.Action("HRCreateSalary", "HR", new { SalaryID = item.SalaryID, EmployeeID = item.UserID })"><i class="fa fa-eye" aria-hidden="true" title="View Salary Details"></i></a></td>
+                                            <td data-column="Download">
+                                                @Html.ActionLink("Download", "Download", new { SalarySlipName = item.SalerySlipName })
+                                            </td>
+                                        </tr>i++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="10" style="text-align: center;">** No Record Found</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+    $(function () {
+        $("#Month").datepicker({
+            format: "MM-yyyy",
+            viewMode: "months",
+            minViewMode: "months"
+        });
+    });
+</script>

@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "message";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<div class="maincontainer">
+
+<h1>View Monthly</h1>
+<div class="col-sm-12">
+<div class="panel panel-default">
+  <div class="panel-heading">View Monthly  
+      @if (Convert.ToString(TempData["erroralert"]) != null && Convert.ToString(TempData["erroralert"])!="")
+      {
+      <span style="color:red;margin-left: 14%;font-size: 13px;">@TempData["erroralert"]</span>
+      }
+      @if (Convert.ToString(TempData["successAlert"]) != null && Convert.ToString(TempData["successAlert"]) != "")
+      {
+      <span style="color:green;margin-left: 14%;font-size: 13px;">@TempData["successAlert"]</span>
+      }
+  </div>
+    
+  <div class="panel-body">
+@using (Html.BeginForm("message", "home", FormMethod.Post))
+    {
+	<div class="col-sm-6"> 
+
+
+	  <div class="form-inline">
+	      <div class="form-group">
+		    <label for="from">Select Product :</label>
+              @Html.DropDownList("product", null,"--Select Product--", new { @class = "form-control" })
+	      </div>
+	      <div class="form-group" style="margin-top: 5px;margin-left: 15px;">
+		  <button  type="button" class="btn btn-default" data-toggle="modal" data-target="#Writemessagebox">Write Message Here</button>
+          
+	  </div>
+       </div>
+	</div>
+	<div class="col-sm-6">
+	  <div class="form-group col-sm-8">
+		<input type="text" placeholder="Search Here"  class="form-control">
+	  </div>
+	  <button type="button" class="btn btn-default">Search</button>
+	</div>
+	<br style="clear:both;"/><br style="clear:both;"/>
+    <div id="DivLeads">
+		<!--Bind Data Here.....with partial-->
+      </div>
+    //Model Popup for Write a Message.....
+    <div id="Writemessagebox" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+	    <div class="modal-header">
+			<h4 class="modal-title">Message Box</h4>
+		</div>
+      <div class="modal-body over-hidden"> 
+				 <div class="">
+					<div class="row">
+						<div class="col-xs-12">
+							<div>
+                                <textarea class="form-control txtmessage" name="txtMessage" style="height:200px;"> </textarea>
+							</div>
+						</div>
+					</div>
+					<br style="clear:both;"/>
+                     @*<input id="Submit1" type="submit" style="margin-left:10px;" value="Send Message" class="btn btn-danger" />*@
+					<button type="button" class="btn btn-default btnSendMessage">Send Message</button>
+                     <span id="spnLoader" style="display:none;margin-left: 3%;color:red">Please wait we will take few time...........<i class="fa fa-spinner fa-pulse"></i></span> 
+				</div>
+		
+      </div>
+      <div class="modal-footer">
+          <span id="spnAlertMessage" style="margin-right:18%;"></span>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>	  
+    </div>
+  </div>
+</div>
+    }
+  </div>
+   
+</div>
+</div>
+</div>
+
+<!--Model Pop to View Size-->
+<div id="showproductsize" class="modal fade" role="dialog" style="margin-top:95px;">
+</div>
+
+<script>
+    $('#product').on('change', function () {
+        var selectedProduct = $('#product option:selected').text();
+        if (selectedProduct != '' && selectedProduct != '--Select Product--') {
+            jQuery.post('/home/GetLeadsByProdyct', { product: selectedProduct }, function (data) {
+                jQuery('#DivLeads').html(data);
+            });
+        }
+    });
+
+    jQuery('.btnSendMessage').on('click',function(){
+        var selectedValues = "";
+        jQuery('#spnLoader').show();
+        var txtMessage=jQuery('.txtmessage').val();
+        $checkedCheckboxes = $(".chk:checked");
+        return false;
+        $checkedCheckboxes.each(function () {
+            if (selectedValues != '') {
+                selectedValues += "," + $(this).val();
+            }
+            else {
+                selectedValues += $(this).val();
+            }
+        });
+        if (selectedValues != '' && txtMessage != '') {
+            jQuery.post('/common/sendmessage', { SelectedValues: selectedValues, Message: txtMessage }, function (data) {
+                jQuery('#spnLoader').hide();
+                if (data == 'Sent') {
+
+                }
+            });
+        }
+        else {
+            alert('Please provide the message and User List to send message.');
+        }
+        //alert(selectedValues);//u get a comma separated list
+    });
+
+ 
+
+</script>

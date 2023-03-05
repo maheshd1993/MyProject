@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = "Manage File";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@model Svam.Models.CRMFileManagerModel
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <i class="fa fa-th-list" aria-hidden="true"></i>&nbsp;Manage File
+                            <button class="btn btn-success btn-sm pull-right" type="button" title="Add File" data-toggle="modal" data-target="#modalFile"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;File Upload</button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12 padd0">
+                                <div class="table-responsive">
+                                    <table class="table  table-bordered tablefont">
+                                        <thead class="black-white-text">
+                                            <tr>
+                                                <th style="text-align: center; width: 5%;">#</th>
+                                                <th style="text-align: left; width: 50%">File Name </th>
+                                                <th style="text-align: center; width: 7%;">View File</th>
+                                                <th style="text-align: left; width: 10%">Upload Date</th>
+                                                <th style="text-align: center; width: 8%">Remove</th>
+                                                <th style="text-align: center; width: 5%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ int i = 1;}
+                                            @if (Model != null)
+                                            {
+                                                if (Model.oCRMFileManagerModelList != null)
+                                                {
+                                                    foreach (var item in Model.oCRMFileManagerModelList)
+                                                    {
+                                                <tr>
+                                                    <td style="text-align: center;">@i</td>
+                                                    <td>@item.FileName</td>
+                                                    <td style="text-align: center;">
+                                                        <a href="/FileManager/FileDownload/?PostFile=@item.FileUpload" target="_blank" style="color:white;" class="btn btn-primary btn-sm" title="Download File"><i class="fa fa-download" aria-hidden="true"></i></a>
+                                                    </td>
+                                                    <td>@item.UploadDate</td>
+                                                    <td style="text-align: center;">
+                                                        <button type="button" onclick="deletefile(@item.FileID)" class="btn btn-danger btn-sm" title="Remove File"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <button type="button" class="btn btn-success btn-sm edit" data-toggle="modal"  data-target="#modalFile" data-id="@item.FileID" title="Edit File"><i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+                                                    </td>
+                                                </tr>
+                                                        i++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                <tr>
+                                                    <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                                </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <div class="container paginationcustom">
+                                        <ul class="pagination">
+                                            @{int pages = Convert.ToInt32(ViewData["NoOfPages"]);}
+                                            @{int url = Convert.ToInt32(Request.QueryString["page"]);}
+                                            @{string pageUrl = Convert.ToString(ViewData["url"]);}
+                                            @if (pages != 0 && pages != 1)
+                                            {
+                                                for (int index = 1; index <= pages; index++)
+                                                {
+                                                    string path = pageUrl + index;
+                                                    if (url == 0)
+                                                    {
+                                                        url = 1;
+                                                    }
+                                                <li class="@(index == url ? "active" : "")"><a  href="/FileManager/ManageFile/?page=@index">@index</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalFile" class="modal fade" role="dialog" style="top: 2%;">
+    <div class="modal-dialog" style="width: 45%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+                <h4 class="modal-title">Create File</h4>
+                <input id="FileID" name="FileID" type="hidden" />
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">File Name</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="txtFileName" name="FileName" type="text" autocomplete="off" placeholder="Please enter file name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Upload File</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" id="AttachmentFile" name="AttachmentFile" type="file" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnSaveNow" onclick="SaveFile()"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-danger btnclose" id="btnclose" data-dismiss="modal"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript">
+    $(".edit").on("click", function () {
+        var id = $(this).data('id');
+        if (id > 0) {
+            $.ajax({
+                type: 'GET',
+                url: '/FileManager/EditManageFile',
+                data: { FileID: id },
+                dataType: 'json',
+                success: function (data) {
+                    $('#FileID').val(data.FileID);
+                    $('#txtFileName').val(data.FileName);
+                }
+            });
+        }
+        else {
+            swal("Alert !", 'Please select file properly.', "warning");
+        }
+    });
+</script>
+<script type="text/javascript">
+    function deletefile(fileid) {
+        debugger;
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure that you want to delete this file?",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes, delete it!",
+            confirmButtonColor: "#ec6c62"
+        }, function () {
+            $.ajax({
+                url: "/FileManager/DeleteFile/",
+                data: { "FileID": fileid },
+                type: "POST"
+            }).done(function (data) {
+                sweetAlert
+                    ({
+                        title: "Deleted!",
+                        text: data.text,
+                        type: "success"
+                    }, function () {
+                        window.location.href = '/FileManager/ManageFile';
+                    });
+            }).error(function (data) {
+                swal("Oops", data.text, "error");
+            });
+        });
+    }
+</script>
+<script type="text/javascript">
+    function SaveFile() {
+        jQuery.noConflict();
+        var fileData = new FormData();
+        var fileUpload = $("#AttachmentFile").get(0);
+        var files = fileUpload.files;
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+        var FileName = $('#txtFileName').val();
+        var FileID = $('#FileID').val();
+        fileData.append('FileName', FileName);
+        fileData.append('FileID', FileID);
+        if (FileName != '') {
+            if (files.length > 0) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/FileManager/ManageFile');
+                xhr.send(fileData);
+                xhr.onreadystatechange = function () {
+                    $('#btnSaveNow').html('Saving..');
+                    if (xhr.responseText.replace('"', '').replace('"', '') == 'File save successfully.') {
+                        swal("Success !", xhr.responseText.replace('"', '').replace('"', ''), "success");
+                        $('#modalFile').modal('hide');
+                        $('#FileID').val('');
+                        $('#txtFileName').val('');
+                        $('#AttachmentFile').val('');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 5000);
+                    }
+                    else {
+                        $('#btnSaveNow').html('Save');
+                        swal("Alert !", xhr.responseText.replace('"', '').replace('"', ''), "warning");
+                    }
+                }
+            }
+            else {
+                $('#btnSaveNow').html('Save');
+                swal("Alert !", '** Please upload file.', "warning");
+            }
+        }
+        else {
+            $('#btnSaveNow').html('Save');
+            swal("Alert !", '** Please enter file name', "warning");
+        }
+    }
+</script>

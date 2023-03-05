@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Manage Error Type";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@model Svam.Models.LeadStatusModel

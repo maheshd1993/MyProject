@@ -1,0 +1,81 @@
+﻿@model Traders.Models.ViewLeadsModel
+
+<div class="modal-dialog" style="width: 92%;">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Lead Report Details</h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-sm-12">
+                    @if (Model.viewleadsList.Count > 0)
+                    {
+                        <table class="table table-bordered modaltable9">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th width="20">#</th>
+                                    <th width="150">Lead Owner</th>
+                                    <th width="150">Customer Name </th>
+                                    <th width="80">Mobile Number </th>
+                                    <th width="50">e-mail</th>
+                                  @*  <th width="50">Country</th>*@
+                                   @* <th width="50">State</th>*@
+                                    <th width="50">City</th>
+                                    <th width="80">Follow Up Date</th>
+                                    <th width="100">Prev Follow Up Date</th>
+                                    <th width="80">Follow Date</th>
+                                    <th width="70">Lead Status</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @{int i = 1;}
+                                @foreach (var item in Model.viewleadsList.ToList())
+                                {
+                                    DateTime PreFollowUpDate = Convert.ToDateTime(item.PreFollowUpDate);
+                                    DateTime CreatedDate = Convert.ToDateTime(item.CreatedDate);
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@item.Created_By</td>
+                                        <td><a href="/home/createleads/@item.Id" target="_blank">@item.LeadName</a></td>
+                                        <td><a href="/home/createleads/@item.Id" target="_blank">@item.Mob</a></td>
+                                        <td>@item.EMail</td>
+                                       @* <td>@item.Country</td>*@
+                                       @* <td>@item.State</td>*@
+                                        <td>@item.City</td>
+                                        <td>@item.FollowupDate</td>
+                                        <td>@PreFollowUpDate.ToShortDateString()</td>
+                                        <td>@CreatedDate.ToShortDateString()</td>
+                                        <td>@item.LeadStatus</td>
+                                    </tr>
+                                    i++;
+                                }
+
+
+
+                            </tbody>
+                        </table>
+                         using (Html.BeginForm("ExportViewLeads", "home", FormMethod.Post))
+                            {
+                                TempData["ExportViewLeads"] = @Model.viewleadsList.ToList();
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-10">
+                                        <input id="Submit2" type="submit" class="btn btn-info" style="width: 100%;" value="Export to Excel">
+                                    </div>
+                                </div>
+                            }
+                    }
+                    else
+                    {
+                        <p style="text-align: center;">No records found</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

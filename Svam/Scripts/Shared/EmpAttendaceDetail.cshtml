@@ -1,0 +1,62 @@
+﻿@model Traders.Models.EmployeeAttandaceReportModel
+
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Employee: <span translate="no">@Model.EmpName (@Model.StartDate To @Model.EndDate)</span> </h4>
+        </div>
+
+        <div class="modal-body b1">
+            <table class="table tables table-bordered">
+                <thead>
+                    <tr class="danger">
+                        <th>#</th>
+                        <th>Attendance Date</th>
+                        <th>Login Time</th>
+                        <th>Logout Time</th>
+                        <th>Duration</th>
+                        @*<th>Late Night Work</th>
+                        <th>Extra Working</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1;}
+                    @if (Model.EmpAttandanceRepotModelList != null && Model.EmpAttandanceRepotModelList.Count > 0)
+                    {
+                        foreach (var item in Model.EmpAttandanceRepotModelList.OrderByDescending(a => Convert.ToDateTime(a.LoginDate)))
+                        {
+                            var dtM = Convert.ToDateTime(item.LoginDate);
+                            //string format = String.Format("{0}", Model.DateFormat + " hh:mm tt");
+                            string LoginDate = String.Format("{0:" + Model.DateFormat + "}", dtM);
+                            <tr class="success">
+                                <td translate="no" data-column="Sr.No.">@i</td>
+                                <td translate="no" data-column="Login Date">@LoginDate</td>
+                                <td translate="no" data-column="Login Time">@item.LoginTime</td>
+                                <td translate="no" data-column="Logout Time">@item.LogoutTime</td>
+                                <td translate="no" data-column="Duration">
+                                    @item.WorkDuration
+                                </td>
+                                @*<td data-column="Late Night Work">@(item.WorkingLateNight == true ? "Yes" : "No")</td>
+                                <td data-column="Extra Working">@(item.ExtraWorking == true ? "Yes" : "No")</td>*@
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" style="text-align:center;"> ** No Record Found !!</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

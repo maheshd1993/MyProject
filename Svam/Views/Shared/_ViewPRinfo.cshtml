@@ -1,0 +1,83 @@
+﻿@model Svam.Models.PurchaseRequitionModel
+
+
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">PR Details</h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered modaltable">
+
+                            <tbody>
+                                <tr>
+                                    <td width="150" class="lefttd">Date :- </td>
+                                    <td width="150">@Model.PrDate</td>
+                                    <td width="150" class="lefttd">Transaction No :-</td>
+                                    <td width="150">@Model.TransactionNo</td>
+                                </tr>
+                                <tr>
+                                    <td width="150" class="lefttd">Department :-</td>
+                                    <td width="150">@Model.DepartmentName</td>
+                                    <td width="150" class="lefttd">Requester :-</td>
+                                    <td width="150">@Model.RequesterName</td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+
+                    <table class="table table-bordered modaltable9">
+                        <thead>
+                            <tr>
+                                <th width="20">Sr.No</th>
+                                <th width="100">PartNo</th>
+                                <th width="200">Description</th>
+                                <th width="70">Unit</th>
+                                <th width="70">Qty</th>
+                                <th width="100">Required by date</th>
+                                <th width="200">Remaks</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @foreach (var item in Model.purchaseReqModelList.ToList())
+                            {
+                           
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.SKU</td>
+                                <td>@item.ItemName</td>
+                                <td>@item.Unitname</td>
+                                <td>@item.RequiredQty</td>
+                                <td>@item.RequiredByDate</td>
+                                <td>@item.Remarks</td>
+                            </tr>
+                                i++;      
+                            }      
+                           
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="desc col-sm-12">
+                    <h4>Remarks</h4>
+                    <p>@Model.Remarks</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

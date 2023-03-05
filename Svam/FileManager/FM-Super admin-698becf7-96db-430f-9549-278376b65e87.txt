@@ -1,0 +1,38 @@
+SmartCpita Live Database-Table Name 
+1. crm_createleadstbl
+2. crm_leaddescriptiontbl
+
+you have to check email and mobileNo from database 
+if not exists you have 
+insert data in table name 'crm_createleadstbl',
+suppose if that customer is already exists 
+in table name 'crm_createleadstbl'
+you have to insert data in table name crm_leaddescriptiontbl.
+
+crm_createleadstbl
+----------------------
+LeadOwner - 1,
+Customer  - Customer(firstname+lastname) from facbook api,
+MobileNo  - MobileNo  from facebook api,
+EmailId   - EmailId from facebook api,
+LeadsType -'Manual',
+LeadSourceID -9,
+LeadResource -'facebook',
+LeadStatus -'Open',
+ZoneName -'IST',
+Status -1,
+Createddate - Datetime of now, when we have add to our table,
+CompanyID - ,
+BrancID- 
+
+
+crm_leaddescriptiontbl
+--------------------------------------
+LeadID      -
+Description -
+Date	    -
+ByUserName  -
+CreatedDateTime-Datetime of now, when we have add to our table,
+BranchID    -
+CompanyID   -
+

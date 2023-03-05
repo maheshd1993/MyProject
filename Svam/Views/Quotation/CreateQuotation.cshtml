@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "CreateQuotation";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    var webUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+}
+
+@model Svam.Models.CRMQutationsaleModel
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <label class="control-label col-sm-4" translate="no">Company Name<span class="madatoryfield">*</span></label>
+                            @*<div class="input-group">
+                                    @if (Model.OrgList != null && Model.OrgList.Count > 0)
+                                    {
+                                        @Html.DropDownListFor(em => em.ID, new SelectList(Model.OrgList, "ID", "Organization", Model.ID),  new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(em => em.ID, Enumerable.Empty<SelectListItem>(),  new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                    }
+                                    @Html.ValidationMessageFor(em => em.ID)
+
+                                </div>*@
+
+
+
+                            @*@if (Session["tUser_id"] != null && @Session["T_pwd"] != null)
+                                {
+                                    <iframe src="https://viren.nicoleinfosoftdemo.com/quotationsCRM/@Session["t_crm_token"]" style="width:100%;min-height:800px;" title="Sale Order"></iframe>
+                                }*@
+                        </div>
+                        @*<div class="panel-heading">
+                                @if (TempData["alert"] == null && Session["T_LoginId"]!=null)
+                                {
+                                    string domainName = "https://shouldipost.nicoleinfosoftdemo.com";
+                                    if(webUrl== "https://crm.smartcapita.com")//check for crm live url
+                                    {
+                                        domainName = "https://www.smartcapita.com";
+                                    }
+
+                                    <iframe src="@domainName/quotations_crm?UserId=@Session["T_LoginId"]&SaleType=Quotation" style="width:100%;min-height:800px;" title="Sale Order"></iframe>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <h4 style="color:red;">@TempData["alert"]</h4>
+                                    </div>
+
+                                }
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="quatationmodule" class="modal fade" role="dialog" style="z-index:99999999">
+</div>
+
+<script src="/js/tableSortable/jquery-1.11.3.min.js"></script>
+<link href="/js/tableSortable/jquery-ui.min.css" rel="stylesheet" />
+<script src="/js/tableSortable/jquery-ui.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        //$.post('/CreateQuotation/multiplecompany', { }, function (data) {
+        jQuery('#quatationmodule').show();
+           // $($(this).data("#quatationmodule")).show();
+        //});
+    });
+</script>

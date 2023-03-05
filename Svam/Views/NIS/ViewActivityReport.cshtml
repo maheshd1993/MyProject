@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "ViewActivityReport";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.DeveloperActivityModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        @* <h1>View Daily Activity Report
+
+                @if (Convert.ToString(Session["IsMapped"]) != null && Convert.ToString(Session["IsMapped"]) != "")
+                {
+                    <div class="f-right">
+                        <button class="btn btn-default right3" onclick="location.href = '/home/ourUsersLeads/?page=1'" style="margin-top: -7px;">Our User</button>
+                    </div>
+                }
+            </h1>*@
+        <div class="form-horizontal">
+            @* <div class="form-group f-center col-sm-4">
+                    <label>@TempData["alert"]</label>
+                </div>
+                <div class="form-group f-center col-sm-6 padd0">
+
+                </div>*@
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Activity</strong>   <span style="margin-left: 12%; color: #c9302c;">@TempData["alert"]</span>
+                            @if (Convert.ToString(Session["IsMapped"]) != null && Convert.ToString(Session["IsMapped"]) != "")
+                            {
+                                <div class="f-right">
+                                    <button class="btn btn-default right3" onclick="location.href = '/home/ourUsersLeads/?page=1'" style="margin-top: -7px;">Our User</button>
+                                </div>
+                            }
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin" )
+                                {
+                                <div class="col-sm-3 viewl1">
+                                    @if (Model.DeveloperList.Count > 0)
+                                    {
+                                        @Html.DropDownList("UserddlName", new SelectList(Model.DeveloperList, "uid", "UserName"), "ALL", new { id = "dList", @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;", translate = "no" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("UserddlName", Enumerable.Empty<SelectListItem>(), "ALL", new { id = "dList", @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;", translate = "no" })
+                                    }
+                                </div>
+                                }
+                                <div class="col-sm-3">
+                                    <input type="text" translate="no" id="frmDate" class="form-control datepik" name="FromDate" placeholder="From Date" required="required" autocomplete="off" value="@Convert.ToString(Session["VLFltrFrmDt"])" readonly/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="text" translate="no" id="Todate" class="form-control datepik" name="ToDate" placeholder="To Date" required="required" autocomplete="off" value="@Convert.ToString(Session["VLFltrToDt"])" readonly/>
+                                </div>
+                                <div class="col-sm-3 padd0">
+                                    <input id="btnActivityFilter" class="btn btn-danger" style="margin-left: 10px;" type="button" value="Filter" />
+                                    <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/Nis/ViewActivityReport/?page=1'" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" id="DivBindFilerData" style="overflow-x: scroll;">
+                    <table class="table  table-bordered tablefont" id="dest">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Employee Code</th>
+                                <th>Employee Name</th>
+                                <th>Project Name </th>
+                                <th>Module Name</th>
+                                <th>General Remark</th>
+                                <th>Code Remark</th>
+                                <th>DB Remark</th>
+                                <th>Js/Css Remark</th>
+                                <th>Support Needed</th>
+                                <th>File</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.DeveloperactivityModelList.Count > 0)
+                            {
+                                foreach (var item in Model.DeveloperactivityModelList)
+                                {
+
+                            <tr>
+                                <td translate="no" data-column="Sr.No.">@i</td>
+                                <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
+                                <td translate="no" data-column="Employee Name">@item.FullName</td>
+                                <td translate="no" data-column="Project Name">@item.ProjectName</td>
+                                <td translate="no" data-column="Module Name">@item.ModuleName</td>
+                                <td  data-column="General Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="General" data-remark="GeneralRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td  data-column="Code Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="Code" data-remark="CodeModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td  data-column="DB Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="DB" data-remark="DBModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td  data-column="JS/CSS Remark"><a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-id="@item.Id" data-name="JS/CSS" data-remark="JsModuleRemark" style="font-size: 14px;"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td translate="no" data-column="Support Needed">@item.SupportNeeded</td>
+                                @if (!string.IsNullOrEmpty(item.CodeFile))
+                                {
+                                    <td data-column="File"><a href="/ExcelFileUpload/@item.CodeFile"><i class="fa fa-file-o" aria-hidden="true"></i>View</a>   </td>
+                                }
+                                else
+                                {
+                                    <td><span>-----</span></td>
+                                }
+                                <td data-column="Date">
+                                    <span>@item.CreatedDate</span>
+                                    @*@String.Format("{0:dd/MM/yyyy}", item.CreatedDate)*@
+                                </td>
+                            </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="12" style="text-align:center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Modal View-Description-->
+<div id="ViewDescript" class="modal fade" role="dialog">
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@*<link href="/datepick/jquery-ui.css" rel="stylesheet" />
+<script src="/datepick/jquery-ui.js"></script>*@
+<script type="text/javascript">
+    //$('.datepik').datepicker({
+    //    dateFormat: "dd/mm/yy",
+    //    maxDate: 0,
+    //    //minDate: 0,
+    //    onSelect: function (date_text, inst) {
+    //    }
+    //});
+
+
+     var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#frmDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+
+        $('#Todate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+    });
+
+    $('.PopViewDesc').on('click', function () {
+        var Id = jQuery(this).data('id');
+        var RemarkName = jQuery(this).data('name');
+        var remarkcoll = jQuery(this).data('remark');
+        if (Id != '' && RemarkName != '' && remarkcoll != '') {
+            $.post('/Nis/ViewDeveloperActivityRemark', { ActivityId: Id, Remark: RemarkName, RemarkColl: remarkcoll }, function (data) {
+                jQuery('#ViewDescript').html(data);
+                $($(this).data("#ViewDescript")).show();
+            });
+        }
+    });
+
+    var userId = 0;
+
+    $("#dList").on("change", function () {
+        userId = $(this).val();
+    });
+
+    jQuery('#btnActivityFilter').click(function () {
+        var frmdt = jQuery('#frmDate').val();
+        var todt = jQuery('#Todate').val();
+        if (frmdt != '' && todt != '') {
+            jQuery.post('/Nis/FilterActivityDateWisebyUser', { fromDate: frmdt, ToDate: todt, UserId: userId }, function (data) {
+                if (data == 'error') {
+                    alert('There is some problem. please try again later');
+                }
+                else if (data == 'expire') {
+                    alert('Sorry!. You session has expire. Please login again');
+                }
+                else {
+                    jQuery('#DivBindFilerData').html(data);
+                }
+
+
+            });
+        }
+        else {
+            alert('Please select the date to filter the Data.');
+        }
+
+    });
+
+
+</script>

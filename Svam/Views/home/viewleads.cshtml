@@ -1,0 +1,2597 @@
+﻿<style>
+    input#Submit1 {
+        margin-right: 10px;
+    }
+
+    #Country {
+        margin-top: 0px !important;
+    }
+
+    ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: transparent;
+    }
+
+    ::-moz-placeholder { /* Firefox 19+ */
+        color: transparent;
+    }
+
+    :-ms-input-placeholder { /* IE 10+ */
+        color: transparent;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+        color: transparent;
+    }
+
+    :hover::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #999;
+    }
+
+    :hover::-moz-placeholder { /* Firefox 19+ */
+        color: #999;
+    }
+
+    :hover:-ms-input-placeholder { /* IE 10+ */
+        color: #999;
+    }
+
+    :hover:-moz-placeholder { /* Firefox 18- */
+        color: #999;
+    }
+
+    .bootstrap-timepicker-widget.dropdown-menu.open {
+        position: absolute;
+        top: 40px;
+        right: 0;
+        left: unset;
+        width: 230px;
+        border-radius: 0 !important;
+        background-color: #fff !important;
+    }
+
+    .bootstrap-timepicker-widget.dropdown-menu:before {
+        border-bottom: 7px solid rgba(0,0,0,0.2);
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        content: "";
+        display: inline-block;
+        right: 9px !important;
+        left: unset !important;
+        position: absolute;
+        top: -7px !important;
+    }
+
+    .bootstrap-timepicker-widget.dropdown-menu:after {
+        border-bottom: 6px solid #fff;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        content: "";
+        display: inline-block;
+        right: 10px !important;
+        position: absolute;
+        top: -6px !important;
+        left: unset !important;
+    }
+
+    .ListItemCapitalize {
+        float: none;
+    }
+
+    .mt-0 {
+        margin-top: 0 !important;
+    }
+</style>
+@model Traders.Models.ViewLeadsModel
+@{
+    ViewBag.Title = "viewleads";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    var encode = new Svam.UtilityManager.StringCipher();
+    var companyid = Session["CompanyID"] != null ? Convert.ToInt32(Session["CompanyID"]) : 0;
+}
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+
+    string custNm = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.CustomerTextName) ? Model.columnVal.CustomerTextName : "Customer Name";
+    string mobNO = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.MobileNoTextName) ? Model.columnVal.MobileNoTextName : "Mobile Number";
+    string email = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.EmailIdTextName) ? Model.columnVal.EmailIdTextName : "Email";
+    string desig = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.DesignationTextName) ? Model.columnVal.DesignationTextName : "Designation";
+    string orgNm = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.OrganizationNameTextName) ? Model.columnVal.OrganizationNameTextName : "Organization Name";
+    string skyId = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.SkypeIdTextName) ? Model.columnVal.SkypeIdTextName : "Skype ID";
+    string ldRes = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.LeadResourceTextName) ? Model.columnVal.LeadResourceTextName : "Lead Source";
+    string ldStatus = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.LeadStatusTextName) ? Model.columnVal.LeadStatusTextName : "Lead Status";
+    string prdTyp = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ProductTypeNameTextName) ? Model.columnVal.ProductTypeNameTextName : "Product Type";
+    string fupDate = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.FollowDateTextName) ? Model.columnVal.FollowDateTextName : "Follow Up Date";
+    string leadOwner = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.LeadOwnerTextName) ? Model.columnVal.LeadOwnerTextName : "Created By";
+    string expeDate = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExpectedDateTextName) ? Model.columnVal.ExpectedDateTextName : "Expected Closing Date";
+    string expeAmt = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExpectedProductAmountTextName) ? Model.columnVal.ExpectedProductAmountTextName : "Expected Deal Amount";
+    string mrgAni = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.MarriageAnniversaryTextName) ? Model.columnVal.MarriageAnniversaryTextName : "Marriage Anniversary";
+    string dob = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.DateofBirthTextName) ? Model.columnVal.DateofBirthTextName : "Date Of Birth";
+    string weburl = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.UrlTextName) ? Model.columnVal.UrlTextName : "URL";
+    string Country = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.CountryTextName) ? Model.columnVal.CountryTextName : "Country";
+    string State = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.StateTextName) ? Model.columnVal.StateTextName : "State";
+    string City = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.CityTextName) ? Model.columnVal.CityTextName : "City";
+    string addr = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.AddressTextNameTextName) ? Model.columnVal.AddressTextNameTextName : "Address";
+    string fupTime = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.FollowUpTimeTextName) ? Model.columnVal.FollowUpTimeTextName : "Follow Up Time";
+    string WhatsAppNumber = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1TextName) ? Model.columnVal.ExtraCol1TextName : "WhatsApp Number";
+    string IsExtracol1dp = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1dropdown) ? Model.columnVal.ExtraCol1dropdown : "Additional Dp1";
+    string IsExtracol2dp = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol2dropdown) ? Model.columnVal.ExtraCol2dropdown : "Additional Dp2";
+    string IsExtracol3dp = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol3dropdown) ? Model.columnVal.ExtraCol3dropdown : "Additional Dp3";
+    string IsExtracol4dp = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol4dropdown) ? Model.columnVal.ExtraCol4dropdown : "Additional Dp4";
+    string IsExtracol5dp = Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol5dropdown) ? Model.columnVal.ExtraCol5dropdown : "Additional Dp5";
+
+}
+
+<link href="~/css/theme.blue.css" rel="stylesheet" />
+<div class="maincontainer">
+    <div class="col-md-12 col-lg-12  ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 upload-file-col" style="padding: 10px 0px;">
+                    <div class="col-xs-12 col-sm-6 pull-right">
+                        <div class="col-md-6 col-lg-6 col-xs-12 file1" style="">
+                            <input type="file" id="fbleadfile" name="fbleadfile" class="form-control" style="cursor: pointer;" />
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-12">
+                            <button type="submit" id="FBUpload" class="btn btn-danger" onclick="CRMFBLeadUpload()" title="Upload Facebook Lead" style=""><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;</button>
+                            @{int msgvalue = Convert.ToInt32(Session["exportdatasmg"]); }
+                            @if (msgvalue == 1)
+                            {
+                                <script type="text/javascript">
+
+                                    window.onload = function () {
+                                        alert("Please Select the lead checkbox ");
+                                    };
+                                </script>
+                            }
+
+                            <a href="/home/FBDownloadFile/?filename=FacebookLeadSample.xlsx" class="btn btn-warning fblead" style="color: white;font-size: 11.5px;" title="Download  Facebook Lead Sample">
+                                <i class="fa fa-download" aria-hidden="true"></i>&nbsp;FB Lead Sample
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6 col-md-6 pull-right">
+                        <div class="col-md-6 col-lg-6 col-xs-12 file1" style="">
+                            <input type="file" id="normalleadfile" name="normalleadfile" class="form-control" style="" />
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xs-8">
+                            <button type="submit" id="Upload" onclick="CRMNormalLeadUpload()" class="btn btn-danger" title="Upload Lead"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;</button>
+
+                            <a href="/home/DownloadFile/?filename=LeadUpload.xlsx" class="btn btn-warning lead1" style="color: white;  cursor: pointer;font-size: 11.5px;" title="Download Lead Sample"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Lead Sample </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12" style="overflow: hidden;">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Leads Report</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-md-5 col-lg-5 padd0">
+                                </div>
+                                <div class="col-md-3 col-lg-3 padd0 developer_paddo pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-md-12 col-lg-12 col-xs-12">
+                                @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                                {
+                                    string datesearch = Convert.ToString(Session["VLFltrFilterType"]);
+                                    <div class="col-md-4 col-lg-4 col-xs-12 viewl1 padd-o">
+                                        @if (Convert.ToString(Session["UserType"]) == "SuperAdmin" || !string.IsNullOrEmpty(Model.MappedUser))
+                                        {
+                                            <div class="col-md-6 col-lg-6 col-xs-12 padd-o">
+                                                @{
+                                                    string transNo = string.Format("translate={0}", "no");
+                                                    string transyes = string.Format("translate={0}", "yes");
+                                                }
+
+                                                @*<select class="form-control ListItemCapitalize" id="UserddlName" name="UserddlName" onchange="this.form.submit()" style="margin-top:0px !important;">
+                                                        <option value="">Select User</option>
+                                                        @if (Model.Userddllist != null && Model.Userddllist.Count() > 0)
+                                                        {
+                                                            foreach (var item in Model.Userddllist)
+                                                            {
+                                                                <option value="@item.uid" @((item.UserName == "All" || item.UserName == "Myself") ? transyes : transNo)
+                                                                        @if (Session["UserddlName"] != null && Convert.ToInt32(Session["UserddlName"]) == item.uid) { <text> selected="selected" </text> }>
+                                                                    @item.UserName
+                                                                    </option>
+                                                                }
+                                                        }
+                                                    </select>*@
+                                                @if (Model.Userddllist != null && Model.Userddllist.Count() > 0)
+                                                {
+                                                    @Html.DropDownList("UserddlName", new SelectList(Model.Userddllist, "uid", "UserName", Convert.ToString(Session["UserddlName"])), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;", @translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("UserddlName", Enumerable.Empty<SelectListItem>(), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;" })
+                                                }
+
+                                                @*@if (Convert.ToString(Session["UserddlName"]) != null)
+                                                    {
+                                                        @Html.DropDownList("UserddlName", new SelectList(Model.Userddllist, "uid", "UserName", Convert.ToString(Session["UserddlName"])), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownList("UserddlName", new SelectList(Model.Userddllist, "uid", "UserName"), "Select User", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;" })
+                                                    }*@
+
+                                            </div>
+                                                    }
+                                        <div class="col-md-6 col-lg-6 col-xs-12 padd-o">
+
+                                            @*<select class="form-control ListItemCapitalize" id="filterText" name="filterText" onchange="this.form.submit()" style="margin-top: 0px !important;">
+                                                    <option value="">Select Lead Status</option>
+                                                    @if (Model.leadstatusList != null && Model.leadstatusList.Count() > 0)
+                                                    {
+                                                        foreach (var item in Model.leadstatusList)
+                                                        {
+                                                            <option value="@item.LeadStatusname" translate="no" @if (Session["filterText"] != null && Convert.ToString(Session["filterText"]) == item.LeadStatusname) { <text> selected="selected" </text> }>@item.LeadStatusname</option>
+                                                        }
+                                                    }
+                                                </select>*@
+                                            @if (Model.leadstatusList != null && Model.leadstatusList.Count() > 0)
+                                            {
+                                                @Html.DropDownList("filterText", new SelectList(Model.leadstatusList, "LeadStatusname", "LeadStatusname", Convert.ToString(Session["filterText"])), "Select Lead Status", htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;", @translate = "no" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("filterText", Enumerable.Empty<SelectListItem>(), "Select Lead Status", htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;" })
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-lg-6 col-xs-12">
+                                        <div class="row">
+                                            <div class="col-md-2 col-lg-2 col-xs-12 padd-o">
+                                                <select class="form-control" name="FilterType" onchange="this.form.submit()" style="margin-top: 0;">
+                                                    <option value="">Select Date</option>
+                                                    <option @(datesearch != null ? datesearch == "AssignDate" ? "selected" : "" : null) value="AssignDate">Assigned Date</option>
+                                                    <option @(datesearch != null ? datesearch == "Created Date" ? "selected" : "" : null) value="Created Date">Created Date</option>
+                                                    <option @(datesearch != null ? datesearch == "DOB" ? "selected" : "" : null) value="DOB" translate="no">@dob</option>
+                                                    <option @(datesearch != null ? datesearch == "ExpectedDate" ? "selected" : "" : null) value="ExpectedDate" translate="no">@expeDate</option>
+                                                    <option @(datesearch != null ? datesearch == "Followup Date" ? "selected" : "" : null) value="Followup Date" translate="no">@fupDate</option>
+                                                    <option @(datesearch != null ? datesearch == "MarriageAnniversary" ? "selected" : "" : null) value="MarriageAnniversary" translate="no">@mrgAni</option>
+                                                    <option @(datesearch != null ? datesearch == "Modified Date" ? "selected" : "" : null) value="Modified Date">Modified Date</option>
+                                                    <option @(datesearch != null ? datesearch == "NewCreated" ? "selected" : "" : null) value="NewCreated" translate="no">New Leads</option>
+                                                    @if (Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol9TextName) && Model.columnVal.IsExtraCol9Filter)
+                                                    {
+                                                        <option @(datesearch != null ? datesearch == "ExtCol9Date" ? "selected" : "" : null) value="ExtCol9Date" translate="no">@Model.columnVal.ExtraCol9TextName</option>
+                                                    }
+
+                                                    @if (Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol10TextName) && Model.columnVal.IsExtraCol10Filter)
+                                                    {
+                                                        <option @(datesearch != null ? datesearch == "ExtCol10Date" ? "selected" : "" : null) value="ExtCol10Date" translate="no">@Model.columnVal.ExtraCol10TextName</option>
+                                                    }
+                                                    @if (Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol18TextName) && Model.columnVal.IsExtraCol18Filter)
+                                                    {
+                                                        <option @(datesearch != null ? datesearch == "ExtCol18Date" ? "selected" : "" : null) value="ExtCol18Date" translate="no">@Model.columnVal.ExtraCol18TextName</option>
+                                                    }
+                                                    @if (Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol19TextName) && Model.columnVal.IsExtraCol19Filter)
+                                                    {
+                                                        <option @(datesearch != null ? datesearch == "ExtCol19Date" ? "selected" : "" : null) value="ExtCol19Date" translate="no">@Model.columnVal.ExtraCol19TextName</option>
+                                                    }
+                                                    @if (Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol20TextName) && Model.columnVal.IsExtraCol20Filter)
+                                                    {
+                                                        <option @(datesearch != null ? datesearch == "ExtCol20Date" ? "selected" : "" : null) value="ExtCol20Date" translate="no">@Model.columnVal.ExtraCol20TextName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="form-group f-center col-sm-9 padd0">
+                                                @if (Convert.ToInt32(Session["CompanyID"]) == 296)
+                                                {
+                                                    <div class="col-md-3 col-lg-3 col-xs-12">
+                                                        @Html.DropDownListFor(a => a.Country, Model.CountryList, "Select Country", new { @class = "form-control", translate = "no", onchange = "this.form.submit()" })
+                                                    </div>
+                                                }
+                                                @if (Convert.ToInt32(Session["CompanyID"]) == 2183)
+                                                {
+                                                    <div class="col-md-4 col-lg-4 col-xs-12">
+                                                        @Html.DropDownListFor(a => a.Country, Model.CountryList, "Select Country", new { @class = "form-control", translate = "no", onchange = "this.form.submit()" })
+                                                    </div>
+                                                }
+                                                <div class="col-md-3 col-lg-3 col-xs-12">
+                                                    <input type="text" translate="no" class="form-control " id="FromDate" name="FromDate" data-date-format="@Session["DpDateFormat"]" placeholder="From Date" value="@Convert.ToString(Session["VLFltrFrmDt"])" required="required" readonly />
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xs-12">
+                                                    <input type="text" translate="no" class="form-control " id="ToDate" name="ToDate" data-date-format="@Session["DpDateFormat"]" placeholder="To Date" value="@Convert.ToString(Session["VLFltrToDt"])" required="required" readonly />
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xs-6 padd0" style="display: inline-flex;">
+                                                    <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                                    <input class="btn btn-success" type="button" id="btncancel" value="Reset" onclick="location.href = '/home/ResetLeadsFilter'" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2 col-lg-2 padd-o" style="display: block;">
+                                        @if (Model.columnVal != null && Model.columnVal.IsCustomerNameFilter || Model.columnVal.IsMobNoFilter || Model.columnVal.IsEmailFilter || Model.columnVal.IsDesigFilter || Model.columnVal.IsOrgNameFilter || Model.columnVal.IsSkypIdFilter)
+
+                                        {
+                                            <div class="col-md-12 col-lg-12  col-xs-12">
+                                                @if (Model.columnVal.FilterPlaceHolder != null)
+                                                {
+                                                    <input type="text" name="Term" class="form-control" placeholder="Search by @(!string.IsNullOrEmpty(Model.columnVal.FilterPlaceHolder) ? Model.columnVal.FilterPlaceHolder : "")" autocomplete="off" />
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsProductTypeFilter)
+                                        {
+                                            <div class="col-md-3 col-lg-3">
+
+                                                @if (Model.ProductType != null && Model.ProductType.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(a => a.ProductTypeID, Model.ProductType, String.Format("Select {0}", prdTyp), htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.ProductTypeID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", prdTyp), htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsLeadSourceFilter)
+                                        {
+                                            <div class="col-md-12 col-lg-12 col-xs-12 padd-o" style="padding-right:24px;margin-bottom:12px">
+                                                @if (Model.LeadSource != null && Model.LeadSource.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.LeadSourceID, Model.LeadSource, String.Format("Select {0}", ldRes), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", @onchange = "this.form.submit()", translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.LeadSourceID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", ldRes), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", translate = "no" })
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol1dropdownFilter)
+                                        {
+                                            <div class="col-md-3 col-lg-3 col-xs-12 padd-o" style="padding-right:24px;margin-bottom:12px">
+                                                @if (Model.LeadDropdown1 != null && Model.LeadDropdown1.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown1Id, Model.LeadDropdown1, String.Format("Select {0}", IsExtracol1dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", @onchange = "this.form.submit()", translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown1Id, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", IsExtracol1dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", translate = "no" })
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol2dropdownFilter)
+                                        {
+                                            <div class="col-sm-2 padd-o" style="padding-right:24px;margin-bottom:12px">
+                                                @if (Model.LeadDropdown2 != null && Model.LeadDropdown2.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown2Id, Model.LeadDropdown2, String.Format("Select {0}", IsExtracol2dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", @onchange = "this.form.submit()", translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown2Id, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", IsExtracol2dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", translate = "no" })
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol3dropdownFilter)
+                                        {
+                                            <div class="col-md-3 col-xs-6 padd-o" style="padding-right:24px;margin-bottom:12px">
+                                                @if (Model.LeadDropdown3 != null && Model.LeadDropdown3.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown3Id, Model.LeadDropdown3, String.Format("Select {0}", IsExtracol3dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", @onchange = "this.form.submit()", translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown3Id, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", IsExtracol3dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", translate = "no" })
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol4dropdownFilter)
+                                        {
+                                            <div class="col-md-3 col-xs-6 padd-o" style="padding-right:24px;margin-bottom:12px">
+                                                @if (Model.LeadDropdown4 != null && Model.LeadDropdown4.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown4Id, Model.LeadDropdown4, String.Format("Select {0}", IsExtracol4dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", @onchange = "this.form.submit()", translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown4Id, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", IsExtracol4dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", translate = "no" })
+                                                }
+                                            </div>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol5dropdownFilter)
+                                        {
+                                            <div class="col-sm-2 padd-o" style="padding-right:24px;margin-bottom:12px">
+                                                @if (Model.LeadDropdown5 != null && Model.LeadDropdown5.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown5Id, Model.LeadDropdown5, String.Format("Select {0}", IsExtracol5dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", @onchange = "this.form.submit()", translate = "no" })
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.Extracol1dropdown5Id, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", IsExtracol5dp), htmlAttributes: new { @class = "form-control ListItemCapitalize no-float", translate = "no" })
+                                                }
+                                            </div>
+                                        }
+
+                                    </div>
+                                                    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("AssignLeadToUser", "home", FormMethod.Post))
+            {
+                <input type="hidden" name="SelectedLead" id="SelectedLead" />
+
+                <div class="row">
+                    <div class="col-md-12 " style="margin-top: -8px;">
+                        <div class="form-group pull-right col-xs-12 col-md-5 no-float">
+                            <div class="col-md-6 col-xs-12" style="">
+                                <select class="form-control  ListItemCapitalize " id="UserAssignTo" name="UserAssignTo" style="margin-top:0px !important;">
+                                    <option value="">Select Assign To</option>
+                                    @if (Model.AssignToList != null && Model.AssignToList.Count() > 0)
+                                    {
+                                        foreach (var item in Model.AssignToList)
+                                        {
+                                            if (item.UserName == "Prabhjot Kaur (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Sachin Dhiman (EM001) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Himanshi Gupta (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Rabina Singh (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Sonalee Panchal (EM002) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Dimple Sharma (EM004) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Keshav Sharma (EM006) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Prayag Wadhwa (EM005) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Ravi Agarwal (EM0010) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Shalini  Sharma  (EM007) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Suman EliteMindz (EM003) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Ekta  Singh (EM009) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }
+                                            else if (item.UserName == "Preet  Kaur  (EM006) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }                                            
+                                            else if (item.UserName == "Stuti  Sood (EM005) (Branch: Elite Mindz Private Limited)" && item.AssignToCompanyID == "173")
+                                            {
+                                                <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                            }                                            
+                                            else
+                                            {
+                                                <option value = "@item.UserID" translate = "no"> @item.UserName@item.EmployeeCode </option>
+                                            }
+                                        }
+                                    }
+
+                                </select>
+                                @*@Html.DropDownList("UserAssignTo", new SelectList(Model.AssignToList, "UserID", "UserName"), "Select Assign To", new { @class = "form-control  ListItemCapitalize ", @style = "margin-top:0px !important;" })*@
+                            </div>
+                            <div class="col-md-1 col-xs-12">
+                                <input class="btn btn-success" style="margin-left: 10px;" type="submit" value="Assign" id="SubmitAssigned" />
+                            </div>
+                        </div>
+                        <div class="col-md-1 col-xs-6" style="text-align:center">
+                        </div>
+                        <div class="col-md-1 col-xs-6" style="text-align:center">
+                            <button class="btn btn-primary btn-sm leads-btn " type="button" data-toggle="modal" data-target="#modalSendEmail" style="color: white; display: none;" id="btnSendEmail">Send Email</button>
+                        </div>
+                        <div class="col-md-1 col-xs-6" style="text-align:center">
+                            <button class="btn btn-primary btn-sm leads-btn leads-btn-as" type="button" data-toggle="modal" data-target="#modalSendSMS" style="color: white; display: none;" id="btnSendSMS">Send SMS</button>
+                        </div>
+                        <div class="col-md-1 col-xs-6" style="text-align:center">
+                            <button class="btn btn-primary btn-sm leads-btn" type="button" style="color: white; display: none;" id="btnselectedleads">Selected Lead: <span id="count"> 0  </span></button>
+                        </div>
+                        <div class="col-md-1 col-xs-6 total1" style="text-align:center">
+                            <span id="change" class="btn btn-primary btn-sm leads-btn mt-0" style="margin-left:30px;">Total Lead :@(Model.TotalLead == null ? 0 : Model.TotalLead)</span>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
+            <div class="row" style="position:relative">
+                <div class="delete_button">
+                    @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                    {
+                        <div class="">
+                            <input class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Delete Leads" id="Deleteleads" onclick="selectdeletelead();" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+            @*@using (Html.BeginForm("ExportViewLeads", "home", FormMethod.Post))
+                {*@
+            @*--------use for mobile app only-----------*@
+            <div class="row mobile-only">
+                <div class="col-md-12">
+                    Select All <input type="checkbox" id="LeadchkAll" name="chkAllLeads" class="chkAll" onclick="checkallbutton(this)" />
+                </div>
+            </div>
+            @*---------End---------------*@
+            <div class="row">
+                <div class="col-md-12" style="overflow-x: scroll;">
+
+                    <table class="table table-bordered tablefont " id="dest">
+                        <thead class="black-white-text">
+                            <tr>
+
+                                <th style="width:1%">
+                                    <input type="checkbox" id="LeadchkAll" name="chkAllLeads" class="chkAll" onclick="checkedall(this)" />
+                                </th>
+                                <th style="width:1%">S.No</th>
+                                @if (Convert.ToInt32(Session["CompanyID"]) != 1008)
+                                {
+                                    if (Model.columnVal != null && Model.columnVal.IsOrganization)
+                                    {
+                                        <th translate="no">@orgNm</th>
+                                    }
+                                }
+                                <th style="width: 8%" id="cust" translate="no">@custNm </th>
+                                <th style="width: 7%" id="mobile" translate="no">@mobNO</th>
+
+                                @*@if (Convert.ToInt32(ViewBag.LoggedBranchId) == 1979 && Convert.ToInt32(ViewBag.LoggedCompanyId) == 2066)
+                                    {
+                                        <th style="width: 7%" id="mobile" translate="no">@WhatsAppNumber</th>
+
+                                    }*@
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol1)
+                                {
+                                    <th style="width: 5%" translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1TextName) ? Model.columnVal.ExtraCol1TextName : "Additional 1")</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsEmail == true)
+                                {
+                                    <th id="email" width="7%" translate="no">@email</th>
+                                }
+                                else
+                                {
+                                    <th id="email" style="display:none;" width="7%" translate="no">@email</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsCity)
+                                {
+                                    <th id="city" width="5%" translate="no">
+                                        @(Model.columnVal.CompanyID == 0 || !string.IsNullOrEmpty(Model.columnVal.CityTextName) ? Model.columnVal.CityTextName : "City")
+                                    </th>
+                                }
+                                @if (Model.columnVal.CompanyID > 0 && Model.columnVal.IsState)
+                                {
+                                    <th id="state" width="5%" translate="no">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.StateTextName) ? Model.columnVal.StateTextName : "State")</th>
+                                }
+                                @if (Model.columnVal.CompanyID > 0 && Model.columnVal.IsCountry)
+                                {
+                                    <th id="country" width="5%" translate="no">
+                                        @(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.CountryTextName) ? Model.columnVal.CountryTextName : "Country")
+                                    </th>
+                                }
+                                <th style="width: 6%" id="follow" translate="no">@fupDate</th>
+                                @if (Model.columnVal.IsFollowUpTime == true)
+                                {
+                                    <th id="followupTime" style="width: 3%" translate="no">@fupTime</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsCreatedBy == true)
+                                {
+                                    <th id="createdby" width="7%" translate="no">@leadOwner</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsCreatedDate == true)
+                                {
+                                    <th id="createdon" width="5%">Created Date</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsAssignedBy == true)
+                                {
+                                    <th id="assignby" width="7%">Assigned By</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsAssignTo == true)
+                                {
+                                    <th id="assignto" width="7%">Assigned To</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsAssignedDate == true)
+                                {
+                                    <th id="assigndate" width="5%">Assigned Date</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsModifiedDate == true)
+                                {
+                                    <th id="modfieddate" width="5%">Modified Date</th>
+                                }
+                                else
+                                {
+                                    <th id="modfieddate" style="display:none;" width="7%">Modified Date</th>
+                                }
+                                <th style="width: 5%" id="leadstatus" translate="no">@ldStatus</th>
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsExpClosingDate == true)
+                                {
+                                    <th id="expecteddate" width="4%" translate="no">@expeDate</th>
+                                }
+                                @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsExpDealAmount == true)
+                                {
+                                    <th id="expectedamount" width="6%" translate="no">@expeAmt</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsAddress)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.AddressTextNameTextName) ? Model.columnVal.AddressTextNameTextName : "Address")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsProductType)
+                                {
+                                    <th translate="no" style="width:5%">@prdTyp</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsLeadResource)
+                                {
+                                    <th translate="no" style="width:5%">@ldRes</th>
+                                }
+                                @if (Convert.ToInt32(Session["CompanyID"]) != 1008)
+                                {
+                                    if (Model.columnVal != null && Model.columnVal.IsDesignation)
+                                    {
+                                        <th translate="no" style="width:5%">@desig</th>
+                                    }
+                                }
+                                @if (Convert.ToInt32(Session["CompanyID"]) == 1008)
+                                {
+                                    <th translate="no" style="width:5%">Designation</th>
+                                }
+
+                                @if (Model.columnVal != null && Model.columnVal.IsMrgAnnivarsary)
+                                {
+                                    <th translate="no" style="width:5%">@mrgAni</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsDOB)
+                                {
+                                    <th translate="no" style="width:5%">@dob</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsSkypeId)
+                                {
+                                    <th translate="no" style="width:5%">@skyId</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsUrl)
+                                {
+                                    <th translate="no" style="width:5%">@weburl</th>
+                                }
+
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol2)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol2TextName) ? Model.columnVal.ExtraCol2TextName : "Additional 2")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol3)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol3TextName) ? Model.columnVal.ExtraCol3TextName : "Additional 3")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol4)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol4TextName) ? Model.columnVal.ExtraCol4TextName : "Additional 4")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol5)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol5TextName) ? Model.columnVal.ExtraCol5TextName : "Additional 5")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol6)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol6TextName) ? Model.columnVal.ExtraCol6TextName : "Additional 6")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol7)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol7TextName) ? Model.columnVal.ExtraCol7TextName : "Additional 7")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol8)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol8TextName) ? Model.columnVal.ExtraCol8TextName : "Additional 8")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol9)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol9TextName) ? Model.columnVal.ExtraCol9TextName : "Additional 9")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol10)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol10TextName) ? Model.columnVal.ExtraCol10TextName : "Additional 10")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol11)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol11TextName) ? Model.columnVal.ExtraCol11TextName : "Additional 11")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol12)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol12TextName) ? Model.columnVal.ExtraCol12TextName : "Additional 12")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol13)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol13TextName) ? Model.columnVal.ExtraCol13TextName : "Additional 13")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol14)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol14TextName) ? Model.columnVal.ExtraCol14TextName : "Additional 14")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol15)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol15TextName) ? Model.columnVal.ExtraCol15TextName : "Additional 15")</th>
+                                }
+                                @*@if (Model.columnVal != null && Model.columnVal.IsExtraCol16)
+                                    {
+                                        <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol16TextName) ? Model.columnVal.ExtraCol16TextName : "Additional 1")</th>
+                                    }*@
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol17)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol17TextName) ? Model.columnVal.ExtraCol17TextName : "Additional 17")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol18)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol18TextName) ? Model.columnVal.ExtraCol18TextName : "Additional 18")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol19)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol19TextName) ? Model.columnVal.ExtraCol19TextName : "Additional 19")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol20)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol20TextName) ? Model.columnVal.ExtraCol20TextName : "Additional 20")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol1dropdown)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1dropdown) ? Model.columnVal.ExtraCol1dropdown : "Additional Dropdown1")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol2dropdown)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol2dropdown) ? Model.columnVal.ExtraCol2dropdown : "Additional Dropdown2")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol3dropdown)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol3dropdown) ? Model.columnVal.ExtraCol3dropdown : "Additional Dropdown3")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol4dropdown)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol4dropdown) ? Model.columnVal.ExtraCol4dropdown : "Additional Dropdown4")</th>
+                                }
+                                @if (Model.columnVal != null && Model.columnVal.IsExtraCol5dropdown)
+                                {
+                                    <th translate="no" style="width:5%">@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol5dropdown) ? Model.columnVal.ExtraCol5dropdown : "Additional Dropdown5")</th>
+                                }
+                                @if (Convert.ToInt32(Session["CompanyID"]) == 1008)
+                                {
+                                    <th>Organization Name</th>
+                                }
+                                <th style="width: 3%">Action</th>
+                                @if (companyid == 296)
+                                {
+                                    <th style="width:5%;" translate="no">Re-Seller</th>
+                                    <th style="width:5%;" translate="no">SmartCapita</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.viewleadsList.Count > 0)
+                            {
+                                int i = Convert.ToInt32(ViewData["DeclareIndex"]);
+                                foreach (var item in Model.viewleadsList.OrderByDescending(em => em.FollowupDate))
+                                {
+
+                                    DateTime dt = Convert.ToDateTime(item.FollowupDate);
+                                    //string dateString = String.Format("{0:dd/MM/yyyy}", dt);
+                                    string dateString = String.Format("{0:" + Model.DateFormat + "}", dt);
+
+                                    ////merge followup date and time for followup time reminder start
+                                    string followupDateTime = string.Empty;
+                                    string FollowUpTime = string.Empty;
+                                    if (item.ConvertedFupDateTime != Convert.ToDateTime("01/01/0001"))
+                                    {
+                                        FollowUpTime = item.ConvertedFupDateTime.Value.ToString("hh:mm tt");
+                                        var finalDateTime = string.Format("{0} {1}", item.FollowupDate, FollowUpTime);
+                                        //TimeSpan time = TimeSpan.Parse(item.FollowUpTime);
+                                        DateTime dateTime = Convert.ToDateTime(finalDateTime);
+                                        followupDateTime = String.Format("{0:MM-dd-yyyy HH:mm:ss}", dateTime);
+                                        ////merge followup date and time for followup time reminder end///////
+                                    }
+
+
+
+                                    DateTime cdt = Convert.ToDateTime(item.date);
+                                    string createdDate = String.Format("{0:" + Model.DateFormat + "}", cdt);
+
+                                    string assignedDate = string.Empty;
+                                    if (!string.IsNullOrEmpty(item.AssignDate))
+                                    {
+                                        DateTime adt = Convert.ToDateTime(item.AssignDate);
+                                        string format = String.Format("{0}", Model.DateFormat + " hh:mm tt");
+                                        assignedDate = String.Format("{0:" + format + "}", adt);
+                                    }
+
+
+                                    string IsDOB = item.IsDOB;
+                                    string IsMA = item.IsMA;
+
+                                    string trColor = string.IsNullOrEmpty(item.LeadStatusColor) ? string.Empty : String.Format("style=background:{0}", item.LeadStatusColor);
+                                    string eColor = string.Empty;
+                                    string sTitle = string.Empty;
+                                    string trColor1 = string.Empty;
+
+                                    //if (IsDOB != "0" && IsDOB != null)
+                                    //{
+                                    //    trColor = "style=background:#40bf80;color:#fff;";
+                                    //    eColor = "style=color:#fff;";
+                                    //    sTitle = "title='BirthDay'";
+                                    //}
+                                    //if (IsMA != "0" && IsMA != null)
+                                    //{
+                                    //    trColor1 = "style=background:#ff5c33;color:#fff;";
+                                    //    eColor = "style=color:#fff;";
+                                    //    sTitle = "title=MarriageAnniversary";
+                                    //}
+
+                                    string encryptId = HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()));
+                                    <tr @trColor @trColor1 @sTitle id="@item.Id">
+                                        <td data-column="Check" id="golivedate">
+                                            <input type="checkbox" name="MapperUserLeads" class="chk" onchange="selectlead();" value="@item.Id/@item.LeadStatus/@item.EMail/@item.Mob" />
+                                            <span class="golivedate" data-followupDateTime="@followupDateTime" data-lId="@item.Id" data-CustName="@item.LeadName" data-MobNo="@item.Mob" data-ldStatus="@item.LeadStatus" data-fupShowDate="@dateString" data-fupTime="@FollowUpTime" data-fupDate="@string.Format("{0:dd/MM/yyyy}", dt)" data-isReminder="@item.LeadReminder" data-encleadId="@encryptId"></span>
+                                        </td>
+                                        <td>@i</td>
+                                        @if (Convert.ToInt32(Session["CompanyID"]) != 1008)
+                                        {
+                                            if (Model.columnVal != null && Model.columnVal.IsOrganization)
+                                            {
+                                                <td data-column="@orgNm" translate="no">@(!string.IsNullOrEmpty(item.OrganizationName) ? item.OrganizationName : "N/A")</td>
+                                            }
+                                        }
+                                        <td data-column="@custNm" translate="no"><a href="/home/createleads/@encryptId" target="_blank" @eColor>@item.LeadName</a></td>
+                                        @if (Convert.ToInt32(ViewBag.LoggedBranchId) == 1979 && Convert.ToInt32(ViewBag.LoggedCompanyId) == 2066 && Convert.ToInt32(ViewBag.LoggedUserId) == 2648)
+                                        {
+                                            @*<td data-column="@mobNO" translate="no"><a href="#" onclick="window.open('https://192.168.0.4/click2call.php?username=admin&passwd=admin&extension=710&callerid=@item.Mob&phone=@item.Mob', '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=0,width=1200,height=1000')" @eColor>@item.Mob</a></td>*@
+                                            <td data-column="@mobNO" translate="no"><a href="#" onclick="window.open('https://192.168.0.4/click2call.php?username=admin&passwd=admin&extension=710&callerid=710&phone=@item.Mob', '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=0,width=1200,height=1000')" @eColor>@item.Mob</a></td>
+
+                                        }
+                                        else
+                                        {
+                                            <td data-column="@mobNO" translate="no">@item.Mob</td>
+                                        }
+                                        @*<td data-column="@mobNO" translate="no">@item.Mob</td>*@
+                                        @*@if (Convert.ToInt32(ViewBag.LoggedBranchId) == 1979 && Convert.ToInt32(ViewBag.LoggedCompanyId) == 2066)
+                                            {
+                                                <td data-column="@WhatsAppNumber" translate="no">@item.Mob</td>
+                                            }*@
+
+                                        @*@if (Convert.ToInt32(ViewBag.LoggedBranchId) == 1979 && Convert.ToInt32(ViewBag.LoggedCompanyId) == 2066 && Convert.ToInt32(ViewBag.LoggedUserId) == 2648)
+                                            {
+                                                <td data-column="@WhatsAppNumber" translate="no">N/A</td>
+
+                                            }
+                                            @if (Convert.ToInt32(ViewBag.LoggedBranchId) == 1979 && Convert.ToInt32(ViewBag.LoggedCompanyId) == 2066)
+                                            {
+                                                <td data-column="@WhatsAppNumber" translate="no">N/A</td>
+
+                                            }*@
+
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol1)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1TextName) ? Model.columnVal.ExtraCol1TextName : "Additional 1")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol1) ? item.ExtraCol1 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsEmail == true)
+                                        {
+                                            <td data-column="@email" translate="no">
+                                                <a href="mailto:@item.EMail?Subject=Hello%20again" @eColor class="as-email">@(!string.IsNullOrEmpty(item.EMail) ? item.EMail : "N/A")</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="display:none;" data-column="@email" translate="no"><a href="mailto:@item.EMail?Subject=Hello%20again" @eColor>@item.EMail</a></td>
+                                        }
+
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsCity)
+                                        {
+                                            <td width="5%" data-column="@City" translate="no">
+                                                <span>@(!string.IsNullOrEmpty(item.City) ? item.City : "N/A")</span>
+                                            </td>
+                                        }
+                                        @if (Model.columnVal.CompanyID > 0 && Model.columnVal.IsState)
+                                        {
+                                            <td width="5%" data-column="@State" translate="no">
+                                                <span>@(!string.IsNullOrEmpty(item.State) ? item.State : "N/A")</span>
+                                            </td>
+                                        }
+                                        @if (Model.columnVal.CompanyID > 0 && Model.columnVal.IsCountry)
+                                        {
+                                            <td width="5%" data-column="@Country" translate="no">
+                                                <span>@(!string.IsNullOrEmpty(item.Country) ? item.Country : "N/A")</span>
+                                            </td>
+                                        }
+                                        <td id="followDateVal" data-column="@fupDate" translate="no">@dateString</td>
+                                        @if (Model.columnVal.IsFollowUpTime == true)
+                                        {
+                                            <td data-column="@fupTime" id="fupTime" translate="no">
+                                                @if (item.ConvertedFupDateTime != Convert.ToDateTime("01/01/0001"))
+                                                {
+                                                    <span>@item.ConvertedFupDateTime.Value.ToString("hh:mm tt")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span translate="no">N/A</span>
+                                                }
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td data-column="@fupTime" id="fupTime" style="display:none;" translate="no"></td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsCreatedBy == true)
+                                        {
+                                            <td data-column="Created By" translate="no">@item.Created_By</td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsCreatedDate == true)
+                                        {
+                                            <td data-column="Created Date" translate="no">@createdDate</td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsAssignedBy == true)
+                                        {
+                                            <td data-column="Assigned By" translate="no">@(!string.IsNullOrEmpty(item.AssignBy) ? item.AssignBy : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsAssignTo == true)
+                                        {
+                                            <td data-column="Assigned To" translate="no">@(!string.IsNullOrEmpty(item.AssinedTo) ? item.AssinedTo : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsAssignedDate == true)
+                                        {
+                                            <td data-column="Assigned Date" translate="no">@(!string.IsNullOrEmpty(assignedDate) ? assignedDate : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsModifiedDate == true)
+                                        {
+                                            <td id="modifiedDateVal" data-column="Modified Date" translate="no">
+                                                @if (!string.IsNullOrEmpty(item.ModifiedDate))
+                                                {
+                                                    var dtM = Convert.ToDateTime(item.ModifiedDate);
+                                                    string format = String.Format("{0}", Model.DateFormat + " hh:mm tt");
+                                                    string result = String.Format("{0:" + format + "}", dtM);
+
+                                                    <span translate="no">@result</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>N/A</span>
+                                                }
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td id="modifiedDateVal" style="display:none;" translate="no">@item.ModifiedDate</td>
+                                        }
+                                        <td id="leadStatusVal" data-column="@ldStatus" translate="no">@item.LeadStatus</td>
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsExpClosingDate == true)
+                                        {
+                                            <td data-column="@expeDate" translate="no">
+                                                @if (item.ExpectedDate != Convert.ToDateTime("01/01/0001"))
+                                                {
+                                                    @String.Format("{0:" + Model.DateFormat + "}", item.ExpectedDate)
+                                                }
+                                                else
+                                                {
+                                                    <span>N/A</span>
+                                                }
+                                            </td>
+                                        }
+                                        @if (Model.columnVal.CompanyID == 0 || Model.columnVal.IsExpDealAmount == true)
+                                        {
+                                            <td data-column="@expeAmt" translate="no">
+                                                @if (@item.ExpectedProductAmount > 0)
+                                                {
+                                                    <span translate="no">Rs. @item.ExpectedProductAmount</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>N/A</span>
+                                                }
+                                            </td>
+                                        }
+
+                                        @if (Model.columnVal != null && Model.columnVal.IsAddress)
+                                        {
+                                            <td data-column="@addr" translate="no">@(!string.IsNullOrEmpty(item.Address) ? item.Address : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsProductType)
+                                        {
+                                            <td data-column="@prdTyp" translate="no">@(!string.IsNullOrEmpty(item.ProductTypeName) ? item.ProductTypeName : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsLeadResource)
+                                        {
+                                            <td data-column="@ldRes" translate="no">@(!string.IsNullOrEmpty(item.LeadsourceName) ? item.LeadsourceName : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsDesignation)
+                                        {
+                                            <td data-column="@desig" translate="no">@(!string.IsNullOrEmpty(item.Designation) ? item.Designation : "N/A")</td>
+                                        }
+
+                                        @if (Model.columnVal != null && Model.columnVal.IsMrgAnnivarsary)
+                                        {
+                                            <td data-column="@mrgAni" translate="no">@(!string.IsNullOrEmpty(item.MarriageAnniversary) ? item.MarriageAnniversary : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsDOB)
+                                        {
+                                            <td data-column="@dob" translate="no">@(!string.IsNullOrEmpty(item.DateofBirth) ? item.DateofBirth : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsSkypeId)
+                                        {
+                                            <td data-column="@skyId" translate="no">@(!string.IsNullOrEmpty(item.SkypeId) ? item.SkypeId : "N/A")</td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsUrl)
+                                        {
+                                            <td data-column="@weburl" translate="no">@(!string.IsNullOrEmpty(item.URL) ? item.URL : "N/A")</td>
+                                        }
+                                        @*@if (Model.columnVal != null && Model.columnVal.IsExtraCol1)
+                                            {
+                                                <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1TextName) ? Model.columnVal.ExtraCol1TextName : "Additional 1")">
+                                                    @(!string.IsNullOrEmpty(item.ExtraCol1) ? item.ExtraCol1 : item.ExtraCol1)
+                                                </td>
+                                            }*@
+
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol2)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol2TextName) ? Model.columnVal.ExtraCol2TextName : "Additional 2")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol2) ? item.ExtraCol2 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol3)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol3TextName) ? Model.columnVal.ExtraCol3TextName : "Additional 3")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol3) ? item.ExtraCol3 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol4)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol4TextName) ? Model.columnVal.ExtraCol4TextName : "Additional 4")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol4) ? item.ExtraCol4 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol5)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol5TextName) ? Model.columnVal.ExtraCol5TextName : "Additional 5")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol5) ? item.ExtraCol5 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol6)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol6TextName) ? Model.columnVal.ExtraCol6TextName : "Additional 6")">
+                                                @(item.ExtraCol6 > 0 ? item.ExtraCol6 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol7)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol7TextName) ? Model.columnVal.ExtraCol7TextName : "Additional 7")">
+                                                @(item.ExtraCol7 > 0 ? item.ExtraCol7 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol8)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol8TextName) ? Model.columnVal.ExtraCol8TextName : "Additional 8")">
+                                                @(item.ExtraCol8 > 0 ? item.ExtraCol8 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol9)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol9TextName) ? Model.columnVal.ExtraCol9TextName : "Additional 9")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol9) ? item.ExtraCol9 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol10)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol10TextName) ? Model.columnVal.ExtraCol10TextName : "Additional 10")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol10) ? item.ExtraCol10 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol11)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol11TextName) ? Model.columnVal.ExtraCol11TextName : "Additional 11")">
+                                                @(item.ExtraCol11 > 0 ? item.ExtraCol11 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol12)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol12TextName) ? Model.columnVal.ExtraCol12TextName : "Additional 12")">
+                                                @(item.ExtraCol12 > 0 ? item.ExtraCol12 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol13)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol13TextName) ? Model.columnVal.ExtraCol13TextName : "Additional 13")">
+                                                @(item.ExtraCol13 > 0 ? item.ExtraCol13 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol14)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol14TextName) ? Model.columnVal.ExtraCol14TextName : "Additional 14")">
+                                                @(item.ExtraCol14 > 0 ? item.ExtraCol14 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol15)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol15TextName) ? Model.columnVal.ExtraCol15TextName : "Additional 15")">
+                                                @(item.ExtraCol15 > 0 ? item.ExtraCol15 : 0)
+                                            </td>
+                                        }
+                                        @*@if (Model.columnVal != null && Model.columnVal.IsExtraCol16)
+                                            {
+                                                <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol16TextName) ? Model.columnVal.ExtraCol16TextName : "Additional 16")">
+                                                    @(item.ExtraCol16 > 0 ? item.ExtraCol16 :0)
+                                                </td>
+                                            }*@
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol17)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol17TextName) ? Model.columnVal.ExtraCol17TextName : "Additional 17")">
+                                                @(item.ExtraCol17 > 0 ? item.ExtraCol17 : 0)
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol18)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol18TextName) ? Model.columnVal.ExtraCol18TextName : "Additional 18")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol18) ? item.ExtraCol18 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol19)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol19TextName) ? Model.columnVal.ExtraCol19TextName : "Additional 19")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol19) ? item.ExtraCol19 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol20)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol20TextName) ? Model.columnVal.ExtraCol20TextName : "Additional 20")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol20) ? item.ExtraCol20 : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol1dropdown)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol1dropdown) ? Model.columnVal.ExtraCol1dropdown : "Additional Dropdown1")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol1Dropdown) ? item.ExtraCol1Dropdown : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol2dropdown)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol2dropdown) ? Model.columnVal.ExtraCol2dropdown : "Additional Dropdown2")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol2Dropdown) ? item.ExtraCol2Dropdown : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol3dropdown)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol3dropdown) ? Model.columnVal.ExtraCol3dropdown : "Additional Dropdown3")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol3Dropdown) ? item.ExtraCol3Dropdown : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol4dropdown)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol4dropdown) ? Model.columnVal.ExtraCol4dropdown : "Additional Dropdown4")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol4Dropdown) ? item.ExtraCol4Dropdown : "N/A")
+                                            </td>
+                                        }
+                                        @if (Model.columnVal != null && Model.columnVal.IsExtraCol5dropdown)
+                                        {
+                                            <td translate="no" data-column="@(Model.columnVal != null && !string.IsNullOrEmpty(Model.columnVal.ExtraCol5dropdown) ? Model.columnVal.ExtraCol5dropdown : "Additional Dropdown5")">
+                                                @(!string.IsNullOrEmpty(item.ExtraCol5Dropdown) ? item.ExtraCol5Dropdown : "N/A")
+                                            </td>
+                                        }
+                                        @if (Convert.ToInt32(Session["CompanyID"]) == 1008)
+                                        {
+                                            <td data-column="@orgNm" translate="no">@(!string.IsNullOrEmpty(item.OrganizationName) ? item.OrganizationName : "N/A")</td>
+                                        }
+                                        <td data-column="Action" id="adesc">
+                                            <span>
+                                                <a href="#" data-toggle="modal" class="AddDescriptcls adesc mobile-view-btn" data-target="#AddDescript" data-folloupdate="@dateString" data-leadname="@item.LeadName" data-leadstatus="@item.LeadStatus" data-leadstatusId="@item.LeadStatusID" data-leadId="@item.Id" data-followuptime="@FollowUpTime" title="Add"><i aria-hidden="true" class="fa fa-plus-circle  icon"></i></a>
+                                            </span>
+                                            <span>
+                                                <a href="#" class="PopViewDesc mobile-view-btn" data-toggle="modal" data-target="#ViewDescript" data-leadId="@item.Id" title="View"><i class="fa fa-eye  iccn" aria-hidden="true"></i></a>
+                                            </span>
+                                            @if (item.LeadStatus != "Archive")
+                                            {
+                                                <span title="Archive" data-toggle="modal" data-target="#archiveModal" leadId="@item.Id" onclick="acrchiveThisLead(this);" style="cursor:pointer" class="mobile-view-btn"><i class="fa fa-archive iccn" aria-hidden="true"></i></span>
+                                            }
+                                            @*@if (item.LeadStatus != "Closed")
+                                                {
+                                                    <span><i class="fa fa-asl-interpreting" style="color:#076198;"></i></span>
+                                                }*@
+
+                                            @*//By Chetna*@
+                                            @if (item.LeadStatus != "Closed")
+                                            {
+                                                <span title="Closed" data-toggle="modal" data-target="#ModelClose" leadId="@item.Id" onclick="modelclosed(this);" class="mobile-view-btn"><i class="fa fa-asl-interpreting" style="color:#076198;"></i></span>
+                                            }
+                                        </td>
+
+                                        @if (companyid == 296)//show only for arunaw sir company sales team
+                                        {
+                                            <td data-column="Reseller ID" translate="no">
+                                                @if (item.ResellerId > 0)
+                                                {
+                                                    <a href="#" data-toggle="modal" data-target="#ViewReseller" cnm="@item.LeadName" style="cursor:pointer;color:green;" rsId="@item.ResellerId" rsName="@item.ResellerName" rsCode="@item.ResellerCode" rsStatus="@item.ResellerStatus" rsDocStatus="@item.ResellerDocStatus" title="View Reseller" onclick="getReseller(this);" translate="no">Re-Seller</a>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">N/A</span>
+                                                }
+                                            </td>
+
+                                            <td data-column="SmartCapita" translate="no">
+                                                @if (string.IsNullOrEmpty(item.SmartCapitaPlan))
+                                                {
+                                                    <span class="text-danger" translate="no">N/A</span>
+                                                }
+                                                else if (!string.IsNullOrEmpty(item.SmartCapitaPlan) && item.SmartCapitaPlan == "Free")
+                                                {
+                                                    <span class="text-success" translate="no">@item.SmartCapitaPlan</span>
+                                                }
+                                                else if (!string.IsNullOrEmpty(item.SmartCapitaPlan) && item.SmartCapitaPlan != "Free" && item.SmartCapitaPlan != "N/A")
+                                                {
+                                                    <span class="text-success" translate="no">@item.SmartCapitaPlan</span>
+                                                }
+                                            </td>
+                                        }
+                                    </tr>
+                                    i++;
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="16" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="container paginationcustom">
+                        @*@if (Convert.ToInt32(Session["CompanyID"]) == 2066)
+                            {
+
+                                int NextPrev = Convert.ToInt32(ViewBag.PrevNext);
+                                int Next = Convert.ToInt32(ViewBag.Next);
+                                int Prev = Convert.ToInt32(ViewBag.Prev);
+                                string Prevdisabled = string.Empty;
+                                string Nextdisabled = string.Empty;
+                                if (Prev == 0)
+                                {
+                                    Prevdisabled = "disabled";
+                                }
+                                else if (Next == 0)
+                                {
+                                    Nextdisabled = "disabled";
+                                }
+
+                                if (NextPrev > 0)
+                                {
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-end pull-right" style="margin-right: 15px;">
+                                            <li class="page-item @Prevdisabled">
+                                                <a class="page-link" href="/home/viewleads?page=@Prev&PreNext=Prev" tabindex="-1">Previous</a>
+                                            </li>
+                                            <li class="page-item @Nextdisabled">
+                                                <a class="page-link" href="/home/viewleads?page=@Next&PreNext=Next">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                }
+                            }*@
+
+                        <ul class="pagination">
+                            @{int pages = Convert.ToInt32(ViewData["NoOfPages"]);}
+                            @{int index1 = Convert.ToInt32(ViewData["NoOfstartpagesPages"]);}
+                            @*@{int pages = 10;}*@
+                            @{int url = Model.page;}
+                            @{string pageUrl = Convert.ToString(ViewData["url"]);}
+                            @{int prevpagesid = Convert.ToInt32(ViewData["prevpagesid"]);}
+                            @{int nextpagesid = Convert.ToInt32(ViewData["nextpagesid"]);}
+
+
+                            @if (pages != 0 && pages != 1)
+                            {
+                                if (prevpagesid == 1)
+                                {
+                                    <li>
+                                        <a href="#">
+                                            @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                                            {
+                                                @Html.HiddenFor(a => a.pagetypeType, new { Value = "prev" })
+                                                @Html.HiddenFor(a => a.page, new { Value = @pages })
+                                                <input type="submit" value="prev">
+                                            }
+                                        </a>
+                                    </li>
+                                }
+                                for (int index = index1; index <= pages; index++)
+                                {
+                                    string path = pageUrl + index;
+                                    if (url == 0)
+                                    {
+                                        url = 1;
+                                    }
+                                    <li class="@(index == url ? "active" : "")">
+                                        <a href="#">
+                                            @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                                            {
+                                                @Html.HiddenFor(a => a.FromDate)
+                                                @Html.HiddenFor(a => a.ToDate)
+                                                @Html.HiddenFor(a => a.UserddlName)
+                                                @Html.HiddenFor(a => a.FilterType)
+                                                @Html.HiddenFor(a => a.filterText)
+                                                @Html.HiddenFor(a => a.Term)
+                                                @Html.HiddenFor(a => a.ProductTypeID)
+                                                @Html.HiddenFor(a => a.LeadSourceID)
+                                                @Html.HiddenFor(a => a.Country)
+                                                @Html.HiddenFor(a => a.page, new { Value = @index })
+                                                <input type="submit" value="@index">
+                                            }
+                                        </a>
+                                    </li>
+                                }
+                                if (nextpagesid == 1)
+                                {
+                                    <li>
+                                        <a href="#">
+                                            @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                                            {
+                                                @Html.HiddenFor(a => a.pagetypeType, new { Value = "next" })
+                                                @Html.HiddenFor(a => a.page, new { Value = @pages })
+                                                <input type="submit" value="next">
+                                            }
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            @{int exporttoleadsid = Convert.ToInt32(Session["exporttoexcel"]); }
+            @if (exporttoleadsid != 1)
+            {
+                using (Html.BeginForm("ExportViewLeads", "home", FormMethod.Post))
+                {
+                    //TempData["ExportViewLeads"] = @Model.viewleadsList.ToList();
+                    <input type="hidden" name="SelectedLead123" id="SelectedLead123" />
+                    <input type="hidden" name="Selecteduserid" id="Selecteduserid" />
+                    <div class="row mbutton" style="margin-top: 10px; ">
+                        <div class="col-md-2 col-sm-2 col-xs-12 col-md-offset-10">
+                            <span id="btn1"><input id="Submit2" type="submit" class="btn btn-success" style="width: 100%;margin-bottom: 0em !important;" value="Export to Excel"></span>
+                            <span id="btn2" style="display:none;"><input id="Submit3" type="submit" class="btn btn-success" style="width: 100%;margin-bottom: 0em !important;" value="Export to Excel"></span>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+<!--Send email Modal -->
+<div id="modalSendEmail" class="modal fade" role="dialog" style="top: 2%;">
+    <div class="modal-dialog" style="width: 65%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+                <h4 class="modal-title">Send Email</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Email Address</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="ToEmailAddress" name="ToEmailAddress" type="text" autocomplete="off" placeholder="Please enter email address" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Subject</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" rows="2" id="Subject" name="Subject" placeholder="Please enter subject"></textarea>
+                        </div>
+                    </div>
+                    @if (Model.oEmailTemplateModelList != null)
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">Email Template</label>
+                            <div class="col-sm-9">
+                                <select id="EmailTemplateID" name="EmailTemplateID" class="form-control  ListItemCapitalize " style="margin-top:0px !important;" onchange="FillEmailTemplate()">
+                                    <option value="">Select Email Template</option>
+                                    @foreach (var item in Model.oEmailTemplateModelList)
+                                    {
+                                        <option value="@item.EmailTemplateID" translate="no">@item.EmailTemplateName</option>
+                                    }
+                                </select>
+                                @*@Html.DropDownListFor(em => em.EmailTemplateID, new SelectList(Model.oEmailTemplateModelList, "EmailTemplateID", "EmailTemplateName"), "Select Email Template", new { @class = "form-control  ListItemCapitalize ", @style = "margin-top:0px !important;", @onchange = "FillEmailTemplate()" })*@
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Message</label>
+                        <div class="col-sm-9">
+                            <textarea id="MessageBody" name="MessageBody" class="form-control ckeditor" rows="3" style="resize: none;" placeholder="Please enter message"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Attachment</label>
+                        <div class="col-sm-5">
+                            <table class="table  table-bordered tablefont">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th style="text-align: center; width: 50%">Local File</th>
+                                        <th style="text-align: center; width: 50%">File Manager</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input class="form-control col-md-1" id="AttachmentFile" name="AttachmentFile" type="file" />
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="filemgr" class="fileswitch">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group" id="FileManager" style="display: none;">
+                        <label class="control-label col-sm-3">File Manager</label>
+                        <div class="col-sm-5">
+                            <table class="table  table-bordered tablefont">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th style="text-align: center; width: 10%">#</th>
+                                        <th style="text-align: center; width: 40%">File Name</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    @if (Model.oFileMangerList != null && Model.oFileMangerList.Count > 0)
+                                    {
+                                        foreach (var item in Model.oFileMangerList)
+                                        {
+                                            <tr>
+                                                <td style="text-align: center;">
+                                                    <input type="checkbox" id="chkFile" class="fileexample" value="@item.FileID" />
+                                                    <input type="hidden" id="FileID" name="FileID" />
+                                                </td>
+                                                <td>@item.FileName</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="2" style="text-align: center;">** No Record Found!!</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnSendNow" onclick="SendEmail()">Send Now</button>
+                <button type="button" class="btn btn-danger btnclose" id="btnclose" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Send SMS Modal -->
+<div id="modalSendSMS" class="modal fade" role="dialog" style="top: 2%;">
+    <div class="modal-dialog" style="width: 65%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+                <h4 class="modal-title">Send SMS</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Phone No.</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="ToContacts" name="ToContacts" type="text" autocomplete="off" placeholder="Please enter phone no." />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Message</label>
+                        <div class="col-sm-9">
+                            <textarea id="SMSMsg" name="SMSMsg" class="form-control" rows="3" style="resize: none;" placeholder="Please enter message"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnSendSmsNow" onclick="SendSMS()">Send Now</button>
+                <button type="button" class="btn btn-danger btnclose" id="btnSMSclose" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modalDoses" class="modal fade" role="dialog" style="top: 20%;">
+</div>
+
+@*<div id="divArchiveConfirm" hidden="hidden">
+        Are you sure you want to archive this lead?
+    </div>*@
+<!--followup time notification-->
+<div id="modalReminder" class="modal fade" role="dialog" style="top:20%;">
+
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Reminder(s)</h4>
+            </div>
+            <div class="modal-body">
+                <table id="tblRemainder" class="table tables table-bordered">
+                    <thead>
+                        <tr>
+                            <th translate="no">@custNm</th>
+                            <th translate="no">@mobNO</th>
+                            <th translate="no">@fupDate</th>
+                            <th translate="no">@fupTime</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnStopAllReminder">Stop All Reminder</button> &nbsp;
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal- Add Description-->
+<div id="AddDescript" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            @*@using (Html.BeginForm("addDescriptionMVC", "home", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formregister" }))
+                {*@
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Description  [Customer Name : <span id="leadname"></span>]</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label" for="email" style="text-align: left;" translate="no">@ldStatus</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="hidden" id="hdnLeadStatusName" name="hdnLeadStatusName" />
+                                    <input type="hidden" id="ldStatus" name="ldStatus" />
+                                    <select name="LeadStatusID" id="LeadStatusID" class="form-control ListItemCapitalize" onchange="changeLeadStatus(this);">
+                                        <option value="">Select <text translate="no">@ldStatus</text> </option>
+                                        @if (Model.leadstatusList != null && Model.leadstatusList.Count() > 0)
+                                        {
+                                            foreach (var item in Model.leadstatusList)
+                                            {
+                                                if (item.LeadStatusname != "Closed")
+                                                {
+                                                    <option value="@item.Id" translate="no">@item.LeadStatusname</option>
+                                                }
+                                                @*<option value="@item.Id" @if (item.LeadStatusname == "Closed") { <text> disabled</text>} translate="no">@item.LeadStatusname</option>*@
+                                            }
+                                        }
+
+                                    </select>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <label class="control-label" for="followupdate" style="text-align: left;" translate="no">@fupDate</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="hidden" id="hdnFollowUpDate" name="hdnFollowUpDate" />
+                                    <input type="hidden" id="hdnFollowUpTime" name="hdnFollowUpTime" />
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input type="text" id="FollowUpDate" name="FollowUpDate" class="input-small form-control" autocomplete="off" style="position: initial !important;" />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label class="control-label" for="followuptime" style="text-align: left;" translate="no">@fupTime</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input type="text" name="FollowupTime" id="FollowupTime" class="input-small form-control" autocomplete="off" style="position:initial !important;" />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email" style="text-align: left;">Description</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="hdnLeadId" name="LID" />
+                            <textarea id="txtDescription" class="form-control ckeditor" style="height: 80px;" name="txtDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label">Upload</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="file" id="Postfile" name="Postfile" class="form-control" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success" id="btnAddDescription" onclick="SaveCurrentDescription()">Submit</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+<!--Modal View-Description-->
+<div id="ViewDescript" class="modal fade" role="dialog">
+</div>
+
+
+<!--Modal for view reseller detail-->
+<div id="ViewReseller" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Customer Name : <span id="crName"></span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Reseller Name:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" value="" id="resName" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Status:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" value="" id="resStatus" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Reseller Code:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" value="" id="resCode" readonly />
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Document Status:</label>
+                            <div class="col-sm-6">
+
+                                <input type="text" class="form-control" value="" id="resDoc" readonly />
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                                <label class="control-label col-sm-4" for="cname">Remark</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" rows="5" style="resize: none;"></textarea>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal for archive confirmation -->
+<div class="modal fade" id="archiveModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close canc" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation!</h4>
+            </div>
+            <div class="modal-body" style="overflow-x: hidden;">
+                <p style="color:red">Are you sure you want to archive this lead?</p>
+                <input type="hidden" id="txtForArchiveLeadId" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAcrchiveYes" class="btn btn-danger">Yes</button>
+                <button type="button" class="btn btn-success canc" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*By chetna*@
+<!--Modal Close-Leads-->
+<div id="ModelCloseLeads" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 65%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Closed Details</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Project Value</label>
+
+                        <div class="col-sm-3">
+                            <input type="text" id="txtProjectValue" class="form-control clsval isDecimal allowno" placeholder="Project Value" />
+                        </div>
+                        <label class="control-label col-sm-3">Advance Payment</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtAdvancePayment" class="form-control clsval isDecimal allowno" placeholder="Advance Payment" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Advance Payment Date</label>
+                        <input type="hidden" id="txtForcloseLeadId" />
+                        <div class="col-sm-3">
+                            <input type="text" id="txtAdvancePayDate" class="form-control  clsval" placeholder="Advance Payment Date" readonly />
+                        </div>
+                        <label class="control-label col-sm-3">Cheque No./NEFT/Cash</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtChequeNo" class="form-control clsval" placeholder="Cheque No./NEFT/Cash" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Project Completed Date</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtCompletionDate" class="form-control " placeholder="Project Completed Date" readonly />
+                        </div>
+                        <label class="control-label col-sm-3">Expiry Date</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtExpiryDate" class="form-control " autocomplete="off" placeholder="Expiry Date" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">License</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtLicense" class="form-control" placeholder="License" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Project Remark</label>
+                        <div class="col-sm-9">
+                            @*<input type="text" id="txtProjectDescription" class="form-control clsval" />*@
+                            <textarea id="txtProjectDescription" class="form-control" rows="5" style="resize: none;" placeholder="Project Remark"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span style="margin-left: 10px; float: left;" id="spnCloseWonMsg"></span>
+                <button type="submit" class="btn btn-success btn-ripple" id="btnSaveCloseWon">Submit</button>
+                <button type="button" class="btn btn-danger btn-ripple" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="DeleteLeadsOTP" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 65%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">We have sent OTP on your Registered Email Id</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Enter OTP</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtAddOtp" class="form-control clsval" placeholder="Enter OTP" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="HDNID" value="" />
+            <input type="hidden" id="HDNOTP" value="" />
+            <div class="modal-footer">
+                <span style="margin-left: 10px; float: left;" id="spnCloseWonMsg"></span>
+                <button type="submit" class="btn btn-success btn-ripple" id="btndeleteleads">Submit</button>
+                <button type="button" class="btn btn-danger btn-ripple" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script src="/js/jquery-1.11.3.min.js"></script>*@
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<!--bootstap timepicker library-->
+<link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<script src="~/timepicker/bootstrap-timepicker.js"></script>
+<script src="/js/jquery.tablesorter.js"></script>
+
+<!--sweet alert js and css library-->
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script src="/Scripts/viewLeadScript.js"></script>
+
+
+
+
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+
+    var dateFormat = '@Session["DpDateFormat"]';
+    //////////////////////////////////////followup date function////////////////
+    $(function () {
+        var datepicker = $('#FollowUpDate');
+        var date = new Date();
+        //date.setDate(date.getDate() + 1);
+
+        if (datepicker.length > 0) {
+            datepicker.datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20,
+                startDate: date
+            });
+        }
+    });
+
+
+    //Time Picker.............
+    $('#FollowupTime').timepicker({
+        defaultTime: false,
+        showInputs: false,
+        showMeridian: true,
+        'scrollDefaultNow': 'true',
+        'closeOnWindowScroll': 'true',
+    }).on('show.timepicker', function (e) {
+        //console.log('The time is ' + e.time.value);
+        //console.log('The hour is ' + e.time.hours);
+        //console.log('The minute is ' + e.time.minutes);
+        //console.log('The meridian is ' + e.time.meridian);
+
+        var time = e.time.hours + ':' + e.time.minutes + ' ' + e.time.meridian;
+        $(this).val(time);
+    });
+    ///////////////////////////from to date picker///////////////////////////////
+    $(function () {
+        $('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20,
+
+        });
+
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#txtAdvancePayDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#txtCompletionDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#txtExpiryDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+    // Enable CKEditor in all environments except IE7 and below.
+    //if (!CKEDITOR.env.ie || CKEDITOR.env.version > 7)
+    //    CKEDITOR.env.isCompatible = true;
+</script>
+<script>
+
+    //function prevpageitemlist(value) {
+
+
+
+    //}
+    //$('#nextpageitem').on('click', function () {
+
+    //    debugger;
+    //    var pageNumbers = $("#nextpageitem").val();
+    //    var pageNumber = 0;
+    //    $.post('/home/viewleads', { FilterType: pageNumber }, function (data) {
+
+    //})
+    //jQuery(document).ready(function () {
+    //    $("#prevpageitem").click(function () {
+
+    //        //var leadid = $("#LID").val();
+    //        //if (leadid != '') {
+    //        //    $.post('/home/ViewLeadDecsription', { Lid: leadid }, function (data) {
+    //        //        jQuery('#ViewDescript').html(data);
+    //        //        $($(this).data("#ViewDescript")).show();
+    //        //    });
+
+
+
+    //    });
+
+
+    // });
+</script>
+
+<script>
+
+
+    function getReseller(obj) {
+        var self = $(obj);
+        var CurName = self.attr('cnm');
+        var ResName = self.attr('rsName');
+        var ResCode = self.attr('rsCode');
+        var ResStatus = self.attr('rsStatus');
+        var ResDocs = self.attr('rsDocStatus');
+
+        $("#crName").text(CurName);
+        $("#resName").val(ResName);
+        $("#resCode").val(ResCode);
+        $("#resStatus").val(ResStatus);
+        $("#resDoc").val(ResDocs);
+    }
+
+
+    //archive lead by leadid funtion
+    function acrchiveThisLead(obj) {
+        var self = $(obj);
+        var LeadId = self.attr('leadId');
+        $("#txtForArchiveLeadId").val(LeadId);
+    }
+
+    $("#btnAcrchiveYes").click(function () {
+        var LeadId = $("#txtForArchiveLeadId").val();
+        if (LeadId != '' && LeadId != 'undefined' && LeadId.length > 0) {
+            $.post("/common/ArchiveLeadById", { LeadIdArchive: LeadId }, function (res) {
+                if (res == "ok") {
+                    $('#' + LeadId).remove();//remove row by id after ok response
+                    $("#txtForArchiveLeadId").val('');
+                    $("#archiveModal").modal('hide');
+                }
+                else {
+                    $("#txtForArchiveLeadId").val('');
+                    $("#archiveModal").modal('hide');
+                    swal("Alert !", "Something went wrong", "warning");
+                }
+            });
+        }
+        else {
+
+            $("#archiveModal").modal('hide');
+            swal("Alert !", "Something went wrong", "warning");
+        }
+    });
+
+    //no or close button click hide archive modal
+    $('.canc').click(function () {
+        $("#txtForArchiveLeadId").val('');
+        $("#archiveModal").modal('hide');
+    });
+
+</script>
+
+
+<script>
+    @* BY chetna *@
+    function modelclosed(obj) {
+        jQuery('#ModelCloseLeads').modal('show');
+        var self = $(obj);
+        var LeadId = self.attr('leadId');
+        $("#txtForcloseLeadId").val(LeadId);
+    }
+
+
+    $(function () {
+        $(".allowno").keydown(function (event) {
+            if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190) {
+
+            } else {
+                event.preventDefault();
+            }
+
+            if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+                event.preventDefault();
+
+        });
+    });
+    //Start Here for Close Leads.........
+    jQuery('#btnSaveCloseWon').click(function () {
+        var LeadId = $("#txtForcloseLeadId").val();
+        if (LeadId != '') {
+            var ProjectDescription = jQuery('#txtProjectDescription').val();
+            var ProjectValue = jQuery('#txtProjectValue').val();
+            var AdvancePayment = jQuery('#txtAdvancePayment').val();
+            var AdvancePayDate = jQuery('#txtAdvancePayDate').val();
+            var ChequeNo = jQuery('#txtChequeNo').val();
+            var CompletionDate = jQuery('#txtCompletionDate').val();
+            var ExpiryDate = jQuery('#txtExpiryDate').val();
+            var License = jQuery('#txtLicense').val();
+            jQuery.post('/common/ManageLeadStatusCloseWon', { LID: LeadId, projectDescription: ProjectDescription, projectValue: ProjectValue, advancePayment: AdvancePayment, advancePayDate: AdvancePayDate, chequeNo: ChequeNo, completionDate: CompletionDate, expiryDate: ExpiryDate, license: License, LeadClosedId: 0 }, function (data) {
+                if (data == 'success') {
+                    swal("Success !", 'Lead Closed successfully.', "success");
+                    $('#ModelCloseLeads').modal('hide');
+                    $('#' + LeadId).find("td[id='leadStatusVal']").html('Closed');//update lead status name
+                }
+                else if (data == 'error') {
+                    swal("Alert !", "Sorry There is some problem Please try again", "warning");
+                }
+            });
+        }
+        else {
+            alert('Sorry There is some problem Please try again.');
+        }
+    });
+
+
+    //input = document.getElementById('input');
+
+    //function ph() {
+    //    input.setAttribute('placeholder', 'enter your name');
+    //};
+
+    //function phr() {
+    //    input.setAttribute('placeholder', '');
+    //};
+
+    //input.addEventListener("mouseover", ph);
+    //input.addEventListener("mouseout", phr);
+</script>
+
+
+<script>
+    jQuery.noConflict();
+    (function ($) {
+        $(function () {
+            // call the tablesorter plugin
+            $("#dest").tablesorter({
+                // default "emptyTo"
+                emptyTo: 'bottom'
+            });
+        });
+
+        $(function () {
+            // bind change event to select
+            $('.dynamic_select').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+
+        function sortTable(f, n) {
+            var rows = $('#dest tbody  tr').get();
+            rows.sort(function (a, b) {
+                var A = getVal(a);
+                var B = getVal(b);
+                if (A < B) {
+                    return -1 * f;
+                }
+                if (A > B) {
+                    return 1 * f;
+                }
+                return 0;
+            });
+
+            function getVal(elm) {
+                var v = $(elm).children('td').eq(n).text().toUpperCase();
+                if ($.isNumeric(v)) {
+                    v = parseInt(v, 10);
+                }
+                return v;
+            }
+
+            $.each(rows, function (index, row) {
+                $('#dest').children('tbody').append(row);
+            });
+        }
+        var f_sl = 1;
+        var f_nm = 1;
+        $("#cust").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#mobile").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#email").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#city").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#follow").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#createdby").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#createdon").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#assignby").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#assignto").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#assigndate").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#modfieddate").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#leadstatus").click(function () {
+            f_nm *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_nm, n);
+        });
+        $("#expecteddate").click(function () {
+            f_nm *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_nm, n);
+        });
+        $("#expectedamount").click(function () {
+            f_nm *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_nm, n);
+        });
+    })(jQuery);
+
+    //jQuery.noConflict();
+
+
+
+</script>
+
+<script>
+
+    var glds = document.querySelectorAll('span.golivedate');
+    var i = 0;
+    // var days, hours, minutes, seconds;
+    var today = new Date();
+
+    //get today date in dd/MM/yyyy format
+
+    //var date = today.toJSON().slice(0, 10);
+    //var todayDate = date.slice(8, 10) + '/' + date.slice(5, 7) + '/' + date.slice(0, 4);
+    var leadIdArray = [];
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var todayDate = dd + '/' + mm + '/' + yyyy;
+
+    //var srNo = 1;
+    // Update the count down every 1 second
+    setInterval(function () {
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        for (var i = 0; i < glds.length; i++) {
+
+            // get the today followup date
+            var folloupDate = glds[i].getAttribute('data-fupDate');
+            // get the followuptime
+            var folloupTime = glds[i].getAttribute('data-fupTime');
+
+            // get the leadreminder value
+            var isleadReminder = glds[i].getAttribute('data-isReminder');
+
+            //if follow up date equal to today date and followup time not null
+            if (folloupDate == todayDate && folloupTime != '' && isleadReminder == '1') {
+                // get the date we're counting down to
+                var countDownDate = glds[i].getAttribute('data-followupDateTime');
+
+                // Find the distance between now and the count down date
+                var seconds_left = (new Date(countDownDate).getTime() - now) / 1000;
+
+                // If the count down is over, write some text
+                if (seconds_left <= 0) {
+                    //var str = "Time Over";
+                    //glds[i].innerHTML = str;
+                    var leadId = glds[i].getAttribute('data-lId');
+
+                    //check if row not exist in table
+                    if (jQuery('table#tblRemainder').find('#' + leadId + '').length == 0) {
+
+                        jQuery('#tblRemainder tbody').append(
+                            '<tr id=' + leadId + '>' +
+                            '<td translate="no"><a href="/home/createleads/' + glds[i].getAttribute('data-encleadId') + '" target="_blank">' + glds[i].getAttribute('data-CustName') + '</a></td>' +
+                            '<td translate="no">' + glds[i].getAttribute('data-MobNo') + '</td>' +
+                            '<td translate="no">' + glds[i].getAttribute('data-fupShowDate') + '</td>' +
+                            '<td translate="no">' + glds[i].getAttribute('data-fupTime') + '</td>' +
+                            '<td><span onclick="stopReminder(' + leadId + ')" style="cursor:pointer">Stop Reminder</span></td>' +
+                            '</tr>'
+                        );
+                        leadIdArray.push(leadId);
+                        //srNo++;
+                        jQuery('#modalReminder').modal('show');
+                    }
+
+                }
+                //else {
+                // Time calculations for days, hours, minutes and seconds
+                //    days = parseInt(seconds_left / 86400);
+                //    seconds_left = seconds_left % 86400;
+                //    hours = parseInt(seconds_left / 3600);
+                //    seconds_left = seconds_left % 3600;
+                //    minutes = parseInt(seconds_left / 60);
+                //    seconds = parseInt(seconds_left % 60);
+
+                //    glds[i].innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S";
+                //}
+            }
+        }
+
+    }, 1000);
+
+    jQuery("#btnStopAllReminder").click(function () {
+        if (leadIdArray.length > 0) {
+            var Ids = JSON.stringify(leadIdArray);//convert into array to json array
+            $.ajax({
+                url: "/common/MultipleLeadReminderStop",
+                type: 'POST',
+                data: { LeadIdArray: Ids },
+                success: function (res) {
+                    if (res == "ok") {
+                        //leadIdArray.length = 0;//empty farmsId array for store new values
+                        location.reload();
+                    }
+                    else {
+                        alert("Something went wrong! try again later");
+                    }
+                },
+                error: function (err) {
+                    console.log(err.responseText);
+                }
+            });
+
+        }
+        else {
+            alert("No reminders found");
+        }
+    });
+
+
+    function stopReminder(lid) {
+        $.ajax({
+            url: "/common/SingleLeadReminderStop/" + lid,
+            type: 'GET',
+            success: function (res) {
+                if (res == "ok") {
+                    alert("Reminder stopped successfully");
+
+                    //check if row not exist in table
+                    if (jQuery('table#dest').find('#' + lid + '').length > 0) {
+
+                        //find current row in td span to update followupDateTime, fupTime and fupDate
+                        var spanElement = jQuery('table#dest tbody').find('#' + lid).find("td[id='golivedate']").find('span.golivedate');;
+
+                        //var spanElement = jQuery('#' + lid).find("td[id='golivedate']").find('span.golivedate');
+
+                        spanElement.attr('data-isReminder', '0');
+                    }
+                }
+                else {
+                    alert("Something went wrong! try again later");
+                }
+            },
+            error: function (err) {
+                console.log(err.responseText);
+            }
+        });
+    }
+
+    function selectlead() {
+        debugger;
+
+        var selecteduserid = $("select#UserddlName option:selected").val();
+        $('#Selecteduserid').val(selecteduserid);
+
+        var countchecked = $("table input[type=checkbox]:checked").length;
+        if ($('.chk').is(":checked")) {
+
+            //var leadid = $("table input[type=checkbox]:checked").val();
+            //var id = leadid.substring(0, 5);
+            $('#btnselectedleads').css('display', 'block');
+            $('#count').text(countchecked);
+            $('#change').css('margin-top', '-49px')
+            // $('#btn1').css('display', 'none');
+            // $('#btn2').css('display', 'block');
+
+        }
+
+        else {
+            //$('#btnselectedleads').css('display', 'none');
+            $('#count').text(countchecked);
+            //$('#btn1').css('display', 'block');
+            // $('#btn2').css('display', 'none');
+        }
+    }
+
+    function selectdeletelead() {
+        debugger;
+        debugger;
+        var leadid = $('#SelectedLead').val();
+        if (confirm('Are you sure want to Delete these leads.?')) {
+            if (leadid != null && leadid != '') {
+                $.post('/home/Deleteleadsrecord', { id: leadid }, function (data) {
+                    if (data != null) {
+                        debugger;
+                        //var Id = '';
+                        //var OTP = '';
+                        //var d1 = data.split(",");
+                        //for (i = 0; i < d1.length; i++) {
+                        //    OTP = d1[0];
+                        //    Id = d1[1];
+                        //}
+                        //jQuery('#HDNID').val(Id);
+                        //jQuery('#HDNOTP').val(OTP);
+                        jQuery('#DeleteLeadsOTP').modal('show');
+
+
+                    }
+                    else {
+                        swal({
+                            title: "Success !",
+                            //text: data,
+                            type: "success",
+                            timer: 3000,
+                            showConfirmButton: false
+                        }, function () {
+                            window.location.href = "/home/viewleads";
+                        });
+                    }
+                });
+            }
+            else {
+                alert('Please Select Any Lead!.');
+            }
+        }
+    }
+
+    jQuery("#btndeleteleads").click(function () {
+        debugger;
+        var OTPValue = $("#txtAddOtp").val();
+        var LId = $('#SelectedLead').val();
+        if (OTPValue == '') {
+            alert('Please Enter valid OTP !.');
+        }
+        //var LId = $("#HDNID").val();
+        if (OTPValue != '' && LId != '') {
+            $.post("/home/SubDeleteleadsrecord", { id: LId, otp: OTPValue }, function (data) {
+                debugger;
+                if (data == "OTP is expired try again") {
+                    swal("Alert !", '** Invalid OTP try again', "warning");
+                }
+                else {
+                    swal({
+                        title: "Success !",
+                        text: data,
+                        type: "success",
+                        timer: 3000,
+                        showConfirmButton: false
+                    }, function () {
+                        window.location.href = "/home/viewleads";
+                    });
+                }
+
+            });
+        }
+
+    });
+
+</script>
+
+<style>
+    td {
+        cursor: pointer;
+    }
+
+    .selected {
+        background-color: #BFC9CA;
+        color: #0e0e0e;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 25px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .yescls {
+        font-size: 15px;
+        color: #FFFFFF;
+        width: 150px;
+        background: #90C93E;
+    }
+
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset .cancelcls {
+        font-size: 15px;
+        color: #FFFFFF;
+        width: 150px;
+        background: #F86379;
+    }
+</style>
+<style type="text/css">
+    .loading {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: #0020ff36;
+        z-index: 99;
+        text-align: center;
+    }
+</style>
+
+

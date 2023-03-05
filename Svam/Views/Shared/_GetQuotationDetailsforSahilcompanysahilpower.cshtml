@@ -1,0 +1,229 @@
+﻿@model Svam.Models.ViewModel.SaleOrderVM
+<style>
+    .printpage {
+        font-size: 11px !important;
+        font-family: calibri !important;
+    }
+
+        .printpage h2, h4 {
+            font-size: 11px !important;
+            font-family: calibri !important;
+        }
+
+        .printpage td, th {
+            font-size: 11px !important;
+            font-family: calibri !important;
+            padding: 1px 5px !important;
+            height: 22px;
+        }
+
+        .printpage label {
+            margin-bottom: 0;
+        }
+</style>
+<div class="modal-dialog modal-lg printpage" style="font-family: calibri !important;">
+    <div class="modal-content">
+        <div class="modal-body qtmodal" id="div_print" style="padding-top: 10px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="float:left;margin-left: 42px;margin-top: 33px;">
+                            <div class="qt_left" style="font-size: 15px;">
+                                <b>E –mail:@Model.CompanyEmail</b>
+                            </div>
+                            <div class="qt_left" style="font-size: 15px;">
+                                <b>Mob. @Model.CompanyMobileNo</b>
+                            </div>
+                        </div>
+                        <div style="float:right;margin-left: 42px;margin-top: 33px;">
+                            <div class="qt_left" style="font-size: 15px;">
+                                <b>Tele fax: 011-47019644</b>
+                            </div>
+                            <div class="qt_left" style="font-size: 15px;">
+                                <b>Visit: www.sahilpower.com</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12 text-center" style="margin-top:-50px;margin-left:25px;">
+                        <div style="font-size: 23px;color: red;font-weight: bold;">
+                            SAHIL POWER SYSTEMS<br />
+                        </div>
+                        <div style=" font-size 18px;
+                             font-style italic;
+                             font-weight bold;">
+                            AN EQUIPMENT RENTAL COMPANY<br />
+                        </div>
+                        <div style="width: 294px;
+    margin-left: 350px;
+    height: 2px;
+    background: #000;"></div>
+                        <div style=" font-size 12px;
+                             color red;
+                             font-weight bold;
+                             ">
+                            @Model.CompanyAddress<br />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+                @if (Model.SaleReport != null && Model.SaleReport.Count > 0)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="float:left;margin-left: 42px;margin-top: 33px;">
+                                <div class="qt_left" style="font-size: 15px;">
+                                    <b>Ref : @Model.QuoNo</b>
+                                </div>
+                            </div>
+                            <div style="float:right;margin-left: 42px;margin-top: 33px;">
+                                <div class="qt_left" style="font-size: 15px;">
+                                    <b>Date:-@Model.QuoDt</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="float:left;margin-left: 42px;margin-top: 33px;font-size:14px;">
+                                <div>
+                                    To,<br />
+                                </div>
+                                <div>
+                                    @Model.CustomerName<br />
+                                </div>
+                                <div>
+                                    Site:@Model.CustomerAddress<br />
+                                </div>
+                                <div>Dear Sir/Ma’am</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="float:left;margin-left: 42px;margin-top: 33px;font-size:14px;">
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">                            
+                            <table class="table  table-bordered" style="margin-top:45px;font-size:12px;">
+                                <tbody>
+                                    <tr>
+                                        <th width="2%" style="font-size: 11px; height: 15px;">Sr.No </th>
+                                        <th width="15%" style="font-size: 11px; height: 15px;">Description of Equipment</th>                                        
+                                        <th width="7%" style="font-size: 11px; height: 15px;">Particulars</th>
+                                        <th width="10%" style="font-size: 11px; height: 15px;">UNIT PRICE</th>
+                                        <th width="10%" style="font-size: 11px; height: 15px;">Total</th>
+                                        @if (Model.TaxTypeName.ToLower() != "total")
+                                        {
+
+                                            <th width="10%" style="font-size: 11px; height: 15px;">NET TAXABLE AMOUNT</th>
+                                                <th width="10%" style="font-size: 11px; height: 15px;">CGST(%)</th>
+                                                <th width="10%" style="font-size: 11px; height: 15px;">CGST Amount</th>
+                                                <th width="10%" style="font-size: 11px; height: 15px;">SGST(%)</th>
+                                                <th width="10%" style="font-size: 11px; height: 15px;">SGST/UGST Amount</th>
+                                                <th width="10%" style="font-size: 11px; height: 15px;">IGST(%) </th>
+                                                <th width="10%" style="font-size: 11px; height: 15px;">IGST Amount </th>
+                                                <th width="13%" style="font-size: 11px; height: 15px;">Gross Amount</th>
+                                        }
+
+                                    </tr>                                    
+                                </tbody>                                
+                                    <tbody>
+                                        @{int ii = 1;
+                                        }
+                                        @foreach (var item in Model.SaleReport)
+                                        {
+
+                                            <tr>
+                                                <td style="font-size: 11px;">@ii</td>
+                                                <td style="font-size: 11px;">
+                                                    <p>@item.ItemName </p>
+                                                </td>                                                
+                                                <td class="t-right" style="font-size: 11px;">@item.Qty</td>
+                                                <td class="t-right" style="font-size: 11px;">@(Model.TaxTypeName.ToLower() == "total" ? item.OurPrice : item.Price)</td>
+                                                <td class="t-right" style="font-size: 11px;">@item.Total</td>
+
+                                                @if (Model.TaxTypeName.ToLower() != "total")
+                                                {
+                                                    decimal totalGrossAmt = 0.0M;
+                                                    <td class="t-right" style="font-size: 11px;">@item.NetTaxable</td>
+                                                    <td class="t-right" style="font-size: 11px;">@item.CGSTPer</td>
+                                                    <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                    <td class="t-right" style="font-size: 11px;">@item.CGSTPer</td>
+                                                    <td class="t-right" style="font-size: 11px;">@item.CGSTAmount</td>
+                                                    <td class="t-right" style="font-size: 11px;">@item.IGSTPer</td>
+                                                    <td class="t-right" style="font-size: 11px;">@item.IGSTAmount</td>
+                                                    totalGrossAmt = Convert.ToDecimal(item.NetTaxable) + Convert.ToDecimal(item.CGSTAmount) + Convert.ToDecimal(item.IGSTAmount);
+                                                    <td class="t-right" style="font-size: 11px;">
+                                                        @*@{
+                                                                decimal grossAmount = item.CGSTAmount + item.CGSTAmount + item.IGSTAmount;
+                                                            }*@
+
+                                                        @*<span>@Model.NetAmount</span>*@
+                                                        <span>@totalGrossAmt</span>
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                            ii++;
+                                        }
+
+                                    </tbody>                                          
+                            </table>
+                        </div>
+                    </div>
+                                    }
+                <div class="row">
+                    <div class="col-md-12">
+                        @(new HtmlString(Model.termcondition.ToString()))
+                        @*<div style="font-size:16px;text-decoration:underline;font-weight:bold;">
+                                1. Scope of arrangement for the work:<br />
+                            </div>
+                            <div style="font-size:14px;">
+                                Sahil Power Systems will be responsible for the execution of work as specified by you from time to time, in relation
+                                to lifting and shifting of material at your site using a tower crane. It may be noted that requisite resources namely tower
+                                crane and operator for the execution of work during the tenancy/duration of the agreement will be arranged by us.
+                            </div>
+                            <div style="font-size:16px;text-decoration:underline;font-weight:bold;">
+                                2. Consideration for the scope of work:<br />
+                            </div>
+                            <div style="font-size:14px;">
+                                If execution of work is undertaken using the tower crane more than 10 Hours a day or more than 26 days in any month
+                                then, the work consideration charges shall be charged extra on prorata basis (For Sunday & National Holiday)for the
+                                extra duration of work.
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="printbtnwrap" style="text-align:center">
+            <button class="btn btn-info printbtnmain" onclick="printdiv('div_print');">Print</button>
+        </div>
+        <br style="clear: both;">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+<script>
+    function printdiv(printpage) {
+        var printContents = document.getElementById(printpage).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.style.fontFamily = "calibri";
+        document.body.style.fontSize = "11";
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        window.open('/Quotation/ManageQuotation', '_self', '');
+        window.close();
+    }
+</script>
+

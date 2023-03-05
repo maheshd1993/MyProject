@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Leadsource";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.LeadSourceModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>Manage Lead Souce </div>
+                <div class="panel-body">
+
+                    @using (Html.BeginForm("Leadsource", "Master", FormMethod.Post))
+                      {
+                        <div class="form-group f-center col-sm-6 padd0">
+                            <div class="col-sm-8">
+                                  @Html.TextBoxFor(em => em.LeadsourceName, new {@placeholder="Lead source Name",@class="form-control" })
+                                  @Html.ValidationMessageFor(em=>em.LeadsourceName)
+                            </div>
+
+                            <div class="col-sm-4">
+                                <input type="submit" value="Submit" class="btn mainbtn">
+                            </div>
+
+                        </div>
+                    }
+                    <div class="devider"></div>
+                    <div class="col-sm-12 padd0">
+                        <div class="table-responsive">
+                            <table class="table table-striped table table-hover tabledata table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th width="5%" class="noimg padd0" style="padding: 10px 0px;">Sr no.</th>
+                                        <th width="70%">Lead Source Name </th>
+                                        <th width="12%">Status</th>
+                                        <th width="10%" class="noimg">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                    @foreach (var item in ViewBag.LeadsourceList)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.LeadsourceName</td>
+                                            <td>@item.Status</td>
+                                            <td><a href="/Master/Leadsource/@item.Id" class="viewbtn">Edit</a></td>
+                                        </tr>
+                                        i++;
+                                    }
+                                    
+                                </tbody>
+                            </table>
+
+                            <div class="container paginationcustom">
+                                <ul class="pagination">
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

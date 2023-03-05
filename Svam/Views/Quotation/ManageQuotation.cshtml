@@ -1,0 +1,302 @@
+﻿@{
+    ViewBag.Title = "Manage Quotation";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.ViewModel.QuotationReportVM
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@*------------------------------------New Code For Multiple Company----------------------------------*@
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        @*<div class="panel-heading">
+                                <label class="control-label col-sm-4" translate="no">Company Name<span class="madatoryfield">*</span></label>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Manegequatationmodule" class="modal fade" role="dialog" style="z-index:99999999">
+</div>
+
+
+<script src="/js/tableSortable/jquery-1.11.3.min.js"></script>
+<link href="/js/tableSortable/jquery-ui.min.css" rel="stylesheet" />
+<script src="/js/tableSortable/jquery-ui.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        jQuery('#Manegequatationmodule').show();
+    });
+</script>
+
+@*-----------------------------For Single Company OLD Code-------------------------------------------------------*@
+@*<div class="maincontainer">
+            <div class="col-sm-12 ">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>Sale Quotation Report</strong>
+                                    <div class="row" style="padding-right: 2.5%;">
+                                        <div class="col-sm-9 padd0"></div>
+                                        <div class="col-sm-3 padd0 developer_paddo">
+                                                <a class="btn btn-success pull-right" href="/Quotation/EditQuotation" style="color: white;margin-right: 10px;text-shadow: none;"><i></i>Create Quotation</a>
+                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        @using (Html.BeginForm("ManageQuotation", "Quotation", FormMethod.Post))
+                                        {
+                                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                                <div class="col-sm-3">
+                                                    @if (Model.CustomerList != null && Model.CustomerList.Count() > 0)
+                                                    {
+                                                        @Html.DropDownListFor(a => a.CustomerId, Model.CustomerList, "Select Customer", new { @class = "form-control" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(a => a.CustomerId, Enumerable.Empty<SelectListItem>(), "Select Customer", new { @class = "form-control" })
+                                                    }
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    @Html.TextBoxFor(a => a.FromDate, new { @class = "form-control", required = "required", @readonly = "readonly", autocomplete = "autocomplete", translate = "no" })
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    @Html.TextBoxFor(a => a.ToDate, new { @class = "form-control", required = "required", @readonly = "readonly", autocomplete = "autocomplete", translate = "no" })
+
+                                                </div>
+                                                <div class="col-sm-2 padd0">
+                                                    <input type="submit" id="btnFilterLogHistory" class="btn btn-danger" style="margin-left: 10px;" value="Filter" />
+                                                    <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/Quotation/ManageQuotation'" />
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-horizontal">
+                                        <div class="col-sm-12 padd0">
+                                            <div id="bindSearchData" class="table-responsive">
+                                                <table class="table table-bordered tablefont" id="table">
+                                                    <thead class="black-white-text">
+                                                        <tr>
+                                                            <th>Sr.No.</th>
+                                                            <th>Quotation No.</th>
+                                                            <th>Quotation Date</th>
+                                                            <th>Customer Name</th>
+                                                            <th>Mobile No.</th>
+                                                            <th>Total Qty</th>
+                                                            <th>View Report</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model.QtReport != null && Model.QtReport.Count > 0)
+                                                        {
+                                                            int i = 1;
+                                                            foreach (var item in Model.QtReport)
+                                                            {
+                                                                <tr>
+                                                                    <td data-column="Sr.No." translate="no">@i</td>
+                                                                    <td data-column="Quotation No." translate="no">@item.QuotationNo</td>
+                                                                    <td data-column="Quotation Date" translate="no">
+
+                                                                        @String.Format("{0:" + Model.DateFormat + "}", item.QuotationDate)
+                                                                    </td>
+                                                                    <td data-column="Customer Name" translate="no">@item.CustomerName</td>
+                                                                    <td data-column="Mobile No." translate="no">@item.MobileNo</td>
+                                                                    <td data-column="Total Qty" translate="no">@item.TotalQuantity</td>
+                                                                    @if (Convert.ToInt32(Session["CompanyID"]) == 1153)
+                                                                    {
+                                                                        <td data-column="View Report" translate="no">
+                                                                            <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" onclick="getQuatationDetail_p(this);" data-toggle="modal" data-target="#ViewQuotationDetail_p" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                        </td>
+                                                                    }
+                                                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                                                    {
+                                                                        <td data-column="View Report" translate="no">
+                                                                            <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" onclick="getQuatationDetail_SahilcompanyLT(this);" data-toggle="modal" data-target="#ViewQuotationDetail_SahilcompanyLT" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                        </td>
+                                                                    }
+                                                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                                                    {
+                                                                        <td data-column="View Report" translate="no">
+                                                                            <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" onclick="getQuatationDetail_SahilcompanyACE(this);" data-toggle="modal" data-target="#ViewQuotationDetail_SahilcompanyACE" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td data-column="View Report" translate="no">
+                                                                            <a href="#" class="btn btn-info" qtNo="@item.QuotationNo" onclick="getQuatationDetail(this);" data-toggle="modal" data-target="#ViewQuotationDetail" title="View Report"><i class="fa fa-eye"></i></a>
+                                                                        </td>
+                                                                    }
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td style="text-align: center;" colspan="7">** No Record Found!</td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                <div id="pagination" class="container paginationcustom">
+                                                        <ul class="pagination">
+                                                        </ul>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div id="ViewQuotationDetail" class="modal fade" role="dialog">
+    </div>
+    <div id="ViewQuotationDetail_p" class="modal fade" role="dialog">
+    </div>
+    <div id="ViewQuotationDetail_SahilcompanyLT" class="modal fade" role="dialog">
+    </div>
+    <div id="ViewQuotationDetail_SahilcompanyACE" class="modal fade" role="dialog">
+    </div>
+
+    <link href="~/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+    <script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
+    <script src="~/timepicker/bootstrap-timepicker.js"></script>
+    <script>
+        var dateFormat = '@Session["DpDateFormat"]';
+        $(function () {
+            $('#FromDate').datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20
+            });
+
+            $('#ToDate').datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20
+            });
+        });
+    </script>
+
+    <script>
+        function getQuatationDetail(obj) {
+            var QtNo = $(obj).attr('qtNo');
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetQuotationByQTNo", "Quotation")',
+                data: { QuotationNo: QtNo },
+                error: function (xhr, status, error) {
+                    //$(".loaderimg").hide();
+                    swal("Alert !", "Something went wrong!", "warning");
+                },
+                success: function (JSONdata) {
+                    jQuery('#ViewQuotationDetail').html(JSONdata);
+                    $($(this).data("#ViewQuotationDetail")).show();
+                },
+            });
+        }
+
+        function getQuatationDetail_p(obj) {
+            var QtNo = $(obj).attr('qtNo');
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetQuotationByQTNo_p", "Quotation")',
+                data: { QuotationNo: QtNo },
+                error: function (xhr, status, error) {
+                    swal("Alert !", "Something went wrong!", "warning");
+                },
+                success: function (JSONdata) {
+                    jQuery('#ViewQuotationDetail_p').html(JSONdata);
+                    $($(this).data("#ViewQuotationDetail_p")).show();
+                },
+            });
+        }
+
+        function getQuatationDetail_SahilcompanyLT(obj) {
+            var QtNo = $(obj).attr('qtNo');
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetQuotationByQTNo_SahilcompanyLT", "Quotation")',
+                data: { QuotationNo: QtNo },
+                error: function (xhr, status, error) {
+
+                    swal("Alert !", "Something went wrong!", "warning");
+                },
+                success: function (JSONdata) {
+                    jQuery('#ViewQuotationDetail_SahilcompanyLT').html(JSONdata);
+                    $($(this).data("#ViewQuotationDetail_SahilcompanyLT")).show();
+                },
+            });
+        }
+
+        function getQuatationDetail_SahilcompanyACE(obj) {
+            var QtNo = $(obj).attr('qtNo');
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetQuotationByQTNo_SahilcompanyACE", "Quotation")',
+                data: { QuotationNo: QtNo },
+                error: function (xhr, status, error) {
+
+                    swal("Alert !", "Something went wrong!", "warning");
+                },
+                success: function (JSONdata) {
+                    jQuery('#ViewQuotationDetail_SahilcompanyACE').html(JSONdata);
+                    $($(this).data("#ViewQuotationDetail_SahilcompanyACE")).show();
+                },
+            });
+        }
+    </script>
+
+    <style type="text/css">
+        .field-validation-error {
+            margin-left: 2px;
+            color: #ff0000;
+            font-size: 12px !important;
+            display: block;
+            margin-top: 43px;
+            font-weight: normal !important;
+        }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+            background-color: #ffeeee;
+        }
+    </style>*@

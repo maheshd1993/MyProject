@@ -1,0 +1,198 @@
+﻿@{
+    ViewBag.Title = "AssignLeadShow";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    var encode = new Svam.UtilityManager.StringCipher();
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Traders.Models.AssignedLeadsModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Assigned Leads</strong>
+                        </div>
+                        <div class="panel-body ">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    @using (Html.BeginForm("AssignLeadShow", "home", FormMethod.Post))
+                                    {
+                                        //string search = Convert.ToString(Session["DDLFilterText"]);
+                                        @*<div class="col-sm-6 viewl1">
+                                            @Html.DropDownList("UserddlName", new SelectList(Model.Userddllist, "UserID", "UserName"), "ALL", new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top:0px !important;", translate = "no" })
+                                        </div>*@
+                                    <div class="col-sm-6 viewl1">
+                                        @if (Model.leadstatusList != null && Model.leadstatusList.Count > 0)
+                                        {
+                                            @Html.DropDownList("filterText", new SelectList(Model.leadstatusList, "LeadStatusname", "LeadStatusname"), "Select Lead Status", htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;", translate = "no" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("filterText", Enumerable.Empty<SelectListItem>(), "Select Lead Status", htmlAttributes: new { @class = "form-control ListItemCapitalize", @onchange = "this.form.submit()", @style = "margin-top: 0px !important;", translate = "no" })
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                                <div class="col-sm-8">
+                                    @using (Html.BeginForm("FilterAssignedByDates", "home", FormMethod.Post))
+                                    {
+                                        @*<div class="col-sm-3">
+                                                <select class="form-control" name="FilterType" required="required" style="margin-top: 0;">
+                                                    <option>Select</option>
+                                                    <option value="Created Date">Created Date</option>
+                                                    <option value="Modified Date">Modified Date</option>
+                                                    <option value="Followup Date">Followup Date</option>
+                                                </select>
+                                            </div>*@
+                                        <div class="col-sm-3">
+                                            <input type="text" translate="no" class="form-control datefield" id="FromDate" name="FromDate" placeholder="From Date" required="required" value="@Session["AssignedFrmDt"].ToString()" autocomplete="off" readonly/>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" translate="no" class="form-control datefield" id="ToDate" name="ToDate" placeholder="To Date" required="required" value="@Session["AssignedToDt"].ToString()" autocomplete="off" readonly/>
+                                        </div>
+                                        <div class="col-sm-3 padd0">
+                                            <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                            <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/home/ResetAssignLeadsFilter'" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>                               
+                                <th>
+                                @if (Model.Language == "hi")
+                                {
+                                    <span>AssignedTo<span style="color:#337ab7;">+</span></span>
+                                }
+                                else
+                                {
+                                    <span>Assigned To</span>
+                                } 
+                                </th>
+                                <th>Customer Name </th>
+                                <th>Mobile Number </th>
+                                <th>Email</th>
+                                <th>
+                                @if(Model.Language=="hi")
+                                {
+                                    <span>City</span><span style="color:#337ab7;">+</span>
+                                }
+                                else
+                                {
+                                    <span>City</span>
+                                }
+                                </th>
+                                <th>
+                                    @if (Model.Language == "hi")
+                                    {
+                                    <span>Followup<span style="color:#337ab7;">+</span>Date</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Follow Up Date</span>
+                                    }                                   
+                                </th>
+                                <th>Lead Status</th>
+                                <th>
+                                    @if (Model.Language == "hi")
+                                    {
+                                    <span>Assign<span style="color:#337ab7;">+</span>Date</span>
+                                    }
+                                    else
+                                    {
+                                     <span>Assigned Date</span>
+                                    }
+                                    
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.assignleadsModelList.Count > 0)
+                            {
+                                foreach (var item in Model.assignleadsModelList.OrderByDescending(em => em.AssignDate))
+                                {
+                                    DateTime dt = Convert.ToDateTime(item.FollowUpDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                    string dateString = String.Format("{0:dd/MM/yyyy}", dt);
+                                    string AssignDateString = string.Empty;
+                                    if (item.AssignDate != "")
+                                    {
+                                        DateTime dtAssignDate = Convert.ToDateTime(item.AssignDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
+                                        AssignDateString = String.Format("{0:dd/MM/yyyy hh:mm:ss tt}", dtAssignDate);
+                                    }
+
+                                    <tr>
+                                        <td data-column="Sr.No" translate="no">@i</td>
+                                        <td data-column="Assigned To" translate="no">@item.AssignTo</td>
+                                        <td data-column="Customer Name" translate="no"><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.CustomerName</a></td>
+                                        <td data-column="Mobile No." translate="no"><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.Phone</a></td>
+                                        <td data-column="Email" translate="no">@(!string.IsNullOrEmpty(item.Email)?item.Email:"N/A")</td>
+                                        <td data-column="City" translate="no">@(!string.IsNullOrEmpty(item.City) ? item.City:"N/A")</td>
+                                        <td data-column="Follow Up Date" translate="no">@dateString</td>
+                                        <td data-column="Lead Status" translate="no"> @item.LeadStatus</td>
+                                        <td data-column="Assigned Date" translate="no">@AssignDateString</td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+       var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+    });
+</script>

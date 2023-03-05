@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "leadnotify";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.LeadNotifyModel
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="col-sm-12">
+        <div class="panel panel-default">
+              <div class="panel-heading">Lead Notify</div>
+                 <div class="panel-body">
+                     <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>UserName</th>
+                              <th>Mobile No </th>
+                            <th>Date Of Creation</th>
+                              <th>Notify by User</th>
+                            <th>Leads Type</th>
+                            <th>State</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                            @{int i = 1;}
+                           @foreach (var item in Model.LeadNotifyList)
+                           {
+                               <tr>
+                                  <td>@i</td>
+                                  <td><a href="/home/createleads/@item.Id">@item.LeadName</a></td>
+                                  <td>@item.MobileNo</td>
+                                  <td>@item.Date</td>
+                                   <td>@item.NotifyByUser</td>
+                                  <td>@item.Leadstype</td>
+                                  <td>@item.State</td>
+                                  <td><button type="button" class="btn btn-success confirmLead" data-id="@item.Id">Approve &nbsp;<i class="fa fa-check" aria-hidden="true"></i></button></td>
+                             </tr>
+                            i++;
+                           }
+                              
+                               
+                        </tbody>
+                      </table>
+               </div>
+            </div>
+      </div>
+    </div>
+ </div>
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    jQuery('.confirmLead').click(function () {
+        var self = jQuery(this);
+        var id = self.data('id');
+        if (id != '') {
+            jQuery.post('/home/ApprovedNotifyLeads', { Id: id }, function (data) {
+                if (data = 'success') {
+                    self.closest("tr").hide();
+                    CountNofication();
+                } else if (data = 'problem') {
+                    alert('There is some problem');
+                }
+            });
+        }
+
+    });
+</script>
+
+

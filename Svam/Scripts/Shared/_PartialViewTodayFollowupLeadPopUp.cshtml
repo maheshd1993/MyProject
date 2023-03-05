@@ -1,0 +1,68 @@
+﻿@{
+    var encode = new Svam.UtilityManager.StringCipher();
+}
+@model Traders.Models.ViewLeadsModel
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">
+                @using (Html.BeginForm("viewleads", "home", FormMethod.Post))
+                {
+                    @Html.HiddenFor(a => a.FromDate, new { Value = Model.TodayDate })
+                    @Html.HiddenFor(a => a.ToDate, new { Value = Model.TodayDate })
+                    @Html.HiddenFor(a => a.UserddlName)
+                    @Html.HiddenFor(a => a.FilterType, new { Value = "Followup Date" })
+                    @Html.HiddenFor(a => a.filterText)
+                    <i class="fa fa-envelope" aria-hidden="true"></i><strong onclick="$(this).closest('form').submit();" style="cursor:pointer"> Today Follow Ups </strong>
+                }
+            </h4>
+        </div>
+        <div class="modal-body">
+            <table class="table tables table-bordered">
+                <thead>
+                    <tr>
+                        <th>Lead Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Created by</th>
+                        <th>Follow Up Date</th>
+                        <th>Assign By</th>
+                        <th>Lead Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.TodayFollowUpLeadsList != null && Model.TodayFollowUpLeadsList.Count > 0)
+                    {
+                        foreach (var item in Model.TodayFollowUpLeadsList)
+                        {
+                            DateTime dt = Convert.ToDateTime(item.FollowUpDate);                           
+                            string FollowUpDate = String.Format("{0:" + Model.DateFormat + "}", dt);
+                            <tr>
+                                <td translate="no" data-column="Lead Name"><a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" target="_blank">@item.LeadName</a></td>
+                                <td  translate="no" data-column="Phone">@item.Phone</td>
+                                <td  translate="no" data-column="Email"><a href="mailto:@item.Email?Subject=Hello%20again">@item.Email</a></td>
+                                <td  translate="no" data-column="Created By">@item.CreatedBy</td>
+                                <td  translate="no" data-column="Follow Up Date">@FollowUpDate</td>
+                                <td  translate="no" data-column="Assigned By">@item.AssignedBy</td>
+                                <td  translate="no" data-column="Lead Status">@item.LeadStatus</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

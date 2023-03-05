@@ -1,0 +1,619 @@
+﻿@{
+    ViewBag.Title = "CreateSalesreturn";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Svam.Models.CreateSaleReturnModel
+@using (Html.BeginForm("CreateSalesreturn", "Sales", FormMethod.Post, new { id = "submitForm" }))
+{
+    <div class="maincontainer" style="min-height: 250px;">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>Sales Return </div>
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="contperson">Return No </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.SaleReturnNo, new { @class = "form-control", @disabled = "disabled" })
+                                    @Html.HiddenFor(em => em.SaleReturnNo)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="custname">Customer </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.CustomerName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(em => em.CustomerName)
+                                    @Html.HiddenFor(em => em.CustomerID)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="contperson">Sale Order No. </label>
+                                <div class="col-sm-8">
+                                    <select required="required" id="ddlOrder" name="SaleOrderNo" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!--Start Second Div..-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="qdate">Return Date </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.SaleReturnDate, new { @class = "form-control datepik1" })
+                                    @Html.ValidationMessageFor(em => em.SaleReturnDate)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="qdate"></label>
+                                <div class="col-sm-8">
+                                    &nbsp;
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="contperson">Sale Order date </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.SaleOrderDate, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-th-list" aria-hidden="true"></i>Item Details
+            @*<div class="rightbtntop"><a href="javascript:void(0)" style="width: 100%;" class="addbtn" id="addnewItemRows"><i aria-hidden="true" class="fa fa-plus"></i>Add Row</a></div>*@
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        <table class="table table-striped table table-hover tabledata scrolltable table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="12%">Part No. </th>
+                                    <th width="20%">Description</th>
+                                    <th width="7%">Qty</th>
+                                    <th width="7%">Rate</th>
+                                    <th width="7%">Amount</th>
+                                    <th width="7%">ReturnQty</th>
+                                    <th width="7%">Status</th>
+                                    <th width="7%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblItemdetailsrow">
+                                @{double SubtotalAmt = 0;}
+                                @for (int i = 0; i < Model.CreateSaleReturnItemDetailModelList.Count; i++)
+                                {
+                                
+                                    <tr>
+                                        @if (Model.SaleReturnNo != null && Model.SaleReturnNo != "")
+                                        {
+                                            SubtotalAmt += Convert.ToDouble(Model.CreateSaleReturnItemDetailModelList[i].Amount);
+                                            <td>
+                                                @Html.HiddenFor(em => em.CreateSaleReturnItemDetailModelList[i].Itemid)
+                                                @Html.HiddenFor(em => em.CreateSaleReturnItemDetailModelList[i].PartNo)
+                                                @Html.DisplayFor(em => em.CreateSaleReturnItemDetailModelList[i].SKU)
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <select class="form-control tdselect ddlitem" onchange="fillDataWithDDL(this)" name="CreateSaleReturnItemDetailModelList[0].PartNo" id="CreateSaleReturnItemDetailModelList_0__PartNo">
+                                                    <option>Select</option>
+                                                </select>
+                                            </td>
+                                        }
+                                        <td>
+                                            <p>@Html.DisplayFor(em => em.CreateSaleReturnItemDetailModelList[i].Description)</p>
+                                        </td>
+
+                                        <td>@Html.TextBoxFor(em => em.CreateSaleReturnItemDetailModelList[i].Qty, new { @class = "form-control", @onchange = "ApplyItemAmount(this);" })</td>
+
+                                        <td>
+                                            @Html.TextBoxFor(em => em.CreateSaleReturnItemDetailModelList[i].Rate, new { @class = "form-control itmdis Itmdisabletext", @onchange = "UpdateIteSaleRate(this);" })
+                                        </td>
+
+                                        <td>
+                                            @Html.TextBoxFor(em => em.CreateSaleReturnItemDetailModelList[i].Amount, new { @class = "form-control itmcalamt", })
+                                        </td>
+                                        <td>
+                                            @Html.TextBoxFor(em => em.CreateSaleReturnItemDetailModelList[i].ReurnQty, new { @class = "form-control", })
+                                        </td>
+                                        <td>
+                                            <select class="form-control tdselect" required="required" name="CreateSaleReturnItemDetailModelList[@i].ReturnStatus" id="CreateSaleReturnItemDetailModelList_@i __ReturnStatus" >
+                                                <option value="">Status</option>
+                                                <option value="Garbage">Garbage</option>
+                                                <option value="Stock">Stock</option>
+                                            </select>
+                                        </td>
+                                        <td class="actiontd">
+                                            <a href="javascript:void(0)" class="dltrow deleterow" onclick="abc(this)">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="totalwrap">
+                        <table id="tblItmSubtable" class="table table-striped totaltable table-bordered">
+                            <tr>
+                                <th width="40%">Sub Total</th>
+                                <th width="20%">%</th>
+                                <th width="20%">Amount</th>
+                            </tr>
+
+                            <tr>
+                                <td>Discount</td>
+                                <td>@Html.TextBoxFor(em => em.DiscountPercent, new { @class = "form-control disabletext itmClrdata itmST" })</td>
+                                <td>
+                                    @Html.TextBoxFor(em => em.DiscountAmt, new { @class = "form-control disabletext itmClrdata itmST" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Handling charge</td>
+                                <td>@Html.TextBoxFor(em => em.HandlingChargePercent, new { @class = "form-control disabletext itmClrdata itmST" })</td>
+                                <td>
+                                    @Html.TextBoxFor(em => em.HandlingChargeAmt, new { @class = "form-control disabletext itmClrdata itmST" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Freight</td>
+                                <td></td>
+                                <td>
+                                    @Html.TextBoxFor(em => em.ItmFreightChargeAmt, new { @class = "form-control disabletext itmClrdata itmST" })
+                                </td>
+                            </tr>
+                            <tr class="ItmTaxgrouprow">
+                                <td>
+                                    @*<a href="#" class="PopProductTaxgroup" data-toggle="modal" data-target="#taxespopup">+Tax</a>*@
+                                    <br />
+                                    @Html.HiddenFor(em => em.ApplyItmTaxGID)
+                                    <textarea id="productApplyTaxesText" name="ItmTaxGroupName" class="disabletext inputstyle2" value="no taxes apply"></textarea>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <input type="text" id="ItmTaxGroupAmt" name="ItmTaxGroupAmt" class="disabletext inputstyle1 itmClrdata itmST" value="0" /></td>
+                            </tr>
+
+                            <tr>
+                                <td>Total Taxable Amount</td>
+                                <td></td>
+                                <td>
+                                    <input type="text" id="ItmTotalTaxAmt" name="ItmTotalTaxAmt" class="disabletext inputstyle1 clsCount" value="@SubtotalAmt" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- end item details -->
+
+    
+
+    <div class="col-sm-12 t-right">
+        <input type="submit" name="Submit" value="Save" class="btn mainbtn2">
+        <input type="button" class="btn  mainbtn" onclick="location.href = '/home/ViewQuotation'" value="Cancel">
+    </div>
+}
+<br style="clear: both;" />
+<br style="clear: both;" />
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+    @*
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/js/CommonJs/createQuotation.js"></script>
+
+
+    <script>
+        //Start To All Item Details here.............
+        (function () {
+            AllItemDeatails('');
+            $(".datepik1").datepicker().datepicker("setDate", new Date());
+
+        })();
+
+        //Start To Get All User in Dropdownlist......
+        function AllItemDeatails(ddlclass) {
+            jQuery.get('/common/GetAllItemDeatails', null, function (data) {
+                chkAllItemDeatails(data, ddlclass)
+            });
+        }
+
+        function chkAllItemDeatails(abc, ddlclass) {
+            var data = "";
+            data += "<option value= >--Select Item--</option>";
+            for (var it in abc) {
+                data += "<option data-item=" + abc[it].ItemName + " data-rate=" + abc[it].salerate + " value=" + abc[it].ID + ">" + abc[it].SKU + "</option>";
+            }
+            if (ddlclass != '') {
+                $('.' + ddlclass).html(data)
+            }
+            else {
+                $('.ddlitem').html(data)
+            }
+        }
+
+        $('#addnewItemRows').click(function () {
+            var rowCount = $('#tblItemdetailsrow tr').length;
+            var ddlclass = "ddlitem" + rowCount;
+            //$('#tblItemdetailsrow').append('<tr><td><select class="form-control tdselect ' + ddlclass + '" onchange="fillDataWithDDL(this)" id="QuotationItemDetailsModelList_' + rowCount + '__PartNo" name="QuotationItemDetailsModelList[' + rowCount + '].PartNo"></select></td><td><p></p></td><td><input type="text" class="form-control" onchange="ApplyItemAmount(this);" name="[' + rowCount + '].Qty" placeholder="Qty"></td><td><input type="text" id="' + rowCount + '" class="form-control" name="[' + rowCount + '].RequiredByDate" placeholder="Rate"/></td><td><input type="text" class="form-control" name="[' + rowCount + '].Amount" placeholder="Amount"></td><td class="actiontd"><a class="dltrow deleterow" onclick="abc(this)" href="javascript:void(0)">Delete</a></td></tr>');
+            $('#tblItemdetailsrow').append('<tr> <td class="applyItemchk"><input type="checkbox" id="QuotationItemDetailsModelList_' + rowCount + '__BillableChk" name="QuotationItemDetailsModelList[' + rowCount + '].BillableChk" data-val="true" value="true" /><input name="QuotationItemDetailsModelList[' + rowCount + '].BillableChk" type="hidden" value="false"/></td><td><select class="form-control tdselect ' + ddlclass + '" onchange="fillDataWithDDL(this)" id="QuotationItemDetailsModelList_' + rowCount + '__PartNo" name="QuotationItemDetailsModelList[' + rowCount + '].PartNo"></select></td><td><p></p></td><td><input type="text" class="form-control" name="QuotationItemDetailsModelList[' + rowCount + '].Qty" placeholder="Qty" onchange="ApplyItemAmount(this);" id=QuotationItemDetailsModelList_' + rowCount + '__Qty ></td><td><input type="text" id="QuotationItemDetailsModelList_' + rowCount + '__Rate" onchange="UpdateIteSaleRate(this);" class="form-control itmdis Itmdisabletext" name="QuotationItemDetailsModelList[' + rowCount + '].Rate" placeholder="Rate"/></td><td><input type="text" class="form-control itmcalamt" id="QuotationItemDetailsModelList_' + rowCount + '__Amount" name="QuotationItemDetailsModelList[' + rowCount + '].Amount" placeholder="Amount"></td><td class="actiontd"><a class="dltrow deleterow" onclick="abc(this)" href="javascript:void(0)">Delete</a></td></tr>');
+            AllItemDeatails(ddlclass);
+            ItemCheckboxApply();
+        });
+
+        function abc(param) {
+            var self = jQuery(param);
+            self.parent().prev('td').prev('td').find('input').val(null);  //do the Amount 0 
+            self.parent().prev('td').prev('td').prev('td').prev('td').find('input').val(null); //do the Qty 0
+            self.closest('tr').hide();
+        }
+
+        //Start Calculation of Item Details...........
+        var ItemAmount = 0;
+        function ApplyItemAmount(param) {
+            var self = jQuery(param);
+            var qty = self.val();
+            var salerate = self.parent().next('td').find('input').val();
+            var total = qty * salerate;
+            self.parent().next('td').next('td').find('input').val(total);   //Apply the Amount.....
+
+            //calcualte the total amount....
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            //$('#spnItemTotalAmount').text(totalItmAmt);
+            $('#ItmTotalTaxAmt').val(totalItmAmt);
+            ItemAmount = totalItmAmt;
+            //test_skill(ItemAmount);
+            CalculateFinalPrice();
+        }
+
+        //Start Change The Sale Rate....
+        function UpdateIteSaleRate(param) {
+            var self = jQuery(param);
+            var newrate = self.val();
+            var qty = self.parent().prev('td').find('input').val();
+            var total = qty * newrate;
+            self.parent().next('td').find('input').val(total);   //Apply the Amount.....
+
+            //calcualte the total amount....
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            //$('#spnItemTotalAmount').text(totalItmAmt);
+            $('#ItmTotalTaxAmt').val(totalItmAmt);
+            ItemAmount = totalItmAmt;
+            //test_skill(ItemAmount);
+            CalculateFinalPrice();
+        }
+
+
+
+        //Start To Calculate Freight Change in Both(Percentage && Amount)
+        //jQuery('#ItmFreightPercentage').on('change', function (e) {
+
+        //    var getItemSubTotalAmt = parseFloat((ItemAmount * parseFloat($(this).val())) / 100).toFixed(2);
+        //    $('#ItmFreightChargeAmt').val(getItemSubTotalAmt);
+        //    CalculateFinalPrice();
+        //});
+
+        jQuery('#ItmFreightChargeAmt').on('change', function (e) {
+
+            //var getFrightPercentage = parseFloat((parseFloat($(this).val()) * 100) / ItemAmount).toFixed(2);
+            //$('#ItmFreightPercentage').val(getFrightPercentage);
+            CalculateFinalPrice();
+        });
+
+        function calculateItemSubtotal(cls) {
+            var sum = 0;
+            $('.' + cls).each(function () {
+                //add only if the value is number
+                if (!isNaN(this.Text)) {
+                    sum += parseFloat(this.Text);
+                }
+            });
+            return sum;
+        };
+
+        function calculateItemQty(cls) {
+            var sum = 0;
+            $('.' + cls).each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            });
+            return sum;
+        };
+
+        //Start To View Product Taxes Group....
+        jQuery('.PopProductTaxgroup').click(function () {
+            var brd = '';
+            jQuery.get('/common/GetProducttaxGroup', null, function (data) {
+                for (var item in data) {
+                    brd += "<div class='col-sm-12'><input type='radio' class='' name='producttaxgropid' text='abc' value='" + data[item].Id + "' /><label> " + data[item].TaxgroupName + "</label></div>";
+                }
+                $('#frmProductTaxGroup').html(brd);
+            });
+        });
+
+        //Start To Apply Product Taxes Group
+
+        jQuery('.btnapply').click(function () {
+            var productTaxgroupId = $("input:radio[name='producttaxgropid']:checked").val();
+            var productTaxgroupName = $("input:radio[name='producttaxgropid']:checked").parent().find('label').text();
+
+            var TotalTaxamt = 0;
+            var amt = parseFloat(jQuery('#ItmTotalTaxAmt').val()); //ItemAmount;
+            var ApplyTaxGroupnametext = productTaxgroupName + "(";
+            if (productTaxgroupId != '') {
+                jQuery.get('/common/getProductTaxbytaxGroupId', { taxgroupid: productTaxgroupId }, function (data) {
+
+                    for (var it in data) {
+                        var taxamt = (amt * data[it].PercentValues) / 100;
+                        var calSCharge = 0;
+                        if (data[it].Surcharge != '' && data[it].Surcharge != 0.00) {
+                            calSCharge = (taxamt * data[it].Surcharge) / 100;
+                        }
+                        TotalTaxamt += taxamt + calSCharge;
+
+                        //Calcualte texes name............
+                        if (ApplyTaxGroupnametext != '') {
+                            ApplyTaxGroupnametext += data[it].TaxName + ":" + data[it].PercentValues + "%" + ",";
+                            if (data[it].Surcharge != '' && data[it].Surcharge != 0.00) {
+                                ApplyTaxGroupnametext += " Surcharge:" + data[it].Surcharge + "%";
+                            }
+                        }
+                    }
+                    amt += TotalTaxamt;
+                    ApplyTaxGroupnametext += ")";
+                    jQuery('#productApplyTaxesText').val(ApplyTaxGroupnametext);
+                    jQuery('#ItmTaxGroupAmt').val(TotalTaxamt.toFixed(2));
+                    CalculateFinalPrice();
+                });
+            }
+
+
+
+            //$("#tblItmSubtable").find('tr').slice(5, -1).remove()
+            //jQuery('.ItmTaxgrouprow').closest('table').find('tr:last').prev().after('<tr><td>vat123</td><td>5123</td><td>50</td></tr>');
+
+            //alert(productTaxgroupId + '-' + productTaxgroupName);
+        });
+
+        //Common Function start here............
+
+        function fillDataWithDDL(param) {
+            var self = jQuery(param);
+            // get the values...........
+            var rate = $("option:selected", self).data('rate');
+            var item = $("option:selected", self).data('item');
+
+            // get the values...........
+
+            self.closest('td').next('td').find('p').text(item);  //Display Item Name
+            self.parent().next('td').next('td').find('input').val(1);  //Display Default..Qty
+            self.parent().next('td').next('td').next('td').find('input').val(rate);  //Display Rate...
+            var calamt = 1 * parseFloat(rate);
+            self.parent().next('td').next('td').next('td').next('td').find('input').val(calamt);  //Display Amount...
+
+            jQuery('.itmClrdata').val(0);
+            jQuery('#productApplyTaxesText').val('');
+
+            CalculateFinalPrice();   //calculate subtotal Price
+        }
+
+        var mas = '@al';
+        var chkmsg = '@alchk';
+        if (mas != '') {
+            swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+        }
+        if (chkmsg != '') {
+            alert(chkmsg);
+        }
+
+        function CalculateFinalPrice() {
+            var sum = 0;
+            $('.itmST').each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            });
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            var FinalAmount = totalItmAmt + sum;
+            jQuery('#ItmTotalTaxAmt').val(FinalAmount.toFixed(2));
+
+            //Footer Total....
+            jQuery('#GrandTotal').val(FinalAmount.toFixed(2));
+            //return sum;
+        }
+
+        jQuery('.ddlquotationtype').change(function () {
+            ItemCheckboxApply();
+        });
+
+        function ItemCheckboxApply() {
+            if ($(".ddlquotationtype option:selected").text() == 'Project') {
+                //jQuery('.applyItemchk').css('display', 'block');
+                jQuery('.applyItemchk').show();
+                jQuery('.itmdis').removeClass('Itmdisabletext');
+
+            }
+            else {
+                jQuery('.applyItemchk').hide();
+                jQuery('.itmdis').addClass('Itmdisabletext');
+            }
+        }
+
+    </script>
+
+
+
+
+    <script>
+
+        $(document).ready(function () {
+            if ('@Model.CustomerID' != '') {
+                BindSaleOrderDDL('@Model.CustomerID');
+            }
+        });
+        //All common Function....................
+        $("#CustomerName").autocomplete({
+            autoFocus: true,
+            source: function (request, response) {
+                $.ajax({
+                    url: '/Home/GetCustomerDetails',
+                    data: { reqstr: request.term },
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Customer, value: item.Id + "#" + item.Email + "#" + item.contactno };
+                        }))
+                    },
+                    beforeSend: function () {
+                        $('.loaderimg').show();
+                    },
+                    complete: function () {
+                        $(".loaderimg").hide();
+                    }
+                })
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $(this).val(ui.item.label)
+                // $("#CustomerName").val(ui.item.label);
+                var Selectteditem = ui.item.value;
+                var data = ui.item.value;
+                var arr = data.split('#');
+
+                $("#CustomerID").val(arr[0]);
+                //$("#Email").val(arr[1]);
+                //$('#ConatctNo').val(arr[2]);
+                if (arr[0] != '') {
+                    BindSaleOrderDDL(arr[0]);
+                }
+
+                return false;
+            }
+        });
+
+        //Bind Sale Order Dropdown
+        function BindSaleOrderDDL(customerid) {
+            jQuery.post('/sales/GetOrderByCustomer', { CustomerId: customerid }, function (data) { chkBindSaleOrderDDL(data) });
+        }
+        function chkBindSaleOrderDDL(abc) {
+            var data = "";
+            var saleorder = '@Model.SaleOrderNo';
+            data += "<option value= >--Select Order--</option>";
+            for (var it in abc) {
+                data += "<option data-orderdate='" + abc[it].OrderDate + "' value=" + abc[it].OrderNo + " >" + abc[it].OrderNo + "</option>";
+            }
+            $('#ddlOrder').html(data).val(saleorder);
+        }
+
+        jQuery('#ddlOrder').change(function () {
+            var pord = jQuery(this).val();
+            if (pord != '') {
+                window.location = "/sales/CreateSalesreturn/?ord=" + pord + "";
+                //jQuery('#SaleOrderDate').val($("option:selected", jQuery(this)).data('orderdate'));
+            }
+        });
+
+        function appplyPurchaseOrderNo(param) {
+            //alert();
+            var self = jQuery(param);
+            var pord = self.val();
+            window.location = "/purchase/CreatePurchasereturn/?ord=" + pord + "";
+        }
+
+    </script>
+
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<!-- modal popup Item Details Group Taxes -->
+<div id="taxespopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Product Text Group
+                </h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden;">
+
+                <form id="frmProductTaxGroup">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="float: left;" class="btn mainbtn2 btnapply" data-dismiss="modal">Apply tax</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- modal popup Service Details Group Taxes -->
+<div id="Servicetaxespopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Product Text Group
+                </h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden;">
+
+                <form id="frmservicetaxGroup">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="float: left;" class="btn mainbtn2 btnServiceGroupapply" data-dismiss="modal">Apply tax</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

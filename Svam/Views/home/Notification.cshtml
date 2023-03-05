@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Notification";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.NotificationModel
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="col-sm-12">
+        <div class="panel panel-default">
+              <div class="panel-heading">Notification</div>
+                 <div class="panel-body">
+                     <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>UserName</th>
+                            <th>Date Of Creation</th>
+                            <th>Leads Type</th>
+                            <th>Number of Leads</th> 
+                            <th>State</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @foreach (var item in Model.notificationList)
+                            {
+                              <tr>
+                                  <td>@i</td>
+                                  <td>@item.UserName</td>
+                                  <td>@item.Date</td>
+                                  <td>@item.Leadstype</td>
+                                  <td>@item.NoofLeads</td>
+                                  <td>@item.State</td>
+                                  <td><button type="button" class="btn btn-success aproved" data-id="@item.Id">Approve &nbsp;<i class="fa fa-check" aria-hidden="true"></i></button></td>
+                             </tr>
+                                i++;
+                            }
+                        </tbody>
+                      </table>
+               </div>
+            </div>
+      </div>
+    </div>
+ </div>
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    jQuery('.aproved').click(function () {
+        var self = jQuery(this);
+        var id = self.data('id');
+        if (id != '') {
+            jQuery.post('/home/ApprovedLeads', { Id: id }, function (data) {
+                if (data = 'success') {
+                    self.closest("tr").hide();
+                    CountNofication();
+                } else if (data = 'problem') {
+                    alert('There is some problem');
+                }
+            });
+        }
+
+    });
+</script>

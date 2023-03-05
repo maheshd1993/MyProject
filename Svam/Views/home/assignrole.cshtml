@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "assignrole";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Manage Roles</strong>
+                <button class="btn btn-success pull-right" onclick="location.href='/home/createrole'" style="margin-top: -6px;">Add Role</button>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered tablefont">
+                    <thead class="black-white-text">
+                        <tr>
+                            <th>SrNo</th>
+                            <th>Role Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int i = 1;}
+                        @foreach (var item in ViewBag.result)
+                        {
+                      
+	                        <tr>
+                                <td data-column="ID"><a href="/home/createrole/@item.Id" translate="no">#@i</a></td>
+                                <td class="item_profile_name" data-column="Role Name" translate="no"><a href="/home/createrole/@item.Id">@item.ProfileName</a></td>
+                            </tr>
+                            i++;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

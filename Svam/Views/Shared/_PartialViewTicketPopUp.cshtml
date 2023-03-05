@@ -1,0 +1,57 @@
+﻿
+@model Svam.Models.CRMTicketModel
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">View Tickets: @TempData["startDate"] - @TempData["endDate"]</h4>
+        </div>
+        <div class="modal-body">
+            <table class="table tables table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ticket No.</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Error Type</th>
+                        <th>Urgency</th>
+                        <th>Status</th>                       
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.CRMTicketModelList != null && Model.CRMTicketModelList.Count > 0)
+                    {
+                        foreach (var item in Model.CRMTicketModelList)
+                        {
+                    <tr>
+                        <td data-column="Ticket No" translate="no">
+                            <a href="/Tickets/CreateTicket/@item.TicketID">@item.TicketNo</a>
+                        </td>
+                        <td translate="no" data-column="Customer Name">@item.CustomerName</td>
+                        <td translate="no" data-column="Email">@item.EmailID</td>
+                        <td translate="no" data-column="Phone No">@item.PhoneNumber</td>
+                        <td translate="no" data-column="Error Type">@item.ErrorTypeName</td>
+                        <td translate="no" data-column="Urgency Type">@item.UrgencyName</td>
+                        <td translate="no" data-column="Status">@item.TicketStatusName</td>                        
+                        <td translate="no" data-column="Create Date">@item.CreatedDate</td>
+                    </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" style="text-align: center;">** No Record Found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>

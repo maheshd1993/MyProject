@@ -1,0 +1,1219 @@
+﻿@{
+    ViewBag.Title = "Create-Users";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+@model Traders.Models.CreateUserModel
+
+
+<div class="maincontainer">
+    @using (Html.BeginForm("createusers", "home", FormMethod.Post, new { enctype = "multipart/form-data", id = "leadForm" }))
+    {
+        @Html.HiddenFor(a => a.TempEscalateUserId)
+        @Html.HiddenFor(a => a.TempReportingManagerId)
+        @Html.HiddenFor(a => a.UserID)
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Create New Users</strong>
+                    <button type="submit" class="btn btn-success pull-right" style="margin-top: -6px;">Save</button>
+                    <button type="button" class="btn btn-danger pull-right" onclick="location.href='/home/users'" style="margin-top: -6px; margin-right: 5px;">Back To Users</button>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#userinfotab" data-toggle="tab">User Info</a></li>
+                        <li><a href="#userSalarytab" data-toggle="tab">Salary Detail</a></li>
+                        <li><a href="#userprofiletab" data-toggle="tab">User Role</a></li>
+                        <li><a href="#mapusers" data-toggle="tab">Assign Users</a></li>
+                        <li><a href="#mapallItems" data-toggle="tab">All Item</a></li>
+                        <li><a href="#mapItems" data-toggle="tab">Assigned Item</a></li>
+                        <li><a href="#mapOtherUsers" data-toggle="tab">Map Other Branch Users</a></li>
+                        <li><a href="#esclateUsers" data-toggle="tab">Ticket Escalation</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="userinfotab">
+                            <div class="form-horizontal">
+                                <div class="refwrap">
+                                    <h2>User Detail</h2>
+                                </div>
+                                <div class="form-group">
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                                    {
+                                        <label class="control-label col-sm-2">Employee  Type</label>
+                                        <div class="col-sm-3">
+                                            @Html.DropDownListFor(model => model.Employetype, new List<SelectListItem>
+                                        { new SelectListItem{Text="Temporary", Value="Temporary"},
+                                       new SelectListItem{Text="Permanent", Value="Permanent"}}, "Select Employee Type", htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="control-label col-sm-2">First Name <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.FirstName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter First Name", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(em => em.FirstName)
+                                    </div>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <label class="control-label col-sm-2">Last Name </label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.LastName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Last Name", @autocomplete = "off" })
+                                            @Html.ValidationMessageFor(em => em.LastName)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <label class="control-label col-sm-2">Last Name</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.LastName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Last Name", @autocomplete = "off" })
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <label class="control-label col-sm-2">Father Name <span class="errormark">*</span></label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.FatherName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Father Name", @autocomplete = "off", required = "required" })
+                                        </div>
+                                        <label class="control-label col-sm-2">Date Of Birth <span class="errormark">*</span></label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.DateofBirth, htmlAttributes: new { @class = "form-control datefield", @placeholder = "Enter Date Of Birth", @autocomplete = "off", required = "required" })
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <label class="control-label col-sm-2">Father Name</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.FatherName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Father Name", @autocomplete = "off" })
+                                        </div>
+                                        <label class="control-label col-sm-2">Date Of Birth</label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.DateofBirth, htmlAttributes: new { @class = "form-control datefield", @placeholder = "Enter Date Of Birth", @autocomplete = "off" })
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <label class="control-label col-sm-2">Aadhar Number <span class="errormark">*</span></label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.AadharNumber, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Aadhar Number", @autocomplete = "off", required = "required" })
+
+                                            @Html.ValidationMessageFor(em => em.AadharNumber)
+                                        </div>
+                                        <label class="control-label col-sm-2">Date Of Joining <span class="errormark">*</span></label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.DateofJoining, htmlAttributes: new { @class = "form-control datefield", @placeholder = "Enter Date Of Joining", @autocomplete = "off", required = "required" })
+                                            @Html.ValidationMessageFor(em => em.DateofJoining)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <label class="control-label col-sm-2">Aadhar Number </label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.AadharNumber, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Aadhar Number", @autocomplete = "off" })
+                                        </div>
+                                        <label class="control-label col-sm-2">Date Of Joining </label>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(em => em.DateofJoining, htmlAttributes: new { @class = "form-control datefield", @placeholder = "Enter Date Of Joining", @autocomplete = "off" })
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Contact No. <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.ContactNumber, htmlAttributes: new { @class = "form-control", @maxlength = "10", @onkeydown = "numericOnly(this,event)", @placeholder = "Enter Contact Number", @autocomplete = "off" })
+
+                                        @Html.ValidationMessageFor(em => em.ContactNumber)
+                                    </div>
+                                    <label class="control-label col-sm-2">Alternate No.</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.AlternateNumber, htmlAttributes: new { @class = "form-control", @maxlength = "10", @onkeydown = "numericOnly(this,event)", @placeholder = "Enter Alternate Number", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">e-mail <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.Email, htmlAttributes: new { @class = "form-control", @placeholder = "Enter e-mail", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(em => em.Email)
+                                    </div>
+                                    <label class="control-label col-sm-2">Gender <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @Html.DropDownListFor(model => model.Gender, new List<SelectListItem>
+                                        { new SelectListItem{Text="Male", Value="1"},
+                                       new SelectListItem{Text="Female", Value="2"}}, "Select Gender", htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(em => em.Gender)
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Employee Code <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.EmployeeCode, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Employee Code", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(em => em.EmployeeCode)
+                                    </div>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+
+                                        <label class="control-label col-sm-2" style="display:none">Branch Name <span class="errormark" style="display:none">*</span></label>
+                                        <div class="col-sm-3" style="display:none">
+                                            @Html.DropDownListFor(em => em.BranchID, new SelectList(Model.obranchList, "BranchID", "CompanyBranchName", Model.BranchID), "Select Branch", htmlAttributes: new { @class = "form-control" })
+
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <label class="control-label col-sm-2">Branch Name <span class="errormark">*</span></label>
+                                        <div class="col-sm-3">
+                                            @Html.DropDownListFor(em => em.BranchID, new SelectList(Model.obranchList, "BranchID", "CompanyBranchName", Model.BranchID), "Select Branch", htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(em => em.BranchID)
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Designation</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.Designation, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Designation", @autocomplete = "off" })
+                                    </div>
+                                    <label class="control-label col-sm-2">User Name <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @if (Model.UserID != null && Model.UserID > 0)
+                                        {
+                                            @*<input type="text" id="txtUsername" name="txtUsername" value="@Model.UserName" class="form-control"  />*@
+                                            @Html.TextBoxFor(em => em.UserName, htmlAttributes: new { @class = "form-control", @value = @Model.UserName })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(em => em.UserName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter User Name", @autocomplete = "off" })
+                                        }
+                                        @Html.ValidationMessageFor(em => em.UserName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Time Zone</label>
+                                    <div class="col-sm-3">
+                                        @Html.DropDownList("TimeZoneName", null, htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                    <label class="control-label col-sm-2">Password <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.UserPassword, htmlAttributes: new { @class = "form-control", @value = @Model.UserPassword, @placeholder = "Enter Password", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(em => em.UserPassword)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Permanent Address</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextAreaFor(em => em.PermanentAddress, htmlAttributes: new { @class = "form-control textAreaResize", @rows = "4", @placeholder = "Enter Permanent Address", @autocomplete = "off" })
+                                    </div>
+                                    <label class="control-label col-sm-2">Confirm Password <span class="errormark">*</span></label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.ConfirmPassword, htmlAttributes: new { @class = "form-control", @value = @Model.UserPassword, @placeholder = "Enter Confirm Password", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(em => em.ConfirmPassword)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Current Address</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextAreaFor(em => em.CurrentAddress, htmlAttributes: new { @class = "form-control textAreaResize", @rows = "4", @placeholder = "Enter Current Address", @autocomplete = "off" })
+                                    </div>
+
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+
+                                        <label class="control-label col-sm-2 ">Upload Documents <span class="errormark">*</span></label>
+                                        <div class="col-sm-3">
+                                            <input type="file" name="Documents" multiple class="form-control r2" style="display:block;" required="required" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <label class="control-label col-sm-2">Upload Documents </label>
+                                        <div class="col-sm-3">
+                                            <input type="file" name="Documents" multiple class="form-control" />
+                                        </div>
+                                    }
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Upload Profile</label>
+                                    <div class="col-sm-3">
+                                        <input type="file" name="Userprofilepic" multiple class="form-control" />
+                                    </div>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <div class="form-group">
+
+                                            <label class="control-label col-sm-2" translate="no">Company Name <span class="errormark">*</span></label>
+
+                                            <div class="col-sm-3">
+                                                <div class="input-group">
+                                                    @if (Model.CompanyTypeList != null && Model.CompanyTypeList.Count > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.CompanyTypeID, new SelectList(Model.CompanyTypeList, "CompanyTypeID", "CompanyTypeName", Model.CompanyTypeID), new { @class = "form-control ListItemCapitalize", translate = "no", required = "required" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(em => em.CompanyTypeID, Enumerable.Empty<SelectListItem>(), new { @class = "form-control ListItemCapitalize" })
+                                                    }
+                                                    @Html.ValidationMessageFor(em => em.CompanyTypeID)
+
+                                                    <span data-toggle="modal" data-target="#addItemModal" ddlId="CompanyTypeID" ddltype="CompanyType" ddlText="CompanyTypeName" onclick="addItem(this);" id="btnPrdTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                        <i class="glyphicon glyphicon-plus-sign"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 1153 || Convert.ToInt32(Session["CompanyID"]) == 2682)
+                                    {
+                                        <label class="control-label col-sm-2">Customer Group</label>
+                                        <div class="col-sm-3">
+                                            @if (Model.Allcustgrouplist != null && Model.Allcustgrouplist.Count() > 0)
+                                            {
+                                                @Html.DropDownList("Customergroupid", new SelectList(Model.Allcustgrouplist, "ID", "CustGroupName"), "Select CustomerGroup", new { @class = "form-control ListItemCapitalize" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("Customergroupid", Enumerable.Empty<SelectListItem>(), "Select CustomerGroup", new { @class = "form-control ListItemCapitalize"})
+                                            }
+                                            <span data-toggle="modal" data-target="#addcustomergroup" ddlId="CustomerGroupId" ddltype="Customergroup"  onclick="addItem(this);" id="btnPrdTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="refwrap">
+                                    <h2>Reference 1</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Name</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.RefName1, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Name", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">Phone Number</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.RefPhoneNumber1, htmlAttributes: new { @class = "form-control", @maxlength = "10", @onkeydown = "numericOnly(this,event)", @placeholder = "Enter Phone Number", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">e-mail</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.RefEmail1, htmlAttributes: new { @class = "form-control", @placeholder = "Enter e-mail", @autocomplete = "off" })
+                                    </div>
+                                </div>
+
+                                <div class="refwrap">
+                                    <h2>Reference 2</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Name</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.RefName2, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Name", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">Phone Number</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.RefPhoneNumber2, htmlAttributes: new { @class = "form-control", @maxlength = "10", @onkeydown = "numericOnly(this,event)", @placeholder = "Enter Phone Number", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">e-mail</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.RefEmail2, htmlAttributes: new { @class = "form-control", @placeholder = "Enter e-mail", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="userSalarytab">
+                            <div class="form-horizontal">
+                                <div class="refwrap">
+                                    <h2>Bank Detail</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Bank Name</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.BankName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Bank Name", @autocomplete = "off" })
+                                        @*@Html.ValidationMessageFor(em => em.BankName)*@
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">Branch Name</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.BranchName, htmlAttributes: new { @class = "form-control", @placeholder = "Enter Branch Name", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">A/C Number</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.AccountNumber, htmlAttributes: new { @class = "form-control", @placeholder = "Enter A/C Number", @autocomplete = "off" })
+                                        @*@Html.ValidationMessageFor(em => em.AccountNumber)*@
+                                    </div>
+                                    <label class="control-label col-sm-2" for="userid">IFSC Code</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.IFSCCode, htmlAttributes: new { @class = "form-control", @placeholder = "Enter IFCS Code", @autocomplete = "off" })
+                                        @*@Html.ValidationMessageFor(em => em.IFSCCode)*@
+                                    </div>
+                                </div>
+                                <div class="refwrap">
+                                    <h2>Salary</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Monthly Salary</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.MonthlySalary, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Monthly Salary", @autocomplete = "off" })
+                                    </div>
+                                    <label class="control-label col-sm-2" for="userid">Annual Salary</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.AnnualSalary, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Annual Salary", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="refwrap">
+                                    <h2>Monthly Salary Breakup</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Basic Salary</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.BasicSalary, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Basic Salary", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">H.R.A</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.HRA, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter H.R.A", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Travelling Allowance</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.TravellingAllowance, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Travelling Allowance", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">Medical Allowance</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.MedicalAllowance, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Medical Allowance", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Performance Incentive</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.PerformanceIncentive, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Performance Incentive", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">Other Benefits</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.OtherBenefits, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Other Benefits", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="refwrap">
+                                    <h2>Deduction</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">PF Employee Share</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.PFEmployeeShare, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter PF Employee Share", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">PF Employer Share</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.PFEmployerShare, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter PF Employer Share", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">ESIC Employer & Employee</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.ESICEmployerEmployee, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter ESIC Employer & Employee", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">TDS</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.TDS, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter TDS", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">LWF</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.LWF, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter LWF", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">Security</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.Security, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Security", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Advance</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.Advance, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Advance", @autocomplete = "off" })
+                                    </div>
+
+                                    <label class="control-label col-sm-2" for="userid">Leave without pay</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.LWP, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Leave without pay", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="userid">Other Deduction</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.OtherDeduction, htmlAttributes: new { @class = "form-control floatIntOnly", @placeholder = "Enter Other Deduction", @autocomplete = "off" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="userprofiletab">
+                            <input type="hidden" id="hdnProfileId" value="@Model.ProfileId" />
+                            <br style="clear: both;" />
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <span id="btnLdsNamePlus" style="cursor:pointer;margin-left:2%;" class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i> Add Role</span>
+
+                                    <div class="col-md-6">
+                                        <div class="input-group" style="display:none" id="divLeadStatusName">
+                                            @Html.TextBoxFor(a => a.AddProfileName, new { id = "txtboxLeadStatusName", @class = "form-control", placeholder = "Enter Role Name" })
+                                            <span style="cursor:pointer" class="input-group-addon" id="btnLdsNameCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                @foreach (var item in ViewBag.result)
+                                {
+                                    if (item.Id == Model.ProfileId)
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2">@item.ProfileName :</label>
+                                            <div class="col-sm-1">
+                                                <input type="radio" name="UserProfile" profileId="@item.Id" class="form-control radioheight prf" checked="checked" value="@item.Id,@item.ProfileName">
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2">@item.ProfileName :</label>
+                                            <div class="col-sm-1">
+                                                <input type="radio" name="UserProfile" profileId="@item.Id" class="form-control radioheight prf" value="@item.Id,@item.ProfileName">
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="mapusers">
+                            <br style="clear: both;">
+                            <table class="table  table-bordered">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" name="chkAllUserList">
+                                            All
+                                        </th>
+                                        <th>Employee Code</th>
+                                        <th>User Name</th>
+                                        <th>Profile</th>
+                                        <th>Full Name</th>
+                                        <th>e-mail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in ViewBag.UserList)
+                                    {
+                                        var flag = 0;
+                                        foreach (var Pitem in Model.mapUserList.ToList())
+                                        {
+                                            if (item.Id == Pitem.MapUserId)
+                                            {
+                                                flag++;
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" name="MapperUserList" class="chk" checked="checked" value="@item.Id">
+                                                    </td>
+                                                    <td>@item.EmployeeCode</td>
+                                                    <td>@item.UserName</td>
+                                                    <td>@item.ProfileName</td>
+                                                    <td style="text-transform: capitalize;">@item.Fname @item.Lname</td>
+                                                    <td>@item.Email</td>
+                                                </tr>
+                                            }
+                                        }
+                                        if (flag == 0)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" name="MapperUserList" class="chk" value="@item.Id">
+                                                </td>
+                                                <td>@item.EmployeeCode</td>
+                                                <td>@item.UserName</td>
+                                                <td>@item.ProfileName</td>
+                                                <td style="text-transform: capitalize;">@item.Fname @item.Lname</td>
+                                                <td>@item.Email</td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane fade" id="mapallItems">
+                            <br style="clear: both;">
+                            <table class="table  table-bordered">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th><input type="checkbox" id="chkAll"> All</th>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Estimated Cost</th>
+                                        <th>Expiry date</th>
+                                        <th>Serial No</th>
+                                        <th>Assign Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (Model.AllItemTypeList.Count > 0)
+                                    {
+                                        foreach (var item in Model.AllItemTypeList)
+                                        {
+                                            <tr>
+
+                                                <td><input name="IsChecked" onchange="checkeditem(this)" id="chkitem" data-toggle="Model" data-target="#modalItemType" class="ochk" type="checkbox" value="@item.Id" /></td>
+
+                                                <td style="display:none;"><input type="hidden" id="hdnitem" value="@item.ItemTypeId" /></td>
+                                                <td>@item.ItemTypeName</td>
+                                                <td>@item.Quantity</td>
+                                                <td>@item.Estimated_Cost</td>
+                                                <td>@item.Expirydate</td>
+                                                <td>@item.SerialNo</td>
+                                                <td>@item.Assigndate</td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane fade" id="mapItems">
+                            <br style="clear: both;">
+                            <table class="table  table-bordered">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th><input type="checkbox" id="chkAll"> All</th>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Estimated Cost</th>
+                                        <th>Expiry Date</th>
+                                        <th>Serial No</th>
+                                        <th>Assign Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (Model.ItemTypeList.Count > 0)
+                                    {
+                                        foreach (var item in Model.ItemTypeList)
+                                        {
+                                            <tr>
+                                                @if (Convert.ToInt32(Session["ItemId"]) == item.UserId)
+                                                {
+                                                    if (item.CheckStatus == "chk")
+                                                    {
+                                                        <td><input name="IsChecked" onchange="Removecheckeditem(this)" checked id="chkitem" data-toggle="Model" data-target="#modalItemType" class="ochk" type="checkbox" value="@item.Id" /></td>
+
+                                                        <td style="display:none;"><input type="hidden" id="hdnitem" value="@item.ItemTypeId" /></td>
+                                                        <td>@item.ItemTypeName</td>
+                                                        <td>@item.Quantity</td>
+                                                        <td>@item.Estimated_Cost</td>
+                                                        <td>@item.Expirydate</td>
+                                                        <td>@item.SerialNo</td>
+                                                        <td>@item.Assigndate</td>
+                                                    }
+                                                }
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="mapOtherUsers">
+                            <br style="clear: both;">
+                            <table class="table  table-bordered">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th><input type="checkbox" id="chkAll"> All</th>
+                                        <th>Employee Code</th>
+                                        <th>Full Name</th>
+                                        <th>Profile</th>
+                                        <th>E-mail</th>
+                                        <th>Branch Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.OtherBranchUserList.Count > 0)
+                                    {
+                                        foreach (var item in Model.OtherBranchUserList)
+                                        {
+                                            <tr>
+                                                <td><input name="IsChecked" checked="@item.IsChecked" class="ochk" type="checkbox" value="@item.Id" /></td>
+                                                <td>@item.EmployeeCode</td>
+                                                <td style="text-transform: capitalize;">@item.UserName</td>
+                                                <td>@item.ProfileName</td>
+                                                <td>@item.EmailID</td>
+                                                <td>@item.BranchName</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div id="esclateUsers" class="tab-pane fade">
+                            <br style="clear: both;">
+                            <table class="table  table-bordered">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th>Escalation User</th>
+                                        <th>Reporting Manager</th>
+                                        <th>Escalation Time (Hours)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @Html.DropDownListFor(a => a.EscalateUserId, new SelectList(Model.UsersList, "uid", "UserName", Model.EscalateUserId), "Select Escalation User", new { @class = "form-control" })
+                                        </td>
+                                        <td>@Html.DropDownListFor(a => a.ReportingManagerId, new SelectList(Model.UsersList, "uid", "UserName", Model.ReportingManagerId), "Select Reporting Manager", new { @class = "form-control" })</td>
+                                        <td>@Html.TextBoxFor(a => a.EscalateTime, new { @class = "form-control", type = "number", min = "0" })</td>
+                                    </tr>
+                                    @*@if (Model.EscalateUsers!=null && Model.EscalateUsers.Any(a=>a.Id!=0 && a.UserId!=0))
+                                        {
+                                            for (int i = 0; i < 5; i++)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DropDownListFor(a => a.EscalateUsers[i].EscalateUserId, new SelectList(Model.UsersList, "uid", "UserName", Model.EscalateUsers[i].EscalateUserId), "Select User", new { @class = "form-control" })
+                                                    </td>
+                                                    <td>@Html.DropDownListFor(a => a.EscalateUsers[i].EscalateLevel, new SelectList(Model.UsersList, "uid", "UserName", Model.EscalateUsers[i].EscalateLevel), "Select Reporting Manager", new { @class = "form-control" })</td>
+                                                    <td>@Html.TextBoxFor(a => a.EscalateUsers[i].EscalateTime, new { @class = "form-control", type = "number", min = "1" })</td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            int i2 = 1;
+                                            for (int i = 0; i<5; i++)
+                                            {
+
+                                                <tr>
+                                                    <td>
+                                                        @Html.DropDownListFor(a => a.EscalateUsers[i].EscalateUserId, new SelectList(Model.UsersList, "uid", "UserName"), "Select User", new { @class = "form-control" })
+                                                    </td>
+                                                    <td>@Html.DropDownListFor(a => a.EscalateUsers[i].EscalateLevel, new SelectList(Model.UsersList, "uid", "UserName"), "Select Reporting Manager", new { @class = "form-control" })</td>
+                                                    <td>@Html.TextBoxFor(a => a.EscalateUsers[i].EscalateTime, new { @class = "form-control", type = "number", min = "1" })</td>
+                                                </tr>
+                                                i2++;
+                                            }
+                                        }*@
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="modal fade" id="addItemModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close canc" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="DDLHeading"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtDDLId" />
+                <input type="hidden" id="txtDDLType" />
+                <input type="text" class="form-control" id="txtDDLItemName" autocomplete="off" placeholder="Please enter text" />
+                <br />
+                <h5 id="ddlMsg" style="color:red;"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSaveDDLItem" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger canc" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modalItemType" class="modal fade" role="dialog" style="top: 2%;">
+    <div class="modal-dialog" style="width: 65%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color: white;">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Quantity</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="txtqut" name="txtqut" type="text" autocomplete="off" placeholder="Please enter Quantity" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Estimated Cost</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="txtcost" name="txtcost" type="text" autocomplete="off" placeholder="Please enter Estimated Cost" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Serial No</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="txtserialno" name="txtserialno" type="text" autocomplete="off" placeholder="Please enter Serial No" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Expiry date</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="txtexpirydate" name="txtexpirydate" type="text" autocomplete="off" placeholder="Please enter Expiry Date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Assign date</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="txtassigndate" name="txtassigndate" type="text" autocomplete="off" placeholder="Please enter Assign Date" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnitemsave" onclick="Saveitemtype()">Save</button>
+                <button type="button" class="btn btn-danger btnclose" id="btnSMSclose" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addcustomergroup" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close canc" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="DDLHeading"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtcutomergId" />                
+                <input type="text" class="form-control" id="txtcustomergroupname" autocomplete="off" placeholder="Please Customer Group" />
+                <br />
+                <h5 id="ddlMsg" style="color:red;"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btncutomergruop" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger canc" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<link href="~/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/SweetAlert/sweetalert.min.js"></script>
+<script>
+
+    //$(function () {
+    //    $('#UserPassword').on('keypress', function (e) {
+    //        if (e.which == 32) {
+    //            console.log('Space Detected');
+    //            return false;
+    //        }
+    //    });
+    //});
+
+    function addItem(obj) {
+        var self = $(obj);
+        var DDLTextName = self.attr('ddlText');
+        var DDLId = self.attr('ddlId');
+        var DDLType = self.attr('ddltype');
+        $("#txtDDLId").val(DDLId);
+        $("#txtDDLType").val(DDLType);
+    }
+
+    $("#btnSaveDDLItem").click(function () {
+
+        $("#ddlMsg").text('Submitting...');
+        var dlid = $("#txtDDLId").val();
+        var dlItemName = $("#txtDDLItemName").val();
+        if (dlItemName != '') {
+            jQuery.post("/home/AddComapnyDDLItem", { ItemName: dlItemName }, function (res) {
+
+                var data = JSON.parse(res);//deserialize json data
+                if (data.Msg == "ok") {
+
+                    //append in drop down list
+                    $('#' + dlid).append(`<option value="${data.ItemId}" selected="true">${data.AddedItem}</option>`);
+
+                    $("#ddlMsg").text('');
+                    $("#txtDDLId").val('');
+                    $("#txtDDLItemName").val('');
+                    jQuery("#addItemModal").modal('hide');
+                }
+                else if (data.Msg == "expire") {
+                    $("#ddlMsg").text('Your session has been expired! Please login again');
+                    $("#txtDDLId").val('');
+                    $("#txtDDLItemName").val('');
+                    //swal("Alert !", "Something went wrong", "warning");
+                }
+                else {
+                    $("#ddlMsg").text(data.Msg);
+                }
+            });
+        }
+        else {
+            $("#ddlMsg").text('Please enter text');
+        }
+    });
+
+    $("#btncutomergruop").click(function () {
+        debugger;
+        $("#ddlMsg").text('Submitting...');
+        var dlid = $("#txtDDLId").val();
+        var CustmergroupName = $("#txtcustomergroupname").val();
+        if (CustmergroupName != '') {
+            jQuery.post("/home/AddCustomergroupname", { customgrpname: CustmergroupName }, function (res) {
+
+                var data = JSON.parse(res);//deserialize json data
+                if (data.Msg == "ok") {
+
+                    //append in drop down list
+                    $('#' + dlid).append(`<option value="${data.ID}" selected="true">${data.CustGroupName}</option>`);
+
+                    $("#ddlMsg").text('');
+                    $("#txtDDLId").val('');
+                    $("#CustGroupName").val('');
+                    jQuery("#addcustomergroup").modal('hide');
+                }
+                else if (data.Msg == "expire") {
+                    $("#ddlMsg").text('Your session has been expired! Please login again');
+                    $("#txtDDLId").val('');
+                    $("#txtcustomergroupname").val('');
+                    //swal("Alert !", "Something went wrong", "warning");
+                }
+                else {
+                    $("#ddlMsg").text(data.Msg);
+                }
+            });
+        }
+        else {
+            $("#ddlMsg").text('Please enter text');
+        }
+    });
+    
+</script>
+<script>
+    window.addEventListener('load', (event) => {
+        var mas = '@al';
+        var chkmsg = '@alchk';
+        if (mas != '') {
+            swal("Success !", mas, "success");
+        }
+        if (chkmsg != '') {
+            swal("Alert !", chkmsg, "warning");
+        }
+    });
+    $(document).ready(function () {
+        debugger;
+        var uid = (window.location).href;
+        var id1 = uid.substring(uid.lastIndexOf('/') + 1);
+        if (id1 != "createusers") {
+            //$(".r1").css('display', 'block');
+            $(".r2").removeAttr('required');
+
+        }
+
+
+    });
+
+    $('#UserPassword').keydown(function (event) {
+        if (event.ctrlKey == true && (event.which == '118' || event.which == '86')) {
+            alert('Do not PASTE!');
+            event.preventDefault();
+        }
+    });
+
+    @*$(document).ready(function () {
+        var GetId = '@ViewContext.RouteData.Values["Id"]';
+        if (GetId != '') {
+            jQuery('.dis').attr('disabled', 'disabled');
+            //Hide the password div
+            jQuery('.Divhd').hide();
+        }
+    });*@
+
+
+
+
+    //btn  add lead status name plus button click function
+    $("#btnLdsNamePlus").click(function () {
+        $("#divLeadStatusName").show();
+
+        $("input:radio[name='UserProfile']").each(function (i) {
+            this.checked = false;
+        });
+        //$('#LeadStatusID').removeAttr("required").hide();
+        $("#btnLdsNamePlus").hide();
+    });
+
+    //btn cancel lead status name
+    $("#btnLdsNameCancel").click(function () {
+        //get already selected profileid
+        var roleId = $("#hdnProfileId").val();
+        if (roleId != '') {
+            $(".prf").each(function () {
+                var prfId = $(this).attr('profileId');
+                if (prfId == roleId) {
+                    this.checked = true;
+                }
+            });
+        }
+        $("#txtboxLeadStatusName").val('');
+        $("#divLeadStatusName").hide();
+        //$('#LeadStatusID').attr("required", true).show();
+        $("#btnLdsNamePlus").show();
+    });
+
+    $("input:radio[name='UserProfile']").click(function () {
+
+        var prfId = $(this).attr('profileId');
+        $("#hdnProfileId").val(prfId);
+
+        $("#txtboxLeadStatusName").val('');
+        $("#divLeadStatusName").hide();
+        //$('#LeadStatusID').attr("required", true).show();
+        $("#btnLdsNamePlus").show();
+    });
+</script>
+
+<script type="text/javascript">
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#DateofBirth').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+        $('#DateofJoining').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+        $('#txtassigndate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            //forceParse: true,
+            assumeNearbyYear: 20
+        });
+        $('#txtexpirydate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            //forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+    });
+
+    $('input[name="chkAllUserList"]').click(function () {
+        if ($(this).is(':checked')) {
+            jQuery('.chk').prop('checked', true);
+            //that.pageselected = true;
+        } else {
+            jQuery('.chk').prop('checked', false);
+            //that.pageselected = false;
+        }
+    });
+
+    //Uncheck The Top check if Loop checkbox is Uncheck
+    $('.chk').click(function () {
+
+        if ($(this).is(':unchecked')) {
+            $('input[name="chkAllUserList"]').prop('checked', false);
+        }
+        else {
+            if ($('.chk:checked').length == $('.chk').length) {
+                $('input[name="chkAllUserList"]').prop('checked', true);
+            }
+        }
+    });
+
+    function checkeditem(e) {
+        debugger;
+        var itemid = $(e).val();
+        $('#hdnitem').val(itemid);
+        var chkAll = jQuery(e).is(':checked');
+
+        if (chkAll == true) {
+            jQuery('#modalItemType').modal('show');
+        }
+        else {
+            jQuery('#modalItemType').modal('hide');
+        }
+    }
+
+    function Removecheckeditem(e) {
+        var itemid = $(e).val();
+        var USERID = (window.location).href;
+        var id1 = USERID.substring(USERID.lastIndexOf('/') + 1);
+        if (id1 != "createusers") {
+            Uid = id1;
+        }
+        jQuery.post('/home/Removedcheckeditemtypedata', { id: itemid, uid: Uid }, function (data) {
+            if (id1 == 'createusers') {
+                window.location.href = "/home/createusers/";
+            }
+            else {
+                window.location.href = "/home/createusers/" + id1 + "";
+            }
+        });
+
+    }
+    function Saveitemtype(e) {
+        debugger;
+        //var chk = $("#chkitem").prop("checked", true);
+        //if (chk == true) {
+        var USERID = (window.location).href;
+        var id1 = USERID.substring(USERID.lastIndexOf('/') + 1);
+        if (id1 != "createusers") {
+            Uid = id1;
+        }
+        else if (id1 == "") {
+            Uid = 0;
+        }
+        else {
+            Uid = 0;
+        }
+        //var itemid = $('#chkitem:checked').val();
+        var serialno = $('#txtserialno').val();
+        var itemid = $("#hdnitem").val();
+        var quantity = $("#txtqut").val();
+        var estimatecost = $("#txtcost").val();
+        var expirydate = $("#txtexpirydate").val();
+        var assigndate = $("#txtassigndate").val();
+        jQuery.post('/home/saveitemtypedata', { id: itemid, QTY: quantity, EST: estimatecost, EXD: expirydate, uid: Uid, SNO: serialno, AssignDate: assigndate }, function (data) {
+            if (id1 == 'createusers') {
+                window.location.href = "/home/createusers/";
+            }
+            else {
+                window.location.href = "/home/createusers/" + id1 + "";
+            }
+        });
+        //}
+        //else
+        //{
+        //    alert("Please check any item");
+        //}
+
+    }
+    $("#chkAll").click(function () {
+        var allBranch = $(".ochk");
+        var chkCurrent = $(this);
+        if (chkCurrent.prop("checked") == true) {
+            allBranch.prop("checked", true);
+        }
+        else {
+            allBranch.prop("checked", false);
+
+        }
+    });
+    function numericOnly(element, e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) ||
+            // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    }
+
+    $('.floatIntOnly').keypress(function (event) {
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    });
+
+</script>
+<style>
+    .errormark {
+        color: red;
+    }
+
+    .field-validation-error {
+        margin-left: 2px;
+        color: #ff0000;
+        font-size: 12px !important;
+        display: block;
+        margin-top: 43px;
+        font-weight: normal !important;
+    }
+
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+</style>

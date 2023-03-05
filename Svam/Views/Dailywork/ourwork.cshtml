@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "ourwork";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@*@model Traders.Models.ViewworkAssignDeveloperModel*@
+<div class="maincontainer">
+    @*<h1> 
+            <span style="margin-left: 21%; color: red; font-family: initial;">@TempData["alert"]</span>
+        </h1>*@
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Our Work</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("ourwork", "Dailywork", FormMethod.Post))
+                                {
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control selectDate" name="FromDate" placeholder="From Date" required="required" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control selectDate" name="ToDate" placeholder="To Date" required="required" />
+                                    </div>
+                                    <div class="col-sm-4 padd0">
+                                        <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                                        <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/Dailywork/ourwork'" />
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Sr no.</th>
+                                    <th></th>
+                                    <th>Project Name</th>
+                                    <th>Module</th>
+                                    <th>Module Description</th>
+                                    <th>Finish Date</th>
+                                    <th>Assign By</th>
+                                    <th>Assign To</th>
+                                    <th>Assign Date</th>
+                                    <th>Task Complete Date</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*@{int i = 1;}
+                                                @* @if (Model.ViewworkAssignDevelopermodelList.Count > 0)
+                        {
+                            
+                                            @foreach (var item in Model.ViewworkAssignDevelopermodelList.OrderByDescending(em => em.Id))
+                                            {
+                                                <tr>
+                                                    <td>@i</td>
+                                                    <td>@item.WorkCreatedDate</td>
+                                                    <td>@item.ProjectName</td>
+                                                    <td>@item.ModuleName</td>
+                                                    <td>@item.ModuleDescription</td>
+                                                    <td>@item.FinishingDate</td>
+                                                    <td>@item.WorkAssignedUser</td>
+                                                    <td>@item.AssignDate</td>
+                                                    <td>--</td>
+                                                    <td><a href="javascript:void(0)">View</a></td>
+                                                </tr>
+                                                i++;
+                                                
+                                            }
+                                             @*}
+                        else
+                        {
+                            <p style="margin-left:16px;">no records found.</p>
+                        }*@
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<link href="/datepick/jquery-ui.css" rel="stylesheet" />
+<script src="/datepick/jquery-ui.js"></script>
+<script type="text/javascript">
+    jQuery('.selectDate').datepicker({
+        dateFormat: "mm/dd/yy",
+        //maxDate: 0,
+        //minDate: 0,
+        onSelect: function (date_text, inst) {
+        }
+    });
+</script>

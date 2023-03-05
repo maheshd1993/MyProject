@@ -1,0 +1,436 @@
+﻿@{
+    ViewBag.Title = "users";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.ViewModel.ViewUserModel
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Manage Users </strong>
+                <button class="btn btn-success pull-right" onclick="location.href='/home/createusers'" style="margin-top: -6px;">Add User</button>
+            </div>
+
+            <div class="row" style="text-align:center;margin-top:10px;">
+                @using (Html.BeginForm("users", "home", FormMethod.Post))
+                {
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span><b>Branch<span style="color:white">+</span></b></span>
+                            </div>
+
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(a => a.FilterBranchId, Model.BranchList, new { @class = "form-control", @onchange = "this.form.submit()" })
+                            </div>
+                        </div>
+                    </div>
+
+                    if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                    {
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span><b>Company<span style="color:white">+</span></b></span>
+                                </div>
+                                <div class="col-md-8">
+                                    @if (Model.CompanyTypeList != null && Model.CompanyTypeList.Count > 0)
+                                    {
+                                        @Html.DropDownListFor(em => em.CompanyTypeID, new SelectList(Model.CompanyTypeList, "CompanyTypeID", "CompanyTypeName", Model.CompanyTypeID), new { @class = "form-control ListItemCapitalize", translate = "no", required = "required" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(em => em.CompanyTypeID, Enumerable.Empty<SelectListItem>
+             (), new { @class = "form-control ListItemCapitalize" })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+
+                    }
+                    if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                    {
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span><b>EmpCode<span style="color:white">+</span></b></span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" id="txtempcode" class="form-control cuserror" placeholder="Empcode" name="Empcode">
+                                    <input type="hidden" id="hdtxtempcode" />
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    <div class="col-md-2">
+                        <button class="btn btn-success ">Filter</button>
+                    </div>
+
+                }
+
+            </div>
+
+
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#activeusers" data-toggle="tab">Active Users</a></li>
+                    <li><a href="#inactiveusers" data-toggle="tab">Inactive Users</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="activeusers" style="overflow-x: scroll;">
+                        <br style="clear: both;" />
+                        <table class="table table-bordered tablefont" id="dest">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>SNo.</th>
+                                    <th id="empCode">Employee Code</th>
+                                    <th id="firstName">Employee Name</th>                                    
+                                    <th id="Designation">Designation</th>                                    
+                                    <th id="userName">User Name</th>
+                                    <th id="role">Role</th>
+                                    <th id="contactNo">Contact Number</th>
+                                    <th id="email">Email</th>
+
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                    {
+                                        <th>Company Name</th>
+                                    }
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.UsersList != null && Model.UsersList.Count > 0)
+                                {
+                                    int i = 1;
+                                    foreach (var item in Model.UsersList)
+                                    {
+                                        if (item.Status == true)
+                                        {
+
+                                            <tr>
+                                                <td>@i</td>
+                                                <td data-column="Employee Code" translate="no">@item.EmployeeCode</td>
+                                                <td data-column="First Name" translate="no">@item.Fname @item.Lname</td>                                                
+                                                <td data-column="Designation" translate="no">@item.Designation</td>                                                
+                                                <td data-column="User Name" translate="no"><a href="/home/createusers/@item.Id">@item.UserName</a></td>
+                                                <td data-column="Role" translate="no">@item.ProfileName</td>
+                                                <td data-column="Contact Number" translate="no">@item.ContactNumber</td>
+                                                <td data-column="Email">@item.Email</td>
+                                                @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                                {
+                                                    <td data-column="CompanyTypeName" translate="no">@item.CompanyTypeName</td>
+                                                }
+                                                <td data-column="Status">
+                                                    @*<button class="btn btn-danger" onclick="location.href='/home/changeuserstatus/@item.Id'">Inactive</button>*@
+                                                    <button class="btn btn-success" onclick="location.href='/home/changeuserstatus/@item.Id'">Active</button>
+                                                </td>
+                                                <td data-column="Action">
+                                                    <a href="/home/UserDocuments/@item.Id" class="btn btn-warning">View Document</a>
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" style="color:red;text-align:center">No users found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end first tabs -->
+                    <div class="tab-pane fade" id="inactiveusers" style="overflow-x: scroll;">
+                        <br style="clear: both;" />
+                        <table class="table table-bordered tablefont" id="dest2">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>SNo.</th>
+                                    <th id="empCode2">Employee Code</th>
+                                    <th id="firstName2">Employee Name</th>                                    
+                                    <th id="Designation">Designation</th>                                    
+                                    <th id="userName2">User Name</th>
+                                    <th id="role2">Role</th>
+                                    <th id="email2">Email</th>
+                                    <th id="contactNo2">Contact Number</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.UsersList != null && Model.UsersList.Count > 0)
+                                {
+                                    int i = 1;
+                                    foreach (var item in Model.UsersList)
+                                    {
+                                        if (item.Status == false)
+                                        {
+
+                                            <tr>
+                                                <td>@i</td>
+                                                <td data-column="Employee Code" translate="no">@item.EmployeeCode</td>
+                                                <td data-column="first Name" translate="no">@item.Fname @item.Lname</td>                                                
+                                                <td data-column="Designation" translate="no">@item.Designation</td>                                                
+                                                <td data-column="User Name" translate="no">@item.UserName</td>
+                                                <td data-column="Role" translate="no">@item.ProfileName</td>
+                                                <td data-column="Email" translate="no">@item.Email</td>
+                                                <td data-column="Contact No." translate="no">@item.ContactNumber</td>
+                                                <td data-column="Status">
+                                                    @*<button class="btn btn-success" onclick="location.href='/home/changeuserstatus/@item.Id'">Active</button>*@
+                                                    <button class="btn btn-danger" onclick="location.href='/home/changeuserstatus/@item.Id'">Inactive</button>
+                                                </td>
+                                                <td data-column="Action">
+                                                    <a href="/home/UserDocuments/@item.Id" class="btn btn-warning">View Document</a>
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" style="color:red;text-align:center">No users found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end second tabs -->
+                </div>
+            </div>
+            <!-- end first tabs -->
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="~/js/jquery.tablesorter.js"></script>
+<script src="~/js/jquery-ui.js"></script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+
+<script>
+
+    jQuery('#txtempcode').autocomplete({
+        autoFocus: true,
+        source: function (request, response) {
+            $.ajax({
+                url: '/home/GetEmpCodeWithAutoComplete',
+                data: { reqstr: request.term },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return { label: item.EmployeeCode, value: item.EmployeeCode };
+                    }))
+                },
+                beforeSend: function (data) {
+                    if (data != 0)
+                        $('.loaderimg').show();
+                    else
+                        return false;
+                },
+                complete: function () {
+                    $('.loaderimg').hide();
+                }
+            })
+        },
+        minLength: 1,
+        select: function (event, ui) {
+
+            $(this).val(ui.item.label)
+
+            var Selectteditem = ui.item.value;
+            var selectedname = ui.item.label
+            var data = ui.item.value;
+            jQuery('#hdtxtempcode').val(selectedname);
+            return false;
+        }
+    });
+    jQuery.noConflict();
+    (function ($) {
+        $(function () {
+            // call the tablesorter plugin
+            $("#dest").tablesorter({
+                // default "emptyTo"
+                emptyTo: 'bottom'
+            });
+        });
+
+        $(function () {
+            // bind change event to select
+            $('.dynamic_select').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+
+        function sortTable(f, n) {
+            var rows = $('#dest tbody  tr').get();
+            rows.sort(function (a, b) {
+                var A = getVal(a);
+                var B = getVal(b);
+                if (A < B) {
+                    return -1 * f;
+                }
+                if (A > B) {
+                    return 1 * f;
+                }
+                return 0;
+            });
+
+            function getVal(elm) {
+                var v = $(elm).children('td').eq(n).text().toUpperCase();
+                if ($.isNumeric(v)) {
+                    v = parseInt(v, 10);
+                }
+                return v;
+            }
+
+            $.each(rows, function (index, row) {
+                $('#dest').children('tbody').append(row);
+            });
+        }
+
+        var f_sl = 1;
+
+        $("#firstName").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#lastName").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#empCode").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#userName").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#role").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#email").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#contactNo").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+
+    })(jQuery);
+
+
+
+</script>
+
+<script>
+    jQuery.noConflict();
+    (function ($) {
+        $(function () {
+            // call the tablesorter plugin
+            $("#dest2").tablesorter({
+                // default "emptyTo"
+                emptyTo: 'bottom'
+            });
+        });
+
+        $(function () {
+            // bind change event to select
+            $('.dynamic_select').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+
+        function sortTable(f, n) {
+            var rows = $('#dest2 tbody  tr').get();
+            rows.sort(function (a, b) {
+                var A = getVal(a);
+                var B = getVal(b);
+                if (A < B) {
+                    return -1 * f;
+                }
+                if (A > B) {
+                    return 1 * f;
+                }
+                return 0;
+            });
+
+            function getVal(elm) {
+                var v = $(elm).children('td').eq(n).text().toUpperCase();
+                if ($.isNumeric(v)) {
+                    v = parseInt(v, 10);
+                }
+                return v;
+            }
+
+            $.each(rows, function (index, row) {
+                $('#dest2').children('tbody').append(row);
+            });
+        }
+        var f_sl = 1;
+
+        $("#firstName2").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#lastName2").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#empCode2").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#userName2").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#role2").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#email2").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+        $("#contactNo2").click(function () {
+            f_sl *= -1;
+            var n = $(this).prevAll().length;
+            sortTable(f_sl, n);
+        });
+    })(jQuery);
+</script>
+

@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "Assign_Leads_Management";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.LeadManagementModel
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <h1>Assign Leads <span style="margin-left: 21%; color: red; font-family: initial;">@TempData["alert"]</span></h1>
+        <div class="form-horizontal">
+            <div class="f-center col-sm-9 padd0">
+                @using (Html.BeginForm("Assign_Leads_Management", "home", FormMethod.Post))
+                {
+                    <div class="col-md-4">
+                        <select id="ddlSaleUser" class="form-control">
+                            <option>Select User</option>
+                        </select>
+                    </div>                    
+                    string search = Convert.ToString(Session["DDLFilterText"]);
+                    <div class="col-sm-4" style="display: none;">
+                        <select name="filterText" id="filterText" class="form-control" required="required" onchange="this.form.submit()">
+                            <option>Select Status</option>
+                            <option @(search != null ? search == "Open" ? "selected" : "" : null) value="Open">Open</option>
+                            <option @(search != null ? search == "Closed" ? "selected" : "" : null) value="Closed">Closed</option>
+                            <option @(search != null ? search == "Not Interested" ? "selected" : "" : null) value="Not Interested">Not Interested</option>
+                            <option @(search != null ? search == "Priority" ? "selected" : "" : null) value="Priority">Priority</option>
+                            <option @(search != null ? search == "Suspect" ? "selected" : "" : null) value="Suspect">Suspect</option>
+                            <option @(search != null ? search == "Prospect" ? "selected" : "" : null) value="Prospect">Prospect</option>
+                            <option @(search != null ? search == "Delivered" ? "selected" : "" : null) value="Delivered">Delivered</option>
+                            <option @(search != null ? search == "Already Using" ? "selected" : "" : null) value="Already Using">Already Using</option>
+                            <option @(search != null ? search == "Today Followup" ? "selected" : "" : null) value="Today Followup">Today Followup</option>
+                            <option @(search != null ? search == "All" ? "selected" : "" : null) value="All">All</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepik" name="FromDate" placeholder="From Date" required="required" />
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control datepik" name="ToDate" placeholder="To Date" required="required" />
+                    </div>
+                    <div class="col-sm-4 padd0">
+                        <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                        <input class="btn btn-success" type="button" value="Reset" onclick="location.href = '/home/Assign_Leads_Management'" />
+                    </div>
+                }
+            </div>
+
+            @using (Html.BeginForm("ManageAssign_Leads_Management", "home", FormMethod.Post))
+            {
+                <div class="form-group f-center col-sm-3 padd0">
+                    @*@Html.DropDownList("AssignTo", null,"--Choose to Assign--",new {@class="form-control",@style=" width: 200px;float: left;margin-top: 0px;" })*@
+                    <select id="AssignTo" name="AssignTo" class="form-control" style="width: 200px; float: left; margin-top: 0px;">
+                    </select>
+                    <input id="Submit2" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Assign Leads" />
+                </div>
+                
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table table-hover tabledata table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <input type="checkbox" name="chkAllLeads" />All</th>
+                                                <th>ID</th>
+                                                <th>Customer Name </th>
+                                                <th>Mobile No.</th>
+                                                <th>Email</th>
+                                                <th>Country</th>
+                                                <th>State</th>
+                                                <th>City</th>
+                                                <th>Follow Up date</th>
+                                                <th>Lead Status</th>
+                                                <th>Created By</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{int i = 1;}
+                                            @if (Model.leadManagementmodelList.Count > 0)
+                                            {
+                                                foreach (var item in Model.leadManagementmodelList.OrderByDescending(em => em.Id))
+                                                {
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" name="MapperUserLeads" class="chk" value="@item.Id-@item.LeadStatus"/></td>
+                                                    <td>@i</td>
+                                                    <td><a href="/home/createleads/@item.Id" target="_blank">@item.CustomerName</a></td>
+                                                    <td><a href="/home/createleads/@item.Id" target="_blank">@item.PrimaryPhNo</a></td>
+                                                    <td>@item.Email</td>
+                                                    <td>@item.Country</td>
+                                                    <td>@item.State</td>
+                                                    <td>@item.City</td>
+                                                    <td>@item.FollowUpDate</td>
+                                                    <td>@item.LeadStatus</td>
+                                                    <td>@item.CreatedBy</td>
+                                                    <td>@item.Date</td>
+                                                </tr>
+                                                    i++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="12" style="text-align: center;">** No Record Found</td>
+                                                </tr> 
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        BindSaleUser();
+        BindDDlMapUser();
+    });
+
+    jQuery('input[name="chkAllLeads"]').click(function () {
+        if ($(this).is(':checked')) {
+            jQuery('.chk').prop('checked', true);
+            //that.pageselected = true;
+        } else {
+            jQuery('.chk').prop('checked', false);
+            //that.pageselected = false;
+        }
+    });
+
+    //Uncheck The Top check if Loop checkbox is Uncheck
+    jQuery('.chk').click(function () {
+        if ($(this).is(':unchecked')) {
+            jQuery('input[name="chkAllLeads"]').prop('checked', false);
+        }
+        else {
+            if ($('.chk:checked').length == $('.chk').length) {
+                $('input[name="chkAllLeads"]').prop('checked', true);
+            }
+        }
+    });
+
+    function BindDDlMapUser() {
+        jQuery.post('/home/GetDepartmentuserList', null, function (data) { chkBindAssignLeadToDDL(data) });
+    }
+
+    function chkBindAssignLeadToDDL(abc) {
+        var data = "";
+        data += "<option value= >Select User</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" +
+             abc[it].UserName + "</option>";
+        }
+        $('#AssignTo').html(data);
+    }
+
+    function BindSaleUser() {
+        jQuery.post('/home/BindSaleUser', null, function (userdata) { BindsaleUserList(userdata) })
+    }
+
+    function BindsaleUserList(users) {
+        var usersdata = "";
+        usersdata += "<option value= >Select User</option>";
+        for (var it in users) {
+            usersdata += "<option value=" + abc[it].Id + " >" +
+             users[it].UserName + "</option>";
+        }
+        $('#ddlSaleUser').html(usersdata);
+    }
+</script>

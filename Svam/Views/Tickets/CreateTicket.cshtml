@@ -1,0 +1,1616 @@
+﻿@{
+    ViewBag.Title = "CreateTicket";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Svam.Models.CRMTicketModel
+
+<style type="text/css">
+    #blockContainer {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #blockContainer div {
+            flex: 1;
+        }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .field-validation-error {
+        margin-left: 2px;
+        color: #ff0000;
+        font-size: 12px !important;
+        display: block;
+        margin-top: 43px;
+        font-weight: normal !important;
+    }
+
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+
+    .imgBox {
+        display: inline-block;
+        overflow: hidden !important;
+        transition: .3s ease-in-out;
+    }
+
+        .imgBox:hover {
+            opacity: 0.6;
+            filter: alpha(opacity=30);
+            transform: scale(1.3);
+        }
+
+    .custom-select {
+        background-color: #e3e4fa;
+        color: #580202;
+        border-radius: 0;
+    }
+
+        .custom-select option {
+            background-color: #e3e4fa;
+            color: #580202;
+            padding: 5px;
+        }
+
+            .custom-select option:checked {
+                background-color: #386daa;
+                color: white;
+            }
+
+            .custom-select option:hover {
+                background-color: #38aa8f;
+                color: white;
+                cursor: pointer;
+            }
+</style>
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    @using (Html.BeginForm("CreateTicket", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(em => em.TicketID)
+                        @Html.HiddenFor(a => a.TicketNo)
+                        @Html.HiddenFor(a => a.IsProdTypeAdd)
+                        @Html.HiddenFor(a => a.IsErrorTypeAdd)
+                        @Html.HiddenFor(a => a.IsUrgencyTypeAdd)
+                        @Html.HiddenFor(a => a.Sparepartstatus)
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <strong>Create Ticket</strong>
+                                <div class="row" style="padding-right: 2.5%;">
+                                    <div class="col-sm-9 padd0"></div>
+                                    <div class="col-sm-3 padd0 developer_paddo">
+                                        <input type="button" value="Back to View Tickets" class="btn btn-danger pull-right pull-right" style="margin-right:5px;margin-top:3px;" onclick="location.href = '/Tickets/ViewTicket'" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body ">
+                                <div class="form-horizontal">
+                                    <div class="row">
+                                        <div class="col-md-6" id="blockContainer">
+
+                                            <div class="form-group" style="order:@(Model.propVal!=null ? Model.propVal.NameTextPriority:1)">
+                                                <label class="control-label col-sm-4">Customer <span id="r2" class="madatoryfield">*</span></label>
+                                                <div class="col-sm-8">
+                                                    <input type="radio" name="CustomerType" id="rdnExisting" value="Existing" @if (Model != null && Model.ExistingNew == "Existing") { <text> checked="checked" </text>                      } />Existing Customer
+                                                    <input type="radio" name="CustomerType" id="rdnNew" value="New" @if (Model != null && Model.ExistingNew == "New") { <text> checked="checked" </text>                      } />New Customer
+                                                    <input type="hidden" name="ExistingNew" id="hdnExistingNewCustomer" value="@Model.ExistingNew" />
+                                                </div>
+                                                @{string custNM = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.NameText) ? Model.propVal.NameText : "Customer Name";}
+                                                <br />
+                                                <div class="row" id="Existing" style="display:@(Model != null && Model.ExistingNew == "Existing" ? "block" : "none")">
+                                                    <label class="control-label col-sm-4" translate="no">
+                                                        @custNM
+                                                        <span id="r2" class="madatoryfield">*</span>
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        @if (Model.CustomerList != null && Model.CustomerList.Count > 0)
+                                                        {
+                                                            @Html.DropDownListFor(em => em.leadCustomerName, new SelectList(Model.CustomerList, "CustomerName", "CustomerName"), String.Format("Select {0}", custNM), htmlAttributes: new { @class = "form-control ListItemCapitalize", })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DropDownListFor(em => em.leadCustomerName, new SelectList(Enumerable.Empty<SelectListItem>(), "CustomerName", "CustomerName"), String.Format("Select {0}", custNM), htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+                                                        }
+                                                        @Html.HiddenFor(em => em.CustomerName)
+                                                        @Html.HiddenFor(em => em.CustomerID)
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row" id="New" style="display:@(Model != null && Model.ExistingNew == "New"?"block":"none")">
+                                                    <label class="control-label col-sm-4" translate="no">
+                                                        @custNM
+                                                        <span id="r2" class="madatoryfield">*</span>
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(em => em.NewCustomerName, new { @class = "form-control customercss", @type = "text", @autocomplete = "off" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@(Model.propVal.CompanyId == null || (Model.propVal != null && Model.propVal.IsEmailID)? "display:block;-webkit-order:"+Model.propVal.EmailIDTextPriority+";order:"+Model.propVal.EmailIDTextPriority+"" : "display:none")">
+                                                @{string email = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.EmailIDText) ? Model.propVal.EmailIDText : "Email Address";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @email
+                                                    <span class="madatoryfield" style="@(Model.propVal.CompanyId == null || (Model.propVal != null && Model.propVal.IsEmailIDRequired) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="email" id="EmailID" translate="no" name="@Html.DisplayNameFor(a => a.EmailID)" class="form-control" autocomplete="off" @if (Model.propVal.CompanyId == null || (Model.propVal != null && Model.propVal.IsEmailIDRequired)) { <text> required</text> } />
+                                                    @Html.ValidationMessageFor(em => em.EmailID, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="order:@(Model.propVal!=null?Model.propVal.PhoneNumberTextPriority:0)">
+                                                @{string phoneNo = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.PhoneNumberText) ? Model.propVal.PhoneNumberText : "Phone Number";}
+                                                <label class="control-label col-sm-4" translate="no">@phoneNo<span id="r2" class="madatoryfield">*</span></label>
+                                                <div class="col-sm-8">
+                                                    @Html.TextBoxFor(em => em.PhoneNumber, new { @class = "form-control", @autocomplete = "off", @onkeydown = "numericOnly(this,event)", maxlength = "15", required = "required", translate = "no" })
+                                                    @*@Html.ValidationMessageFor(em => em.PhoneNumber, "", new { @class = "text-danger" })*@
+                                                </div>
+                                            </div>
+
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                            {
+
+                                                <div class="form-group" style="order:@(Model.propVal != null ? Model.propVal.ProductTypeIDTextPriority : 0)">
+                                                    @{string prodType = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ProductTypeIDText) ? Model.propVal.ProductTypeIDText : "Product Type";}
+                                                    <label class="control-label col-sm-4" translate="no">
+                                                        @prodType
+                                                        <span id="r2" class="madatoryfield">*</span>
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        @*@if (Model.IsProdTypeAdd)
+                                                            {
+                                                                <div id="divProductTypeName" class="input-group" style="display:none">
+                                                                    @Html.TextBoxFor(a => a.ProductTypeName, new { id = "txtboxProdTypeName", @class = "form-control" })
+                                                                    <span style="cursor:pointer" class="input-group-addon" id="btnPrdTpNmCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                                </div>
+                                                            }*@
+                                                        <div class="input-group">
+                                                            @if (Model.ProductTypeList != null && Model.ProductTypeList.Count > 0)
+                                                            {
+                                                                @Html.DropDownListFor(em => em.ProductTypeID, new SelectList(Model.ProductTypeList, "ProductTypeID", "ProductTypeName", Model.ProductTypeID), String.Format("Select {0}", prodType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.DropDownListFor(em => em.ProductTypeID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", prodType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required" })
+                                                            }
+                                                            @*@Html.ValidationMessageFor(em => em.ProductTypeID)*@
+                                                            @if (Model.IsProdTypeAdd == true)
+                                                            {
+                                                                <span data-toggle="modal" data-target="#addItemModal" ddlId="ProductTypeID" ddltype="ProductType" ddlText="@prodType" onclick="addItem(this);" id="btnPrdTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                </span>
+                                                            }
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group" style="order:@(Model.propVal != null ? Model.propVal.ProductTypeIDTextPriority : 0)">
+                                                                @{string prodType = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ProductTypeIDText) ? Model.propVal.ProductTypeIDText : "Product Type";}
+                                                                <label class="control-label col-sm-4" translate="no">
+                                                                    @prodType
+                                                                    <span id="r2" class="madatoryfield">*</span>
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    @*@if (Model.IsProdTypeAdd)
+                                                                        {
+                                                                            <div id="divProductTypeName" class="input-group" style="display:none">
+                                                                                @Html.TextBoxFor(a => a.ProductTypeName, new { id = "txtboxProdTypeName", @class = "form-control" })
+                                                                                <span style="cursor:pointer" class="input-group-addon" id="btnPrdTpNmCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                                            </div>
+                                                                        }*@
+                                                                    <div class="input-group">
+                                                                        @if (Model.ProductTypeList != null && Model.ProductTypeList.Count > 0)
+                                                                        {
+                                                                            @Html.DropDownListFor(em => em.ProductTypeID, new SelectList(Model.ProductTypeList, "ProductTypeID", "ProductTypeName", Model.ProductTypeID), String.Format("Select {0}", prodType), htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.DropDownListFor(em => em.ProductTypeID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", prodType), htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(em => em.ProductTypeID)*@
+                                                                        @if (Model.IsProdTypeAdd == true)
+                                                                        {
+                                                                            <span data-toggle="modal" data-target="#addItemModal" ddlId="ProductTypeID" ddltype="ProductType" ddlText="@prodType" onclick="addItem(this);" id="btnPrdTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                            </span>
+                                                                        }
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                                    }
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                            {
+
+                                                <div class="form-group" style="order:@(Model.propVal != null ? Model.propVal.ErrorTypeIDTextPriority : 0)">
+                                                    @{string errType = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ErrorTypeIDText) ? Model.propVal.ErrorTypeIDText : "Error Type";}
+                                                    <label class="control-label col-sm-4" translate="no">@errType<span id="r2" class="madatoryfield">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        @*@if (Model.IsErrorTypeAdd)
+                                                            {
+                                                                <div id="divErrorTypeName" class="input-group" style="display:none">
+                                                                    @Html.TextBoxFor(a => a.ErrorTypeName, new { id = "txtboxErrorTypeName", @class = "form-control" })
+                                                                    <span style="cursor:pointer" class="input-group-addon" id="btnErrTpNmCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                                </div>
+                                                            }*@
+                                                        <div class="input-group">
+                                                            @if (Model.ErrorTypeList != null && Model.ErrorTypeList.Count > 0)
+                                                            {
+                                                                @Html.DropDownListFor(em => em.ErrorTypeID, new SelectList(Model.ErrorTypeList, "ErrorTypeID", "ErrorTypeName", Model.ErrorTypeID), String.Format("Select {0}", errType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.DropDownListFor(em => em.ErrorTypeID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", errType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            }
+                                                            @*@Html.ValidationMessageFor(em => em.ErrorTypeID)*@
+                                                            @if (Model.IsErrorTypeAdd == true)
+                                                            {
+                                                                <span data-toggle="modal" data-target="#addItemModal" ddlId="ErrorTypeID" ddltype="ErrorType" ddlText="@errType" onclick="addItem(this);" id="btnErrTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                </span>
+                                                            }
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group" style="order:@(Model.propVal != null ? Model.propVal.ErrorTypeIDTextPriority : 0)">
+                                                                @{string errType = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ErrorTypeIDText) ? Model.propVal.ErrorTypeIDText : "Error Type";}
+                                                                <label class="control-label col-sm-4" translate="no">@errType<span id="r2" class="madatoryfield">*</span></label>
+                                                                <div class="col-sm-8">
+                                                                    @*@if (Model.IsErrorTypeAdd)
+                                                                        {
+                                                                            <div id="divErrorTypeName" class="input-group" style="display:none">
+                                                                                @Html.TextBoxFor(a => a.ErrorTypeName, new { id = "txtboxErrorTypeName", @class = "form-control" })
+                                                                                <span style="cursor:pointer" class="input-group-addon" id="btnErrTpNmCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                                            </div>
+                                                                        }*@
+                                                                    <div class="input-group">
+                                                                        @if (Model.ErrorTypeList != null && Model.ErrorTypeList.Count > 0)
+                                                                        {
+                                                                            @Html.DropDownListFor(em => em.ErrorTypeID, new SelectList(Model.ErrorTypeList, "ErrorTypeID", "ErrorTypeName", Model.ErrorTypeID), String.Format("Select {0}", errType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.DropDownListFor(em => em.ErrorTypeID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", errType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(em => em.ErrorTypeID)*@
+                                                                        @if (Model.IsErrorTypeAdd == true)
+                                                                        {
+                                                                            <span data-toggle="modal" data-target="#addItemModal" ddlId="ErrorTypeID" ddltype="ErrorType" ddlText="@errType" onclick="addItem(this);" id="btnErrTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                            </span>
+                                                                        }
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                                    }
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                            {
+
+                                                <div class="form-group" style="order:@(Model.propVal != null ? Model.propVal.UrgencyIDTextPriority : 0)">
+                                                    @{string urgencyType = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.UrgencyIDText) ? Model.propVal.UrgencyIDText : "Urgency Type";}
+
+                                                    <label class="control-label col-sm-4" translate="no">@urgencyType<span id="r2" class="madatoryfield">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        @*@if (Model.IsUrgencyTypeAdd)
+                                                            {
+                                                                <div id="divUrgTypeName" class="input-group" style="display:none">
+                                                                    @Html.TextBoxFor(a => a.UrgencyName, new { id = "txtboxUrgTypeName", @class = "form-control" })
+                                                                    <span style="cursor:pointer" class="input-group-addon" id="btnUrgTpNmCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                                </div>
+                                                            }*@
+                                                        <div class="input-group">
+                                                            @if (Model.UrgencyList != null && Model.UrgencyList.Count > 0)
+                                                            {
+                                                                @Html.DropDownListFor(em => em.UrgencyID, new SelectList(Model.UrgencyList, "UrgencyID", "UrgencyName", Model.UrgencyID), String.Format("Select {0}", urgencyType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.DropDownListFor(em => em.UrgencyID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", urgencyType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            }
+                                                            @*@Html.ValidationMessageFor(em => em.UrgencyID)*@
+                                                            @if (Model.IsUrgencyTypeAdd == true)
+                                                            {
+                                                                <span data-toggle="modal" data-target="#addItemModal" ddlId="UrgencyID" ddltype="UrgencyType" ddlText="@urgencyType" onclick="addItem(this);" id="btnUrgTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                </span>
+                                                            }
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group" style="order:@(Model.propVal != null ? Model.propVal.UrgencyIDTextPriority : 0)">
+                                                                @{string urgencyType = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.UrgencyIDText) ? Model.propVal.UrgencyIDText : "Urgency Type";}
+
+                                                                <label class="control-label col-sm-4" translate="no">@urgencyType<span id="r2" class="madatoryfield">*</span></label>
+                                                                <div class="col-sm-8">
+                                                                    @*@if (Model.IsUrgencyTypeAdd)
+                                                                        {
+                                                                            <div id="divUrgTypeName" class="input-group" style="display:none">
+                                                                                @Html.TextBoxFor(a => a.UrgencyName, new { id = "txtboxUrgTypeName", @class = "form-control" })
+                                                                                <span style="cursor:pointer" class="input-group-addon" id="btnUrgTpNmCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                                            </div>
+                                                                        }*@
+                                                                    <div class="input-group">
+                                                                        @if (Model.UrgencyList != null && Model.UrgencyList.Count > 0)
+                                                                        {
+                                                                            @Html.DropDownListFor(em => em.UrgencyID, new SelectList(Model.UrgencyList, "UrgencyID", "UrgencyName", Model.UrgencyID), String.Format("Select {0}", urgencyType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.DropDownListFor(em => em.UrgencyID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", urgencyType), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                                        }
+                                                                        @*@Html.ValidationMessageFor(em => em.UrgencyID)*@
+                                                                        @if (Model.IsUrgencyTypeAdd == true)
+                                                                        {
+                                                                            <span data-toggle="modal" data-target="#addItemModal" ddlId="UrgencyID" ddltype="UrgencyType" ddlText="@urgencyType" onclick="addItem(this);" id="btnUrgTpNmPlus" style="cursor:pointer;" class="input-group-addon">
+                                                                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                                                            </span>
+                                                                        }
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                                    }
+
+                                            <div class="form-group" style="order:@(Model.propVal!=null?Model.propVal.StatusIDTextPriority:0)">
+                                                @{string tktStatus = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.StatusIDText) ? Model.propVal.StatusIDText : "Ticket Status";}
+
+                                                <label class="control-label col-sm-4" translate="no">@tktStatus<span class="madatoryfield">*</span></label>
+                                                <div class="col-sm-8">
+                                                    @Html.DropDownListFor(em => em.TicketStatusID, new SelectList(Model.TicketStatusList, "TicketStatusID", "TicketStatusName", Model.TicketStatusID), String.Format("Select {0}", tktStatus), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", @onchange = "FillTicketStatus()" })
+                                                    @*@Html.ValidationMessageFor(em => em.TicketStatusID)*@
+                                                    @Html.HiddenFor(em => em.TicketStatusName)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="order:@(Model.propVal!=null?Model.propVal.subjectTextPriority:0)">
+                                                @{string tktSub = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.subjectText) ? Model.propVal.subjectText : "Ticket Subject";}
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @tktSub
+                                                    <span class="madatoryfield">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    @*<input type="text" name="TicketSubject" id="TicketSubject" class="form-control" placeholder="@String.Format("Enter {0}", tktStatus)" , autocomplete="off" maxlength="25" @if (Model.propVal.CompanyId == null || (Model.propVal != null && Model.propVal.IssubjectRequired)) { <text> required </text> } />*@
+                                                    @Html.TextBoxFor(em => em.TicketSubject, new { @class = "form-control", @type = "text", @autocomplete = "off", required = "required" })
+                                                    @*@Html.ValidationMessageFor(em => em.TicketSubject)*@
+                                                </div>
+                                            </div>
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                            {
+                                                <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol1) ? "display:block;order:" + Model.propVal.ExtraCol1TextPriority + "" : "display:none")">
+
+                                                    @{string extraCol1 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol1Text) ? Model.propVal.ExtraCol1Text : "Additional 1";}
+
+                                                    <label class="control-label col-sm-4" translate="no">
+                                                        @extraCol1
+                                                        <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol1Required) ? "display:block" : "display:none")">*</span>
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol1)" id="ExtraCol1" value="@Model.ExtraCol1" class="form-control" autocomplete="off" required />
+                                                    </div>
+                                                </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol1) ? "display:block;order:" + Model.propVal.ExtraCol1TextPriority + "" : "display:none")">
+
+                                                                @{string extraCol1 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol1Text) ? Model.propVal.ExtraCol1Text : "Additional 1";}
+
+                                                                <label class="control-label col-sm-4" translate="no">
+                                                                    @extraCol1
+                                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol1Required) ? "display:block" : "display:none")">*</span>
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol1)" id="ExtraCol1" value="@Model.ExtraCol1" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol1Required) { <text> required </text>                        } />
+                                                                </div>
+                                                            </div>
+                                                                    }
+                                            @if (Convert.ToInt32(Session["CompanyID"]) == 2644)
+                                            {
+
+                                                <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol2) ? "display:block;order:" + Model.propVal.ExtraCol2TextPriority + "" : "display:none")">
+
+                                                    @{string extraCol2 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol2Text) ? Model.propVal.ExtraCol2Text : "Additional 2";}
+
+                                                    <label class="control-label col-sm-4" translate="no">
+                                                        @extraCol2
+                                                        <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol2Required) ? "display:block" : "display:none")">*</span>
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol2)" id="ExtraCol2" value="@Model.ExtraCol2" class="form-control" autocomplete="off" required />
+                                                    </div>
+                                                </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol2) ? "display:block;order:" + Model.propVal.ExtraCol2TextPriority + "" : "display:none")">
+
+                                                                @{string extraCol2 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol2Text) ? Model.propVal.ExtraCol2Text : "Additional 2";}
+
+                                                                <label class="control-label col-sm-4" translate="no">
+                                                                    @extraCol2
+                                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol2Required) ? "display:block" : "display:none")">*</span>
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol2)" id="ExtraCol2" value="@Model.ExtraCol2" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol2Required) { <text> required </text>                        } />
+                                                                </div>
+                                                            </div>
+                                                                    }
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol3)? "display:block;order:"+Model.propVal.ExtraCol3TextPriority+"" : "display:none")">
+
+                                                @{string extraCol3 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol3Text) ? Model.propVal.ExtraCol3Text : "Additional 3";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol3
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol3Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol3)" id="ExtraCol3" value="@Model.ExtraCol3" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol3Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol4)? "display:block;order:"+Model.propVal.ExtraCol4TextPriority+"" : "display:none")">
+
+                                                @{string extraCol4 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol4Text) ? Model.propVal.ExtraCol4Text : "Additional 4";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol4
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol4Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol4)" id="ExtraCol4" value="@Model.ExtraCol4" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol4Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol5)? "display:block;order:"+Model.propVal.ExtraCol5TextPriority+"" : "display:none")">
+
+                                                @{string extraCol5 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol5Text) ? Model.propVal.ExtraCol5Text : "Additional 5";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol5
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol5Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol5)" id="ExtraCol5" value="@Model.ExtraCol5" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol5Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.ISExtraCol6)? "display:block;order:"+Model.propVal.ExtraCol6TextPriority+"" : "display:none")">
+
+                                                @{string extraCol6 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol6Text) ? Model.propVal.ExtraCol6Text : "Additional 6";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol6
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.ISExtraCol6Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol6)" id="ExtraCol6" value="@Model.ExtraCol6" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.ISExtraCol6Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.ISExtraCol7)? "display:block;order:"+Model.propVal.ExtraCol7TextPriority+"" : "display:none")">
+
+                                                @{string extraCol7 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol7Text) ? Model.propVal.ExtraCol7Text : "Additional 7";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol7
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.ISExtraCol7Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol7)" id="ExtraCol7" value="@Model.ExtraCol7" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.ISExtraCol7Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.ISExtraCol8)? "display:block;order:"+Model.propVal.ExtraCol8TextPriority+"" : "display:none")">
+                                                @{string extraCol8 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol8Text) ? Model.propVal.ExtraCol8Text : "Additional 8";}
+                                                <label class="control-label col-sm-2" translate="no">
+                                                    @extraCol8
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.ISExtraCol8Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-3">
+                                                    <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol8)" id="ExtraCol8" value="@Model.ExtraCol8" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.ISExtraCol8Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol9)? "display:block;order:"+Model.propVal.ExtraCol9TextPriority+"" : "display:none")">
+                                                @{string extraCol9 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol9Text) ? Model.propVal.ExtraCol9Text : "Additional 9";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol9
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol9Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.ExtraCol9)" id="ExtraCol9" value="@Model.ExtraCol9" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol9Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol10)? "display:block;order:"+Model.propVal.ExtraCol10TextPriority+"" : "display:none")">
+                                                @{string extraCol10 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol10Text) ? Model.propVal.ExtraCol10Text : "Additional 10";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol10
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol10Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.ExtraCol10)" id="ExtraCol10" value="@Model.ExtraCol10" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol10Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol11)? "display:block;order:"+Model.propVal.ExtraCol11TextPriority+"" : "display:none")">
+                                                @{string extraCol11 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol11Text) ? Model.propVal.ExtraCol11Text : "Additional 11";}
+
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @extraCol11
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol11Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-8">
+                                                    <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol11)" id="ExtraCol11" value="@Model.ExtraCol11" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol11Required) { <text> required </text>                       } />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" style="@((Model.propVal != null && Model.propVal.IsExtraCol12)? "display:block;order:"+Model.propVal.ExtraCol12TextPriority+"" : "display:none")">
+
+                                                @{string extraCol12 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol12Text) ? Model.propVal.ExtraCol12Text : "Additional 12";}
+
+                                                <label class="control-label col-sm-2" translate="no">
+                                                    @extraCol12
+                                                    <span class="madatoryfield" style="@((Model.propVal != null && Model.propVal.IsExtraCol12Required) ? "display:block" : "display:none")">*</span>
+                                                </label>
+                                                <div class="col-sm-3">
+                                                    <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol12)" id="ExtraCol12" value="@Model.ExtraCol12" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol12Required) { <text> required </text>                       } />
+                                                </div>
+
+                                            </div>
+                                            <div style="display:none;">
+                                                <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown1 ? "display:block;-webkit-order:" + Model.propVal.ExtraColdropdown1Priority + ";order:" + Model.propVal.ExtraColdropdown1Priority + "" : "display:none")">
+                                                    @{string Tdropdown = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraColdropdown1Text) ? Model.propVal.ExtraColdropdown1Text : "Additional Drop Down1";}
+                                                    <label class="control-label col-sm-4" translate="no">
+                                                        @Tdropdown
+                                                        <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown1Required ? "display:block" : "display:none")">*</span>
+                                                    </label>
+
+                                                    <div class="col-sm-8">
+                                                        @if (Model.Ticketdropdownlist1 != null && Model.Ticketdropdownlist1.Count() > 0)
+                                                        {
+                                                            @Html.DropDownListFor(em => em.T_DropdownitemId1, new SelectList(Model.Ticketdropdownlist1, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId1), String.Format("Select {0}", Tdropdown), htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+                                                            @*@Html.ValidationMessageFor(em => em.T_DropdownitemId1)*@
+                                                            @Html.HiddenFor(em => em.T_DropDownItemName1)
+                                                            @*@Html.DropDownListFor(em => em.T_DropdownitemId1, new SelectList(Model.Ticketdropdownlist1, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId1), new { @class = "form-control ListItemCapitalize custom-select", @multiple = "multiple", required = "required", @onchange = "Getselectedvalue1();" })
+                                                                @Html.ValidationMessageFor(em => em.T_DropdownitemId1)
+                                                                @Html.HiddenFor(em => em.T_DropDownItemName1)*@
+
+                                                        }
+                                                        @*else
+                                                            {
+                                                                @Html.DropDownListFor(em => em.T_DropdownitemId1, new SelectList(Model.Ticketdropdownlist1, "T_DropdownitemId", "T_DropDownItemName"), new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" , @multiple = "multiple" })
+                                                                @Html.ValidationMessageFor(model => model.T_DropdownitemId1)
+                                                            }*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="display:none;">
+                                                <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown2 ? "display:block;-webkit-order:" + Model.propVal.ExtraColdropdown2Priority + ";order:" + Model.propVal.ExtraColdropdown2Priority + "" : "display:none")">
+                                                    @{string Tdropdown2 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraColdropdown2Text) ? Model.propVal.ExtraColdropdown2Text : "Additional Drop Down2";}
+                                                    <label class="control-label col-sm-4" translate="no">
+                                                        @Tdropdown2
+                                                        <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown2Required ? "display:block" : "display:none")">*</span>
+                                                    </label>
+
+                                                    <div class="col-sm-8">
+                                                        @if (Model.Ticketdropdownlist2 != null && Model.Ticketdropdownlist2.Count() > 0)
+                                                        {
+                                                            @Html.DropDownListFor(em => em.T_DropdownitemId2, new SelectList(Model.Ticketdropdownlist2, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId2), String.Format("Select {0}", Tdropdown2), htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+                                                            @*@Html.ValidationMessageFor(em => em.T_DropdownitemId2)*@
+                                                            @Html.HiddenFor(em => em.T_DropDownItemName2)
+
+                                                            @*@Html.DropDownListFor(em => em.T_DropdownitemId2, new SelectList(Model.Ticketdropdownlist2, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId2), new { @class = "form-control ListItemCapitalize custom-select", @multiple = "multiple", required = "required", @onchange = "Getselectedvalue2();" })
+                                                                @Html.ValidationMessageFor(em => em.T_DropdownitemId2)
+                                                                @Html.HiddenFor(em => em.T_DropDownItemName2)*@
+
+                                                        }
+                                                        @*else
+                                                            {
+                                                                @Html.DropDownListFor(em => em.T_DropdownitemId2, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", Tdropdown2), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no", @multiple = "multiple" })
+                                                                @Html.ValidationMessageFor(model => model.T_DropdownitemId2)
+                                                            }*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown3 ? "display:block;-webkit-order:" + Model.propVal.ExtraColdropdown3Priority + ";order:" + Model.propVal.ExtraColdropdown3Priority + "" : "display:none")">
+                                                @{string Tdropdown3 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraColdropdown3Text) ? Model.propVal.ExtraColdropdown3Text : "Additional Drop Down3";}
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @Tdropdown3
+                                                    <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown3Required ? "display:block" : "display:none")">*</span>
+                                                </label>
+
+                                                <div class="col-sm-8">
+                                                    @if (Model.Ticketdropdownlist3 != null && Model.Ticketdropdownlist3.Count() > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.T_DropdownitemId3, new SelectList(Model.Ticketdropdownlist3, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId3), String.Format("Select {0}", Tdropdown3), htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+                                                        @Html.ValidationMessageFor(em => em.T_DropdownitemId3)
+                                                        @Html.HiddenFor(em => em.T_DropDownItemName3)
+
+                                                        @*@Html.DropDownListFor(em => em.T_DropdownitemId3, new SelectList(Model.Ticketdropdownlist3, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId3), new { @class = "form-control ListItemCapitalize custom-select", @multiple = "multiple", @onchange = "Getselectedvalue3();" })
+                                                            @Html.ValidationMessageFor(em => em.T_DropdownitemId3)
+                                                            @Html.HiddenFor(em => em.T_DropDownItemName3)*@
+
+                                                    }
+                                                    @*else
+                                                        {
+                                                            @Html.DropDownListFor(em => em.T_DropdownitemId3, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", Tdropdown3), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            @Html.ValidationMessageFor(model => model.T_DropdownitemId3)
+                                                        }*@
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown4 ? "display:block;-webkit-order:" + Model.propVal.ExtraColdropdown4Priority + ";order:" + Model.propVal.ExtraColdropdown4Priority + "" : "display:none")">
+                                                @{string Tdropdown4 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraColdropdown4Text) ? Model.propVal.ExtraColdropdown4Text : "Additional Drop Down4";}
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @Tdropdown4
+                                                    <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown4Required ? "display:block" : "display:none")">*</span>
+                                                </label>
+
+                                                <div class="col-sm-8">
+                                                    @if (Model.Ticketdropdownlist4 != null && Model.Ticketdropdownlist4.Count() > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.T_DropdownitemId4, new SelectList(Model.Ticketdropdownlist4, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId4), String.Format("Select {0}", Tdropdown4), htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+                                                        @Html.ValidationMessageFor(em => em.T_DropdownitemId4)
+                                                        @Html.HiddenFor(em => em.T_DropDownItemName4)
+
+                                                        @*@Html.DropDownListFor(em => em.T_DropdownitemId4, new SelectList(Model.Ticketdropdownlist4, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId4), new { @class = "form-control ListItemCapitalize custom-select", @multiple = "multiple", @onchange = "Getselectedvalue4();" })
+                                                            @Html.ValidationMessageFor(em => em.T_DropdownitemId4)
+                                                            @Html.HiddenFor(em => em.T_DropDownItemName4)*@
+
+                                                    }
+                                                    @*else
+                                                        {
+                                                            @Html.DropDownListFor(em => em.T_DropdownitemId4, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", Tdropdown4), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            @Html.ValidationMessageFor(model => model.T_DropdownitemId4)
+                                                        }*@
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown5 ? "display:block;-webkit-order:" + Model.propVal.ExtraColdropdown5Priority + ";order:" + Model.propVal.ExtraColdropdown5Priority + "" : "display:none")">
+                                                @{string Tdropdown5 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraColdropdown5Text) ? Model.propVal.ExtraColdropdown5Text : "Additional Drop Down5";}
+                                                <label class="control-label col-sm-4" translate="no">
+                                                    @Tdropdown5
+                                                    <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraColdropdown5Required ? "display:block" : "display:none")">*</span>
+                                                </label>
+
+                                                <div class="col-sm-8">
+                                                    @if (Model.Ticketdropdownlist5 != null && Model.Ticketdropdownlist5.Count() > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.T_DropdownitemId5, new SelectList(Model.Ticketdropdownlist5, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId5), String.Format("Select {0}", Tdropdown5), htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+                                                        @Html.ValidationMessageFor(em => em.T_DropdownitemId5)
+                                                        @Html.HiddenFor(em => em.T_DropDownItemName5)
+
+
+                                                        @*@Html.DropDownListFor(em => em.T_DropdownitemId5, new SelectList(Model.Ticketdropdownlist5, "T_DropdownitemId", "T_DropDownItemName", Model.T_DropdownitemId5), new { @class = "form-control ListItemCapitalize custom-select", @multiple = "multiple", @onchange = "Getselectedvalue5();" })
+                                                            @Html.ValidationMessageFor(em => em.T_DropdownitemId5)
+                                                            @Html.HiddenFor(em => em.T_DropDownItemName5)*@
+                                                    }
+                                                    @*else
+                                                        {
+                                                            @Html.DropDownListFor(em => em.T_DropdownitemId5, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", Tdropdown5), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                            @Html.ValidationMessageFor(model => model.T_DropdownitemId5)
+                                                        }*@
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Today's Date</label>
+                                                <div class="col-sm-3">
+                                                    @Html.DisplayFor(em => em.CreatedDate, new { @class = "form-control createdDate", @style = "margin-top: 8px; font-weight: bold" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">Upload File/Image</label>
+                                                <div class="col-sm-8">
+                                                    <input type="file" id="file" name="file" class="form-control" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @if (ViewContext.RouteData.Values["id"] != null)
+                                                {
+                                                    @*<a href="#" data-toggle="modal" class="AddDescriptcls" data-target="#AddDescript" data-ticketstatus="@Model.TicketStatusName" data-ticketid="@Model.TicketID">Add Description</a>*@
+                                                    <a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" data-ticketid="@Model.TicketID" style="margin-left: 10px;">View Customer Remark</a>
+                                                }
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <label class="control-label" style="margin-left:10%">Customer Remark <span class="madatoryfield">*</span></label>
+                                                    @Html.TextAreaFor(em => em.TicketDescription, htmlAttributes: new { @class = "form-control ckeditor" })
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @if (ViewContext.RouteData.Values["id"] != null)
+                                                {
+                                                    @*<a href="#" data-toggle="modal" class="AddRmkclk" data-target="#AddTeamRemark" data-ticketstatus="@Model.TicketStatusName" data-ticketid="@Model.TicketID">Add Team Remark</a>*@
+                                                    <a href="#" class="PopViewRmk" data-toggle="modal" data-target="#ViewRemark" data-ticketid="@Model.TicketID" style="margin-left: 10px;">View Team Remark</a>
+                                                }
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <label class="control-label" style="margin-left:10%">Team Remark </label>
+                                                    @Html.TextAreaFor(em => em.TeamRemark, htmlAttributes: new { @class = "form-control ckeditor" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group text-center">
+                                                <input type="submit" name="Submit" value="Save" class="btn btn-success btnSave" style="width:35%;" id="btnSaveMain" onclick="return ticketValidate();">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                                                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddDescript" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Description</h4>
+                @Html.HiddenFor(em => em.TicketID)
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email" style="text-align: left;">Ticket Status</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="hdnTicketStatusName" name="hdnTicketStatusName" />
+                            <input type="hidden" id="hdnUserEmailId" name="hdnUserEmailId" value="@Model.EmailID" />
+                            <input type="hidden" id="hdnCustomerName" name="hdnCustomerName" value="@Model.CustomerNM" />
+
+                            <label class="control-label col-sm-4" style="text-align: left;" id="TicketStatus"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Description </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtDescription" class="form-control ckeditor" style="height: 120px;" name="txtDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Upload</label>
+                        <div class="col-sm-3">
+                            <input type="file" id="Postfile" name="Postfile" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span style="margin-left: 10px;" id="spndescAlertmsg"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnAddDescription" onclick="SaveDescription()">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ViewDescript" class="modal fade" role="dialog"></div>
+
+<!--Team Remark add or view modal-->
+<div id="AddTeamRemark" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Remark</h4>
+                @Html.HiddenFor(em => em.TicketID, new { id = "TktId" })
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Ticket Status</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="hdnTStatusName" name="hdnTStatusName" />
+                            <input type="hidden" id="hdnAssignedTo" name="hdnAssignedTo" value="@Model.AssignedTo" />
+                            <label class="control-label col-sm-4" style="text-align: left;" id="TStatus"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;">Description </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtRemark" class="form-control ckeditor" style="height: 120px;" name="txtRemark"></textarea>
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                            <label class="control-label col-sm-2" style="text-align: left;">Upload</label>
+                            <div class="col-sm-3">
+                                <input type="file" id="Postfile" name="Postfile" class="form-control" />
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span style="margin-left: 10px;" id="spnRemarkAlertmsg"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnAddRemark" onclick="SaveRemark()">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ViewRemark" class="modal fade" role="dialog"></div>
+
+<!-- Modal for add ErrorType,Product Type and Urgency Type-->
+<div class="modal fade" id="addItemModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close canc" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="DDLHeading"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtDDLId" />
+                <input type="hidden" id="txtDDLType" />
+                <input type="text" class="form-control" id="txtDDLItemName" autocomplete="off" placeholder="Please enter text" />
+                <br />
+                <h5 id="ddlMsg" style="color:red;"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSaveDDLItem" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger canc" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="overlay" id="overlay" hidden>
+    <div class="confirm-box">
+        <div onclick="closeConfirmBox()" class="close">&#10006;</div>
+        <h2>Confirmation</h2>
+        <p>All Spare part have been submitted or not!</p>
+        <button onclick="isConfirm(true)">Yes</button>
+        <button onclick="isConfirm(false)">No</button>
+    </div>
+</div>
+@*<button onclick="showConfirmBox()">Delete</button>*@
+<style>
+    .overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 2;
+    }
+
+    .confirm-box {
+        position: absolute;
+        width: 50%;
+        height: 150px;
+        top: 25%;
+        left: 25%;
+        text-align: center;
+        background: white;
+    }
+
+    .close {
+        cursor: pointer;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@*<script src="~/js/bootstrap-multiselect.js"></script>
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />*@
+@*<link href="~/css/select2.min.css" rel="stylesheet" />
+    <script src="~/js/select2.min.js"></script>*@
+@*<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>*@
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+    (function ($) {
+
+        //window.onmousedown = function (e) {
+        //    var el = e.target;
+        //    if (el.tagName.toLowerCase() == 'option' && el.parentNode.hasAttribute('multiple')) {
+        //        e.preventDefault();
+
+        //        // toggle selection
+        //        if (el.hasAttribute('selected')) el.removeAttribute('selected');
+        //        else el.setAttribute('selected', '');
+
+        //        // hack to correct buggy behavior
+        //        var select = el.parentNode.cloneNode(true);
+        //        el.parentNode.parentNode.replaceChild(select, el.parentNode);
+        //    }
+        //}
+        //$('.js-example-basic-multiple').select2();
+
+        //$('#T_DropdownitemId1').multiselect({
+        //    includeSelectAllOption: true
+        //});
+
+        //$('#T_DropdownitemId2').multiselect({
+        //    includeSelectAllOption: true
+        //});
+
+        //$('#T_DropdownitemId3').multiselect({
+        //    includeSelectAllOption: true
+        //});
+
+        //$('#T_DropdownitemId4').multiselect({
+        //    includeSelectAllOption: true
+        //});
+
+        //$('#T_DropdownitemId').multiselect({
+        //    includeSelectAllOption: true
+        //});
+        //$('#btnSelected').click(function () {
+        //    var selected = $("#UserID option:selected");
+        //    var message = "";
+        //    selected.each(function () {
+        //  });
+        //});
+    })(jQuery);
+</script>
+<script>
+    //function Getselectedvalue1() {
+    //    var selected = $("#T_DropdownitemId1 :selected").map((_, e) => e.value).get();
+    //    $('#T_DropDownItemName1').val(selected);
+
+    //}
+    //function Getselectedvalue2() {
+    //    var selected = $("#T_DropdownitemId2 :selected").map((_, e) => e.value).get();
+    //    $('#T_DropDownItemName2').val(selected);
+
+    //}
+    //function Getselectedvalue3() {
+    //    var selected = $("#T_DropdownitemId3 :selected").map((_, e) => e.value).get();
+    //    $('#T_DropDownItemName3').val(selected);
+
+    //} function Getselectedvalue4() {
+    //    var selected = $("#T_DropdownitemId4 :selected").map((_, e) => e.value).get();
+    //    $('#T_DropDownItemName4').val(selected);
+
+    //}
+    //function Getselectedvalue5() {
+    //    var selected = $("#T_DropdownitemId5 :selected").map((_, e) => e.value).get();
+    //    $('#T_DropDownItemName5').val(selected);
+
+    //}
+</script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>*@
+<script>
+
+
+    $(function () {
+        debugger;
+        @*var comid = '@Session["CompanyID"]';
+        if (comid == 2644) {
+            var USERID = (window.location).href;
+            var id1 = USERID.substring(USERID.lastIndexOf('/') + 1);
+            if (id1 == "CreateTicket") {
+
+
+
+            }
+            else {
+                $("#T_DropdownitemId2").css('pointer-events', 'none');
+                $("#T_DropdownitemId1").css('pointer-events', 'none');
+                $("#TicketSubject").attr('readonly', true);
+                $("#NewCustomerName").attr('readonly', true);
+                $("#TicketStatusID").css('pointer-events', 'none');
+                $("#PhoneNumber").attr('readonly', true);
+                $("#rdnExisting").css('pointer-events', 'none');
+                $("#rdnNew").css('pointer-events', 'none');
+                $("#UrgencyID").css('pointer-events', 'none');
+                $("#ErrorTypeID").css('pointer-events', 'none');
+                $("#ProductTypeID").css('pointer-events', 'none');
+
+            }
+        }*@
+    });
+    var dateFormat = '@Session["DpDateFormat"]';
+    $("#rdnExisting").click(function () {
+        $("#Existing").show();
+        $("#hdnExistingNewCustomer").val("Existing");
+        $("#New").hide();
+    });
+
+    $("#rdnNew").click(function () {
+        $("#Existing").hide();
+        $("#New").show();
+        $("#hdnExistingNewCustomer").val("New");
+    });
+
+    //ExtraCol9, ExtraCol10 datepicker function
+    $(function () {
+        $('#ExtraCol9').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#ExtraCol10').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        var comid = '@Session["CompanyID"]';
+        if (comid == 2644) {
+            debugger;
+
+            $.post('/Tickets/checkroleassignsahil', {}, function (data) {
+                if (data != null) {
+                    debugger;
+                    var createticketrole = data.CreateTicket;
+                    var viewticketrole = data.ViewTicket;
+                    if (createticketrole == true && viewticketrole == false) {
+                        var mgs = '';
+                        $("#ExtraCol1").removeAttr('required');
+                        $("#ExtraCol2").removeAttr('required');
+                        var ticketDescription = $('#TicketDescription').summernote('code');
+                        if (ticketDescription == '<p><br></p>') {
+                            mgs += '** Please add customer remark.';
+                        }
+
+
+                    }
+                    else if (createticketrole == false && viewticketrole == true) {
+                        var mgs = '';
+                        $("#T_DropdownitemId2").removeAttr('required');
+                        $("#UrgencyID").removeAttr('required');
+                        $("#T_DropdownitemId1").removeAttr('required');
+                        $("#TicketSubject").removeAttr('required');
+                        $("#TicketStatusID").removeAttr('required');
+                        $("#UrgencyID").removeAttr('required');
+                        $("#ErrorTypeID").removeAttr('required');
+                        $("#ProductTypeID").removeAttr('required');
+                        $("#PhoneNumber").removeAttr('required');
+                        var TeamRemark = $('#TeamRemark').summernote('code');
+                        if (TeamRemark == '<p><br></p>') {
+                            mgs += '** Please add Team remark.';
+                        }
+
+                        $("#T_DropdownitemId2").css('pointer-events', 'none');
+                        $("#T_DropdownitemId1").css('pointer-events', 'none');
+                        $("#TicketSubject").attr('readonly', true);
+                        $("#NewCustomerName").attr('readonly', true);
+                        $("#TicketStatusID").css('pointer-events', 'none');
+                        $("#PhoneNumber").attr('readonly', true);
+                        $("#rdnExisting").css('pointer-events', 'none');
+                        $("#rdnNew").css('pointer-events', 'none');
+                        $("#UrgencyID").css('pointer-events', 'none');
+                        $("#ErrorTypeID").css('pointer-events', 'none');
+                        $("#ProductTypeID").css('pointer-events', 'none');
+                    }
+                    else if (createticketrole == true && viewticketrole == true) {
+                        var mgs = '';
+                        $("#ExtraCol1").removeAttr('required');
+                        $("#ExtraCol2").removeAttr('required');
+
+                        $("#T_DropdownitemId2").css('pointer-events', 'block');
+                        $("#T_DropdownitemId1").css('pointer-events', 'block');
+                        $("#TicketSubject").removeAttr('readonly', false);
+                        $("#NewCustomerName").removeAttr('readonly', false);
+                        $("#TicketStatusID").css('pointer-events', 'block');
+                        $("#PhoneNumber").removeAttr('readonly', false);
+                        $("#rdnExisting").css('pointer-events', 'block');
+                        $("#rdnNew").css('pointer-events', 'block');
+                        $("#UrgencyID").css('pointer-events', 'block');
+                        $("#ErrorTypeID").css('pointer-events', 'block');
+                        $("#ProductTypeID").css('pointer-events', 'block');
+                    }
+
+                }
+
+            })
+        }
+    });
+
+    //$(function () {
+    //    debugger;
+    //    var tpd1 = $("#T_DropDownItemName1").val();
+    //    if (tpd1 != null) {
+    //        var valArr = tpd1.split(',');
+    //        i = 0, size = valArr.length;
+    //        if (valArr != null) {
+    //            for (var i; i < size; i++) {
+
+    //                //$("#T_DropdownitemId1").find(":checkbox[value='" + valArr[i] + "']").attr("checked", "checked");
+    //                //$("#T_DropdownitemId1 option[value='" + valArr[i] + "']").attr("selected", 1);
+    //                //$("#T_DropdownitemId1").multiselect("refresh");
+    //                $("#T_DropdownitemId1 option[value='" + valArr[i] + "']").prop("selected", true);
+
+    //            }
+    //        }
+    //    }
+
+    //    var tpd2 = $("#T_DropDownItemName2").val();
+    //    if (tpd2 != null) {
+    //        var valArr = tpd2.split(',');
+    //        i = 0, size = valArr.length;
+    //        if (valArr != null) {
+    //            for (var i; i < size; i++) {
+    //                $("#T_DropdownitemId2 option[value='" + valArr[i] + "']").prop("selected", true);
+
+    //            }
+    //        }
+    //    }
+
+    //    var tpd3 = $("#T_DropDownItemName3").val();
+    //    if (tpd3 != null) {
+    //        var valArr = tpd3.split(',');
+    //        i = 0, size = valArr.length;
+    //        if (valArr != null) {
+    //            for (var i; i < size; i++) {
+    //                $("#T_DropdownitemId3 option[value='" + valArr[i] + "']").prop("selected", true);
+
+    //            }
+    //        }
+    //    }
+
+    //    var tpd4 = $("#T_DropDownItemName4").val();
+    //    if (tpd4 != null) {
+    //        var valArr = tpd4.split(',');
+    //        i = 0, size = valArr.length;
+    //        if (valArr != null) {
+    //            for (var i; i < size; i++) {
+    //                $("#T_DropdownitemId4 option[value='" + valArr[i] + "']").prop("selected", true);
+
+    //            }
+    //        }
+    //    }
+
+    //    var tpd5 = $("#T_DropDownItemName5").val();
+    //    if (tpd5 != null) {
+    //        var valArr = tpd5.split(',');
+    //        i = 0, size = valArr.length;
+    //        if (valArr != null) {
+    //            for (var i; i < size; i++) {
+    //                $("#T_DropdownitemId5 option[value='" + valArr[i] + "']").prop("selected", true);
+
+    //            }
+    //        }
+    //    }
+    //});
+
+
+    $('#leadCustomerName').on('change', function () {
+        debugger;
+        getCustomer(this.value);
+    });
+
+
+    function FillCustomer(cname) {
+        debugger;
+        var CustomerID = $("#CustomerID").val();
+        if (CustomerID != '') {
+            var CustomerName = $("#CustomerID option:selected").html();
+            $('#CustomerName').val(CustomerName);
+            getCustomer(CustomerID);
+        }
+    }
+
+    //function functionConfirm(msg, myYes, myNo) {
+    //    var confirmBox = $("#confirm");
+    //    confirmBox.find(".message").text(msg);
+    //    confirmBox.find(".yes,.no").unbind().click(function () {
+    //        confirmBox.hide();
+    //    });
+    //    confirmBox.find(".yes").click(myYes);
+    //    confirmBox.find(".no").click(myNo);
+    //    confirmBox.show();
+    //}
+
+
+    function showConfirmBox() {
+        document.getElementById("overlay").hidden = false;
+    }
+    function closeConfirmBox() {
+        document.getElementById("overlay").hidden = true;
+    }
+
+    function isConfirm(answer) {
+        if (answer) {
+            text = "Submitted";
+            $("#Sparepartstatus").val(text);
+        } else {
+            text = "Pending";
+            $("#Sparepartstatus").val(text);
+        }
+        closeConfirmBox();
+    }
+
+    function FillTicketStatus() {
+        debugger;
+        var TicketStatusID = $("#TicketStatusID").val();
+        if (TicketStatusID != '') {
+            var TicketStatusName = $("#TicketStatusID option:selected").html();
+            $('#TicketStatusName').val(TicketStatusName);
+            var comid = '@Session["CompanyID"]';
+            if (comid == 2644) {
+                if (TicketStatusName == 'Closed') {
+                    showConfirmBox();
+                    //functionConfirm();
+                    //if (confirm("All Spares have been submitted or not!") == true) {
+                    //    text = "Submit";
+                    //    $("#Sparepartstatus").val(text);
+                    //} else {
+                    //    text = "Pending";
+                    //    $("#Sparepartstatus").val(text);
+                    //}
+                }
+            }
+        }
+
+
+    }
+
+    function ticketValidate() {
+        debugger;
+        var TicketID = $("#TicketID").val();
+        var mgs = '';
+
+        if (document.querySelector('input[name="CustomerType"]:checked') == null) {
+            mgs += '** Please select or enter customer.';
+        }
+
+        if (document.querySelector('input[name="CustomerType"]:checked') != null) {
+
+            var CustomerType = document.querySelector('input[name = CustomerType]:checked').value;
+            if (CustomerType == 'Existing') {
+                var CustomerID = $('#CustomerID').val();
+                if (CustomerID == '') {
+                    //mgs += '** Please select customer.';
+                }
+            }
+            else if (CustomerType == 'New') {
+                var CustomerName = $('.customercss').val();
+                if (CustomerName == '') {
+                    mgs += '** Please enter customer.';
+                }
+            }
+        }
+
+        //if (TicketID == '') {
+        //var ticketDescription = CKEDITOR.instances['TicketDescription'].getData();
+
+        var ticketDescription = $('#TicketDescription').summernote('code');
+        if (ticketDescription == '<p><br></p>') {
+            mgs += '** Please add customer remark.';
+        }
+
+
+
+
+        if (mgs != '') {
+            swal("Alert", mgs, "warning");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function getCustomer(id) {
+        debugger;
+        $.post('/Tickets/GetCustomerDetail', { id: id }, function (data) {
+            $('#PhoneNumber').val(data.PhoneNumber);
+            $('#EmailID').val(data.EmailID);
+        });
+    }
+
+    function numericOnly(element, e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) ||
+            // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    }
+
+    jQuery('.AddDescriptcls').on('click', function () {
+        var ticektstatus = $("#TicketStatusID option:selected").text()
+        $('#hdnTicketStatusName').val(ticektstatus);
+        $('#TicketStatus').html(ticektstatus);
+    });
+
+    $('.PopViewDesc').on('click', function () {
+        var ticketid = '@ViewContext.RouteData.Values["id"]';
+        if (ticketid != '') {
+            $.post('/Tickets/ViewTicketDecsription', { tid: ticketid }, function (data) {
+                jQuery('#ViewDescript').html(data);
+                $($(this).data("#ViewDescript")).show();
+            });
+        }
+    });
+
+    function SaveDescription() {
+
+        var ticketID = $('#TicketID').val();
+        var ticketstatus = $('#hdnTicketStatusName').val();
+        var uEmailId = $('#hdnUserEmailId').val();
+        var ticketNo = $('#TicketNo').val();
+        var customerNM = $('#hdnCustomerName').val();
+        var fileData = new FormData();
+        var fileUpload = $("#Postfile").get(0);
+        var files = fileUpload.files;
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+        //var editorval = CKEDITOR.instances['txtDescription'].getData();
+        var editorval = $('#txtDescription').summernote('code');
+        fileData.append('TicketID', ticketID);
+        fileData.append('txtDescription', editorval);
+        fileData.append('TicketStatusName', ticketstatus);
+        fileData.append('EmailId', uEmailId);
+        fileData.append('TicketNo', ticketNo);
+        fileData.append('CustomerName', customerNM);
+        if (ticketID != '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Tickets/AddDescriptionTicket');
+            xhr.send(fileData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    swal("Success !", xhr.responseText, "success");
+                    $('#AddDescript').modal('hide');
+                }
+                else {
+                    swal("Alert !", '** Somthing went wrong.', "warning");
+                }
+            }
+            return false;
+        }
+        else {
+            swal("Alert !", '** Somthing went wrong.', "warning");
+        }
+    }
+    /////////////////////view team remark//////////////
+    $('.PopViewRmk').on('click', function () {
+        var ticketid = '@ViewContext.RouteData.Values["id"]';
+        if (ticketid != '') {
+            $.post('/Tickets/ViewTicketTeamRemark', { tid: ticketid }, function (data) {
+                jQuery('#ViewRemark').html(data);
+                $($(this).data("#ViewRemark")).show();
+            });
+        }
+    });
+
+    //////////////add remark button click/////
+    $('.AddRmkclk').on('click', function () {
+        var ticektstatus = $("#TicketStatusID option:selected").text()
+        $('#hdnTStatusName').val(ticektstatus);
+        $('#TStatus').html(ticektstatus);
+    });
+
+    /////////////////////////add team remark///////////////////////
+    function SaveRemark() {
+        var ticketID = $('#TktId').val();
+        var ticketstatus = $('#hdnTStatusName').val();
+        var assignedUserId = $('#hdnAssignedTo').val();
+        var tktNumber = $("#TicketNo").val();
+        var fileData = new FormData();
+        //var fileUpload = $("#Postfile").get(0);
+        //var files = fileUpload.files;
+        //for (var i = 0; i < files.length; i++) {
+        //    fileData.append(files[i].name, files[i]);
+        //}
+        //var editorval = CKEDITOR.instances['txtRemark'].getData();
+        var editorval = $('#txtRemark').summernote('code');
+        fileData.append('TicketID', ticketID);
+        fileData.append('txtDescription', editorval);
+        fileData.append('TicketStatusName', ticketstatus);
+        fileData.append('TicketNo', tktNumber);
+        fileData.append('AssignedTo', assignedUserId == '' || assignedUserId == null ? 0 : assignedUserId);
+        if (ticketID != '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Tickets/AddTicketTeamRemark');
+            xhr.send(fileData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    swal("Success !", xhr.responseText, "success");
+                    $('#AddTeamRemark').modal('hide');
+                }
+                else {
+                    swal("Alert !", '** Somthing went wrong.', "warning");
+                }
+            }
+            return false;
+        }
+        else {
+            swal("Alert !", '** Somthing went wrong.', "warning");
+        }
+    };
+</script>
+
+<script>
+    function addItem(obj) {
+        var self = $(obj);
+        var DDLTextName = self.attr('ddlText');
+        $("#DDLHeading").text('Add ' + DDLTextName);
+        var DDLId = self.attr('ddlId');
+        var DDLType = self.attr('ddltype');
+        $("#txtDDLId").val(DDLId);
+        $("#txtDDLType").val(DDLType);
+    };
+
+    $("#txtDDLItemName").keyup(function () {
+        $("#ddlMsg").text('');
+    });
+
+    $("#btnSaveDDLItem").click(function () {
+
+        $("#ddlMsg").text('Submitting...');
+        var dlid = $("#txtDDLId").val();
+        var dlType = $("#txtDDLType").val();
+        var dlItemName = $("#txtDDLItemName").val();
+        if (dlItemName != '') {
+            jQuery.post("/common/AddTicketDDLItem", { ItemName: dlItemName, DropDownType: dlType }, function (res) {
+
+                var data = JSON.parse(res);//deserialize json data
+                if (data.Msg == "ok") {
+
+                    //append in drop down list
+                    $('#' + dlid).append(`<option value="${data.ItemId}" selected="true">${data.AddedItem}</option>`);
+
+                    $("#ddlMsg").text('');
+                    $("#txtDDLId").val('');
+                    $("#txtDDLType").val('');
+                    $("#txtDDLItemName").val('');
+                    jQuery("#addItemModal").modal('hide');
+                }
+                else if (data.Msg == "expire") {
+                    $("#ddlMsg").text('Your session has been expired! Please login again');
+                    $("#txtDDLId").val('');
+                    $("#txtDDLType").val('');
+                    $("#txtDDLItemName").val('');
+                    //swal("Alert !", "Something went wrong", "warning");
+                }
+                else {
+                    $("#ddlMsg").text(data.Msg);
+                }
+            });
+        }
+        else {
+            $("#ddlMsg").text('Please enter text');
+        }
+    });
+
+    //clear all values to click cancel or close button
+    $(".canc").click(function () {
+        $("#DDLHeading").text('');
+        $("#ddlMsg").text('');
+        $("#txtDDLId").val('');
+        $("#txtDDLType").val('');
+        $("#txtDDLItemName").val('');
+    });
+
+    ////btn  add product type name plus button click function
+    //$("#btnPrdTpNmPlus").click(function () {
+    //    $("#divProductTypeName").show();
+    //    $('#ProductTypeID').removeAttr("required").hide();
+    //    $("#btnPrdTpNmPlus").hide();
+    //});
+
+    ////btn cancel add product type name
+    //$("#btnPrdTpNmCancel").click(function () {
+    //    $("#txtboxProdTypeName").val('');
+    //    $("#divProductTypeName").hide();
+    //    $('#ProductTypeID').attr("required", true).show();
+    //    $("#btnPrdTpNmPlus").show();
+    //});
+
+    //////////////////////////////add error type name //////////////////
+    ////btn  add error type name plus button click function
+    //$("#btnErrTpNmPlus").click(function () {
+    //    $("#divErrorTypeName").show();
+    //    $('#ErrorTypeID').removeAttr("required").hide();
+    //    $("#btnErrTpNmPlus").hide();
+    //});
+
+    ////btn cancel error type name
+    //$("#btnErrTpNmCancel").click(function () {
+    //    $("#txtboxErrorTypeName").val('');
+    //    $("#divErrorTypeName").hide();
+    //    $('#ErrorTypeID').attr("required", true).show();
+    //    $("#btnErrTpNmPlus").show();
+    //});
+
+    ///////////////////////////add urgency type name///////////////////////
+
+    ////btn  add urgency type name plus button click function
+    //$("#btnUrgTpNmPlus").click(function () {
+    //    $("#divUrgTypeName").show();
+    //    $('#UrgencyID').removeAttr("required").hide();
+    //    $("#btnUrgTpNmPlus").hide();
+    //});
+
+    ////btn cancel urgency type name
+    //$("#btnUrgTpNmCancel").click(function () {
+    //    $("#txtboxUrgTypeName").val('');
+    //    $("#divUrgTypeName").hide();
+    //    $('#UrgencyID').attr("required", true).show();
+    //    $("#btnUrgTpNmPlus").show();
+    //});
+
+</script>
+
+

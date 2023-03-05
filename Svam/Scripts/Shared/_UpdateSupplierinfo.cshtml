@@ -1,0 +1,197 @@
+﻿
+@model Svam.Models.CreateSupplierModel
+
+<div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Supplier Info</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="row">
+                    <div class="col-sm-12">
+                        @using (Html.BeginForm("createsupplier", "home", FormMethod.Post, new {@class="form-horizontal" }))
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="Quotation">Supplier ID:-</label>
+                                <div class="col-sm-8">
+                                   @Html.TextBoxFor(em => em.SupplierId, new {@class="form-control",@disabled="disabled" })
+                                    <input type="hidden" name="SupplierId" value="@Model.SupplierId" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="Quotation">Supplier Name:-</label>
+                                <div class="col-sm-8">
+                                   @Html.TextBoxFor(em => em.SupplierName, new {@class="form-control" })
+                                    @Html.ValidationMessageFor(em=>em.SupplierName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="Quotation">Contact No.:-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Mobno, new {@class="form-control" })
+                                      @Html.ValidationMessageFor(em=>em.Mobno)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="Quotation">Email.:-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Email, new {@class="form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="tagcategory">Pan No. :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.PanNo, new {@class="form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="tagcategory">Service Tax No. :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.ServiceTaxNo, new {@class="form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Supplier State:-</label>
+                                <div class="col-sm-8">
+                                    <select id="DdlState" name="StateId" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Supplier City:-</label>
+                                <div class="col-sm-8">
+                                    <select id="DDlCity" name="CityId" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="tagcategory">TIN No. :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.TaxTinNo, new {@class="form-control" })
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Zip Code :-</label>
+                                <div class="col-sm-8">
+                                   @Html.TextBoxFor(em => em.ZipCode, new {@class="form-control" })
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="requisition">Address:-</label>
+                                <div class="col-sm-8">
+                                  @Html.TextBoxFor(em => em.SupplierAddress, new {@class="form-control" })
+                                      @Html.ValidationMessageFor(em=>em.SupplierAddress)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="department">Opening Balance:-</label>
+                                <div class="col-sm-8">
+                                  @Html.TextBoxFor(em => em.OpeningBalance, new {@class="form-control",@onkeypress="return isNumberKey(event)" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress">Remarks :-</label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(em => em.Remaks, new {@class="form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-3" for="saddress"></label>
+                                <div class="col-sm-8">
+                                    <input type="submit" value="Submit" class="btn mainbtn2">
+                                </div>
+                            </div>
+                     
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+    $(document).ready(function(){
+        //BindALLDDLCity();
+        BindDDLState();
+    });
+          
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+
+    function BindDDLState() {
+        var Countryid = 1;
+        $.get('/master/BindDDlState', { CountryID: Countryid }, function (data) { chkBindDDLState(data); });
+    }
+    function chkBindDDLState(abc) {
+        var data = "";
+        var SID = '@Model.StateId';
+        data += "<option value= >--Select State--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" +
+             abc[it].StateName + "</option>";
+        }
+        $('#DdlState').html(data).val(SID);
+        if (SID != '') {
+            BindALLDDLCity(SID);
+        }
+    }
+
+    jQuery('#DdlState').change(function () {
+        var Stateid = jQuery(this).val();
+        if (Stateid != '') {
+            BindALLDDLCity(Stateid);
+        }
+    });
+
+
+    function BindALLDDLCity(Stateid) {
+        $.get('/master/BindDDlCity', { StateID: Stateid }, function (data) { chkBindDDLCity(data); });
+    }
+    function chkBindDDLCity(abc) {
+        var data = "";
+        var city = '@Model.CityId';
+        data += "<option value= >--Select City--</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Id + " >" +
+             abc[it].CityName + "</option>";
+        }
+        $('#DDlCity').html(data).val(city);
+    }
+    
+</script>
+
+
+
+

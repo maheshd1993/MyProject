@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Manual Attendance";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+
+@model Traders.Models.ManualAttendanceModel
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Manual Attendance</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <input type="button" value="Create Attendance" onclick="location.href = '/HR/AddModifyManualAttendance'" class="btn btn-success pull-right pull-right" style="margin-right: 5px;margin-top:3px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("ManualAttendance", "HR", FormMethod.Post))
+                                {
+                                    <div class="col-sm-2" style="margin-top: -5px">
+                                        @Html.DropDownList("SearchEmployeeID", new SelectList(Model.EmployeeList, "EmployeeID", "EmployeeName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Html.TextBox("StartDate", null, htmlAttributes: new { @class = "form-control datefield", @placeholder = "Select Start Date", @autocomplete = "off",@readonly="readonly", translate = "no" })
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @Html.TextBox("EndDate", null, htmlAttributes: new { @class = "form-control datefield", @placeholder = "Select End Date", @autocomplete = "off", @readonly="readonly", translate = "no" })
+                                    </div>
+                                    <div class="col-sm-1 col-xs-6">
+                                        <input type="submit"  value="Filter" style="margin-left: 10px;" class="btn btn-success" id="Submit1" name="filter1">
+                                    </div>
+                                    <div class="col-sm-1 col-xs-6">
+                                        <input type="button" value="Reset" class="btn btn-danger" id="Reset" name="filter1" onclick="location.href = '/HR/ManageAdvance'">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Employee Name</th>
+                                <th>Attendance By</th>
+                                <th>Attendance Date</th>
+                                <th>Login Time</th>
+                                <th>Logout Time</th>
+                                <th>Duration</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.manualAttendanceModelList != null)
+                            {
+                                if (Model.manualAttendanceModelList.Count > 0)
+                                {
+                                    foreach (var item in Model.manualAttendanceModelList)
+                                    {
+                                        <tr>
+                                            <td translate="no">@i</td>
+                                            <td translate="no">@item.EmployeeName</td>
+                                            <td translate="no">@item.HRName</td>
+                                            <td translate="no">@item.AttendanceDate</td>
+                                            <td translate="no">@item.LoginTime</td>
+                                            <td translate="no">@item.LogoutTime</td>
+                                            <td translate="no">@item.Duration</td>
+
+                                            <td><a href="@Url.Action("AddModifyManualAttendance", "HR", new { ManualID = item.ManualID })"><i class="fa fa-eye" aria-hidden="true" title="View Manual Attendance"></i></a></td>
+                                        </tr>
+                                        i++;
+                                    }
+
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" style="text-align: center;">** No Record Found</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="~/timepicker/bootstrap-timepicker.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('.datefield').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+
+        //$('#ToDate').datepicker({
+        //    format: 'dd/mm/yyyy',
+        //    autoclose: true
+        //});
+    });
+
+</script>

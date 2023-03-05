@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Manage Email Setting";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+@model Svam.Models.CRMEmailSettingModel
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    @using (Html.BeginForm("ManageEmailSetting", "Master", FormMethod.Post))
+                    { 
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(em => em.EmailSettingID)
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <strong>Manage Email Setting </strong>
+                            </div>
+                            <div class="panel-body body_pnl">
+                                <div class="col-sm-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">Email Address<span class="madatoryfield">*</span></label>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(em => em.EmailAddress, new { @class = "form-control", @type = "email", @placeholder = " Enter Email Address", @autocomplete = "off", required = "required" })
+                                                @Html.ValidationMessageFor(em => em.EmailAddress, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">SMTP Host <span class="madatoryfield">*</span></label>
+                                            <div class="col-sm-2">
+                                                @Html.TextBoxFor(em => em.SMTPHost, new { @class = "form-control", @placeholder = "Enter SMTP Host", @autocomplete = "off", required = "required" })
+                                                @Html.ValidationMessageFor(em => em.SMTPHost, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">Port <span class="madatoryfield">*</span></label>
+                                            <div class="col-sm-1">
+                                                @Html.TextBoxFor(em => em.Port, new { @class = "form-control ", @placeholder = "Enter Port", @autocomplete = "off", required = "required" })
+                                                @Html.ValidationMessageFor(em => em.Port, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">UserName <span class="madatoryfield">*</span></label>
+                                            <div class="col-sm-2">
+                                                @Html.TextBoxFor(em => em.UserName, new { @class = "form-control", @placeholder = "Enter User Name", @autocomplete = "off", required = "required" })
+                                                @Html.ValidationMessageFor(em => em.UserName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">Password <span class="madatoryfield">*</span></label>
+                                            <div class="col-sm-2">
+                                                @Html.TextBoxFor(em => em.Password, new { @class = "form-control", @type = "Password", @placeholder = "Enter Password", @autocomplete = "off", required = "required" })
+                                                @Html.ValidationMessageFor(em => em.UserName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">SSL </label>
+                                            <div class="col-sm-4 ">
+                                                <div class="checkbox" style="margin-left: 15px;">
+                                                    @Html.CheckBox("SSL")
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">CC Email</label>
+                                            <div class="col-sm-2">
+                                                @Html.TextBoxFor(em => em.CCEmail, new { @class = "form-control",  @placeholder = "Enter CC Email", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label class="control-label col-sm-4" for="cname">Display Name</label>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(em => em.DisplayName, new { @class = "form-control",  @placeholder = "Enter Display Name", @autocomplete = "off" })
+                                                @Html.ValidationMessageFor(em => em.DisplayName, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <input type="submit" value="Save" class="btn btn-success">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <style type="text/css">
+        .field-validation-error {
+            margin-left: 2px;
+            color: #ff0000;
+            font-size: 12px !important;
+            display: block;
+            margin-top: 43px;
+            font-weight: normal !important;
+        }
+
+        .input-validation-error {
+            border: 1px solid #ff0000;
+            background-color: #ffeeee;
+        }
+    </style>

@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "ourUsersArchives";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<link href="~/datepick/jquery-ui.css" rel="stylesheet" />
+        <div class="maincontainer">
+            <div class="col-sm-12 ">
+                <h1>View Users Leads</h1>   
+            <form class="form-horizontal">	
+
+            <div class="col-sm-2">
+                @Html.DropDownList("userMappedList",null, "--Select User--", new {@class="form-control",@style="width:170px;" })
+            </div>
+                <div class="col-sm-2 mar5">
+                    <input type="text"  id="StartDate" placeholder="Start Date" class="form-control" />		  
+                </div>
+
+                <div class="col-sm-2 mar5">
+                    <input type="text" id="EndDate" placeholder="End Date" class="form-control" />			  
+                </div>
+
+                <div class="col-sm-2 mar5">
+                    <input type="button" id="btnSearch"  value="Search" class="btn btn-default" />			  
+                </div>
+
+                <div class="form-group f-right">
+                  <select class="form-control pagerecord">
+	                  <option>Records Per Page  </option>
+	                  <option>5</option>
+	                  <option>10</option>
+	                  <option>15</option>
+                   </select>		  
+                </div>
+
+                <div class="col-sm-12">			
+			    <div class="panel panel-default">
+			      <div class="panel-body">	
+                    <div class="col-sm-12">
+					    <div class="table-responsive" id="divmapeduserArchiveslist">	
+                            <p style="text-align: center;font-size: 25px;color: brown;" id="pmsg">No record found.</p>					
+	                        <!--Display Data here.....-->				   
+					    </div>
+
+                    </div>
+            </div>
+	    </div>
+    </div>
+    </form>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modalDoses" class="modal fade" role="dialog" style="top:20%;">
+</div>
+
+<script src="~/datepick/jquery-ui.js"></script>
+
+	<script>
+	    $(document).ready(function () {
+	        //Datepicker Popups calender to Choose date
+	        $(function () {
+	            jQuery("#StartDate,#EndDate").datepicker();
+	            //Pass the user selected date format 
+	            jQuery("#format").change(function () {
+	                jQuery("#StartDate,#EndDate").datepicker("option", "dateFormat", $(this).val());
+	            });
+	        });
+	    });
+	  
+	    jQuery('#btnSearch').click(function () {
+	        var uid = jQuery('#userMappedList').val();
+            var sdate = jQuery('#StartDate').val();
+            var edate = jQuery('#EndDate').val();
+            if (uid != '' && sdate != '' && edate != '') {
+                $.post('/common/ViewOuruserArchives', { UId: uid, StartDate: sdate, EndDate: edate }, function (data) {
+                    
+                    jQuery('#divmapeduserArchiveslist').html(data);
+                    jQuery('#pmsg').hide();
+                });
+            }
+            else {
+                alert('Please select the proper data');
+            }
+
+	    });
+	</script>	

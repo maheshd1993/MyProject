@@ -1,0 +1,209 @@
+ var message = String.Empty;
+                surgical_details sd = new surgical_details();
+                if (arthos.data.DRID != String.Empty)
+                {
+                    sd.DRID = Convert.ToInt32(arthos.data.DRID);
+                }
+
+                if (arthos.data.PatID != String.Empty)
+                {
+                    sd.PatID = Convert.ToInt32(arthos.data.PatID);
+                }
+
+                if (arthos.data.CaseId != String.Empty)
+                {
+                    sd.CaseID = Convert.ToInt32(arthos.data.CaseId);
+                }
+
+                if (arthos.data.CaseSideID != String.Empty)
+                {
+                    sd.CaseSideID = Convert.ToInt32(arthos.data.CaseSideID);
+                }
+
+                if (arthos.data.ChiefSurgeon != String.Empty)
+                {
+                    sd.ChiefSurgeon = Convert.ToString(arthos.data.ChiefSurgeon);
+                }
+
+                if (arthos.data.AssistantSurgeon1 != String.Empty)
+                {
+                    sd.AssistantSurgeon1 = Convert.ToString(arthos.data.AssistantSurgeon1);
+                }
+                if (arthos.data.AssistantSurgeon2 != String.Empty)
+                {
+                    sd.AssistantSurgeon2 = Convert.ToString(arthos.data.AssistantSurgeon2);
+                }
+
+                if (arthos.data.ScrubbedNurse != String.Empty)
+                {
+                    sd.ScrubbedNurse = Convert.ToString(arthos.data.ScrubbedNurse);
+                }
+
+                if (arthos.data.TypeOfAnesthesia != String.Empty)
+                {
+                    sd.TypeOfAnesthesia = Convert.ToString(arthos.data.TypeOfAnesthesia);
+                }
+
+                if (arthos.data.NameOfAnesthesia != String.Empty)
+                {
+                    sd.NameOfAnesthesia = Convert.ToString(arthos.data.NameOfAnesthesia);
+                }
+
+                if (arthos.data.NameOfSurgery != String.Empty)
+                {
+                    sd.NameOfSurgery = Convert.ToString(arthos.data.NameOfSurgery);
+                }
+
+                if (arthos.data.Others != String.Empty)
+                {
+                    sd.Others = Convert.ToString(arthos.data.Others);
+                }
+                else
+                {
+                    sd.Others = String.Empty;
+                }
+
+                if (arthos.data.CateID != String.Empty)
+                {
+                    sd.CateID = Convert.ToInt32(arthos.data.CateID);
+                }
+
+                if (arthos.data.SubCateID != String.Empty)
+                {
+                    sd.SubCateID = Convert.ToInt32(arthos.data.SubCateID);
+                }
+                else
+                {
+                    sd.SubCateID = 0;
+                }
+
+                sd.CreatedDate = DateTime.Now.Year;
+                sd.DateOfSurgery = DateTime.Now;
+                sd.IsActive = "Yes";
+                db.surgical_details.Add(sd);
+                if (db.SaveChanges() > 0)
+                {
+                    int SUIDLastVal = sd.SUID;
+                    arthos.data.SUID = Convert.ToString(SUIDLastVal);
+                    for (int i = 0; i < arthos.data.ProcessVal.Count; i++)
+                    {
+                        investigation_process ip = new investigation_process();
+                        ip.INVPRID = arthos.data.ProcessVal[i].INVPRID;
+                        if (arthos.data.SUID != String.Empty)
+                        {
+                            ip.ParentID = arthos.data.SUID == String.Empty ? 0 : Convert.ToInt32(arthos.data.SUID);
+                        }
+                        else
+                        {
+                            ip.ParentID = 0;
+                        }
+
+                        if (arthos.data.DRID != String.Empty)
+                        {
+                            ip.DRID = arthos.data.DRID == String.Empty ? 0 : Convert.ToInt32(arthos.data.DRID);
+                        }
+                        else
+                        {
+                            ip.DRID = 0;
+                        }
+
+                        if (arthos.data.PatID != String.Empty)
+                        {
+                            ip.PatID = arthos.data.PatID == String.Empty ? 0 : Convert.ToInt32(arthos.data.PatID);
+                        }
+                        else
+                        {
+                            ip.PatID = 0;
+                        }
+
+                        if (arthos.data.CaseId != String.Empty)
+                        {
+                            ip.CaseID = arthos.data.CaseId == null ? 0 : Convert.ToInt32(arthos.data.CaseId);
+                        }
+                        else
+                        {
+                            ip.CaseID = 0;
+                        }
+
+                        if (arthos.data.CaseSideID != String.Empty)
+                        {
+                            ip.CaseSideID = arthos.data.CaseSideID == String.Empty ? 0 : Convert.ToInt32(arthos.data.CaseSideID);
+                        }
+                        else
+                        {
+                            ip.CaseSideID = 0;
+                        }                       
+
+                        if (arthos.data.CateID != String.Empty)
+                        {
+                            ip.CateID = arthos.data.CateID == String.Empty ? 0 : Convert.ToInt32(arthos.data.CateID);
+                        }
+                        else
+                        {
+                            ip.CateID = 0;
+                        }
+
+                        if (arthos.data.ProcessVal[i].ProcessID>0)
+                        {
+                            ip.ProcessID = arthos.data.ProcessVal[i].ProcessID == null ? 0 : Convert.ToInt32(arthos.data.ProcessVal[i].ProcessID);
+                        }
+                        else
+                        {
+                            ip.ProcessID = 0;
+                        }
+                        ip.ProcessName = arthos.data.ProcessVal[i].ProcessName;
+
+                        if (arthos.data.ProcessVal[i].SubProcessID>0)
+                        {
+                            ip.SubProcessID = arthos.data.ProcessVal[i].SubProcessID == null ? 0 : Convert.ToInt32(arthos.data.ProcessVal[i].SubProcessID);
+                        }
+                        else
+                        {
+                            ip.SubProcessID = 0;
+                        }
+                        ip.SubProcessName = arthos.data.ProcessVal[i].SubProcessName;
+
+                        if (arthos.data.ProcessVal[i].LeftData != String.Empty)
+                        {
+                            ip.LeftData = arthos.data.ProcessVal[i].LeftData;
+                        }
+                        else 
+                        {
+                            ip.LeftData = String.Empty;
+                        }
+
+                        if (arthos.data.ProcessVal[i].RightData != String.Empty)
+                        {
+                            ip.RightData = arthos.data.ProcessVal[i].RightData;
+                        }
+                        else
+                        {
+                            ip.RightData = String.Empty;
+                        }
+
+                        if (arthos.data.ProcessVal[i].right_value != String.Empty)
+                        {
+                            ip.right_value = arthos.data.ProcessVal[i].right_value;
+                        }
+                        else
+                        {
+                            ip.right_value = String.Empty;
+                        }
+
+                        if (arthos.data.ProcessVal[i].left_value != String.Empty)
+                        {
+                            ip.left_value = arthos.data.ProcessVal[i].left_value;
+                        }
+                        else 
+                        {
+                            ip.left_value = String.Empty;
+                        }
+
+                        ip.IsActive = "Yes";
+                        ip.left_check = Convert.ToSByte(arthos.data.ProcessVal[i].left_check);
+                        ip.right_check = Convert.ToSByte(arthos.data.ProcessVal[i].right_check);                       
+                        ip.CreatedDate = System.DateTime.Now;
+                        db.investigation_process.Add(ip);
+                        db.SaveChanges();
+                    }
+                }

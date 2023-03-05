@@ -1,0 +1,619 @@
+﻿@{
+    ViewBag.Title = "viewsales";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+    var encode = new Svam.UtilityManager.StringCipher();
+}
+@model Traders.Models.ViewSalesModel
+
+
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        @*<h1>View Sales Data</h1>*@
+        <div class="form-horizontal">
+            @* <div class="form-group f-center col-sm-7">
+                    <label>@TempData["alert"]</label>
+                </div>
+
+                @using (Html.BeginForm("FilterSalesByDates", "home", FormMethod.Post))
+                {
+                    <div class="form-group f-center col-sm-5 padd0">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control datepik" name="FromDate" placeholder="From Date" required="required" />
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control datepik" name="ToDate" placeholder="To Date" required="required" />
+                        </div>
+                        <div class="col-sm-4 padd0">
+                            <input id="Submit1" class="btn btn-danger" style="margin-left: 10px;" type="submit" value="Filter" />
+                            <input class="btn btn-success" type="button" value="Save" onclick="location.href = '/home/ResetSalesFilter'" />
+                        </div>
+                    </div>
+                }*@
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><strong>View Sales</strong>   <span style="margin-left: 12%; color: #c9302c;">@TempData["alert"]</span></div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+@using (Html.BeginForm("FilterSalesByDates", "home", FormMethod.Post))
+{
+                                <div class="col-sm-2 viewl1">
+                                    @if (Model.Userddllist != null && Model.Userddllist.Count > 0)
+                                    {
+                                        @Html.DropDownList("UserddlName", new SelectList(Model.Userddllist, "uid", "UserName", Convert.ToString(Session["dllUserName"])), "ALL", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;", translate = "no" })
+                                    }
+                                </div>
+                               
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" class="form-control datefield" name="FromDate" id="FromDate" autocomplete="off" placeholder="From Date" value="@Convert.ToString(Session["SalesFltrFrmDt"])" readonly />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" class="form-control datefield" name="ToDate" id="ToDate" autocomplete="off" placeholder="To Date" value="@Convert.ToString(Session["SalesFltrToDt"])" readonly />
+                                    </div>
+                                    <div class="col-sm-2 padd0">
+                                        <input id="Submit1" class="btn btn-success" style="margin-left: 10px;" type="submit" value="Filter" />
+                                        <input class="btn btn-danger" type="button" value="Reset" onclick="location.href = '/home/ResetSalesFilter'" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Lead Name </th>
+                                <th>Mobile Number</th>
+                                <th>Follow Up Date</th>
+                                <th>Lead Status</th>
+                                <th>Project Value</th>
+                                <th>Closed by</th>
+                                <th>Advance Payment</th>
+                                <th>Payment Details</th>
+                                <th>Edit Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.viewsalesList.Count > 0)
+                            {
+                                foreach (var item in Model.viewsalesList.OrderByDescending(em => em.Id))
+                                {
+                                    DateTime dt = Convert.ToDateTime(item.FollowupDate);
+                                    string FollowupDate = String.Format("{0:" + Model.DateFormat + "}", dt);
+                                    <tr>
+                                        <td translate="no">@i</td>
+                                        <td translate="no">
+                                            @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                                            {
+                                                <a href="/home/createleads/@HttpUtility.UrlEncode(encode.Encrypt(item.Id.ToString()))" translate="no">@item.LeadName</a>
+                                            }
+                                            else
+                                            {
+                                                @item.LeadName
+                                            }
+                                        </td>
+                                        <td translate="no">@item.Mob</td>
+                                        <td translate="no">@FollowupDate</td>
+                                        <td translate="no">@item.LeadStatus</td>
+                                        <td translate="no">@item.ProjectValue</td>
+                                        <td translate="no">@item.ClosedBy</td>
+                                        <td translate="no">@item.AdvancePayment</td>
+                                        <td><a href="#" class="PopViewPayment" style="font-size:14px;" data-target="#ModelCloseLeads" data-id="@item.Id" data-name="@item.ProductName">View</a></td>
+                                        <td><a href="#" class="PopViewPayment1" style="font-size:14px;" data-target="#ModelEditLeads" data-id="@item.Id" data-name="@item.ProductName">Edit</a></td>
+
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <div class="container paginationcustom">
+                        <ul class="pagination">
+                            @{int pages = Convert.ToInt32(ViewData["NoOfPages"]);}
+                            @{int url = Convert.ToInt32(Request.QueryString["page"]);}
+                            @{string pageUrl = Convert.ToString(ViewData["url"]);}
+                            @if (pages != 0 && pages != 1)
+                            {
+                                for (int index = 1; index <= pages; index++)
+                                {
+                                    string path = pageUrl + index;
+                                    if (url == 0)
+                                    {
+                                        url = 1;
+                                    }
+                                    <li class="@(index == url ? "active" : "")"><a href="/home/viewsales/?page=@index">@index</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Close-Leads-->
+<div id="ModelCloseLeads" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 65%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Details</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Project Description:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtProjectDescription" class="form-control clsval dis" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Project Value:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtProjectValue" class="form-control clsval isDecimal dis" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Advance Payment:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtAdvancePayment" class="form-control clsval isDecimal dis" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Advance Payment Date:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtAdvancePayDate" class="form-control followupdate clsval dis" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Cheque No./NEFT/Cash:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtChequeNo" class="form-control clsval dis" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Project Completed Date:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtCompletionDate" class="form-control followupdate clsval dis" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Expiry date:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtExpiryDate" class="form-control followupdate dis" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">License:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtLicense" class="form-control dis" />
+                        </div>
+                    </div>
+
+
+                    <!-- table repeat -->
+                    @*<a href="#" class="addrow btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
+
+                        <table class="table table-bordered table-hover" id="mytabledata">
+                           <thead>
+                             <tr>
+                               <th width="15%">Amount </th>
+                               <th width="30%">Description</th>
+                               <th width="30%">Cheque No./NEFT/Cash</th>
+                               <th width="15%">Date</th>
+                                 <th width="10%">Action </th>
+                             </tr>
+                           </thead>
+                           <tbody id="addtr">
+                             <tr>
+                               <td><input type="text" class="form-control" /></td>
+                               <td><textarea class="form-control"></textarea></td>
+                                 <td><textarea class="form-control"></textarea></td>
+                                 <td><input type="text" class="form-control dtc" /></td>
+                                 <td><a href="#" class="deleterow btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></td>
+                             </tr>
+
+                           </tbody>
+                         </table>*@
+
+                    <!-- end table here -->
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="pwd">&nbsp;</label>
+                        <div class="col-sm-8">
+                            <span style="margin-left: 10px;" id="spnCloseWonMsg"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default" id="btnSaveCloseWon" style="display: none;">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Edit-Leads-->
+<div id="ModelEditLeads" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 65%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Details</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Project Description:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtprodes" class="form-control " />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Project Value:</label>
+                            <input type="hidden" id="hdnLeadId" />
+                            <div class="col-sm-8">
+                                <input type="text" id="txtproval" class="form-control  isDecimal " />
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Advance Payment:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtadvpay" class="form-control  isDecimal " />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Advance Payment Date:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtadvpaydate" class="form-control  " readonly />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Cheque No./NEFT/Cash:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtche" class="form-control  " />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Project Completed Date:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtcompldate" class="form-control datefield" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Expiry date:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtexpdate" class="form-control datefield" autocomplete="off" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">License:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtlic" class="form-control " />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Project Description:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtProjectuserDescription" class="form-control clsval" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Project Value:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtprovaluser" class="form-control clsval isDecimal dis" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Advance Payment:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtadvpayuser" class="form-control clsval isDecimal dis" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Advance Payment Date:</label>
+                            <input type="hidden" id="hdnLeadIduser" />
+                            <div class="col-sm-8">
+                                <input type="text" id="txtadvpaydateuser" class="form-control followupdate clsval dis" readonly />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Cheque No./NEFT/Cash:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtcheuser" class="form-control clsval dis" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Project Completed Date:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtcompldateuser" class="form-control followupdate clsval dis" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Expiry date:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtexpdateuser" class="form-control followupdate dis" autocomplete="off" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">License:</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtlicuser" class="form-control dis" />
+                            </div>
+                        </div>
+                    }
+                    <!-- table repeat -->
+                    @*<a href="#" class="addrow btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> Add Row</a>
+
+                        <table class="table table-bordered table-hover" id="mytabledata">
+                           <thead>
+                             <tr>
+                               <th width="15%">Amount </th>
+                               <th width="30%">Description</th>
+                               <th width="30%">Cheque No./NEFT/Cash</th>
+                               <th width="15%">Date</th>
+                                 <th width="10%">Action </th>
+                             </tr>
+                           </thead>
+                           <tbody id="addtr">
+                             <tr>
+                               <td><input type="text" class="form-control" /></td>
+                               <td><textarea class="form-control"></textarea></td>
+                                 <td><textarea class="form-control"></textarea></td>
+                                 <td><input type="text" class="form-control dtc" /></td>
+                                 <td><a href="#" class="deleterow btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></td>
+                             </tr>
+
+                           </tbody>
+                         </table>*@
+
+                    <!-- end table here -->
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="pwd">&nbsp;</label>
+                        <div class="col-sm-8">
+                            <span style="margin-left: 10px;" id="spnCloseWonMsg"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default" id="btnSaveCloseWon" style="display: none;">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                {
+                    <button type="button" class="btn btn-warning" id="btnEditCloseWon">Update</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-warning" id="btnEditCloseWonuser">Update</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="modalDoses" class="modal fade" role="dialog" style="top: 20%;">
+</div>
+<!-- Modal -->
+<div id="modalDoses" class="modal fade" role="dialog" style="top: 20%;">
+</div>
+<!-- Modal View Payment -->
+<div id="modalViewPayment" class="modal fade" role="dialog" style="top: 20%;">
+</div>
+<script src="/js/jquery-1.11.3.min.js"></script>
+
+<link href="/datepick/jquery-ui.css" rel="stylesheet" />
+<script src="/datepick/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#FromDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $('#ToDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+    $(function () {
+        var dateFormat = '@Session["DpDateFormat"]';
+        $('#txtadvpaydate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+        $('#txtcompldate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+        $('#txtexpdate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+
+
+
+    $(".dis").prop('disabled', true);
+
+    //$('.datepik').datepicker({
+    //    dateFormat: "mm/dd/yy",
+    //    maxDate: 0,
+    //    //minDate: 0,
+    //    onSelect: function (date_text, inst) {
+    //    }
+    //});
+
+    jQuery('.PopViewPayment').click(function () {
+
+        // debugger;
+        //$.post('/home/ViewSalesPaymentdetails', { Leadid: leadid }, function (data) {
+        //    $('#modalViewPayment').html(data);
+        //    $($(this).data("#modalViewPayment")).show();
+        //});
+        var leadid = $(this).data('id');
+        $.post('/common/getSaleDetail', { Lid: leadid }, function (data) {
+            //console.log(data);
+            if (data != null) {
+                jQuery('#txtProjectDescription').val(data.PROJECTDESCRIPTION);
+                jQuery('#txtProjectValue').val(data.PROJECTVALUE);
+                jQuery('#txtAdvancePayment').val(data.ADVANCEPAYMENT);
+                jQuery('#txtAdvancePayDate').val(data.ADVANCEPAYMENTDATE);
+                jQuery('#txtChequeNo').val(data.CHEQUENO);
+                jQuery('#txtCompletionDate').val(data.PROJECTCOMPLETIONDATE);
+                jQuery('#txtExpiryDate').val(data.EXPIRYDATE);
+                jQuery('#txtLicense').val(data.LICENSE);
+            }
+            //$($(this).data("#ViewDescript")).show();
+        });
+        $('#ModelCloseLeads').modal('show');
+    })
+
+    jQuery('.PopViewPayment1').click(function () {
+        var leadid = $(this).data('id');
+        $("#hdnLeadId").val(leadid);
+        $("#hdnLeadIduser").val(leadid);
+        $.post('/common/getSaleDetail', { Lid: leadid }, function (data) {
+            //console.log(data);
+            if (data != null) {
+                jQuery('#txtprodes').val(data.PROJECTDESCRIPTION);
+                jQuery('#txtProjectuserDescription').val(data.PROJECTDESCRIPTION);
+                jQuery('#txtproval').val(data.PROJECTVALUE);
+                jQuery('#txtprovaluser').val(data.PROJECTVALUE);
+                jQuery('#txtadvpay').val(data.ADVANCEPAYMENT);
+                jQuery('#txtadvpayuser').val(data.ADVANCEPAYMENT);
+                jQuery('#txtadvpaydate').val(data.ADVANCEPAYMENTDATE);
+                jQuery('#txtadvpaydateuser').val(data.ADVANCEPAYMENTDATE);
+                jQuery('#txtche').val(data.CHEQUENO);
+                jQuery('#txtcheuser').val(data.CHEQUENO);
+                jQuery('#txtcompldate').val(data.PROJECTCOMPLETIONDATE);
+                jQuery('#txtcompldateuser').val(data.PROJECTCOMPLETIONDATE);
+                jQuery('#txtexpdate').val(data.EXPIRYDATE);
+                jQuery('#txtexpdateuser').val(data.EXPIRYDATE);
+                jQuery('#txtlic').val(data.LICENSE);
+                jQuery('#txtlicuser').val(data.LICENSE);
+            }
+            //$($(this).data("#ViewDescript")).show();
+        });
+        $('#ModelEditLeads').modal('show');
+
+    });
+
+
+    $('#btnEditCloseWon').click(function () {
+        debugger;
+        var leadid = jQuery('#hdnLeadId').val();
+        //if (leadid == '')
+        //{
+        //    leadid = jQuery('#hdnLeadIduser').val();
+        //}
+        if (leadid != '') {
+            var ProjectDescription = jQuery('#txtprodes').val();
+            var ProjectValue = jQuery('#txtproval').val();
+            var AdvancePayment = jQuery('#txtadvpay').val();
+            var AdvancePayDate = jQuery('#txtadvpaydate').val();
+            var ChequeNo = jQuery('#txtche').val();
+            var CompletionDate = jQuery('#txtcompldate').val();
+            var ExpiryDate = jQuery('#txtexpdate').val();
+            var License = jQuery('#txtlic').val();
+            jQuery.post('/common/EditSaleDetail', { LID: leadid, projectDescription: ProjectDescription, projectValue: ProjectValue, advancePayment: AdvancePayment, advancePayDate: AdvancePayDate, chequeNo: ChequeNo, completionDate: CompletionDate, expiryDate: ExpiryDate, license: License }, function (data) {
+                if (data == 'success') {
+                    //window.alert("Update Successfully!");
+                    //swal("Success !", 'Lead Update successfully.', "success");
+                    location.reload();
+                    $('#ModelEditLeads').modal('hide');
+                    //$('#' + LeadId).find("td[id='leadStatusVal']").html('Closed');//update lead status name
+                }
+                else if (data == 'error') {
+                    swal("Alert !", "Sorry There is some problem Please try again", "warning");
+                }
+            });
+        }
+        else {
+            alert('Sorry There is some problem Please try again.');
+        }
+
+    });
+
+    $('#btnEditCloseWonuser').click(function () {
+        debugger;
+        var leadid = jQuery('#hdnLeadIduser').val();
+        if (leadid != '') {
+            var ProjectDescription = jQuery('#txtProjectuserDescription').val();
+            var ProjectValue = jQuery('#txtprovaluser').val();
+            var AdvancePayment = jQuery('#txtadvpayuser').val();
+            var AdvancePayDate = jQuery('#txtadvpaydateuser').val();
+            var ChequeNo = jQuery('#txtcheuser').val();
+            var CompletionDate = jQuery('#txtcompldateuser').val();
+            var ExpiryDate = jQuery('#txtexpdateuser').val();
+            var License = jQuery('#txtlicuser').val();
+            jQuery.post('/common/EditSaleDetailuser', { LID: leadid, projectDescription: ProjectDescription, projectValue: ProjectValue, advancePayment: AdvancePayment, advancePayDate: AdvancePayDate, chequeNo: ChequeNo, completionDate: CompletionDate, expiryDate: ExpiryDate, license: License }, function (data) {
+                if (data == 'success') {
+                    //window.alert("Update Successfully!");
+                    //swal("Success !", 'Lead Update successfully.', "success");
+                    location.reload();
+                    $('#ModelEditLeads').modal('hide');
+                    //$('#' + LeadId).find("td[id='leadStatusVal']").html('Closed');//update lead status name
+                }
+                else if (data == 'error') {
+                    swal("Alert !", "Sorry There is some problem Please try again", "warning");
+                }
+            });
+        }
+        else {
+            alert('Sorry There is some problem Please try again.');
+        }
+
+    });
+</script>

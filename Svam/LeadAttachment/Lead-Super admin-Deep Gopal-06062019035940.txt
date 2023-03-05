@@ -1,0 +1,53 @@
+https://www.google.com/maps/dir/45.696146,-95.92301/44.500023,-100.308940/44.782669,-98.866346/44.487338,-98.138707/44.618174,-97.968165/44.740093,-98.048205/45.696146,-95.92301
+
+https://www.google.com/maps/dir/45.696146,-95.92301/44.481277,-96.727855/44.321818,-96.785478/44.06004,-96.468131/44.081546,-96.236858/43.404432,-96.334375/44.124868,-95.503159/45.696146,-95.92301/@44.61954,-97.5654147,7.75z
+
+https://www.google.com/maps/dir/45.696146,-95.92301/44.481277,-96.727855/44.321818,-96.785478/44.060040,-96.468131/44.081546,-96.236858/43.404432,-96.334375
+
+https://maps.google.com/maps/dir/45.696146,-95.92301/44.481277,-96.727855/44.321818,-96.785478/44.060040,-96.468131/44.081546,-96.236858/43.404432,-96.334375&key=AIzaSyC7TGfcAznAPi_L6RXalI6h0FfE8ayl1Dk
+
+https://maps.googleapis.com/maps/api/distancematrix/xml?units=imperial&origins=45.696146,-95.92301|44.481277,-96.727855|44.321818,-96.785478|44.060040,-96.468131|44.081546,-96.236858&destinations=43.404432,-96.334375|44.481277,-96.727855|44.321818,-96.785478|44.060040,-96.468131|44.081546,-96.236858&key=AIzaSyC7TGfcAznAPi_L6RXalI6h0FfE8ayl1Dk
+
+
+
+USE [AiPartnerTest]
+GO
+
+DECLARE	@return_value int
+
+EXEC	@return_value = [dbo].[usp_GetTrackOrderByRoute]
+		@RouteID = 3089,
+		@Type = 1
+
+SELECT	'Return Value' = @return_value
+
+GO
+
+Select 
+(U.FirstName+' '+U.LastName) as ContactName,
+ U.CellPhone,
+ DD.[NumberOfBagsLoaded],
+ DD.[TemperatureOfSemenLoaded],
+ DD.[CreatedDateTime] as CreatedDate,
+ DD.[NumberOfBagsDelivered],
+ DD.[TemperatureOfSemenDelivered],
+ DD.[DeleveryDateTime] AS DeliveryDate 
+from [dbo].[DriverRide_Main] DM
+LEFT JOIN
+[dbo].[DriverRide_Detail]  DD ON DD.[FK_DriverRide_Main_Id]=DM.ID
+LEFT JOIN
+dbo.UserReg U ON  U.ID=DD.FirmID
+WHERE
+DD.FirmID=187
+AND
+DM.ID=3070
+
+
+steven---zierk
+
+
+dwaldner--57350
+Fred---erick
+joe--zierk
+
+bfz-zierk

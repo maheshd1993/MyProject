@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.ViewInterviewSchedule
+<div class="maincontainerdash" style="width: 100%;">
+
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i>New Candidate</div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                         @if (Model.NewCandidatemodelList.Count > 0)
+                        {
+						
+                        <table class="table table-striped table table-hover tabledata table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Candidate Name
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Phone
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Email
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Experiance
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Profile
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Status<img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.NewCandidatemodelList)
+                              {
+                                <tr>
+							      <td><a href="/Hr/CreateInterviewSchdule/@item.Id" target="_blank">@item.CandidateName</a></td>
+                                  <td>@item.Mobile</td>
+                                  <td>@item.Email</td>
+                                  <td>@item.Experiance</td>
+                                  <td>@item.ProfileName</td>
+                                  <td>@item.CurrentStatus</td>		  
+							    </tr>
+    
+                              }
+                            </tbody>
+                        </table>		
+                        }
+                        else
+                        {
+                            <p>no records found!.</p>
+                        }
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6" style="padding-left: 0;">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-list" aria-hidden="true"></i>Next Week Schedule</div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        @if (Model.NextweekinterviewSchedulemodelList.Count > 0)
+                        {
+						
+                        <table class="table table-striped table table-hover tabledata table-bordered" id="dest1">
+                            <thead>
+                                <tr>
+                                    <th>Candidate Name
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Phone
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Email
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Experiance
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Profile
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Status<img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 @foreach (var item in Model.NextweekinterviewSchedulemodelList)
+                              {
+                               
+							    <tr>
+							      <td><a href="/Hr/CreateInterviewSchdule/@item.Id" target="_blank">@item.CandidateName</a></td>
+                                  <td>@item.Mobile</td>
+                                  <td>@item.Email</td>
+                                  <td>@item.Experiance</td>
+                                  <td>@item.ProfileName</td>
+                                  <td>@item.CurrentStatus</td>		  
+							    </tr>
+                              }
+                            </tbody>
+                        </table>		
+                        }
+                        else
+                        {
+                            <p>no recods found!.</p>
+                        }
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-envelope" aria-hidden="true"></i>Todays Followup</div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        @if (Model.TodaysfollowupmodelList.Count > 0)
+                        {
+						<table class="table table-striped table table-hover tabledata table-bordered" id="dest12">
+                            <thead>
+                                <tr>
+                                    <th>Candidate Name
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Phone
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Email
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Experiance
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Profile
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Status<img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.TodaysfollowupmodelList)
+                              {
+                                  
+                                <tr>
+							      <td><a href="/Hr/CreateInterviewSchdule/@item.Id" target="_blank">@item.CandidateName</a></td>
+                                  <td>@item.Mobile</td>
+                                  <td>@item.Email</td>
+                                  <td>@item.Experiance</td>
+                                  <td>@item.ProfileName</td>
+                                  <td>@item.CurrentStatus</td>							  
+							    </tr>
+                              }
+
+                            </tbody>
+                        </table>		
+                        }
+                        else
+                        {
+                            <p>no records found!.</p>
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-6" style="padding-left: 0;">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-user" aria-hidden="true"></i>Today Interviews</div>
+            <div class="panel-body hdata">
+                <div class="col-sm-12 padd0">
+                    <div class="table-responsive">
+                        @if (Model.TodaysInterviewmodelList.Count > 0)
+                        {
+						<table class="table table-striped table table-hover tabledata table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Candidate Name
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Phone
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Email
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Experiance
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Profile
+                                        <img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                    <th>Status<img src="/img/no_sort.gif" class="sorttable_img" style="cursor: pointer; margin-left: 10px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 @foreach (var item in Model.TodaysInterviewmodelList)
+                              {
+                                <tr>
+							      <td><a href="/Hr/CreateInterviewSchdule/@item.Id" target="_blank">@item.CandidateName</a></td>
+                                  <td>@item.Mobile</td>
+                                  <td>@item.Email</td>
+                                  <td>@item.Experiance</td>
+                                  <td>@item.ProfileName</td>
+                                  <td>@item.CurrentStatus</td>					  
+							    </tr>
+                              }
+                            </tbody>
+                        </table>
+                         }
+                        else
+                        {
+                            <p>No records found!</p>
+                        }	
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>

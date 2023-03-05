@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "ManageItemType";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+
+@model Svam.Models.ItemTypeModel
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Item Type </strong>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("ManageItemType", "Master", FormMethod.Post))
+                                {
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.ItemTypeName, new { @placeholder = "Item Type Name", @class = "form-control", @autocomplete = "off", required = "required" })
+                                        @Html.ValidationMessageFor(em => em.ItemTypeName)
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="submit" value="Save" class="btn btn-success">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th width="5%">#</th>
+                                <th width="70%">Item Type Name </th>
+                                <th width="12%">Status</th>
+                                <th width="10%" class="noimg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @foreach (var item in ViewBag.ItemTypeList)
+                            {
+                                <tr>
+                                    <td data-column="Sr.No." translate="no">@i</td>
+                                    <td data-column="Product Type Name" translate="no">@item.ItemTypeName</td>
+                                    <td data-column="Status">
+                                        @if (item.Status == true)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/Master/ChangeItemTypeStatus/@item.Id" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/Master/ChangeItemTypeStatus/@item.Id" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+                                    <td data-column="Action"><a href="/Master/ManageItemType/@item.Id" class="viewbtn">Edit</a></td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+</script>

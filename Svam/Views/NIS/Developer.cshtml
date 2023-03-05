@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "Developer";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+@model Traders.Models.NisDeveloperModel
+
+<style>
+    label {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    .label9 {
+        padding-top: 20px;
+    }
+       td:before{
+        display:none!important;
+    }
+    table:not(.table-condensed) td {
+    padding-left: 10px !important;
+    width:100%!important;
+}
+.hide1 select {
+    width: 100%!important;
+}
+.hide1 textarea,
+.hide1 input {
+    width: 100%;
+}
+
+    /*.error{color:red; font-size:12px; text-transform:lowercase; display:block;}*/
+</style>
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="col-sm-4 padd0">
+            <h1 style="border-bottom: none;">@* DAILY ACTIVITY REPORT *@ </h1>
+        </div>
+        <div class="col-sm-8 ovtime col-xs-12">
+            <div class="col-sm-2 f-right">
+                <input type="button" id="btnRemark" class="btn btn-info btnSave" value="Send Mail To Admin" />
+                <span class="ExtraWorkingLoader" style="display: none; color: red">Please wait...<i class="fa fa-spinner fa-pulse"></i></span>
+            </div>
+            <div class="col-sm-2 padd0 f-right">
+                <input type="checkbox" class="custom_checkbox chk" id="chkExtraworking" data-name="ExtraWorking" /><span class="working_extra">Extra Working</span>
+            </div>
+            <div class="col-sm-3 padd0 f-right">
+                <input type="checkbox" class="custom_checkbox chk" id="chkLateworking" data-name="LateNight" /><span class="working_late_night">Working Late Night</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 remark1">
+        @using (Html.BeginForm("Developer", "Nis", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formregister" }))
+        {
+            <div class="panel panel-info new_activity_form">
+                <div class="panel-heading">
+                    <strong>  Create Activity</strong>
+                    <div class="row" style="padding-right: 2.5%;">
+                        <div class="col-sm-9 padd0"></div>
+
+                    </div>
+                </div>
+
+                <div class="panel-body " style="overflow-x: scroll;">
+                    <table class="table table-bordered">
+                        <tbody class="hide1">
+                            <tr>
+                                <td width="170" align="left" valign="middle"><strong>Project Name</strong></td>
+                                <td width="200" align="left" valign="middle" data-column="Project Name">
+                                    <select id="Project" class="form-control" name="Project">
+                                        <option>Select Project</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(em => em.Project)
+                                </td>
+                                <td width="20" align="right" valign="middle"></td>
+                            </tr>
+                            <tr>
+                                <td width="150" align="left" valign="middle">
+                                    <strong>Module Of Project</strong>
+                                </td>
+                                <td width="200" align="left" valign="middle" data-column="Module of Project">
+                                    <select id="ProjectModule" class="form-control" name="ProjectModule">
+                                        <option>Select Module</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(em => em.Project)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="170" align="left" valign="middle"><strong>General Remark</strong> </td>
+                                <td width="200" align="left" valign="middle" colspan="4" data-column="General Remark">
+                                    @Html.TextAreaFor(em => em.GeneralRemark, new { @class = "form-control", @rows = "5" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="170" align="left" valign="middle"><strong>Code Module Remark</strong> </td>
+                                <td width="200" align="left" valign="middle" colspan="4" data-column="Code Module Remark">
+                                    @Html.TextAreaFor(em => em.CodeModuleRemark, new { @class = "ckeditor" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="170" align="left" valign="middle"><strong>DB Module Remark</strong> </td>
+                                <td width="200" align="left" valign="middle" colspan="4" data-column="DB Module Remark">
+                                    @Html.TextAreaFor(em => em.DBModuleRemark, new { @class = "ckeditor" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="170" align="left" valign="middle"><strong>JS/CSS Module Remark</strong></td>
+                                <td width="200" align="left" valign="middle" colspan="4" data-column="JS/CSS Module Remark">
+                                    @Html.TextAreaFor(em => em.JSCSSModuleRemark, new { @class = "ckeditor" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="170" align="left" valign="middle"><strong>Support Needed</strong></td>
+                                <td width="200" align="left" valign="middle" data-column="Support Needed">
+                                    @Html.TextBoxFor(em => em.SupportNeeded, new { @class = "form-control" })
+                                </td>
+                                <td width="20" align="right" valign="middle"></td>
+                                <td width="150" align="left" valign="middle"><strong>Upload Code File</strong></td>
+                                <td width="200" align="left" valign="middle">
+                                    <input type="file" name="file" id="file" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" align="center" valign="middle">
+                                    <input type="button" value="Back to View Activity" class="btn btn-info" onclick="location.href = '/Nis/ViewActivityReport/?page=1'" />
+                                    <input type="submit" name="Submit" value="Save Activity" class="btn btn-success btnSave">
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>*@
+<script src="/js/jquery-1.11.3.min.js"></script>
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    // just for the demos, avoids form submit
+    $("#formregister").validate({
+        rules: {
+            Project: {
+                required: true,
+            },
+            ProjectModule: {
+                required: true
+            }
+        }
+    });
+</script>
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        BindProjectDDL();
+    });
+
+    function BindProjectDDL() {
+        $.get('/NIS/BindDDlProject', null, function (data) { chkBindProjectDDLL(data); });
+    }
+    function chkBindProjectDDLL(abc) {
+        var data = "";
+        data += "<option value= >Select Project</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].Pid + " >" +
+                abc[it].ProjectName + "</option>";
+        }
+        $('#Project').html(data);
+    }
+
+
+    jQuery('#Project').change(function () {
+        var ddl = jQuery(this).val();
+        BindModuleDDL(ddl);
+    });
+
+    function BindModuleDDL(ddl) {
+        //$("#divBrand").css("display", "none");
+        //$("#divser").css("display", "none");
+        var PID = ddl;
+        $.get('/NIS/BindDDlModule', { pid: PID }, function (data) { chkBindModuleDDL(data); });
+    }
+    function chkBindModuleDDL(abc) {
+        var data = "";
+        data += "<option value= >Select Module</option>";
+        for (var it in abc) {
+            data += "<option value=" + abc[it].ModuleId + " >" +
+                abc[it].ProjectModuleName + "</option>";
+        }
+        $('#ProjectModule').html(data);
+    }
+    jQuery('#btnRemark').click(function () {
+
+        var Extraworking = false;
+        var Lateworking = false;
+        if ($('#chkExtraworking').is(":checked")) {
+            Extraworking = true;
+        }
+        if ($('#chkLateworking').is(":checked")) {
+            Lateworking = true;
+        }
+        checked = $(".chk:checked").length;
+        if (!checked) {
+            swal("Alert !", "Please check any option.", "warning");
+            return false;
+        }
+
+        if (confirm('are you sure want to send a mail to Admin about this working!')) {
+
+
+            //if (Extraworking == true || Lateworking == true) {
+            jQuery('#btnRemark').hide();
+            jQuery('.ExtraWorkingLoader').show();
+            jQuery.post('/common/ExtraworkingOrLateNightMark', { ExtraWorking: Extraworking, LateNightWorking: Lateworking }, function (data) {
+                if (data != '') {
+                    alert(data);
+                    $('#chkExtraworking').prop('checked', false);
+                    $('#chkLateworking').prop('checked', false);
+                    jQuery('#btnRemark').show();
+                    jQuery('.ExtraWorkingLoader').hide();
+                }
+                else {
+                    $('#chkExtraworking').prop('checked', false);
+                    $('#chkLateworking').prop('checked', false);
+                    jQuery('#btnRemark').show();
+                    jQuery('.ExtraWorkingLoader').hide();
+                }
+
+            });
+            //}
+            //else {
+            //    // alert('Please check any option.');
+            //    swal("Alert !", "Please check any option.", "warning");
+            //}
+        }
+    });
+</script>

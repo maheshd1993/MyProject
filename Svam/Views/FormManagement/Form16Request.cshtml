@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "LeaveRequest";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+@model Traders.Models.Form16RequestModel
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        @using (Html.BeginForm("Form16Request", "FormManagement", FormMethod.Post))
+        {
+            @Html.HiddenFor(em => em.RequestID)
+            //@Html.Hidden("UserID",Convert.ToString(Session["UID"]))
+            @Html.Hidden("UserType", Convert.ToString(Session["UserType"]))
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Create Form16 Request</strong>
+                    <div class="row" style="padding-right: 2.5%;">
+                        <div class="col-sm-9 padd0"></div>
+
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Employee Name</label>
+                            <div class="col-sm-3">
+                                @{var Disabled = "";}
+                                @if (Convert.ToString(Session["UserType"]) != "SuperAdmin")
+                                {
+                                    Disabled = "disabled";
+                                    @Html.Hidden("EmployeeID", Convert.ToString(Session["UID"]))
+                                }
+
+                                @Html.DropDownListFor(em => em.EmployeeID, new SelectList(Model.EmployeeList, "EmployeeID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control User ListItemCapitalize", @Disabled, translate = "no" })
+                                @Html.ValidationMessageFor(em => em.EmployeeID)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Form Name</label>
+                            <div class="col-sm-3">
+                                @if (Model.FormTypeList != null && Model.FormTypeList.Count > 0)
+                                {
+                                    @Html.DropDownListFor(em => em.FormTypeID, new SelectList(Model.FormTypeList, "FormTypeID", "FormName"), "Select Leave Type", htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                }
+                                
+                                @Html.ValidationMessageFor(em => em.FormTypeID)
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                            <label class="control-label col-sm-2">Subject</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(em => em.Subject, new { @class = "form-control", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(em => em.Subject)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Message </label>
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(em => em.Message, new { @class = "form-control textAreaResize", @rows = "10" })
+                                @Html.ValidationMessageFor(em => em.Message)
+                            </div>
+                        </div>*@
+                        <div class="form-group text-center">
+                            @if (Model.ProcessStatus == "In Process" || Model.ProcessStatus == null || Model.ProcessStatus == string.Empty)
+                            {
+                                <input type="submit" name="Submit" value="Send Request" class="btn btn-success btnSave">
+                            }
+                            <input type="button" value="Back to Leave List" class="btn btn-danger" onclick="location.href = '/LeaveManagement/LeaveRequestView'" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        if ($('#UserType').val() == 'SuperAdmin') {
+            $('#EmployeeID').removeAttr("disabled");
+        }
+        if ($('#UserType').val() != 'SuperAdmin') {
+            $('.User').val($('#EmployeeID').val());
+        }
+
+    });
+</script>
+<style>
+    .field-validation-error {
+        margin-left: 2px;
+        color: #ff0000;
+        font-size: 12px !important;
+        display: block;
+        margin-top: 43px;
+        font-weight: normal !important;
+    }
+
+    .input-validation-error {
+        border: 1px solid #ff0000;
+        background-color: #ffeeee;
+    }
+</style>
+

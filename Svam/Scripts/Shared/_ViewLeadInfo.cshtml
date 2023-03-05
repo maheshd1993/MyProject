@@ -1,0 +1,134 @@
+﻿@model Svam.Models.ViewLeadsModel
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">View Lead Details</h4>
+        </div>
+
+        <div class="modal-body over-hidden">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered modaltable">
+
+                            <tbody>
+                                <tr>
+                                    <td width="150" class="lefttd">Lead Owner</td>
+                                    <td width="70%">@Model.LeadOwner</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Customer name</td>
+                                    <td>@Model.Customer</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Designation :</td>
+                                    <td>@Model.Designation</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Mobile No</td>
+                                    <td>@Model.Mob</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Follow Date </td>
+                                    <td>@Model.FollowupDate</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Type of lead:</td>
+                                    <td>@Model.LeadType</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Lead Status :</td>
+                                    <td>@Model.LeadStatus</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Customer Mail Id  :</td>
+                                    <td>@Model.EMail</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="lefttd">Lead Source   :</td>
+                                    <td>@Model.LeadSource</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Country </td>
+                                    <td>@Model.Country</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">State </td>
+                                    <td>@Model.State</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">City </td>
+                                    <td>@Model.City</td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Address  :</td>
+                                    <td>@Model.Address </td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Created Date  :</td>
+                                    <td>@(String.Format("{0:dd MMM, yyyy hh:mm:ss tt}", Model.CreateDate)) </td>
+                                </tr>
+                                <tr>
+                                    <td class="lefttd">Description : </td>
+                                    <td><a href="javascript:void(0)" id="adescshow">Show</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table id="leaddescDiv" style="display: none;" class="table tables table-bordered">
+                            @if (ViewBag.Descriptionresult.Count>0)
+                            {
+                            <thead>
+                                <tr class="danger">
+                                    <th>Sr.No</th>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int i = 1;}
+                                @foreach (var item in ViewBag.Descriptionresult)
+                                {
+                                    <tr class="success">
+                                        <td>@i</td>
+                                        <td>@item.Date</td>
+                                        <td>@Html.Raw(item.Description)</td>
+                                    </tr> 
+                                    i++;
+                                }
+                            </tbody>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>No description found.</td>
+                                </tr>
+                               
+                            }
+                        </table>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        jQuery('#leaddescDiv').hide();
+    });
+    jQuery('#adescshow').click(function () {
+        jQuery('#leaddescDiv').show();
+
+    });
+</script>

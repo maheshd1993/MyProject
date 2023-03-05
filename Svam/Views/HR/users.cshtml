@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "users";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Manage Employees </strong>
+                <button class="btn btn-success pull-right" onclick="location.href='/HR/createusers'" style="margin-top: -6px;">Add Employee</button>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#activeusers" data-toggle="tab">Active Employee</a></li>
+                    <li><a href="#inactiveusers" data-toggle="tab">Inactive Employee</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="activeusers">
+                        <br style="clear: both;" />
+                        <table class="table table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Employee Code</th>
+                                    @*<th>User Name</th>*@
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
+                                    @*<th>Profile Name</th>*@
+                                    <th>Email</th>
+                                    <th>Contact Number</th>                                  
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.result)
+                                {
+                                    if (item.Status == true)
+                                    {
+
+                                    <tr>
+                                        <td data-column="Employee Code" translate="no">@item.EmployeeCode</td>
+                                        @*<td><a href="/home/createusers/@item.Id">@item.UserName</a></td>*@
+                                        <td data-column="First Name" translate="no">@item.Fname</td>
+                                        <td data-column="Last Name" translate="no">@item.Lname</td>
+                                        @*<td>@item.ProfileName</td>*@
+                                        <td>@item.Email</td>
+                                        <td data-column="Contact Number" translate="no">@item.ContactNumber</td>                                     
+                                        <td>
+                                            <button class="btn btn-danger" onclick="location.href='/HR/changeuserstatus/@item.Id'">Inactive</button></td>
+                                        <td>
+                                            <a href="/HR/createusers/@item.Id" class="btn btn-info"><i class="fa fa-pencil-square"></i></a>
+                                            <br />
+                                            <a href="/HR/UserDocuments/@item.Id" class="btn btn-primary">View Document</a>
+                                        </td>
+                                    </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end first tabs -->
+                    <div class="tab-pane fade" id="inactiveusers">
+                        <br style="clear: both;" />
+                        <table class="table table-bordered tablefont">
+                            <thead class="black-white-text">
+                                <tr>
+                                    <th>Employee Code</th>
+                                    <th>User Name</th>
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
+                                    <th>Email</th>
+                                    <th>Contact Number</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.result)
+                                {
+                                    if (item.Status == false)
+                                    {
+
+                                        <tr>
+                                            <td data-column="Employee Code" translate="no">@item.EmployeeCode</td>
+                                            @*<td><a href="/home/createusers/@item.Id">@item.UserName</a></td>*@
+                                            <td data-column="First Name" translate="no">@item.Fname</td>
+                                            <td data-column="Last Name" translate="no">@item.Lname</td>
+                                            @*<td>@item.ProfileName</td>*@
+                                            <td>@item.Email</td>
+                                            <td data-column="Contact Number" translate="no">@item.ContactNumber</td>
+                                            <td>
+                                                <button class="btn btn-danger" onclick="location.href='/HR/changeuserstatus/@item.Id'">Active</button>
+                                            </td>
+                                            <td>
+                                                <a href="/HR/createusers/@item.Id"><i class="fa fa-pencil-square"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end second tabs -->
+                </div>
+            </div>
+            <!-- end first tabs -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "ViewInterviewSchedule";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+@model Traders.Models.ViewInterviewSchedule
+
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Interview Schedule</strong>
+
+                        </div>
+                        <div class="panel-body body_pnl">
+
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("ViewInterviewSchedule", "HR", FormMethod.Post))
+                                {
+                                    <div class="col-sm-2" style="margin-top: -5px">
+                                        @Html.DropDownListFor(a => a.InterviewStatus, Model.InterviewStatusList, "Select Interview Status", new { @class = "form-control", translate = "no" })
+                                        @*<select id="ddlSelectedText" class="form-control" style="margin: 0px;" name="InterviewStatus">
+                                                <option value="">Select</option>
+                                                <option value="F2F Interview">F2F Interview</option>
+                                                <option value="Telephonic interview">Telephonic interview</option>
+                                                <option value="Call Back">Call Back</option>
+                                                <option value="Postponed">Postponed</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                                <option value="Not Relevant">Not Relevant</option>
+                                                <option value="Not Contactable">Not Contactable</option>
+                                                <option value="Hired">Hired</option>
+                                                <option value="Hold">Hold</option>
+                                            </select>*@
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" id="txtFromDate" name="FromDate" autocomplete="off" class="form-control fdate" placeholder="From Date.." readonly/>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" translate="no" id="txtToDate" class="form-control fdate" autocomplete="off" name="ToDate" placeholder="To Date.." readonly/>
+                                    </div>
+                                    <div class="col-sm-3 padd0">
+                                        <input type="submit" id="btnFilterInterview" class="btn btn-danger" style="margin-left: 10px;" value="Filter" />
+                                        <input type="button" class="btn btn-success" style="margin-left: 10px;" onclick="location.href = '/hr/ViewInterviewSchedule'" value="Reset" />
+                                    </div>
+                                }
+                                <div class="col-sm-2">
+                                    <input type="text" id="txtSearch" class="form-control" placeholder="Search....." autocomplete="off" />
+                                </div>
+                                <div class="col-sm-1 padd0">
+                                    <input type="button" id="btnSearch" class="btn btn-danger" style="margin-left: 10px;" value="Search" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" id="divBindSearchData" style="overflow-x:scroll;">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Candidate</th>
+                                <th>Mobile</th>
+                                <th>Email</th>
+                                <th>Resume</th>
+                                <th>Resume Title</th>
+                                <th>Experience</th>
+                                <th>Location</th>
+                                <th>Designation</th>
+                                <th>Profile</th>
+                                <th>Followup Date</th>
+                                <th>Interview Date</th>
+                                <th>Remarks</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model.ViewinterviewSchedulemodelList.Count > 0)
+                            {
+                                foreach (var item in Model.ViewinterviewSchedulemodelList.OrderByDescending(em => em.CreatedDate))
+                                {
+                                    <tr>
+                                        <td translate="no" data-column="Sr.No.">@i</td>
+                                        <td translate="no" data-column="Candidate"><a href="/Hr/CreateInterviewSchdule/@item.Id">@item.CandidateName</a></td>
+                                        <td translate="no" data-column="Phone">@item.Mobile</td>
+                                        <td translate="no" data-column="Email">@item.Email</td>
+                                        <td translate="no" data-column="Resume">
+                                            @if (!string.IsNullOrEmpty(item.ResumeID))
+                                            {
+                                                <a href="/@item.ResumeID" target="_blank">View</a>
+                                            }
+                                        </td>
+                                        <td translate="no" data-column="Resume Title">@item.ResumeTitle</td>
+                                        <td translate="no" data-column="Experience">@item.Experiance</td>
+                                        <td translate="no" data-column="Location">@item.CurrentLocation</td>
+                                        <td translate="no" data-column="Designation">@item.CurrentDesignation</td>
+                                        <td translate="no" data-column="Profile">@item.ProfileName</td>
+                                        <td translate="no" data-column="Follow Up Date">@item.FollowUpDate</td>
+                                        <td translate="no" data-column="interview Date">@item.InterviewDate</td>
+                                        <td translate="no" data-column="Remarks">@item.Remarks</td>
+                                        <td translate="no" data-column="Status">@item.CurrentStatus</td>
+                                        @*<td><a href="javascript:void(0)"><i class="fa fa-eye" aria-hidden="true" style="font-size: 25px;" title="View Details"></i></a></td>*@
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="14" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<script>
+
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+
+</script>
+<script type="text/javascript">
+     var dateFormat = '@Session["DpDateFormat"]';
+    jQuery(document).ready(function () {
+        $(function () {
+            $('#txtFromDate').datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20
+            });
+
+            $('#txtToDate').datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20
+            });
+        });
+        $(".allowInt").on("keypress keyup blur", function (event) {
+            this.value = this.value.replace(/[^0-9\.]/g, '');
+            //$(this).val($(this).val().replace(/[^\d].+/, ""));
+            //if ((event.which < 48 || event.which > 57)) {
+            //    event.preventDefault();
+            //}
+        });
+    });
+
+    jQuery('#txtSearch').keypress(function (e) {
+        code = e.keyCode ? e.keyCode : e.which;
+        if (code.toString() == 13) {
+            SearchInterview();
+        }
+        else {
+            //var regex = new RegExp("^[a-zA-Z0-9\b]+$");
+            //var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+            //if (!regex.test(key)) {
+            //    event.preventDefault();
+            //    return false;
+            //}
+        }
+    });
+
+    function SearchInterview() {
+        var getSearch = jQuery('#txtSearch').val();
+        if (getSearch != '') {
+            jQuery.post('/hr/SearchInterViewSchedule', { SearchText: getSearch }, function (data) {
+                jQuery('#divBindSearchData').html(data);
+            });
+        }
+        else {
+            alert('Please enter search data.');
+        }
+    }
+
+    jQuery('#btnSearch').click(function () {
+        SearchInterview();
+    });
+
+    jQuery('#btnFilterInterview').click(function () {
+        var ddlSelectedText = jQuery('#ddlSelectedText').val();
+        //alert(ddlSelectedText);
+        //return false;
+        var fromdate = jQuery('#txtFromDate').val();
+        var todate = jQuery('#txtToDate').val();
+        if (ddlSelectedText != '' || (fromdate != '' && todate != '')) {
+            jQuery.post('/hr/FilterData', { DDLSelectedText: ddlSelectedText, FromDate: fromdate, ToDate: todate }, function (data) {
+                jQuery('#divBindSearchData').html(data);
+            });
+        }
+        else {
+            alert('Please input atleast any values');
+        }
+    });
+</script>

@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "View Targer Achived";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Svam.Models.CRMTargetSaleModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>Sales Target & Performance</strong>
+                    <div class="row" style="padding-right: 2.5%;">
+                        <div class="col-sm-9 padd0"></div>
+                        <div class="col-sm-3 padd0 developer_paddo">
+                            <a class="btn btn-danger pull-right" style="color: white" href="/CRMTargetPerformance/CRMTargetPerformanceList"><i></i>Back</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body body_pnl">
+                    <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                        <div class="col-sm-6">
+                            <table class="table table-bordered tablefont" id="table">
+                                <thead class="black-white-text">
+                                    <tr>
+                                        <th style="width: 2%">#</th>
+                                        <th style="width: 10%">Customer Name</th>
+                                        <th style="width: 7%">Mobile Number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                    @if (Model.oSaleTargetClosedModelList != null && Model.oSaleTargetClosedModelList.Count > 0)
+                                    {
+                                        foreach (var item in Model.oSaleTargetClosedModelList)
+                                        {
+                                            <tr>
+                                                <td translate="no">@i</td>
+                                                <td translate="no">@item.CustomerName</td>
+                                                <td translate="no">@item.MobileNumber</td>
+                                            </tr> i++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" style="text-align: center;">** No Record Found!</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="chart-container" style="width:100%;height:370px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- Step 1 - Include the fusioncharts core library -->
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+<!-- Step 2 - Include the fusion theme -->
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+<script>
+    ////bar 3d chart////////////////
+    @*const dataSource = {
+        chart: {
+            caption: "Sales Target Report from (@if (Model.FromToDate != null) {@Model.FromToDate})",
+            yaxisname: "Assigned Target Rs.: @Html.Raw(Model.TargetAchieveAmount)",
+            //yAxisMaxValue: "20000",
+            "baseFontSize": "13",
+            showvalues: "1",
+            numberprefix: "₹",
+            formatNumberScale: "0",
+            rotateValues: "0",
+            showValues: "1",
+            placeValuesInside: "0",
+            thousandSeparatorPosition: "2, 3",
+            plottooltext: "$label <b>$dataValue</b>",
+            theme: "candy"
+        },
+        categories: [
+            {
+                category: [
+
+                    {
+                        label: "Achieved Target"
+                    },
+                    {
+                        label: "Assigned Target"
+                    }
+                ]
+            }
+        ],
+        dataset: [
+            {
+                seriesname: "Achieved Target",
+                data: [
+                    {
+                        value: "@Html.Raw(Model.CurentTargetAchieveAmount)"
+                    }
+                    ,
+                    {
+                        value: ""
+                    }
+
+                ]
+            },
+            {
+                seriesname: "Assigned Target",
+                data: [
+                    {
+                        value: ""
+                    }
+                    ,
+                    {
+                        value: "@Html.Raw(Model.TargetAchieveAmount)"
+                    }
+                ]
+            }
+        ]
+    };*@
+
+
+    //FusionCharts.ready(function () {
+    //    var myChart = new FusionCharts({
+    //        type: "msbar3d",
+    //        renderAt: "chart-container",
+    //        width: "100%",
+    //        height: "100%",
+    //        dataFormat: "json",
+    //        dataSource
+    //    }).render();
+    //});
+
+////////////////////////////////column 3d chart/////////////////////////////////////////
+    const dataSource = {
+        chart: {
+            caption: "Sales Target Report",
+            subcaption: "@if (Model.FromToDate != null) {@Model.FromToDate}",           
+            yaxisname: "Assigned Target Rs.: @Html.Raw(Model.TargetAchieveAmount)",
+            "baseFontSize": "13",
+            showvalues: "1",
+            numberprefix: "₹",
+            formatNumberScale: "0",
+            rotateValues: "0",
+            showValues: "1",
+            placeValuesInside: "0",
+            thousandSeparatorPosition: "2, 3",          
+            theme: "fusion",
+            "palettecolors": "5d62b5,29c3be"
+        },
+        data: [
+            {
+                label: "Assigned Target",
+                value: "@Html.Raw(Model.TargetAchieveAmount)"
+            },
+            {
+                label: "Achieved Target",
+                value: "@Html.Raw(Model.CurentTargetAchieveAmount)"
+            }               
+        ]
+    };
+
+
+    FusionCharts.ready(function () {
+        var myChart = new FusionCharts({
+            type: "column3d",
+            renderAt: "chart-container",
+            width: "100%",
+            height: "100%",
+            dataFormat: "json",
+            dataSource
+        }).render();
+    });
+</script>

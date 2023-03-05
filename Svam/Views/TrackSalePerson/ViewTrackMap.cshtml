@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "View Track Map";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Svam.Models.TrackSalePersonModel
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>View Map Sale Person</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-5 padd0">
+                                </div>
+                                <div class="col-sm-3 padd0 developer_paddo pull-right">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="row" style="margin-left: 15px; margin-bottom: 10px;">
+                                <div class="col-sm-2 viewl1">
+                                    @Html.DropDownList("SearchUserID", new SelectList(Model.SaleUserList, "UserID", "UserName"), "Select User", new { @class = "form-control ListItemCapitalize", @style = "margin-top:0px !important;", translate = "no" })
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" translate="no" class="form-control" id="SelectDate" name="SelectDate" placeholder="Select Date" autocomplete="off" readonly/>
+                                </div>
+                                <div class="col-sm-4 padd0">
+                                    <button class="btn btn-warning" type="button" id="btnfilter" onclick="ShowMap()">Show Map</button>
+                                    <button class="btn btn-success" type="button" id="btnToday" onclick="ShowMap()">Today Map</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="dvMap" style="height:600px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<!--sweet alert js and css library-->
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<script type="text/javascript">
+     var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('#SelectDate').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20   
+        });
+    });
+</script>
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7TGfcAznAPi_L6RXalI6h0FfE8ayl1Dk&callback=initMap" defer></script>*@
+
+<script type="text/javascript">
+    function ShowMap() {
+        var UserID = $('#SearchUserID').val();
+        var selectdate = $('#SelectDate').val();
+        if (UserID > 0) {
+            $.ajax({
+                url: '/TrackSalePerson/ShowMap',
+                data: { SearchUserID: UserID, SelectDate: selectdate },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    if (data != '') {
+                        initMap(data);
+                    } else {
+                        swal("Alert !", '** No Recod Found', "error");
+                    }
+                }
+            });
+        }
+        else {
+            swal("Alert !", '** Please select user.', "error");
+        }
+    }
+
+    function initMap(Getmarkers) {
+        if (typeof (Getmarkers) != "undefined") {
+            var markers = Getmarkers;
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var map = new google.maps.Map(document.getElementById('dvMap'), {
+                zoom: 6,
+                center: new google.maps.LatLng('28.613939', '77.209023'),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            directionsDisplay.setMap(map);
+            var infoWindow = new google.maps.InfoWindow();
+            var latlngbounds = new google.maps.LatLngBounds();
+
+            var lat_lng = new Array();
+            for (var i = 0, length = markers.length; i < length; i++) {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                lat_lng.push(myLatlng);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    //title: data.title,
+                    label: {
+                        color: '#064992',
+                        fontWeight: 'bold',
+                        //text: data.description,
+                    },
+                    animation: google.maps.Animation.DROP,
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                });
+                latlngbounds.extend(marker.position);
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, data);
+            }
+            map.fitBounds(latlngbounds);
+
+            //Loop and Draw Path Route between the Points on MAP
+            for (var i = 0; i < lat_lng.length; i++) {
+                if ((i + 1) < lat_lng.length) {
+                    var src = lat_lng[i];
+                    var des = lat_lng[i + 1];
+
+                    directionsService.route({
+                        origin: src,
+                        destination: des,
+                        region: "in",
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        optimizeWaypoints: true,
+                    }, function (result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            var path = new google.maps.MVCArray();
+                            var poly = new google.maps.Polyline({
+                                map: map,
+                                strokeColor: '#28a745',
+                                icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW, strokeColor: '#1b84f7', fillColor: '#17a2b8', fillOpacity: 1 }, repeat: '100px', path: [] }]
+                            });
+
+                            poly.setPath(path);
+                            for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+                                path.push(result.routes[0].overview_path[i]);
+                            }
+                        }
+                        else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                            wait = true;
+                            setTimeout("wait = true", 2000);;
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            $('#dvMap').html('No Record Found.');
+        }
+    }
+
+</script>

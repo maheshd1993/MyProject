@@ -1,0 +1,1513 @@
+﻿@{
+    var pathname = HttpContext.Current.Request.Url.AbsolutePath;
+    var cr = new Svam.Repository.CommonRepository();
+    var Rights = cr.GetUserRights();//get user rights by role
+    string language = cr.GetCompanyLanguage(0);
+    string googleads = cr.Getgoogleads();
+    bool IsIndia = cr.GetCompanyCountry();//get company coutry is india for show indiamart Settings?
+
+    if (Rights == null)
+    {
+        Rights = new Traders.Models.CreatRoleModel();
+    }
+    var uId = 0;
+    uId = Convert.ToInt32(Session["UID"]);
+    var userprofile = cr.GetUserprofile();
+    var webUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+    int CompanyID = Convert.ToInt32(Session["CompanyID"]);
+}
+
+<style>
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        min-width: 160px;
+        z-index: 1;
+        border: 1.5px solid #3c9cb3;
+        margin-left: 157px;
+        margin-top: -32px;
+        border-radius: 3px;
+    }
+
+        .dropdown-content li {
+            margin-left: -30px;
+            color: #3c9cb3;
+            padding: 8px 0px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content li a {
+                text-decoration: none;
+                color: #3c9cb3;
+            }
+
+            .dropdown-content li:hover {
+                background-color: #f9f9f9;
+            }
+
+    .dropbtn:hover .dropdown-content {
+        display: block;
+    }
+
+    .remove1 {
+        position: fixed;
+        bottom: 79px;
+        z-index: 999;
+        width: 100%;
+        left: 15px;
+        background-color: #f0ad4e;
+        padding: 5px 10px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .cbtn1 {
+        cursor: pointer;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .r2 a {
+        cursor: pointer;
+        color: #fff;
+        text-decoration: none;
+    }
+</style>
+
+@if (googleads == "No")
+{
+    <div id="fixed1" class="dismiss">
+        <div class="row">
+            <div class="row remove1">
+                <span class="r1"><span class="r2">Remove Ads? <a href="https://smartcapita.com/subscription">Buy Subscription</a></span> <span class="cbtn"><a class="cbtn1" id="cbtn1">X Close Ad</a></span></span>
+            </div>
+            <div class="footer1" id="footer1">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <ins class="adsbygoogle" style="z-index: 9!important;position: fixed;bottom: 0;display:inline-block;width:100%;height:80px;background-color:#fff;" data-ad-client="ca-pub-4360086750491073" data-ad-slot="1681017600">
+                </ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NRT2THL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+}
+
+
+<script>
+    var closebtns = document.getElementsByClassName("remove1");
+    var i;
+
+    for (i = 0; i < closebtns.length; i++) {
+        closebtns[i].addEventListener("click", function () {
+            this.parentElement.style.display = 'none';
+        });
+    }
+</script>
+
+<nav class="navbar navbar-default navbarstyle" style="position:relative" id="left-section">
+    <div class="hamburger-menu" id="hamburger-menu">
+        <div class="menu-container">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed btn-ripple" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <div class="nav-header-user">
+                <div>
+                    <!-- <a href="#" class="crm_logo">
+                                <img src="@(Session["CompanyLogo"]!=null?Convert.ToString(Session["CompanyLogo"]):"/img/nislogo.png")" alt="logo">
+                            </a> -->
+                </div>
+                @if (userprofile.UserPicture != null && userprofile.UserName != null && userprofile.Profile != null)
+                {
+
+
+                    <div>
+                        <a href="#" class="user__img"><img src="/img/@userprofile.UserPicture" width="100%"></a>
+                    </div>
+                        <div>
+                            <h4 id="Name">@userprofile.UserName</h4>
+                        </div>
+                        <div class="user__desc">
+                            <p id="Profile">@userprofile.Profile</p>
+                        </div>
+                }
+                else
+                {
+                    <div>
+                        <a href="#"><img class="user__img" src="/img/user.jpg" width="100px"></a>
+                    </div>
+                        <div>
+                            <h4>Admin</h4>
+                        </div>
+                        <div>
+                            <p>India</p>
+
+                        </div>
+                }
+            </div>
+
+
+            <ul class="nav navbar-nav">
+                <li><a href="@Convert.ToString(Session["ProfilePageUrl"])"><div class="menu-list-icon"><i class="fa fa-tachometer" aria-hidden="true"></i></div> Dashboard</a></li>
+
+                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin"
+|| (Rights.IsEmailSetup == true) || (Rights.IsEmailTemplates == true) || (Rights.IsEmployeeProfiles == true) || (Rights.IsErrorTypes == true)
+|| (Rights.IsIndiaMartSetting == true) || (Rights.IsInterviewStatus == true) || (Rights.IsLeadForm == true) || (Rights.IsLeadSource == true) || (Rights.IsProjectStatus == true)
+|| (Rights.IsLeadStatus == true) || (Rights.IsLeadsView == true) || (Rights.IsLeaveName == true) || (Rights.IsProductTypes == true)
+|| (Rights.IsTicketForm == true) || (Rights.IsTicketsView == true) || (Rights.IsUrgencyTypes == true) || (Rights.IsItemTypes == true))
+                {
+                    <!--3levelmenu added by anshul-->
+                    <li class="dropdown">
+                        <a href="#0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            @if (IsIndia == false)
+                            {
+                                if (language == "hi")
+                                {
+                                    <span>Settings<span style="color:#fff;">+</span></span>
+                                }
+                                else
+                                {
+                                    <span>Settings</span>
+                                }
+                            }
+                            else
+                            {
+                                <span><div class="menu-list-icon"><i class="fa fa-user" aria-hidden="true"></i></div> Masters</span>
+                            }
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if (Convert.ToString(Session["CompanyID"]) == "2644")
+                            {
+                                if (Rights.IsProductTypes == true)
+                                {
+                                    <li><a href="/Master/ManageProductType">Machine Type </a></li>
+                                }
+                            }
+                            else
+                            {
+                                if (Rights.IsProductTypes == true)
+                                {
+                                    <li><a href="/Master/ManageProductType">Product Type </a></li>
+                                }
+                            }
+                            @if (Rights.IsItemTypes == true)
+                            {
+                                <li><a href="/Master/ManageItemType">Item Type </a></li>
+                            }
+                            @if (Rights.IsLeadForm == true || Rights.IsLeadsView == true || Rights.IsLeadSource == true || Rights.IsLeadStatus == true || Rights.IsProjectStatus == true)
+                            {
+                                <li class="dropbtn">
+                                    <a href="#0"><span>Lead</span>&nbsp;<span>Management</span> <span class="caret"></span></a>
+                                    <ul class="dropdown-content">
+                                        @if (Rights.IsLeadForm == true)
+                                        {
+                                            <li><a href="/LeadSetting/CreateSetting">Lead Form</a></li>
+                                        }
+                                        @if (Rights.IsLeadsView == true)
+                                        {
+                                            <li><a href="/LeadSetting/ViewLeadSetting">Leads View Report</a></li>
+                                        }
+                                        @if (Rights.IsLeadStatus == true)
+                                        {
+                                            <li><a href="/Master/ManageLeadStatus">Lead Status</a></li>
+                                        }
+                                        @if (Rights.IsLeadSource == true)
+                                        {
+                                            <li><a href="/Master/ManageLeadSource">Lead Source</a></li>
+                                        }
+                                        @*@if (Rights.IsProjectStatus == true)
+                                            {
+                                                <li><a href="/Master/ManageProjectStatus">Project Status</a></li>
+                                            }*@
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (Rights.IsTicketForm == true || Rights.IsTicketsView == true || Rights.IsUrgencyTypes == true || Rights.IsErrorTypes == true)
+                            {
+                                <li class="dropbtn">
+                                    <a href="#0">Ticket Management <span class="caret"></span></a>
+                                    <ul class="dropdown-content">
+                                        @if (Rights.IsTicketForm == true)
+                                        {
+                                            <li><a href="/TicketCustom/CreateTicketSetting">Ticket Form</a></li>
+                                        }
+                                        @if (Rights.IsTicketsView == true)
+                                        {
+                                            <li><a href="/TicketCustom/ViewTicketSetting">Tickets View</a></li>
+                                        }
+                                        @if (Convert.ToString(Session["CompanyID"]) == "2644")
+                                        {
+                                            if (Rights.IsErrorTypes == true)
+                                            {
+                                                <li><a href="/Master/ManageErrorType">Site Name</a></li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (Rights.IsErrorTypes == true)
+                                            {
+                                                <li><a href="/Master/ManageErrorType">Error Types</a></li>
+                                            }
+                                        }
+                                        @if (Rights.IsUrgencyTypes == true)
+                                        {
+                                            <li><a href="/Master/ManageUrgency"><spa>Urgency</spa>&nbsp;<span>Types</span></a></li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+
+                            @if (Rights.IsEmployeeProfiles == true || Rights.IsLeaveName == true || Rights.IsInterviewStatus == true)
+                            {
+                                <li class="dropbtn">
+                                    <a href="#0">HR Management <span class="caret"></span></a>
+                                    <ul class="dropdown-content">
+                                        @if (Rights.IsEmployeeProfiles == true)
+                                        {
+                                            <li><a href="/Hr/manage_profile">Employee Profiles</a></li>
+                                        }
+                                        @if (Rights.IsLeaveName == true)
+                                        {
+                                            <li><a href="/Master/ManageLeaveType">@(language == "hi" ? "LeaveNames" : "Leave Names")</a></li>
+                                        }
+                                        @if (Rights.IsInterviewStatus == true)
+                                        {
+                                            <li><a href="/Master/ManageInterViewStatus">Interview Status</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+
+                            @if (Rights.IsEmailTemplates == true || Rights.IsEmailSetup == true)
+                            {
+                                <li class="dropbtn">
+                                    <a href="#0">E-mail <span class="caret"></span></a>
+                                    <ul class="dropdown-content">
+                                        @if (Rights.IsEmailTemplates == true)
+                                        {
+                                            <li><a href="/EmailTemplate/ManageTemplate">Templates</a></li>
+                                        }
+                                        @if (Rights.IsEmailSetup == true)
+                                        {
+                                            <li><a href="/Master/ManageEmailSetting">E-mail setup</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                            @if (Rights.IsIndiaMartSetting == true)
+                            {
+                                <li><a href="/IndiaMartSetting/ManageIndiaMartSetting" style="@(IsIndia==false?"display:none;":"")">IndiaMart Setting</a></li>
+                            }
+                        </ul>
+                    </li>
+
+                    <!--3levelmenu added by anshul-->
+
+
+                        @*<li class="dropdown @(pathname == "/Master" ? "active" : "")">
+                                <a href="#0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Masters <span class="caret"></span></a>
+                                <ul class="dropdown-menu" id="id01">
+                                    @if (Rights.IsEmailSetup == true)
+                                    {
+                                        <li><a href="/Master/ManageEmailSetting">E-mail setup</a></li>
+                                    }
+                                    @if (Rights.IsEmailTemplates == true)
+                                    {
+                                        <li><a href="/EmailTemplate/ManageTemplate">E-mail Templates</a></li>
+                                    }
+                                    @if (Rights.IsEmployeeProfiles == true)
+                                    {
+                                        <li><a href="/Hr/manage_profile">Employee Profiles</a></li>
+                                    }
+                                    @if (Rights.IsErrorTypes == true)
+                                    {
+                                        <li><a href="/Master/ManageErrorType">Error Types</a></li>
+                                    }
+                                    @if (Rights.IsIndiaMartSetting == true)
+                                    {
+                                        <li><a href="/IndiaMartSetting/ManageIndiaMartSetting" style="@(IsIndia==false?"display:none;":"")">IndiaMart Setting</a></li>
+                                    }
+                                    @if (Rights.IsInterviewStatus == true)
+                                    {
+                                        <li><a href="/Master/ManageInterViewStatus">Interview Status</a></li>
+                                    }
+                                    @if (Rights.IsLeadForm == true)
+                                    {
+                                        <li><a href="/LeadSetting/CreateSetting">Lead Form</a></li>
+                                    }
+                                    @if (Rights.IsLeaveName == true)
+                                    {
+                                        <li><a href="/Master/ManageLeaveType">Leave Names</a></li>
+                                    }
+                                    @if (Rights.IsLeadSource == true)
+                                    {
+                                        <li><a href="/Master/ManageLeadSource">Lead Source</a></li>
+                                    }
+                                    @if (Rights.IsLeadStatus == true)
+                                    {
+                                        <li><a href="/Master/ManageLeadStatus">Lead Status</a></li>
+                                    }
+                                    @if (Rights.IsLeadsView == true)
+                                    {
+                                        <li><a href="/LeadSetting/ViewLeadSetting">Leads View</a></li>
+                                    }
+                                    @if (Rights.IsProductTypes == true)
+                                    {
+                                        <li><a href="/Master/ManageProductType">Product Types </a></li>
+                                    }
+                                    @if (Rights.IsTicketForm == true)
+                                    {
+                                        <li><a href="/TicketCustom/CreateTicketSetting">Ticket Form</a></li>
+                                    }
+                                    @if (Rights.IsTicketsView == true)
+                                    {
+                                        <li><a href="/TicketCustom/ViewTicketSetting">Tickets View</a></li>
+                                    }
+                                    @if (Rights.IsUrgencyTypes == true)
+                                    {
+                                        <li><a href="/Master/ManageUrgency">Urgency Types</a></li>
+                                    }
+                                </ul>
+                            </li>*@
+                }
+                @if ((Rights.ViewLeads == true) || (Rights.CreateLeads == true) || (Rights.LeadNotify == true) || (Rights.AssignLeadManagement == true) || (Rights.FileManager == true))
+                {
+                    <li class="dropdown @((pathname == "/home/viewleads/" || pathname == "/home/createleads") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-users" aria-hidden="true"></i></div> @(language == "hi" ? "Lead" : "Leads") <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.CreateLeads)
+                            {
+                                <li><a href="/home/createleads">Create New Lead</a></li>
+                            }
+                            @if (Rights.ViewLeads == true)
+                            {
+                                <li><a href="/home/viewleads/?page=1">View Leads</a></li>
+                            }
+                            @if (Rights.LeadNotify == true)
+                            {
+                                <li><a href="/home/LeadReport">Lead Summary</a></li>
+                            }
+                            @if (Rights.AssignLeadManagement == true)
+                            {
+                                <li><a href="/home/AssignLeadShow">@(language == "hi" ? "Lead assigned to me" : "Leads assigned to me")</a></li>
+                            }
+                            @if (Rights.FileManager == true)
+                            {
+                                <li class="dropdown @(pathname == "/FileManager/ManageFile" ? "active" : "")"><a href="/FileManager/ManageFile">File Manager</a></li>
+                            }
+                            @if (Convert.ToString(Session["CompanyID"]) == "2066")
+                            {
+                                <li><a href="/home/UserWorkDetails">User Report</a></li>
+                            }
+                            @if (Convert.ToString(Session["CompanyID"]) == "2458")
+                            {
+                                <li><a href="/home/BookingReport">Booking Report</a></li>
+                            }
+                            <li><a href="/home/AssigntoassignBy">Assign To&By Report</a></li>
+                            @*@if (Rights.DailyBackup == true)
+                                {
+                                    <li><a href="/home/DailyUpdates">Daily Updates Records</a></li>
+                                }
+                                @if (Rights.Dailyupdatesummary == true)
+                                {
+                                    <li><a href="/home/DailyUpdatesummary">Daily Updates Summary</a></li>
+                                }*@
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.SaleTarget == true || (Rights.ViewSales == true) || (Rights.TrackSalePerson == true) || (Rights.ViewMapSalePerson == true))
+                {
+                    <li class="dropdown @((pathname == "/CRMTargetPerformance/CRMTargetPerformanceList/" || pathname == "/CRMTargetPerformance/CRMTargetPerformanceList") ? "active" : "")">
+                        <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-file-text" aria-hidden="true"></i></div> Sales<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.ViewSales == true)
+                            {
+                                @*<li class="dropdown @(pathname == "/home/viewsales" ? "active" : "")"><a href="/home/viewsales/?page=1">View Sales</a></li>*@
+                                <li><a href="/home/viewsales/?page=1">View Sales</a></li>
+                            }
+                            @if (Rights.SaleTarget == true)
+                            {
+                                <li><a href="/CRMTargetPerformance/CRMTargetPerformanceList">Sales Target And Performance</a></li>
+                            }
+                            @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                            {
+                                <li class="dropdown @(pathname == "/TrackSalePerson/TrackSales" ? "active" : "")"><a href="/TrackSalePerson/TrackSales/?page=1">Track Sales Team</a></li>
+                                    <li class="dropdown @(pathname == "/TrackSalePerson/ViewTrackMap" ? "active" : "")"><a href="/TrackSalePerson/ViewTrackMap">Map view–Sales Team</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.AddQuotation == true || Rights.ViewQuotation == true)
+                {
+                    <li class="dropdown @((pathname == "/Quotation/EditQuotation" || pathname == "/Quotation/ManageQuotation") ? "active" : "")">
+                        <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-th" aria-hidden="true"></i></div> Quotation<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.AddQuotation == true)
+                            {
+                                <li><a href="/Quotation/CreateQuotation">Create Quotation</a></li>
+                            }
+                            @if (Rights.ViewQuotation == true)
+                            {
+                                <li><a href="/Quotation/ManageQuotation">View Quotations</a></li>
+                            }
+                            @if (Convert.ToString(Session["CompanyID"]) == "2644")
+                            {
+                                <li><a href="/Quotation/TermCondition">Term Condition</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+                @if (Rights.AddSaleOrder == true || Rights.ViewSaleOrder == true)
+                {
+                    <li class="dropdown @((pathname == "/SaleOrder/CreateSaleOrder" || pathname == "/SaleOrder/SaleOrderReport") ? "active" : "")">
+                        <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-archive" aria-hidden="true"></i></div> Sale Order<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.AddSaleOrder == true)
+                            {
+                                <li><a href="/SaleOrder/CreateSaleOrder">Create Sale Order</a></li>
+                            }
+                            @if (Rights.ViewSaleOrder == true)
+                            {
+                                <li><a href="/SaleOrder/SaleOrderReport">View Sale Orders</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+
+                @if (Rights.Viewpayment == true)
+                {
+                    <li style="display:none"><a href="/CRMPayment/Payment">Payments</a></li>
+                }
+                @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                {
+                    if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true || Rights.ViewDailyRemark == true)
+                    {
+                        <li class="dropdown @((pathname == "/Nis/remark/" || pathname == "/Nis/remark") ? "active" : "")" style="display:none;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <div class="menu-list-icon"><i class="fa fa-file-text" aria-hidden="true"></i></div> General<span style="display:none;color:#fff;">++</span><span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true)
+                                {
+                                    <li><a href="/Nis/Remark">Create Daily Remark</a></li>
+
+                                }
+                                @if (Rights.CommonActivityRemark == true || Rights.ViewDailyRemark == true)
+                                {
+                                    <li><a href="/Nis/ViewRemark">View Daily Remark</a></li>
+
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                }
+                else
+                {
+                    if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true || Rights.ViewDailyRemark == true)
+                    {
+                        <li class="dropdown @((pathname == "/Nis/remark/" || pathname == "/Nis/remark") ? "active" : "")">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <div class="menu-list-icon"><i class="fa fa-file-text" aria-hidden="true"></i></div> General<span style="display:none;color:#fff;">++</span><span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true)
+                                {
+                                    <li><a href="/Nis/Remark">Create Daily Remark</a></li>
+
+                                }
+                                @if (Rights.CommonActivityRemark == true || Rights.ViewDailyRemark == true)
+                                {
+                                    <li><a href="/Nis/ViewRemark">View Daily Remark</a></li>
+
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+
+
+                @if (Rights.DeveloperReport == true && CompanyID == 296)
+                {
+                    <li class="dropdown @((pathname == "/Nis/developer/" || pathname == "/Nis/Developer" || pathname.ToLower().Contains("/Nis/ViewActivityReport/?page=")) ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-users" aria-hidden="true"></i></div> Developers <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Nis/Developer">Create Activity</a></li>
+                            <li><a href="/Nis/ViewActivityReport/?page=1">View Activity</a></li>
+                        </ul>
+                    </li>
+                }
+
+
+                @if (Rights.ProjectManagement == true || Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true || Rights.ViewAssignedWorks == true)
+                {
+                    if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                    {
+                        <li class="dropdown @(pathname == "/project/add" || pathname == "/Dailywork/Assign" || pathname == "/Dailywork/Index" ? "active" : "")" style="display:none;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-archive" aria-hidden="true"></i></div> Projects<span style="display:none;color:#fff;">+</span><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @if (Rights.ProjectManagement == true)
+                                {
+                                    <li><a href="/project/add">Project<span style="color:#fff;">+</span></a></li>
+                                }
+                                @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true)
+                                {
+                                    <li><a href="/Dailywork/Assign">Create and Assign Work</a></li>
+                                }
+                                @if (Rights.DailyWorkSchedule == true || Rights.ViewAssignedWorks == true)
+                                {
+                                    <li><a href="/Dailywork/ViewAssigned">View Assigned Work</a></li>
+                                }
+                                @*@if (Rights.ProjectAssign == true)
+                                    {
+                                        <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+                                    }*@
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown @(pathname == "/project/add" || pathname == "/Dailywork/Assign" || pathname == "/Dailywork/Index" ? "active" : "")">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-archive" aria-hidden="true"></i></div> Projects<span style="display:none;color:#fff;">+</span><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @if (Rights.ProjectManagement == true)
+                                {
+                                    <li><a href="/project/add">Project<span style="color:#fff;">+</span></a></li>
+                                }
+                                @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true)
+                                {
+                                    <li><a href="/Dailywork/Assign">Create and Assign Work</a></li>
+                                }
+                                @if (Rights.DailyWorkSchedule == true || Rights.ViewAssignedWorks == true)
+                                {
+                                    <li><a href="/Dailywork/ViewAssigned">View Assigned Work</a></li>
+                                }
+                                @*@if (Rights.ProjectAssign == true)
+                                    {
+                                        <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+                                    }*@
+                            </ul>
+                        </li>
+                    }
+                }
+
+
+                @if (Rights.RoleManagement == true || Rights.ManageUser == true)
+                {
+                    <li class="dropdown @((pathname == "/home/users/" || pathname == "/home/assignrole" || pathname == "/home/createrole") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-user" aria-hidden="true"></i></div> Users <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.ManageUser == true)
+                            {
+                                <li><a href="/home/users">Manage Users</a></li>
+                            }
+                            @if (Rights.RoleManagement == true)
+                            {
+                                <li><a href="/home/assignrole">Manage Roles</a></li>
+
+                            }
+                        </ul>
+                    </li>
+                }
+
+
+                @if ((Convert.ToString(Session["UserType"]) == "HR") || (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+|| (Rights.IsManageEmployees == true) || (Rights.ManageSalary == true) || (Rights.ManageExtraPayment == true)
+|| (Rights.EmpLoginHistory == true) || (Rights.ManualAttandence == true) || (Rights.EmpLeaveRequest == true)
+|| (Rights.CreateInterviewSchedule == true) || (Rights.ViewInterviewSchedule == true))
+                {
+                    <li class="dropdown @(pathname == "/HR" ? "active" : "")">
+                        <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-th" aria-hidden="true"></i></div> HR<span style="display:none;color:#fff;">+</span><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.IsManageEmployees == true)
+                            {
+                                <li><a href="/HR/users">Manage Employees</a></li>
+                            }
+                            @if (Rights.ManageSalary == true)
+                            {
+                                <li><a href="/HR/HRSalary">Manage Salary</a></li>
+                            }
+                            @if (Rights.ManageExtraPayment == true)
+                            {
+                                <li><a href="/HR/ManageAdvance">Manage Extra Payment</a></li>
+                            }
+                            @if (Rights.EmpLoginHistory == true || Rights.ManualAttandence == true)
+                            {
+                                if (Rights.EmpLoginHistory == true)
+                                {
+                                    <li><a href="/HR/Index"> Employee Login History</a></li>
+                                }
+                                if (Rights.ManualAttandence == true)
+                                {
+                                    <li><a href="/HR/ManualAttendance"> Manual Attendance </a></li>
+                                }
+                            }
+                            @if (Rights.EmpLeaveRequest == true)
+                            {
+                                <li><a href="/HR/EmployeeLeaveRequest"> Employee Leave Requests</a></li>
+                            }
+                            @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                            {
+                                if (Rights.CreateInterviewSchedule == true)
+                                {
+                                    <li style="display:none;"><a href="/HR/CreateInterviewSchdule"> Create Interview Schedule</a></li>
+                                }
+                                if (Rights.ViewInterviewSchedule == true)
+                                {
+                                    <li style="display:none;"><a href="/HR/ViewInterviewSchedule"> View Interview Schedule</a></li>
+                                }
+                            }
+                            else
+                            {
+                                if (Rights.CreateInterviewSchedule == true)
+                                {
+                                    <li><a href="/HR/CreateInterviewSchdule"> Create Interview Schedule</a></li>
+                                }
+                                if (Rights.ViewInterviewSchedule == true)
+                                {
+                                    <li><a href="/HR/ViewInterviewSchedule"> View Interview Schedule</a></li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.CreateTicket == true || Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))//661,662,664 is rohit singh,deepak kumar, prashant kumar id to show ticket management
+                {
+                    if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                    {
+                        <li class="dropdown @(pathname == "/Tickets" ? "active" : "")" style="display:none;">
+                            <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-file-text" aria-hidden="true"></i></div> Tickets <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @if (Rights.CreateTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                                {
+                                    <li><a href="/Tickets/CreateTicket">Create Ticket</a></li>
+                                }
+                                @if (Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                                {
+                                    <li><a href="/Tickets/ViewTicket/?page=1">View Tickets</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown @(pathname == "/Tickets" ? "active" : "")">
+                            <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-file-text" aria-hidden="true"></i></div> Tickets <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @if (Rights.CreateTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                                {
+                                    <li><a href="/Tickets/CreateTicket">Create Ticket</a></li>
+                                }
+                                @if (Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                                {
+                                    <li><a href="/Tickets/ViewTicket/?page=1">View Tickets</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                @*@if (uId > 0 && (uId == 661 || uId == 662 || uId == 664))//661,662,664 is rohit singh,deepak kumar, prashant kumar id to show ticket management
+                    {
+                        <li class="dropdown @(pathname == "/Tickets" ? "active" : "")">
+                            <a href="/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ticket Management<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Tickets/CreateTicket">Create Ticket</a></li>
+                                <li><a href="/Tickets/ViewTicket/?page=1">View Ticket</a></li>
+                            </ul>
+                        </li>
+                    }*@
+                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin" && Convert.ToInt32(Session["BranchID"]) == 173 && Convert.ToInt32(Session["CompanyID"]) == 296)
+                {
+                    @*<li class="dropdown @(pathname == "/ManageOrganization/AssignOrganization" ? "active" : "")"><a href="/ManageOrganization/AssignOrganization">Assign To Other Organization</a></li>*@
+                    <li class="dropdown @(pathname == "/ManageOrganization" ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="menu-list-icon"><i class="fa fa-users" aria-hidden="true"></i></div> Branches <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/ManageOrganization/UserListByBranch">Assign To Other User</a></li>
+                            <li><a href="/ManageOrganization/ViewAssinedBranch">View Assigned Users</a></li>
+
+                        </ul>
+                    </li>
+                }
+
+                @if (Rights.EmpAttendence == true || Rights.NewLeave == true || Rights.ViewLeave == true || Rights.MappedUser == true || Rights.ViewAssignedWorks == true || Rights.ViewAssignItem == true)
+                {
+                    <li class="dropdown @((pathname == "/Emp/Attandance" ||pathname == "/Dailywork/ViewAssigned" ||pathname == "/LeaveManagement/LeaveRequestView" || pathname == "/LeaveManagement/LeaveRequest" || pathname=="/home/OurMappeduser") ? "active" : "")">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            @if (language == "hi")
+                            {
+                                <span>MySpace<span style="color:#fff;">+</span></span>
+                            }
+                            else
+                            {
+                                <span><div class="menu-list-icon"><i class="fa fa-file-text" aria-hidden="true"></i></div> My Space</span>
+                            }
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if (Rights.EmpAttendence == true)
+                            {
+                                <li><a href="/Emp/Attandance">Attendance</a></li>
+                            }
+                            @if (Rights.NewLeave == true)
+                            {
+                                <li><a href="/LeaveManagement/LeaveRequest">@(language == "hi" ? "Leave apply" : "Apply Leave")</a></li>
+                            }
+                            @if (Rights.ViewLeave == true)
+                            {
+                                <li><a href="/LeaveManagement/LeaveRequestView">@(language == "hi" ? "View Leave" : "View Leaves")</a></li>
+                            }
+                            @if (Rights.MappedUser == true)
+                            {
+                                <li><a href="/home/OurMappeduser">My Team</a></li>
+                            }
+                            @if (Rights.ViewAssignedWorks == true)
+                            {
+                                <li><a href="/Dailywork/ViewAssigned">View Assigned Work</a></li>
+                            }
+                            @if (Rights.ViewAssignItem == true)
+                            {
+                                <li><a href="/home/ViewAssignedItem">View Assigned Item</a></li>
+                            }
+                            @*@if (Rights.ProjectAssign == true)
+                                {
+                                    <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+                                }*@
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+<header class="navbar-fixed1">
+    <div class="col-xs-4">
+        <div id="nav-trigger" role="button">
+            <div class="line l-01"></div>
+            <div class="line l-02"></div>
+            <div class="line l-03"></div>
+            <div class="line l-04"></div>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <a href="#">
+            <img src="@webUrl/img/crm.png" alt="" width="90px" style="display: block;
+    margin: auto;">
+        </a>
+    </div>
+    <div class="col-xs-4">
+
+    </div>
+    <div class="design"></div>
+</header>
+<!--mobile navigation menus start-->
+<nav id="side-nav" class="navbar-fixed1">
+    <div class="row topm">
+        <div class="prof">
+            <img src="https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png" alt="" width="50px">
+        </div>
+        <div class="emailc">
+            @if (Session["UserName"] != null)
+            {
+                <h6>@Convert.ToString(Session["UserName"])</h6>
+                <p>@Convert.ToString(Session["UserEmail"])</p>
+            }
+
+        </div>
+    </div>
+    <ul class="navigation">
+        @if (Convert.ToString(Session["UserType"]) == "SuperAdmin"
+                                                                                                                || (Rights.IsEmailSetup == true) || (Rights.IsEmailTemplates == true) || (Rights.IsEmployeeProfiles == true) || (Rights.IsErrorTypes == true)
+                                                                                                                || (Rights.IsIndiaMartSetting == true) || (Rights.IsInterviewStatus == true) || (Rights.IsLeadForm == true) || (Rights.IsLeadSource == true) || (Rights.IsProjectStatus == true)
+                                                                                                                || (Rights.IsLeadStatus == true) || (Rights.IsLeadsView == true) || (Rights.IsLeaveName == true) || (Rights.IsProductTypes == true)
+                                                                                                                || (Rights.IsTicketForm == true) || (Rights.IsTicketsView == true) || (Rights.IsUrgencyTypes == true) || (Rights.IsItemTypes == true))
+        {
+
+            <!--3level mobile menu added by anshu-->
+            <li class="item-has-children">
+                <a href="#0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    @if (IsIndia == false)
+                    {
+                        if (language == "hi")
+                        {
+                            <span>Settings<span style="color:#f9f9f9;">+</span></span>
+                        }
+                        else
+                        {
+                            <span>Settings</span>
+                        }
+                    }
+                    else
+                    {
+                        <span>Masters</span>
+                    } <span class="caret"></span>
+                </a>
+                <ul class="sub-menu" id="id01">
+                    @if (Convert.ToString(Session["CompanyID"]) == "2644")
+                    {
+                        if (Rights.IsProductTypes == true)
+                        {
+                            <li><a href="/Master/ManageProductType">Machine Type </a></li>
+                        }
+                    }
+                    else
+                    {
+                        if (Rights.IsProductTypes == true)
+                        {
+                            <li><a href="/Master/ManageProductType">Product Type </a></li>
+                        }
+                    }
+                    @if (Rights.IsItemTypes == true)
+                    {
+                        <li><a href="/Master/ManageItemType">Item Type </a></li>
+                    }
+                    @if (Rights.IsLeadForm == true || Rights.IsLeadsView == true || Rights.IsLeadSource == true || Rights.IsLeadStatus == true || Rights.IsProjectStatus == true)
+                    {
+                        <li class="item-has-children">
+                            <a href="#0"><span>Lead</span>&nbsp;<span>Management</span> <span class="caret"></span></a>
+                            <ul class="sub-menu">
+                                @if (Rights.IsLeadForm == true)
+                                {
+                                    <li><a href="/LeadSetting/CreateSetting">Lead Form</a></li>
+                                }
+                                @if (Rights.IsLeadsView == true)
+                                {
+                                    <li><a href="/LeadSetting/ViewLeadSetting">Leads View Report</a></li>
+                                }
+                                @if (Rights.IsLeadStatus == true)
+                                {
+                                    <li><a href="/Master/ManageLeadStatus">Lead Status</a></li>
+                                }
+                                @if (Rights.IsLeadSource == true)
+                                {
+                                    <li><a href="/Master/ManageLeadSource">Lead Source</a></li>
+                                }
+                                @*@if (Rights.IsProjectStatus == true)
+                                    {
+                                        <li><a href="~/Master/ManageProjectStatus">Project Status</a></li>
+                                    }*@
+
+                            </ul>
+                        </li>
+                    }
+                    @if (Rights.IsTicketForm == true || Rights.IsTicketsView == true || Rights.IsUrgencyTypes == true || Rights.IsErrorTypes == true)
+                    {
+                        <li class="item-has-children">
+                            <a href="#0">Ticket Management <span class="caret"></span></a>
+                            <ul class="sub-menu">
+                                @if (Rights.IsTicketForm == true)
+                                {
+                                    <li><a href="/TicketCustom/CreateTicketSetting">Ticket Form</a></li>
+                                }
+                                @if (Rights.IsTicketsView == true)
+                                {
+                                    <li><a href="/TicketCustom/ViewTicketSetting">Tickets View</a></li>
+                                }
+                                @if (Convert.ToString(Session["CompanyID"]) == "2644")
+                                {
+                                    if (Rights.IsErrorTypes == true)
+                                    {
+                                        <li><a href="/Master/ManageErrorType">Site Name</a></li>
+                                    }
+                                }
+                                else
+                                {
+                                    if (Rights.IsErrorTypes == true)
+                                    {
+                                        <li><a href="/Master/ManageErrorType">Error Types</a></li>
+                                    }
+                                }
+
+                                @if (Rights.IsUrgencyTypes == true)
+                                {
+                                    <li><a href="/Master/ManageUrgency"><spa>Urgency</spa>&nbsp;<span>Types</span></a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                    @if (Rights.IsEmployeeProfiles == true || Rights.IsLeaveName == true || Rights.IsInterviewStatus == true)
+                    {
+                        <li class="item-has-children">
+                            <a href="#0">HR Management <span class="caret"></span></a>
+                            <ul class="sub-menu">
+                                @if (Rights.IsEmployeeProfiles == true)
+                                {
+                                    <li><a href="/Hr/manage_profile">Employee Profiles</a></li>
+                                }
+                                @if (Rights.IsLeaveName == true)
+                                {
+                                    <li><a href="/Master/ManageLeaveType">@(language == "hi" ? "LeaveNames" : "Leave Names")</a></li>
+                                }
+                                @if (Rights.IsInterviewStatus == true)
+                                {
+                                    <li><a href="/Master/ManageInterViewStatus">Interview Status</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                    @if (Rights.IsEmailTemplates == true || Rights.IsEmailSetup == true)
+                    {
+                        <li class="item-has-children">
+                            <a href="#0">E-mail <span class="caret"></span></a>
+                            <ul class="sub-menu">
+                                @if (Rights.IsEmailTemplates == true)
+                                {
+                                    <li><a href="/EmailTemplate/ManageTemplate">Templates</a></li>
+                                }
+                                @if (Rights.IsEmailSetup == true)
+                                {
+                                    <li><a href="/Master/ManageEmailSetting">E-mail setup</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @if (Rights.IsIndiaMartSetting == true)
+                    {
+                        <li><a href="/IndiaMartSetting/ManageIndiaMartSetting" style="@(IsIndia==false?"display:none;":"")">IndiaMart Setting</a></li>
+                    }
+                </ul>
+            </li>
+            <!--3level menu added by anshu-->
+
+
+            @*<li class="item-has-children">
+                    <a href="#0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Masters <span class="caret"></span></a>
+                    <ul class="sub-menu" id="id01">
+                        @if (Rights.IsEmailSetup == true)
+                        {
+                            <li><a href="/Master/ManageEmailSetting">E-mail setup</a></li>
+                        }
+                        @if (Rights.IsEmailTemplates == true)
+                        {
+                            <li><a href="/EmailTemplate/ManageTemplate">E-mail Templates</a></li>
+                        }
+                        @if (Rights.IsEmployeeProfiles == true)
+                        {
+                            <li><a href="/Hr/manage_profile">Employee Profiles</a></li>
+                        }
+                        @if (Rights.IsErrorTypes == true)
+                        {
+                            <li><a href="/Master/ManageErrorType">Error Types</a></li>
+                        }
+                        @if (Rights.IsIndiaMartSetting == true)
+                        {
+                            <li><a href="/IndiaMartSetting/ManageIndiaMartSetting" style="@(IsIndia==false?"display:none;":"")">IndiaMart Setting</a></li>
+                        }
+                        @if (Rights.IsInterviewStatus == true)
+                        {
+                            <li><a href="/Master/ManageInterViewStatus">Interview Status</a></li>
+                        }
+                        @if (Rights.IsLeadForm == true)
+                        {
+                            <li><a href="/LeadSetting/CreateSetting">Lead Form</a></li>
+                        }
+                        @if (Rights.IsLeaveName == true)
+                        {
+                            <li><a href="/Master/ManageLeaveType">Leave Names</a></li>
+                        }
+                        @if (Rights.IsLeadSource == true)
+                        {
+                            <li><a href="/Master/ManageLeadSource">Lead Source</a></li>
+                        }
+                        @if (Rights.IsLeadStatus == true)
+                        {
+                            <li><a href="/Master/ManageLeadStatus">Lead Status</a></li>
+                        }
+                        @if (Rights.IsLeadsView == true)
+                        {
+                            <li><a href="/LeadSetting/ViewLeadSetting">Leads View</a></li>
+                        }
+                        @if (Rights.IsProductTypes == true)
+                        {
+                            <li><a href="/Master/ManageProductType">Product Types </a></li>
+                        }
+                        @if (Rights.IsTicketForm == true)
+                        {
+                            <li><a href="/TicketCustom/CreateTicketSetting">Ticket Form</a></li>
+                        }
+                        @if (Rights.IsTicketsView == true)
+                        {
+                            <li><a href="/TicketCustom/ViewTicketSetting">Tickets View</a></li>
+                        }
+                        @if (Rights.IsUrgencyTypes == true)
+                        {
+                            <li><a href="/Master/ManageUrgency">Urgency Types</a></li>
+                        }
+                    </ul>
+                </li>*@
+        }
+
+        @if ((Rights.ViewLeads == true) || (Rights.CreateLeads == true) || (Rights.LeadNotify == true) || (Rights.AssignLeadManagement == true) || (Rights.FileManager == true))
+        {
+            <li class="item-has-children">
+                <a href="#0">@(language == "hi" ? "Lead" : "Leads")</a>
+                <ul class="sub-menu">
+                    @if (Rights.CreateLeads)
+                    {
+                        <li><a href="/home/createleads">Create New Lead</a></li>
+                    }
+                    @if (Rights.ViewLeads == true)
+                    {
+                        <li><a href="/home/viewleads/?page=1">View Leads</a></li>
+                    }
+                    @if (Rights.LeadNotify == true)
+                    {
+                        <li><a href="/home/LeadReport">Lead Summary</a></li>
+                    }
+                    @if (Rights.AssignLeadManagement == true)
+                    {
+                        <li><a href="/home/AssignLeadShow">@(language == "hi" ? "Lead assigned to me" : "Leads assigned to me")</a></li>
+                    }
+                    @if (Rights.FileManager == true)
+                    {
+                        <li><a href="/FileManager/ManageFile">File Manager</a></li>
+                    }
+
+                    <li><a href="/home/UserWorkDetails">User Report</a></li>
+
+                </ul>
+            </li>
+        }
+
+        @if (Rights.SaleTarget == true || (Rights.ViewSales == true) || (Rights.TrackSalePerson == true) || (Rights.ViewMapSalePerson == true))
+        {
+            <li class="item-has-children">
+                <a href="#0">Sales</a>
+                <ul class="sub-menu">
+                    @if (Rights.ViewSales == true)
+                    {
+                        <li><a href="/home/viewsales/?page=1">View Sales</a></li>
+                    }
+                    @if (Rights.SaleTarget == true)
+                    {
+                        <li><a href="/CRMTargetPerformance/CRMTargetPerformanceList">Sales Target And Performance</a></li>
+                    }
+                    @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                    {
+                        <li><a href="/TrackSalePerson/TrackSales/?page=1">Track Sales Team</a></li>
+                        <li><a href="/TrackSalePerson/ViewTrackMap">Map view–Sales Team</a></li>
+                    }
+                </ul>
+            </li>
+        }
+        @if (Rights.AddQuotation == true || Rights.ViewQuotation == true)
+        {
+            <li class="item-has-children">
+                <a href="#0">Quotation<span class="caret"></span></a>
+                <ul class="sub-menu">
+                    @if (Rights.AddQuotation == true)
+                    {
+                        <li><a href="/Quotation/CreateQuotation">Create Quotation</a></li>
+                    }
+                    @if (Rights.ViewQuotation == true)
+                    {
+                        <li><a href="/Quotation/ManageQuotation">View Quotations</a></li>
+                    }
+                    @if (Convert.ToString(Session["CompanyID"]) == "2644")
+                    {
+                        <li><a href="/Quotation/TermCondition">Term Condition</a></li>
+                    }
+                </ul>
+            </li>
+        }
+        @if (Rights.AddSaleOrder == true || Rights.ViewSaleOrder == true)
+        {
+            <li class="item-has-children">
+                <a href="#0">Sale Order<span class="caret"></span></a>
+                <ul class="sub-menu">
+                    @if (Rights.AddSaleOrder == true)
+                    {
+                        <li><a href="/SaleOrder/CreateSaleOrder">Create Sale Order</a></li>
+                    }
+                    @if (Rights.ViewSaleOrder == true)
+                    {
+                        <li><a href="/SaleOrder/SaleOrderReport">View Sale Orders</a></li>
+                    }
+                </ul>
+            </li>
+        }
+        @if (Rights.Viewpayment == true)
+        {
+            <li class="single-item-wrapper" style="display:none"><a href="/CRMPayment/Payment" style="font-size:18px;">Payments</a></li>
+        }
+        @if (Convert.ToInt32(Session["CompanyID"]) == 2458)
+        {
+            if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true || Rights.ViewDailyRemark == true)
+            {
+                <li class="item-has-children" style="display:none;">
+                    <a href="#0">General<span style="color:#f9f9f9;">++</span><span class="caret"></span></a>
+                    <ul class="sub-menu">
+                        @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true)
+                    {
+                            <li><a href="/Nis/Remark">Create Daily Remark</a></li>
+
+                        }
+                        @if (Rights.CommonActivityRemark == true || Rights.ViewDailyRemark == true)
+                    {
+                            <li><a href="/Nis/ViewRemark">View Daily Remark</a></li>
+
+                        }
+                    </ul>
+                </li>
+            }
+        }
+        else
+        {
+            if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true || Rights.ViewDailyRemark == true)
+            {
+                <li class="item-has-children">
+                    <a href="#0">General<span style="color:#f9f9f9;">++</span><span class="caret"></span></a>
+                    <ul class="sub-menu">
+                        @if (Rights.CommonActivityRemark == true || Rights.CreateDailyRemark == true)
+                    {
+                            <li><a href="/Nis/Remark">Create Daily Remark</a></li>
+
+                        }
+                        @if (Rights.CommonActivityRemark == true || Rights.ViewDailyRemark == true)
+                    {
+                            <li><a href="/Nis/ViewRemark">View Daily Remark</a></li>
+
+                        }
+                    </ul>
+                </li>
+            }
+        }
+
+        @if (Rights.DeveloperReport == true && CompanyID == 296)
+        {
+            <li class="item-has-children">
+                <a href="#0">Developers</a>
+                <ul class="sub-menu">
+                    <li><a href="/Nis/Developer">Create Activity</a></li>
+                    <li><a href="/Nis/ViewActivityReport/?page=1">View Activity</a></li>
+                </ul>
+            </li>
+        }
+
+
+
+        @if (Rights.ProjectManagement == true || Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true || Rights.ViewAssignedWorks == true)
+        {
+            if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+            {
+                <li class="item-has-children" style="display:none;">
+                    <a href="#0">Projects<span style="color:#f9f9f9;">+</span><span class="caret"></span></a>
+                    <ul class="sub-menu">
+                        @if (Rights.ProjectManagement == true)
+                    {
+                            <li><a href="/project/add">Project<span style="color:#fff;">+</span></a></li>
+                        }
+                        @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true)
+                    {
+                            <li><a href="/Dailywork/Assign">Create and Assign Work</a></li>
+                        }
+                        @if (Rights.DailyWorkSchedule == true || Rights.ViewAssignedWorks == true)
+                    {
+                            <li><a href="/Dailywork/ViewAssigned">View Assigned Work</a></li>
+                        }
+                        @*@if (Rights.ProjectAssign == true)
+                            {
+                                <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+                            }*@
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="item-has-children">
+                    <a href="#0">Projects<span style="color:#f9f9f9;">+</span><span class="caret"></span></a>
+                    <ul class="sub-menu">
+                        @if (Rights.ProjectManagement == true)
+                    {
+                            <li><a href="/project/add">Project<span style="color:#fff;">+</span></a></li>
+                        }
+                        @if (Rights.DailyWorkSchedule == true || Rights.CreateAssignWork == true)
+                    {
+                            <li><a href="/Dailywork/Assign">Create and Assign Work</a></li>
+                        }
+                        @if (Rights.DailyWorkSchedule == true || Rights.ViewAssignedWorks == true)
+                    {
+                            <li><a href="/Dailywork/ViewAssigned">View Assigned Work</a></li>
+                        }
+                        @*@if (Rights.ProjectAssign == true)
+                            {
+                                <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+                            }*@
+                    </ul>
+                </li>
+            }
+        }
+
+
+
+
+        @if (Rights.RoleManagement == true || Rights.ManageUser == true)
+        {
+            <li class="item-has-children">
+                <a href="#0">Users</a>
+                <ul class="sub-menu">
+                    @if (Rights.ManageUser == true)
+                    {
+                        <li><a href="/home/users">Manage Users</a></li>
+                    }
+                    @if (Rights.RoleManagement == true)
+                    {
+                        <li><a href="/home/assignrole">Manage Roles</a></li>
+                    }
+                </ul>
+            </li>
+        }
+
+
+        @if ((Convert.ToString(Session["UserType"]) == "HR") || (Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                                                                                                                || (Rights.IsManageEmployees == true) || (Rights.ManageSalary == true) || (Rights.ManageExtraPayment == true)
+                                                                                                                || (Rights.EmpLoginHistory == true) || (Rights.ManualAttandence == true) || (Rights.EmpLeaveRequest == true)
+                                                                                                                || (Rights.CreateInterviewSchedule == true) || (Rights.ViewInterviewSchedule == true))
+        {
+            <li class="item-has-children">
+                <a href="#0">HR<span style="color:#f9f9f9;">+</span></a>
+                <ul class="sub-menu">
+                    @if (Rights.IsManageEmployees == true)
+                    {
+                        <li><a href="/HR/users">Manage Employees</a></li>
+                    }
+
+                    @if (Rights.ManageSalary == true)
+                    {
+                        <li><a href="/HR/HRSalary">Manage Salary</a></li>
+                    }
+                    @if (Rights.ManageExtraPayment == true)
+                    {
+                        <li><a href="/HR/ManageAdvance">Manage Extra Payment</a></li>
+                    }
+                    @if (Rights.EmpLoginHistory == true || Rights.ManualAttandence == true)
+                    {
+                        if (Rights.EmpLoginHistory == true)
+                        {
+                            <li><a href="/HR/Index"> Employee Login History</a></li>
+                        }
+                        if (Rights.ManualAttandence == true)
+                        {
+                            <li><a href="/HR/ManualAttendance"> Manual Attendance </a></li>
+                        }
+                    }
+                    @if (Rights.EmpLeaveRequest == true)
+                    {
+                        <li><a href="/HR/EmployeeLeaveRequest"> Employee Leave Requests</a></li>
+                    }
+                    @if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+                    {
+                        if (Rights.CreateInterviewSchedule == true)
+                        {
+                            <li style="display:none;"><a href="/HR/CreateInterviewSchdule"> Create Interview Schedule</a></li>
+                        }
+                        if (Rights.ViewInterviewSchedule == true)
+                        {
+                            <li style="display:none;"><a href="/HR/ViewInterviewSchedule"> View Interview Schedule</a></li>
+                        }
+                    }
+                    else
+                    {
+                        if (Rights.CreateInterviewSchedule == true)
+                        {
+                            <li><a href="/HR/CreateInterviewSchdule"> Create Interview Schedule</a></li>
+                        }
+                        if (Rights.ViewInterviewSchedule == true)
+                        {
+                            <li><a href="/HR/ViewInterviewSchedule"> View Interview Schedule</a></li>
+                        }
+                    }
+                </ul>
+            </li>
+        }
+
+        @if (Rights.CreateTicket == true || Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))//661,662,664 is rohit singh,deepak kumar, prashant kumar id to show ticket management
+        {
+            if (Convert.ToInt32(Session["CompanyID"]) == 2603)
+            {
+                <li class="item-has-children" style="display:none;">
+                    <a href="#0"> Tickets</a>
+                    <ul class="sub-menu">
+                        @if (Rights.CreateTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                    {
+                            <li><a href="/Tickets/CreateTicket"> Create Ticket</a></li>
+                        }
+                        @if (Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                    {
+                            <li><a href="/Tickets/ViewTicket/?page=1"> View Tickets</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="item-has-children">
+                    <a href="#0"> Tickets</a>
+                    <ul class="sub-menu">
+                        @if (Rights.CreateTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                    {
+                            <li><a href="/Tickets/CreateTicket"> Create Ticket</a></li>
+                        }
+                        @if (Rights.ViewTicket == true || (uId > 0 && (uId == 661 || uId == 662 || uId == 664)))
+                    {
+                            <li><a href="/Tickets/ViewTicket/?page=1"> View Tickets</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+
+
+
+        }
+
+        @if (Convert.ToString(Session["UserType"]) == "SuperAdmin" && Convert.ToInt32(Session["BranchID"]) == 173 && Convert.ToInt32(Session["CompanyID"]) == 296)
+        {
+            @*<li class="dropdown @(pathname == "/ManageOrganization/AssignOrganization" ? "active" : "")"><a href="/ManageOrganization/AssignOrganization">Assign To Other Organization</a></li>*@
+            <li class="item-has-children">
+                <a href="#0">Branches</a>
+                <ul class="sub-menu">
+                    <li><a href="/ManageOrganization/UserListByBranch">Assign To Other User</a></li>
+                    <li><a href="/ManageOrganization/ViewAssinedBranch">View Assigned Users</a></li>
+
+                </ul>
+            </li>
+        }
+
+        @if (Rights.EmpAttendence == true || Rights.NewLeave == true || Rights.ViewLeave == true || Rights.MappedUser == true || Rights.ViewAssignedWorks == true || Rights.ViewAssignItem == true)
+        {
+            <li class="item-has-children">
+                <a href="#0">
+                    @if (language == "hi")
+                    {
+                        <span>MySpace<span style="color:#fff;">+</span></span>
+                    }
+                    else
+                    {
+                        <span>My Space</span>
+                    }
+                </a>
+                <ul class="sub-menu">
+                    @if (Rights.EmpAttendence == true)
+                    {
+                        <li><a href="/Emp/Attandance">Attendance</a></li>
+                    }
+                    @if (Rights.NewLeave == true)
+                    {
+                        <li><a href="/LeaveManagement/LeaveRequest">@(language == "hi" ? "Leave apply" : "Apply Leave")</a></li>
+                    }
+                    @if (Rights.ViewLeave == true)
+                    {
+                        <li><a href="/LeaveManagement/LeaveRequestView">@(language == "hi" ? "View Leave" : "View Leaves")</a></li>
+                    }
+                    @if (Rights.MappedUser == true)
+                    {
+                        <li><a href="/home/OurMappeduser">My Team</a></li>
+                    }
+                    @if (Rights.ViewAssignedWorks == true)
+                    {
+                        <li><a href="/Dailywork/ViewAssigned">View Assigned Work</a></li>
+                    }
+                    @if (Rights.ViewAssignItem == true)
+                    {
+                        <li><a href="/Dailywork/ViewAssignedItem">View Assigned Item</a></li>
+                    }
+                    @*@if (Rights.ProjectAssign == true)
+                        {
+                            <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+                        }*@
+                </ul>
+            </li>
+        }
+    </ul>
+    <!-- navigation -->
+
+    <ul class="navigation single-item-wrapper">
+        <li><a href="/Nis/loginHistory"><i class="fa fa-history"></i> Last Login Details</a></li>
+        <li><a href="/home/OurMappeduser"><i class="fa fa-user"></i> My Team</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#changepassword"><i class="fa fa-exchange"></i> Change Password</a></li>
+        <li><a href="/home/LogOut"><i class="fa fa-power-off"></i> Logout</a></li>
+    </ul>
+
+</nav>
+@*<script>
+        sortList();
+        //sort list of masters menu function
+        function sortList() {
+            debugger
+      var list, i, switching, b, shouldSwitch;
+        list = document.getElementById("id01");
+
+      switching = true;
+      /* Make a loop that will continue until
+      no switching has been done: */
+      while (switching) {
+        // start by saying: no switching is done:
+        switching = false;
+        b = list.getElementsByTagName("LI");
+        // Loop through all list-items:
+        for (i = 0; i < (b.length - 1); i++) {
+          // start by saying there should be no switching:
+          shouldSwitch = false;
+          /* check if the next item should
+          switch place with the current item: */
+          if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+            /* if next item is alphabetically
+            lower than current item, mark as a switch
+            and break the loop: */
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          /* If a switch has been marked, make the switch
+          and mark the switch as done: */
+          b[i].parentNode.insertBefore(b[i + 1], b[i]);
+          switching = true;
+        }
+      }
+    }
+    </script>*@
+<script>
+    const hamburger_icon = document.getElementById('hamburger-menu');
+    const new_navbar = document.getElementById('navbar');
+    const left_section = document.getElementById('left-section');
+    left_section.style.backgroundImage = 'url("https://crm.smartcapita.com/img/shape-bg-3.png")';
+
+    hamburger_icon.addEventListener('click', () => {
+        if (new_navbar.classList.contains('toggle-new-menu')) {
+            hamburger_icon.classList.remove('hamburger-menu-toggled');
+            new_navbar.classList.remove('toggle-new-menu');
+            left_section.style.backgroundImage = 'url("https://crm.smartcapita.com/img/shape-bg-3.png")';
+            left_section.style.minWidth = '180px';
+        } else {
+            hamburger_icon.classList.add('hamburger-menu-toggled');
+            new_navbar.classList.add('toggle-new-menu');
+            left_section.style.backgroundImage = 'none';
+            left_section.style.minWidth = '100px';
+        }
+    });
+</script>

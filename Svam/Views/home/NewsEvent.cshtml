@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "NewsEvent";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.NewsEventsModel
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<div class="maincontainer">
+    <div class="col-sm-12 ">
+        <h1>View Sales Data</h1>
+        <div class="form-horizontal">
+
+
+            @using (Html.BeginForm("NewsEvent", "home", FormMethod.Post))
+            {
+                    <div class="topform">
+                            <div class="form-group f-center col-sm-12">
+                                <div class="col-sm-2">
+                                  <label style="margin-top:10px;"> News & Events</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    @Html.TextAreaFor(em => em.Events, new {@class="form-control" })
+                                    @Html.ValidationMessageFor(em=>em.Events)
+                                </div>
+                                <div class="col-sm-2 padd0">
+                                    <input id="Submit1" class="btn btn-danger" style="margin-top: 10px;" type="submit" value="Submit" />
+                                  </div>
+                            </div>
+                        </div>
+
+            }
+        </div>
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table table-hover tabledata table-bordered" id="dest">
+                                <thead>
+                                    <tr>
+                                        <th>Sr no.</th>
+                                        <th>News </th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                   @foreach (var item in ViewBag.result)
+                                   {
+                                       <tr>
+                                            <td><a href="/home/NewsEvent/@item.Id">@i</a></td>
+                                            <td>@item.News</td>
+                                           <td><a href="/home/DeleteNewsEvents/@item.Id" onclick="return confirm('Are you sure want to delete this news events!')"><i class="fa fa-trash"></i></a></td>
+                                        </tr>
+                                       i++;
+                                   }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

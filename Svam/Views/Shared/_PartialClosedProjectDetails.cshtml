@@ -1,0 +1,61 @@
+﻿@model Traders.Models.WorkdescModel
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    @*@{var leadname = ViewBag.UserName == null ? "N/A" : ViewBag.UserName;}*@
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Closed Project Details</h4>
+            @*<h4 class="modal-title">View Description [Customer Name :<span translate="no">@leadname</span> ]</h4>*@
+        </div>
+        <div class="modal-body">
+            <table class="table tables table-bordered">
+                <thead>
+                    <tr class="danger">
+                        <th>#</th>
+                        <th>Project Description</th>
+                        <th>Project Value</th>
+                        <th>Advance Payment</th>
+                        <th>Advance Payment Date</th>
+                        <th>Cheque No</th>
+                        <th>Project Completion Date</th>
+                        <th>Expiry Date</th>
+                        <th>License</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1;}
+                    @if (Model.closedprojectlist.Count > 0)
+                    {
+                        foreach (var item in Model.closedprojectlist)
+                        {
+                            <tr class="success">
+                                <td translate="no" data-column="Sr. No.">@i</td>                               
+                                <td data-column="Project Description" translate="no">@item.PROJECTDESCRIPTION</td>
+                                <td data-column="Project Value" translate="no">@item.PROJECTVALUE</td>
+                                <td data-column="Advance Payment" translate="no">@item.ADVANCEPAYMENT</td>
+                                <td data-column="Advance Payment Date" translate="no">@item.ADVANCEPAYMENTDATE</td>
+                                <td data-column="Cheque No" translate="no">@item.CHEQUENO</td>
+                                <td data-column="Project Completion Date" translate="no">@item.PROJECTCOMPLETIONDATE</td>
+                                <td data-column="Expiry Date" translate="no">@item.EXPIRYDATE</td>
+                                <td data-column="License" translate="no">@item.LICENSE</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" style="text-align:center;"> ** No Record Found !!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>

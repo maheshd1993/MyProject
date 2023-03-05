@@ -1,0 +1,599 @@
+﻿@{
+    ViewBag.Title = "Ordergeneration";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+@model Svam.Models.PurchaseOrderGenerateModel
+
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+<div class="maincontainer">
+    @using (Html.BeginForm("ManagePOgenerate", "purchase", FormMethod.Post))
+    {
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-th-list" aria-hidden="true"></i>Purchase	Orders</div>
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="form-horizontal">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="Quotation">Transaton Type:-</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="ddlTxtype" name="TransactionType">
+                                            <option @(Model.TransactionType != null ? Model.TransactionType == "Direct" ? "selected" : "" : null) value="Direct">Direct</option>
+                                            <option @(Model.TransactionType != null ? Model.TransactionType == "Against PR" ? "selected" : "" : null) value="Against PR">Against PR</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group divAgainstsPR" style="display: none;">
+
+                                    <label class="control-label col-sm-3" for="Quotation">PR.No:-</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(em => em.PRNo, new { @class = "form-control", @placeholder = "PR.No", @onchange = "appplyPrNo(this);" })
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="Quotation">Requester:-</label>
+                                    <div class="col-sm-8">
+                                        <select id="DdlUser" name="RequesterId" class="form-control" required="required">
+                                            <option>--Select User--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="Quotation">Supplier Name:-</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddlsupplier" name="SupplierId" class="form-control" required="required">
+                                            <option>Select Supplier </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="department">Department:-</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddldepartment" name="DepartmentId" class="form-control" required="required">
+                                            <option>Select Department</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="requisition">PR Date :-</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(em => em.PrDate, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="saddress">PO Gen. Date :-</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="POGenerateDate" class="form-control datepik1">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3" for="saddress">Sup. Address:-</label>
+                                    <div class="col-sm-8">
+
+                                        @Html.TextBoxFor(em => em.SupplierAddress, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(em => em.SupplierAddress)
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                </div>
+            </div>
+
+
+
+            <!-- end item details -->
+            <div class="col-sm-12 padd0">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-th-list" aria-hidden="true"></i>Purchase Order
+                    <div class="rightbtntop"><a href="javascript:void(0)" style="width: 100%;" class="addbtn" id="addrowbtn"><i aria-hidden="true" class="fa fa-plus"></i>Add Row</a></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-sm-12 padd0">
+                            <div class="table-responsive">
+                                <table class="table table-striped table table-hover tabledata scrolltable table-bordered">
+                                    <thead>
+                                        <tr>
+                                            @* <th width="4%">SN.</th>*@
+                                            <th width="10%">Part No </th>
+                                            <th width="20%">Description</th>
+                                            <th width="7%">Unit</th>
+                                            <th width="7%">Qty</th>
+                                            <th width="7%">Rate</th>
+                                            <th width="8%">Amount</th>
+                                            <th width="8%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="purchaserequisition">
+                                        @{double SubtotalAmt = 0;}
+                                        @for (int i = 0; i < Model.PurchaseOrderGenerateItemModelList.Count; i++)
+                                        {
+                                            double totalamt = 0;
+                                            <tr>
+                                                @*<td><span class="count">1</span></td>*@
+                                                <td>
+                                                    @if (Model.PRNo != null)
+                                                    {
+                                                        totalamt = Convert.ToDouble(Model.PurchaseOrderGenerateItemModelList[i].Qty) * Convert.ToDouble(Model.PurchaseOrderGenerateItemModelList[i].Rate);
+                                                        SubtotalAmt += totalamt;
+                                                        @Html.HiddenFor(em => em.PurchaseOrderGenerateItemModelList[i].PartNo)
+                                                        @Html.DisplayFor(em => em.PurchaseOrderGenerateItemModelList[i].SKU)
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-control tdselect ddlitem" onchange="fillDataWithDDL(this)" name="PurchaseOrderGenerateItemModelList[0].PartNo" id="PurchaseOrderGenerateItemModelList_0__PartNo">
+                                                            <option>Select</option>
+                                                        </select>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <p>@Html.DisplayFor(em => em.PurchaseOrderGenerateItemModelList[i].ItemName)</p>
+                                                </td>
+                                                <td>@Html.DisplayFor(em => em.PurchaseOrderGenerateItemModelList[i].Unitname)</td>
+                                                <td>
+                                                    @Html.TextBoxFor(em => em.PurchaseOrderGenerateItemModelList[i].Qty, new { @onchange = "AddItemAmount(this);", @class = "form-control", @placeholder = "Qty" })</td>
+                                                <td>
+
+                                                    @Html.TextBoxFor(em => em.PurchaseOrderGenerateItemModelList[i].Rate, new { @onchange = "UpdateRate(this);", @class = "form-control", @placeholder = "Rate" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(em => em.PurchaseOrderGenerateItemModelList[i].Amount, new { @class = "form-control itmcalamt", @placeholder = "Amount", @Value = @totalamt })
+
+                                                </td>
+                                                @if (Model.PRNo != null)
+                                                {
+                                                    <td class="actiontd"></td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="actiontd"><a href="javascript:void(0)" onclick="abc(this);" class="dltrow deleterow remove">Remove</a></td>
+                                                }
+
+                                            </tr>
+                                           
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="col-md-8 padd0">
+                                <div class="form-horizontal">
+                                    <div class="form-group remarksbox">
+                                        <label style="text-align: left;" class="control-label col-sm-2" for="">Remaks </label>
+                                        <div class="col-sm-12">
+                                            @Html.TextAreaFor(em => em.Remarks, new { @class = "form-control remakstextbox", @placeholder = "Remaks" })
+                                            @Html.ValidationMessageFor(em=>em.Remarks)
+                                            @*<textarea class="form-control remakstextbox" placeholder="Remaks"></textarea>*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 padd0">
+                            </div>
+
+                           
+                              <div class="totalwrap">
+                            <table class="table table-striped totaltable table-bordered">
+                                <tr>
+                                    <th width="40%">Sub Total</th>
+                                    <th width="20%">%</th>
+                                    <th width="20%">Amount</th>
+                                </tr>
+                                <tr>
+                                    <td>Discount</td>
+                                    <td>@Html.TextBoxFor(em => em.ItmDiscountPer, new { @class = "form-control" })</td>
+                                    <td>
+                                        @*<input type="text" id="ItmFreightChargeAmt" name="ItmFreightChargeAmt" class="disabletext inputstyle1 clsCount" value="0" />*@
+                                        @Html.TextBoxFor(em => em.ItmDiscountAmt, new { @class = "form-control", @Value = "0" })
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Freight</td>
+                                    <td>@*@Html.TextBoxFor(em => em.ItmFreightPercentage, new { @class = "form-control" })*@</td>
+                                    <td>
+                                        @*<input type="text" id="ItmFreightChargeAmt" name="ItmFreightChargeAmt" class="disabletext inputstyle1 clsCount" value="0" />*@
+                                        @Html.TextBoxFor(em => em.ItmFreightChargeAmt, new { @class = "form-control", @Value = "0" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#" class="PopProductTaxgroup" data-toggle="modal" data-target="#taxespopup">+Tax</a>
+                                        <br />
+                                        <textarea id="productApplyTaxesText" name="productApplyTaxesText" class="disabletext inputstyle2" value="no taxes apply"></textarea>
+                                    </td>
+                                    <td></td>
+
+                                    <td>
+                                        <input type="text" id="ItmTaxGroupAmt" name="ItmTaxGroupAmt" class="disabletext inputstyle1 clsCount" value="0" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Total Amount</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td>
+                                        <input type="text" id="ItmTotalTaxAmt" name="ItmTotalTaxAmt" class="disabletext inputstyle1 clsCount" value="@SubtotalAmt" /></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <br style="clear: both;" />
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-12 t-right">
+                    <input type="submit" class="btn mainbtn2" value="Save">
+                    <input type="button" class="btn mainbtn" value="Cancel" name="Submit">
+                </div>
+                <br style="clear: both;" />
+                <br style="clear: both;" />
+
+            </div>
+
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryui")
+    @System.Web.Optimization.Styles.Render("~/Content/themes/base/css")
+
+    <script>
+        (function () {
+            AllItemDeatails('');
+            GetDepartment();
+            getUser();
+            GetSupplier();
+            $(".datepik1").datepicker().datepicker("setDate", new Date());
+            if ('@Model.PRNo' != "") {
+                jQuery('.divAgainstsPR').toggle('slow');
+                jQuery('#').val('@Model.PrDate');
+                jQuery('.rightbtntop').hide();   //Hide Add Rows
+                //jQuery('.actiontd').hide();     //Hide Remove Button  
+            }
+            if ('@Model.PrDate' != "") {
+                jQuery('#PrDate').datepicker();
+                jQuery('#PrDate').val('@Model.PrDate');
+            }
+            else {
+                jQuery('#PrDate').datepicker().datepicker("setDate", new Date());;
+            }
+        })();
+
+        jQuery('#ddlTxtype').change(function () {
+            if (jQuery(this).val() == 'Against PR') {
+                jQuery('.divAgainstsPR').toggle('slow');
+            }
+            else {
+                jQuery('.divAgainstsPR').toggle('slow');
+            }
+        });
+
+        //Start To Get All User in Dropdownlist......
+        function AllItemDeatails(ddlclass) {
+
+            jQuery.get('/common/GetAllItemDeatails', null, function (data) {
+                chkAllItemDeatails(data, ddlclass)
+
+            });
+        }
+
+        function chkAllItemDeatails(abc, ddlclass) {
+            var data = "";
+            data += "<option value= >--Select Item--</option>";
+            for (var it in abc) {
+                data += "<option data-item=" + abc[it].ItemName + " data-rate=" + abc[it].salerate + " data-unit=" + abc[it].UnitName + " value=" + abc[it].ID + ">" + abc[it].SKU + "</option>";
+            }
+            if (ddlclass != '') {
+                $('.' + ddlclass).html(data)
+            }
+            else {
+                $('.ddlitem').html(data)
+            }
+        }
+
+
+        function fillDataWithDDL(param) {
+            var self = jQuery(param);
+            // get the values...........
+            var unit = $("option:selected", self).data('unit');
+            var item = $("option:selected", self).data('item');
+            var rate = $("option:selected", self).data('rate');
+
+            // get the values...........
+            self.closest('td').next('td').find('p').text(item);
+            self.closest('td').next('td').next('td').text(unit);
+            self.closest('td').next('td').next('td').next('td').find('input').val(1);  //Apply default Qty 1....
+            self.closest('td').next('td').next('td').next('td').next('td').find('input').val(rate);
+
+            var calamt = 1 * parseFloat(rate);
+            self.parent().next('td').next('td').next('td').next('td').next('td').find('input').val(calamt);  //Display Amount...
+        }
+
+        //Start To Bind Department Dropdown List..
+        function GetDepartment() {
+            jQuery.get('/common/GetAllDepartment', null, function (data) { chkBindDepartment(data) });
+        }
+
+        function chkBindDepartment(abc) {
+            var data = "";
+            var did = '@Model.DepartmentId';
+            data += "<option value= >--Select Department--</option>";
+            for (var it in abc) {
+                data += "<option value=" + abc[it].Id + " >" + abc[it].DepartmentName + "</option>";
+            }
+            $('#ddldepartment').html(data).val(did);
+        }
+
+        //Start To Get All User in Dropdownlist......
+        function getUser() {
+            jQuery.get('/common/GetAllusers', null, function (data) { chkBindgetUser(data) });
+        }
+
+        function chkBindgetUser(abc) {
+            var data = "";
+            var uid = '@Model.RequesterId';
+            data += "<option value= >--Select User--</option>";
+            for (var it in abc) {
+                data += "<option value=" + abc[it].Id + " >" + abc[it].Fname + " " + abc[it].Lname + "</option>";
+            }
+            $('#DdlUser').html(data).val(uid);
+        }
+
+        //Start To Get All Supplier in Dropdownlist......
+        function GetSupplier() {
+            jQuery.get('/common/getsupplierList', null, function (data) { chkGetSupplier(data) });
+        }
+
+        function chkGetSupplier(abc) {
+            var data = "";
+            data += "<option value= >--Select Supplier--</option>";
+            for (var it in abc) {
+                data += "<option data-drs='" + abc[it].Address + "' value=" + abc[it].SupplierId + " >" + abc[it].SupplierName + "</option>";
+            }
+            $('#ddlsupplier').html(data)
+        }
+
+        jQuery('#ddlsupplier').change(function () {
+            jQuery('#SupplierAddress').val($("option:selected", jQuery(this)).data('drs'));
+        });
+
+        var mas = '@al';
+        var chkmsg = '@alchk';
+        if (mas != '') {
+            swal({ title: "Thank you!", text: mas, imageUrl: "/Scripts/SweetAlert/thumbs-up.jpg" });
+        }
+        if (chkmsg != '') {
+            alert(chkmsg);
+        }
+
+        function appplyPrNo(param) {
+            var self = jQuery(param);
+            var pr = self.val();
+            window.location = "/purchase/Ordergeneration/@ViewContext.RouteData.Values["id"]/?PrNo=" + pr + "";
+        }
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".pik").datepicker();
+
+            $('#addrowbtn').click(function () {
+
+                var rowCount = $('#purchaserequisition tr').length;
+                var ddlclass = "ddlitem" + rowCount;
+                $('#purchaserequisition').append('<tr><td><select class="form-control tdselect ' + ddlclass + '" onchange="fillDataWithDDL(this)" id="PurchaseOrderGenerateItemModelList_' + rowCount + '__PartNo" name="PurchaseOrderGenerateItemModelList[' + rowCount + '].PartNo"></select></td><td><p></p></td><td></td><td><input type="text" class="form-control" name="PurchaseOrderGenerateItemModelList[' + rowCount + '].Qty" onchange="AddItemAmount(this);" placeholder="Qty" id=PurchaseOrderGenerateItemModelList_' + rowCount + '__Qty></td><td><input type="text" class="form-control" name="PurchaseOrderGenerateItemModelList[' + rowCount + '].Rate" placeholder="Rate" id=PurchaseOrderGenerateItemModelList_' + rowCount + '__Rate /></td><td><input type="text" id=PurchaseOrderGenerateItemModelList_' + rowCount + '__Amount class="form-control itmcalamt" name="PurchaseOrderGenerateItemModelList[' + rowCount + '].Amount" placeholder="Amount"></td><td class="actiontd"><a class="dltrow deleterow" onclick="abc(this)" href="javascript:void(0)">Remove</a></td></tr>');
+                $(".pik").datepicker();
+
+                AllItemDeatails(ddlclass);
+                //jQuery.get('/common/GetAllItemDeatails', null, function (data) { chkAllItemDeatails(data) });
+
+            });
+        });
+
+        function abc(param) {
+            var self = jQuery(param);
+            self.closest('tr').hide();
+        }
+
+        //Start Calculation of Item Details...........
+        var ItemAmount = 0;
+        function AddItemAmount(param) {
+            var self = jQuery(param);
+            var qty = self.val();
+            var salerate = self.parent().next('td').find('input').val();
+            var total = qty * salerate;
+            self.parent().next('td').next('td').find('input').val(total);   //Apply the Amount.....
+
+            //calcualte the total amount....
+
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            $('#ItmTotalTaxAmt').val(totalItmAmt);
+            ItemAmount = totalItmAmt;
+            //CalculateFinalPrice();
+        }
+
+        //Update Rate.....
+        function UpdateRate(param) {
+            var self = jQuery(param);
+            var salerate = self.val();
+            var qty = self.parent().prev('td').find('input').val();
+            var total = qty * salerate;
+            self.parent().next('td').find('input').val(total);   //Apply the Amount.....
+
+            //calcualte the total amount....
+
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            $('#ItmTotalTaxAmt').val(totalItmAmt);
+            ItemAmount = totalItmAmt;
+        }
+
+
+        //Start calculate ItemDiscountin AMount...
+        jQuery('#ItmDiscountPer').on("change", function () {
+            var self = jQuery(this);
+            var discountPercent = parseFloat(self.val());
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            var discountAmt = parseFloat((totalItmAmt * discountPercent) / 100).toFixed(2);
+            //self.parents().next('td').find('span').text(discountAmt);
+            self.parents().next('td').find('input').val(discountAmt);   //applie values in hidden field
+
+            //after that manage total
+            var newamt = totalItmAmt - discountAmt;
+            $('#ItmTotalTaxAmt').val(newamt);
+            ItemAmount = newamt;
+        });
+
+        //Start To calculate the Item Discount In Percentage
+        jQuery('#ItmDiscountAmt').on("change", function () {
+            var self = jQuery(this);
+            var discountAmount = parseFloat(self.val());
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            var discountPercent = parseFloat((discountAmount * 100) / totalItmAmt).toFixed(2);
+            //self.parents().next('td').find('span').text(discountAmt);
+            self.parents().prev('td').find('input').val(discountPercent);   //applie values in hidden field
+
+            //after that manage total
+            var newamt = totalItmAmt - discountAmount;
+            $('#ItmTotalTaxAmt').val(newamt);
+            ItemAmount = newamt;
+
+        });
+
+        //Apply Freight Charge.......
+        jQuery('#ItmFreightPercentage').on('change', function (e) {
+            var getItemSubTotalAmt = parseFloat((ItemAmount * parseFloat($(this).val())) / 100).toFixed(2);
+            $('#ItmFreightChargeAmt').val(getItemSubTotalAmt);
+        });
+
+        jQuery('#ItmFreightChargeAmt').change(function () {
+            var freightAmt = jQuery(this).val();
+            var totalItmAmt = parseFloat(calculateItemQty('itmcalamt'));
+            var discountAmt = parseFloat(jQuery('#ItmDiscountAmt').val());
+            var newAmount = totalItmAmt + parseFloat(freightAmt) - discountAmt;
+            $('#ItmTotalTaxAmt').val(newAmount);
+            ItemAmount = newAmount;
+        });
+
+        //Start To View Product Taxes Group....
+        jQuery('.PopProductTaxgroup').click(function () {
+            var brd = '';
+            jQuery.get('/common/GetProducttaxGroup', null, function (data) {
+                for (var item in data) {
+                    brd += "<div class='col-sm-12'><input type='radio' class='' name='producttaxgropid' text='abc' value='" + data[item].Id + "' /><label> " + data[item].TaxgroupName + "</label></div>";
+                }
+                $('#frmProductTaxGroup').html(brd);
+            });
+        });
+
+        //Start To Apply Product Taxes Group
+
+        jQuery('.btnapply').click(function () {
+            var productTaxgroupId = $("input:radio[name='producttaxgropid']:checked").val();
+            var productTaxgroupName = $("input:radio[name='producttaxgropid']:checked").parent().find('label').text();
+
+            var TotalTaxamt = 0;
+            var amt = ItemAmount;
+            var ApplyTaxGroupnametext = productTaxgroupName + "(";
+            if (productTaxgroupId != '') {
+                jQuery.get('/common/getProductTaxbytaxGroupId', { taxgroupid: productTaxgroupId }, function (data) {
+
+                    for (var it in data) {
+                        var taxamt = (amt * data[it].PercentValues) / 100;
+                        var calSCharge = 0;
+                        if (data[it].Surcharge != '' && data[it].Surcharge != 0.00) {
+                            calSCharge = (taxamt * data[it].Surcharge) / 100;
+                        }
+                        TotalTaxamt += taxamt + calSCharge;
+
+                        //Calcualte texes name............
+                        if (ApplyTaxGroupnametext != '') {
+                            ApplyTaxGroupnametext += data[it].TaxName + ":" + data[it].PercentValues + "%" + ",";
+                            if (data[it].Surcharge != '' && data[it].Surcharge != 0.00) {
+                                ApplyTaxGroupnametext += " Surcharge:" + data[it].Surcharge + "%";
+                            }
+                        }
+                    }
+                    amt += TotalTaxamt;
+                    ApplyTaxGroupnametext += ")";
+                    jQuery('#productApplyTaxesText').val(ApplyTaxGroupnametext);
+                    jQuery('#ItmTaxGroupAmt').val(TotalTaxamt.toFixed(2));
+                    CalculateFinalPrice();
+                });
+            }
+            //alert(productTaxgroupId + '-' + productTaxgroupName);
+        });
+
+        function calculateItemQty(cls) {
+            var sum = 0;
+            $('.' + cls).each(function () {
+                //add only if the value is number
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+            });
+            return sum;
+        };
+
+    </script>
+
+}
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+
+<!-- modal popup Item Details Group Taxes -->
+<div id="taxespopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Product Text Group
+                </h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden;">
+
+                <form id="frmProductTaxGroup">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" style="float: left;" class="btn mainbtn2 btnapply" data-dismiss="modal">Apply tax</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

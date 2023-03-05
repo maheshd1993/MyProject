@@ -1,0 +1,2297 @@
+﻿@model Traders.Models.CreateLeadsModel
+@{
+    ViewBag.Title = "createleads";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+
+<div class="maincontainer">
+    <div class="col-sm-12">
+        <div class="col-sm-4 padd0">
+        </div>
+        <div class="col-sm-8 ovtime">
+
+            @if (TempData["LeadID"] != null)
+            {
+                using (Html.BeginForm("SingleAssignLeadToUser", "home", FormMethod.Post))
+                {
+                    <div class="col-sm-2 f-right">
+                        <input class="btn btn-success btn-ripple" style="margin-left: 10px;" type="submit" value="Assign" id="SubmitAssigned" />
+                    </div>
+                    <input type="hidden" id="LeadID" name="LeadID" value="@TempData["LeadID"]" />
+                    <div class="col-sm-2 padd0 f-right">
+                        <select id="UserAssignTo" name="UserAssignTo" class="form-control  ListItemCapitalize " style="margin-top:0px !important;">
+                            @*<option value="">Select Assign To</option>
+                                @foreach (var item in Model.AssignToList)
+                                {
+                                    <option value="@item.UserID">@item.UserName</option>
+                                }*@
+                            <option value="">Select Assign To</option>
+                            @if (Model.AssignToList != null && Model.AssignToList.Count() > 0)
+                            {
+                                foreach (var item in Model.AssignToList)
+                                {
+                                    if (item.UserName == "Prabhjot Kaur (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Sachin Dhiman (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Himanshi Gupta (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Rabina Singh (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Sonalee Panchal (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Dimple Sharma (EM004) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Ekta  Singh (EM009) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Keshav Sharma (EM006) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Prayag Wadhwa (EM005) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Ravi Agarwal (EM0010) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Sachin Dhiman (EM001) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Shalini  Sharma  (EM007) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Sonalee Panchal (EM002) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Suman EliteMindz (EM003) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Preet  Kaur  (EM006) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Stuti  Sood (EM005) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else if (item.UserName == "Preet  Kaur  (EM006) (Branch: Elite Mindz Private Limited)")
+                                    {
+                                        <option value="@item.UserID" translate="no" style="display:none;">@item.UserName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.UserID" translate="no"> @item.UserName </option>
+                                    }
+                                }
+                            }
+
+
+                        </select>
+                        @*@Html.DropDownList("UserAssignTo", new SelectList(Model.AssignToList, "UserID", "UserName"), "Select Assign To", new { @class = "form-control  ListItemCapitalize ", @style = "margin-top:0px !important;" })*@
+                    </div>
+
+                }
+            }
+        </div>
+        <div class="col-sm-12">
+            @using (Html.BeginForm("createleads", "home", FormMethod.Post, new { enctype = "multipart/form-data", id = "leadForm" }))
+            {
+                @Html.HiddenFor(a => a.BranchID)
+                @Html.HiddenFor(a => a.CompanyID)
+                @Html.HiddenFor(a => a.createdDate)
+                @Html.HiddenFor(a => a.LID)
+                @Html.HiddenFor(a => a.IsProductTypeAdd)
+                @Html.HiddenFor(a => a.IsLeadStatusAdd)
+                @Html.HiddenFor(a => a.IsLeadSourceAdd)
+                <div class="panel panel-info new_activity_form">
+                    <div class="panel-heading">
+                        <strong>Create New Lead</strong>
+                        <div class="row" style="padding-right: 2.5%;">
+                            <div class="col-sm-9 padd0"></div>
+                            <div class="col-sm-3 padd0 developer_paddo">
+                                <span style="padding-left:33%;"><input type="submit" name="Submit" value="Save" class="btn btn-success btnSave" id="btnSaveMain"></span>
+                                <input type="button" value="Back to View Leads" class="btn btn-danger pull-right pull-right" style="margin-right:5px;margin-top:3px;" onclick="location.href = '/home/viewleads'" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+
+                                <div class="col-md-6" id="blockContainer">
+                                    <div class="form-group" style="order:@(Model.propVal!=null ? Model.propVal.LeadStatusPriority:0)">
+                                        @{ string ldStatusName = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.LeadStatusTextName) ? Model.propVal.LeadStatusTextName : "Lead Status";}
+                                        <label class="control-label col-sm-4" translate="no">@ldStatusName <span class="madatoryfield">*</span></label>
+                                        <div class="col-sm-8" id="leadhide">
+                                            @*@if (Model.IsLeadStatusAdd)
+                                                {
+                                                    <div class="input-group" style="display:none" id="divLeadStatusName">
+                                                        @Html.TextBoxFor(a => a.LeadName, new { id = "txtboxLeadStatusName", @class = "form-control", translate = "no" })
+                                                        <span style="cursor:pointer" class="input-group-addon" id="btnLdsNameCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                    </div>
+                                                }*@
+                                            <div class="input-group">
+                                                @if (Model.leadstatusList != null && Model.leadstatusList.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.LeadStatusID, new SelectList(Model.leadstatusList, "Id", "LeadStatusname", Model.LeadStatusID), String.Format("Select {0}", ldStatusName), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.LeadStatusID)
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.LeadStatusID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", ldStatusName), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.LeadStatusID)
+                                                }
+
+                                                @Html.HiddenFor(em => em.LeadStatus)
+                                                @Html.ValidationMessageFor(model => model.LeadStatus)
+                                                @if (Model.IsLeadStatusAdd == true)
+                                                {
+                                                    <span data-toggle="modal" data-target="#addItemModal" ddlId="LeadStatusID" ddltype="LeadStatus" ddlText="@ldStatusName" onclick="addItem(this);" id="btnLdsNamePlus" style="cursor:pointer" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                                                }
+                                            </div>
+                                        </div>
+                                        @*<div class="col-sm-8" id="leadshow" style="display:none;">
+                                                <select id="LeadStatusID" class="form-control ListItemCapitalize clr" name="LeadStatusID">
+                                                    <option value="293">Closed</option>
+                                                </select>
+                                                <input id="LeadStatus" name="LeadStatus" type="hidden" value="Closed">
+                                            </div>*@
+                                    </div>
+                                    @*@if (Convert.ToInt32(Session["CompanyID"]) == 2458)
+                                            {
+                                        <div id="bookingdate" class="form-control"></div><span data-toggle="modal" data-target="#Bookingreport" onclick="addbookingreport(this);" id="btnbookPlus" style="cursor:pointer" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                                            }*@
+                                    <div class="form-group" style="order:@(Model.propVal!=null ? Model.propVal.CustomerPriority:0)">
+                                        @{string customerNm = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.CustomerTextName) ? Model.propVal.CustomerTextName : "Customer Name";}
+                                        <label class="control-label col-sm-4" translate="no">@customerNm <span class="madatoryfield">*</span></label>
+                                        <div class="col-sm-8">
+
+                                            @Html.TextBoxFor(em => em.Customer, htmlAttributes: new { @class = "form-control", @autocomplete = "off", required = "required", translate = "no" })
+                                            @Html.ValidationMessageFor(em => em.Customer)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="order:@(Model.propVal!=null ? Model.propVal.MobPriority:0)">
+                                        @{string mobNo = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.MobileNoTextName) ? Model.propVal.MobileNoTextName : "Mobile Number";}
+                                        <label class="control-label col-sm-4" translate="no">@mobNo <span class="madatoryfield">*</span></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(em => em.MobileNo, htmlAttributes: new { @class = "form-control", @autocomplete = "off", @onchange = "CheckValue();", required = "required", translate = "no" })
+                                            @Html.ValidationMessageFor(em => em.MobileNo)
+                                            <p id="status"></p>
+                                        </div>
+                                    </div>
+                                    @*@if (Convert.ToInt32(Session["CompanyID"]) == 2066)
+                                        {
+                                            <div class="form-group" style="order:@(Model.propVal != null ? Model.propVal.ExtraCol1Priority : 0)">
+                                                @{string WhatsAppNumber = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol1TextName) ? Model.propVal.ExtraCol1TextName : "WhatsApp Number";}
+                                                <label class="control-label col-sm-4" translate="no">@WhatsAppNumber<span></span></label>
+                                                <div class="col-sm-8" id="CheckIndianNumber">
+                                                    @Html.TextBoxFor(em => em.ExtraCol1, htmlAttributes: new { @class = "form-control", @autocomplete = "off", translate = "no" })
+
+                                                    <p id="status"></p>
+                                                </div>
+                                            </div>
+                                                    }*@
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsEmailId? "display:block;-webkit-order:"+Model.propVal.EmailPriority+";order:"+Model.propVal.EmailPriority+"" : "display:none")">
+                                        @{string email = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.EmailIdTextName) ? Model.propVal.EmailIdTextName : "Customer e-mail";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @email
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsEmailMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="email" translate="no" name="@Html.DisplayNameFor(a => a.EmailId)" id="EmailId" class="form-control" autocomplete="off" onchange="CheckEmailExist();" value="@Model.EmailId" @if (Model.propVal != null && Model.propVal.IsEmailMandatory) { <text> required </text>                } />
+                                            <p id="EmailStatus"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsDateofBirth ? "display:block;-webkit-order:"+Model.propVal.DOBPriority+";order:"+Model.propVal.DOBPriority+"" : "display:none")">
+                                        @{string dob = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.DateofBirthTextName) ? Model.propVal.DateofBirthTextName : "Date Of Birth";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @dob
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsDOBMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.DateofBirth)" id="DateofBirth" class="form-control datefield" autocomplete="off" value="@Model.DateofBirth" @if (Model.propVal != null && Model.propVal.IsDOBMandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsMarriageAnniversary ? "display:block;-webkit-order:"+Model.propVal.MerriageAnnivPriority+";order:"+Model.propVal.MerriageAnnivPriority+"" : "display:none")">
+                                        @{string mrgAni = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.MarriageAnniversaryTextName) ? Model.propVal.MarriageAnniversaryTextName : "Marriage Anniversary";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @mrgAni
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsMrgAniMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.MarriageAnniversary)" id="MarriageAnniversary" class="form-control datefield" value="@Model.MarriageAnniversary" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsMrgAniMandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsDesignation ? "display:block;-webkit-order:"+Model.propVal.DesigPriority+";order:"+Model.propVal.DesigPriority+"" : "display:none")">
+                                        @{ string desig = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.DesignationTextName) ? Model.propVal.DesignationTextName : "Designation";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @desig
+                                            <span class="madatoryfield" translate="no" style="@(Model.propVal != null && Model.propVal.IsDesigMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.Designation)" id="Designation" class="form-control" autocomplete="off" value="@Model.Designation" @if (Model.propVal != null && Model.propVal.IsDesigMandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsOrganizationName ? "display:block;-webkit-order:"+Model.propVal.OrgNamePriority+";order:"+Model.propVal.OrgNamePriority+"" : "display:none")">
+                                        @{string orgNM = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.OrganizationNameTextName) ? Model.propVal.OrganizationNameTextName : "Organization Name";}
+
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @orgNM
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsOrgNameMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.OrganizationName)" id="OrganizationName" value="@Model.OrganizationName" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsOrgNameMandatory) { <text> required</text>} />
+                                        </div>
+                                    </div>
+
+                                    <!--followup date start-->
+                                    <div class="form-group" style="order:@(Model.propVal!=null ? Model.propVal.FollowUpDatePriority:0)">
+                                        @{string fupDate = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.FollowDateTextName) ? Model.propVal.FollowDateTextName : "Follow Up Date";}
+                                        <label class="control-label col-sm-4" translate="no">@fupDate <span class="madatoryfield">*</span></label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(em => em.FollowDate, htmlAttributes: new { @class = "form-control datefield", @autocomplete = "off", @onchange = "GetFollowingDateinIST()", required = "required", translate = "no" })
+                                            @Html.ValidationMessageFor(em => em.FollowDate)
+                                        </div>
+                                    </div>
+                                    <!--followup date end-->
+                                    <!--country div start-->
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsCountry ? "display:block;-webkit-order:"+Model.propVal.CountryPriority+";order:"+Model.propVal.CountryPriority+"" : "display:none")">
+                                        @{ string countryName = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.CountryTextName) ? Model.propVal.CountryTextName : "Country";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @countryName
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsCountryMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+
+                                        <div class="col-sm-8">
+                                            <select name="CountryID" id="CountryID" class="form-control" @if (Model.propVal != null && Model.propVal.IsCountryMandatory) { <text> required="required" </text>                 } onchange="StateList(this.value);">
+                                                <option value="">Select @countryName</option>
+                                                @foreach (var item in Model.countryList)
+                                                {
+                                                    <option value="@item.CountryID" ccode="@item.country_code" @if (Model.CountryID != null && Model.CountryID != 0 && Model.CountryID == item.CountryID) { <text> selected="selected" </text>                 } translate="no">@item.CountryName</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <!--Time zone name start-->
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsTimeZoneName ? "display:block;-webkit-order:"+Model.propVal.ZoneNamePriority+";order:"+Model.propVal.ZoneNamePriority+"" : "display:none")">
+                                        <label class="control-label col-sm-4">
+                                            Time Zone Name
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsTZNameMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <select id="TimeZoneName" name="TimeZoneName" class="form-control" translate="no"></select>
+                                            @*@Html.DropDownList("TimeZoneName", ViewBag.TimeZoneName1 as SelectList, htmlAttributes: new { @class = "form-control", @autocomplete = "off", translate = "no" })*@
+                                            @*@Html.DropDownListFor(a => a.TimeZoneName, Model.TimeZones, htmlAttributes: new { @class = "form-control", @autocomplete = "off", translate = "no" })*@
+                                        </div>
+                                    </div>
+                                    <!--Time zone name end-->
+                                    <!--followup time start-->
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsFollowUpTime ? "display:block;-webkit-order:"+Model.propVal.FollowUpTimePriority+";order:"+Model.propVal.FollowUpTimePriority+"" : "display:none")">
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @(Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.FollowUpTimeTextName) ? Model.propVal.FollowUpTimeTextName : "Follow Up Time")
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsFUpTimeMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group bootstrap-timepicker">
+                                                <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.FollowupTime)" id="FollowupTime" class="input-small form-control" autocomplete="off" value="@Model.FollowupTime" style="position:initial !important;" @if (Model.propVal != null && Model.propVal.IsFUpTimeMandatory) { <text> required </text>                } />
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--followup time end-->
+                                    <!--followup time in ist start-->
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsFollowupTimeinIST ? "display:block;-webkit-order:"+Model.propVal.FollowUpTimeISTPriority+";order:"+Model.propVal.FollowUpTimeISTPriority+"" : "display:none")">
+                                        @{
+                                            string fupTimeInIST = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.FollowupTimeinISTTextName) ? Model.propVal.FollowupTimeinISTTextName : "Follow Up Time in IST";
+                                            fupTimeInIST = fupTimeInIST.Replace("IST", Model.CompanyNodaTimeZone);
+                                        }
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @fupTimeInIST
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsFupTimeinISTMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group bootstrap-timepicker date">
+                                                <input type="text" id="followupinIST" class="input-small form-control" disabled="disabled" value="@Model.FollowupTimeIST" />
+                                                <input type="hidden" id="FollowupTimeIST" name="FollowupTimeIST" value="@Model.FollowupTimeIST" />
+                                                @Html.HiddenFor(a => a.FollowupTimeInTZ)
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--followup time in ist end-->
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsState ? "display:block;-webkit-order:"+Model.propVal.StatePriority+";order:"+Model.propVal.StatePriority+"" : "display:none")">
+                                        @{ string StateTextName = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.StateTextName) ? Model.propVal.StateTextName : "State";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @StateTextName
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsStateMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+
+                                            <select id="StateID" name="StateID" class="form-control" @if (Model.propVal != null && Model.propVal.IsStateMandatory) { <text> required</text>} onchange="CityList(this.value);" translate="no">
+                                                <option value="">Select @StateTextName</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsCity ? "display:block;-webkit-order:"+Model.propVal.CityPriority+";order:"+Model.propVal.CityPriority+"" : "display:none")">
+                                        @{ string CityTextName = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.CityTextName) ? Model.propVal.CityTextName : "City/Location";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @CityTextName
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsCityMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <select id="CityID" name="CityID" class="form-control" @if (Model.propVal != null && Model.propVal.IsCityMandatory) { <text> required</text>} translate="no">
+                                                <option value="">Select @CityTextName</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsAddress ? "display:block;-webkit-order:"+Model.propVal.AddressPriority+";order:"+Model.propVal.AddressPriority+"" : "display:none")">
+                                        @{ string addr = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.AddressTextNameTextName) ? Model.propVal.AddressTextNameTextName : "Address";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @addr
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsAddressMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.Address)" id="Address" value="@Model.Address" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsAddressMandatory) { <text> required</text>} />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsUrl ? "display:block;-webkit-order:"+Model.propVal.UrlPriority+";order:"+Model.propVal.UrlPriority+"" : "display:none")">
+                                        @{ string url = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.UrlTextName) ? Model.propVal.UrlTextName : "URL";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @url
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsUrlMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.URL)" id="URL" value="@Model.URL" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsUrlMandatory) { <text> required</text>} />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsSkypeId ? "display:block;-webkit-order:"+Model.propVal.SkypeIdPriority+";order:"+Model.propVal.SkypeIdPriority+"" : "display:none")">
+                                        @{ string skype = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.SkypeIdTextName) ? Model.propVal.SkypeIdTextName : "Skype ID";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @skype
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsSkypeIdMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.SkypeId)" id="SkypeId" value="@Model.SkypeId" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsSkypeIdMandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsLeadResource ? "display:block;-webkit-order:"+Model.propVal.LeadSourcePriority+";order:"+Model.propVal.LeadSourcePriority+"" : "display:none")">
+                                        @{string ldRes = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.LeadResourceTextName) ? Model.propVal.LeadResourceTextName : "Lead Source";}
+
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @ldRes
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsLdResMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            @*@if (Model.IsLeadSourceAdd == true)
+                                                {
+                                                    <div id="divLeadSource" class="input-group" style="display:none">
+                                                        @Html.TextBoxFor(a => a.LdSourceName, new { id = "txtboxldSource", @class = "form-control" })
+                                                        <span style="cursor:pointer" class="input-group-addon" id="btnLdSourceCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                    </div>
+                                                }*@
+                                            <div class="input-group">
+                                                @if (Model.propVal != null && Model.propVal.IsLdResMandatory)
+                                                {
+                                                    if (Model.leadsourceList != null && Model.leadsourceList.Count > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.LeadSourceID, new SelectList(Model.leadsourceList, "Id", "LeadsourceName"), String.Format("Select {0}", ldRes), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(em => em.LeadSourceID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", ldRes), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (Model.leadsourceList != null && Model.leadsourceList.Count > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.LeadSourceID, new SelectList(Model.leadsourceList, "Id", "LeadsourceName"), String.Format("Select {0}", ldRes), htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(em => em.LeadSourceID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", ldRes), htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                                    }
+
+                                                }
+                                                @Html.ValidationMessageFor(em => em.LeadSourceID)
+                                                @if (Model.IsLeadSourceAdd == true)
+                                                {
+                                                    <span data-toggle="modal" data-target="#addItemModal" ddlId="LeadSourceID" ddltype="LeadSource" ddlText="@ldRes" onclick="addItem(this);" id="btnLdSourcePlus" style="cursor:pointer" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                                                }
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsProductType ? "display:block;-webkit-order:"+Model.propVal.ProdTypePriority+";order:"+Model.propVal.ProdTypePriority+"" : "display:none")">
+                                        @{string prdTyp = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ProductTypeNameTextName) ? Model.propVal.ProductTypeNameTextName : "Product Type"; }
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @prdTyp
+
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsProdTypeMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            @*@if (Model.IsProductTypeAdd == true)
+                                                {
+                                                    <div id="divProductTypeName" class="input-group" style="display:none">
+                                                        @Html.TextBoxFor(a => a.ProdTypeName, new { id = "txtboxProdTypeName", @class = "form-control" })
+                                                        <span style="cursor:pointer" class="input-group-addon" id="btnPrdTpNmCancel" title="Click to cancel"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                                    </div>
+                                                }*@
+                                            <div class="input-group">
+                                                @if (Model.propVal != null && Model.propVal.IsProdTypeMandatory)
+                                                {
+                                                    if (Model.producttypetblList != null && Model.producttypetblList.Count > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.ProductTypeID, new SelectList(Model.producttypetblList, "Id", "ProductTypeName"), String.Format("Select {0}", prdTyp), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(em => em.ProductTypeID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", prdTyp), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (Model.producttypetblList != null && Model.producttypetblList.Count > 0)
+                                                    {
+                                                        @Html.DropDownListFor(em => em.ProductTypeID, new SelectList(Model.producttypetblList, "Id", "ProductTypeName"), String.Format("Select {0}", prdTyp), htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(em => em.ProductTypeID, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", prdTyp), htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                                    }
+                                                }
+                                                @Html.ValidationMessageFor(em => em.ProductTypeID)
+                                                @if (Model.IsProductTypeAdd == true)
+                                                {
+                                                    <span data-toggle="modal" data-target="#addItemModal" ddlId="ProductTypeID" ddltype="ProductType" ddlText="@prdTyp" onclick="addItem(this);" id="btnPrdTpNmPlus" style="cursor:pointer;" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsExpectedClosingDate ? "display:block;-webkit-order:"+Model.propVal.ExpDatePriority+";order:"+Model.propVal.ExpDatePriority+"" : "display:none")">
+                                        @{string expDate = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExpectedDateTextName) ? Model.propVal.ExpectedDateTextName : "Expected Closing Date";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @expDate
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExpClsDateMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.ExpectedDate)" id="ExpectedDate" value="@Model.ExpectedDate" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExpClsDateMandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal.CompanyID == 0 || Model.propVal.IsExpectedDealAmount ? "display:block;-webkit-order:"+Model.propVal.ExpAmountPriority+";order:"+Model.propVal.ExpAmountPriority+"" : "display:none")">
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @(Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExpectedProductAmountTextName) ? Model.propVal.ExpectedProductAmountTextName : "Expected Deal Amount")
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExpDealAmtMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" translate="no" name="@Html.DisplayNameFor(a => a.ExpectedProductAmount)" id="ExpectedProductAmount" class="form-control" value="@Model.ExpectedProductAmount" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExpDealAmtMandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol1 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol1Priority+";order:"+Model.propVal.ExtraCol1Priority+"" : "display:none")">
+                                        @{string extraCol1 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol1TextName) ? Model.propVal.ExtraCol1TextName : "Additional 1";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol1
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol1Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol1)" id="ExtraCol1" value="@Model.ExtraCol1" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol1Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol2 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol2Priority+";order:"+Model.propVal.ExtraCol2Priority+"" : "display:none")">
+                                        @{string extraCol2 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol2TextName) ? Model.propVal.ExtraCol2TextName : "Additional 2";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol2
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol2Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol2)" id="ExtraCol2" value="@Model.ExtraCol2" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol2Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol3 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol3Priority+";order:"+Model.propVal.ExtraCol3Priority+"" : "display:none")">
+                                        @{string extraCol3 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol3TextName) ? Model.propVal.ExtraCol3TextName : "Additional 3";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol3
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol3Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol3)" id="ExtraCol3" value="@Model.ExtraCol3" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol3Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol4 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol4Priority+";order:"+Model.propVal.ExtraCol4Priority+"" : "display:none")">
+                                        @{string extraCol4 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol4TextName) ? Model.propVal.ExtraCol4TextName : "Additional 4";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol4
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol4Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol4)" id="ExtraCol4" value="@Model.ExtraCol4" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol4Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol5 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol5Priority+";order:"+Model.propVal.ExtraCol5Priority+"" : "display:none")">
+                                        @{string extraCol5 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol5TextName) ? Model.propVal.ExtraCol5TextName : "Additional 5";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol5
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol5Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol5)" id="ExtraCol5" value="@Model.ExtraCol5" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol5Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol6 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol6Priority+";order:"+Model.propVal.ExtraCol6Priority+"" : "display:none")">
+                                        @{ string extraCol6 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol6TextName) ? Model.propVal.ExtraCol6TextName : "Additional 6";}
+
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol6
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol6Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol6)" id="ExtraCol6" value="@Model.ExtraCol6" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol6Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol7 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol7Priority+";order:"+Model.propVal.ExtraCol7Priority+"" : "display:none")">
+                                        @{string extraCol7 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol7TextName) ? Model.propVal.ExtraCol7TextName : "Additional 7";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol7
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol7Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol7)" id="ExtraCol7" value="@Model.ExtraCol7" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol7Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol8 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol8Priority+";order:"+Model.propVal.ExtraCol8Priority+"" : "display:none")">
+                                        @{ string extraCol8 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol8TextName) ? Model.propVal.ExtraCol8TextName : "Additional 8"; }
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol8
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol8Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol8)" id="ExtraCol8" value="@Model.ExtraCol8" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol8Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol9 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol9Priority+";order:"+Model.propVal.ExtraCol9Priority+"" : "display:none")">
+                                        @{ string extraCol9 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol9TextName) ? Model.propVal.ExtraCol9TextName : "Additional 9"; }
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol9
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol9Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.ExtraCol9)" id="ExtraCol9" value="@Model.ExtraCol9" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol9Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2458)
+                                    {
+                                        <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol10 ? "display:block;-webkit-order:" + Model.propVal.ExtraCol10Priority + ";order:" + Model.propVal.ExtraCol10Priority + "" : "display:none")">
+                                            @{ string extraCol10 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol10TextName) ? Model.propVal.ExtraCol10TextName : "Additional 10"; }
+                                            <label class="control-label col-sm3" translate="no" style="position: relative;left: -325px;z-index: +999;">
+                                                @extraCol10
+                                                <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol10Mandatory ? "display:block" : "display:none")">*</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.ExtraCol10)" id="ExtraCol10" value="@Model.ExtraCol10" class="form-control datefield" style="position:relative;left:54%;" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol10Mandatory) { <text> required </text>                 } />
+                                            </div>
+
+
+                                        </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol10 ? "display:block;-webkit-order:" + Model.propVal.ExtraCol10Priority + ";order:" + Model.propVal.ExtraCol10Priority + "" : "display:none")">
+                                                        @{ string extraCol10 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol10TextName) ? Model.propVal.ExtraCol10TextName : "Additional 10"; }
+
+                                                        <label class="control-label col-sm3" translate="no">
+                                                            @extraCol10
+                                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol10Mandatory ? "display:block" : "display:none")">*</span>
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" translate="no" name="@Html.DisplayNameFor(a => a.ExtraCol10)" id="ExtraCol10" value="@Model.ExtraCol10" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol10Mandatory) { <text> required </text>                 } />
+                                                        </div>
+                                                    </div>
+                                                            }
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol11 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol11Priority+";order:"+Model.propVal.ExtraCol11Priority+"" : "display:none")">
+                                        @{ string extraCol11 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol11TextName) ? Model.propVal.ExtraCol11TextName : "Additional 11"; }
+
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol11
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol11Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol11)" id="ExtraCol11" value="@Model.ExtraCol11" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol11Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol12 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol12Priority+";order:"+Model.propVal.ExtraCol12Priority+"" : "display:none")">
+                                        @{string extraCol12 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol12TextName) ? Model.propVal.ExtraCol12TextName : "Additional 12";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol12
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol12Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol12)" id="ExtraCol12" value="@Model.ExtraCol12" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol12Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol13 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol13Priority+";order:"+Model.propVal.ExtraCol13Priority+"" : "display:none")">
+                                        @{string extraCol13 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol13TextName) ? Model.propVal.ExtraCol13TextName : "Additional 13";}
+                                        <label class="control-label col-sm-4">
+                                            @extraCol13
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol13Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol13)" id="ExtraCol13" value="@Model.ExtraCol13" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol13Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol14 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol14Priority+";order:"+Model.propVal.ExtraCol14Priority+"" : "display:none")">
+                                        @{ string extraCol14 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol14TextName) ? Model.propVal.ExtraCol14TextName : "Additional 14";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol14
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol14Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol14)" id="ExtraCol14" value="@Model.ExtraCol14" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol14Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol5 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol15Priority+";order:"+Model.propVal.ExtraCol15Priority+"" : "display:none")">
+                                        @{string extraCol15 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol15TextName) ? Model.propVal.ExtraCol15TextName : "Additional 15";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol15
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol15Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol15)" id="ExtraCol15" value="@Model.ExtraCol15" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol15Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol6 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol16Priority+";order:"+Model.propVal.ExtraCol16Priority+"" : "display:none")">
+                                        @{string extraCol16 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol16TextName) ? Model.propVal.ExtraCol16TextName : "Additional 16";}
+
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol16
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol16Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol16)" id="ExtraCol16" value="@Model.ExtraCol16" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol16Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol17 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol17Priority+";order:"+Model.propVal.ExtraCol17Priority+"" : "display:none")">
+                                        @{string extraCol17 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol17TextName) ? Model.propVal.ExtraCol17TextName : "Additional 17";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol17
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol17Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="number" name="@Html.DisplayNameFor(a => a.ExtraCol17)" id="ExtraCol17" value="@Model.ExtraCol17" class="form-control" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol17Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol18 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol18Priority+";order:"+Model.propVal.ExtraCol18Priority+"" : "display:none")">
+                                        @{string extraCol18 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol18TextName) ? Model.propVal.ExtraCol18TextName : "Additional 18";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol18
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol18Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol18)" id="ExtraCol18" value="@Model.ExtraCol18" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol18Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol19 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol19Priority+";order:"+Model.propVal.ExtraCol19Priority+"" : "display:none")">
+                                        @{string extraCol19 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol19TextName) ? Model.propVal.ExtraCol19TextName : "Additional 19";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol19
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol19Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol19)" id="ExtraCol19" value="@Model.ExtraCol19" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol19Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol20 ? "display:block;-webkit-order:"+Model.propVal.ExtraCol20Priority+";order:"+Model.propVal.ExtraCol20Priority+"" : "display:none")">
+                                        @{string extraCol20 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol20TextName) ? Model.propVal.ExtraCol20TextName : "Additional 20";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @extraCol20
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol20Mandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="@Html.DisplayNameFor(a => a.ExtraCol20)" id="ExtraCol20" value="@Model.ExtraCol20" class="form-control datefield" autocomplete="off" @if (Model.propVal != null && Model.propVal.IsExtraCol20Mandatory) { <text> required </text>                } />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol1dropdown ? "display:block;-webkit-order:" + Model.propVal.ExtraCol1Prioritydropdown + ";order:" + Model.propVal.ExtraCol1Prioritydropdown + "" : "display:none")">
+                                        @{string ldropdown = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol1dropdown) ? Model.propVal.ExtraCol1dropdown : "Additional Drop Down1";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @ldropdown
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol1dropdownMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+
+                                        <div class="col-sm-8">
+                                            @if (Model.leaddropdownlist != null && Model.leaddropdownlist.Count() > 0)
+                                            {
+                                                @Html.DropDownListFor(em => em.dropddownItemId1, new SelectList(Model.leaddropdownlist, "dropddownItemId", "DropDownItemNamw", Model.dropddownItemId1), String.Format("Select {0}", ldropdown), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                @Html.ValidationMessageFor(model => model.dropddownItemId1)
+                                                @Html.HiddenFor(em => em.Extracol1dropdownId1)
+
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(em => em.dropddownItemId1, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", ldropdown), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                @Html.ValidationMessageFor(model => model.dropddownItemId1)
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol2dropdown ? "display:block;-webkit-order:"+Model.propVal.ExtraCol2Prioritydropdown+";order:"+Model.propVal.ExtraCol2Prioritydropdown+"" : "display:none")">
+                                        @{ string lddropdownlist2 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol2dropdown) ? Model.propVal.ExtraCol2dropdown : "Additional Drop Down2";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @lddropdownlist2
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol2dropdownMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                @if (Model.leaddropdownlist2 != null && Model.leaddropdownlist2.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId2, new SelectList(Model.leaddropdownlist2, "dropddownItemId", "DropDownItemNamw", Model.dropddownItemId2), String.Format("Select {0}", lddropdownlist2), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId2)
+                                                    @Html.HiddenFor(em => em.Extracol1dropdownId2)
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId2, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", lddropdownlist2), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId2)
+                                                }
+                                                @Html.ValidationMessageFor(model => model.Extracol2dropdown)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol3dropdown ? "display:block;-webkit-order:"+Model.propVal.ExtraCol3Prioritydropdown+";order:"+Model.propVal.ExtraCol3Prioritydropdown+"" : "display:none")">
+                                        @{ string lddropdownlist3 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol3dropdown) ? Model.propVal.ExtraCol3dropdown : "Additional Drop Down3";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @lddropdownlist3
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol3dropdownMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8" id="leadhide">
+                                            <div class="input-group">
+                                                @if (Model.leaddropdownlist3 != null && Model.leaddropdownlist3.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId3, new SelectList(Model.leaddropdownlist3, "dropddownItemId", "DropDownItemNamw", Model.dropddownItemId3), String.Format("Select {0}", lddropdownlist3), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId3)
+                                                    @Html.HiddenFor(em => em.Extracol1dropdownId3)
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId3, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", lddropdownlist3), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId3)
+                                                }
+
+                                                @Html.HiddenFor(em => em.Extracol3dropdown)
+                                                @Html.ValidationMessageFor(model => model.Extracol3dropdown)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol4dropdown ? "display:block;-webkit-order:"+Model.propVal.ExtraCol4Prioritydropdown+";order:"+Model.propVal.ExtraCol4Prioritydropdown+"" : "display:none")">
+                                        @{ string lddropdownlist4 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol4dropdown) ? Model.propVal.ExtraCol4dropdown : "Additional Drop Down4";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @lddropdownlist4
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol4dropdownMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8" id="leadhide">
+                                            <div class="input-group">
+                                                @if (Model.leaddropdownlist4 != null && Model.leaddropdownlist4.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId4, new SelectList(Model.leaddropdownlist4, "dropddownItemId", "DropDownItemNamw", Model.dropddownItemId4), String.Format("Select {0}", lddropdownlist4), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId4)
+                                                    @Html.HiddenFor(em => em.Extracol1dropdownId4)
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId4, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", lddropdownlist4), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId4)
+                                                }
+
+                                                @Html.HiddenFor(em => em.Extracol4dropdown)
+                                                @Html.ValidationMessageFor(model => model.Extracol4dropdown)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="@(Model.propVal != null && Model.propVal.IsExtraCol5dropdown ? "display:block;-webkit-order:"+Model.propVal.ExtraCol5Prioritydropdown+";order:"+Model.propVal.ExtraCol5Prioritydropdown+"" : "display:none")">
+                                        @{ string lddropdownlist5 = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.ExtraCol5dropdown) ? Model.propVal.ExtraCol5dropdown : "Additional Drop Down5";}
+                                        <label class="control-label col-sm-4" translate="no">
+                                            @lddropdownlist5
+                                            <span class="madatoryfield" style="@(Model.propVal != null && Model.propVal.IsExtraCol5dropdownMandatory ? "display:block" : "display:none")">*</span>
+                                        </label>
+                                        <div class="col-sm-8" id="leadhide">
+                                            <div class="input-group">
+                                                @if (Model.leaddropdownlist5 != null && Model.leaddropdownlist5.Count() > 0)
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId5, new SelectList(Model.leaddropdownlist5, "dropddownItemId", "DropDownItemNamw", Model.dropddownItemId5), String.Format("Select {0}", lddropdownlist5), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId5)
+                                                    @Html.HiddenFor(em => em.Extracol1dropdownId5)
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownListFor(em => em.dropddownItemId5, Enumerable.Empty<SelectListItem>(), String.Format("Select {0}", lddropdownlist5), htmlAttributes: new { @class = "form-control ListItemCapitalize", required = "required", translate = "no" })
+                                                    @Html.ValidationMessageFor(model => model.dropddownItemId5)
+                                                }
+
+                                                @Html.HiddenFor(em => em.Extracol5dropdown)
+                                                @Html.ValidationMessageFor(model => model.Extracol5dropdown)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (Convert.ToInt32(Session["CompanyID"]) == 2066)
+                                    {
+                                        <div class="form-group" style="order:24">
+                                            <label class="control-label col-sm-4">PastPerformance</label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(em => em.PastPerformance, new List<SelectListItem>
+                                        { new SelectListItem{Text="Yes", Value="Yes"},
+                                       new SelectListItem{Text="No", Value="No"}}, "Select PastPerformance", htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="order:25">
+                                            <label class="control-label col-sm-4">Profit/Loss</label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(em => em.ProfitLoss, new List<SelectListItem>
+                                        { new SelectListItem{Text="Profit", Value="P"},
+                                       new SelectListItem{Text="Losss", Value="L"}}, "Select Profit/Loss", htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="order:26">
+                                            <label class="control-label col-sm-4">Buy/Sell</label>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(em => em.BuySell, new List<SelectListItem>
+                                        { new SelectListItem{Text="Buy", Value="B"},
+                                       new SelectListItem{Text="Sell", Value="S"}}, "Select Buy/Sell", htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="order:27">
+                                            <label class="control-label col-sm-4">Stock Name</label>
+                                            <div class="col-sm-8">
+                                                @*<input type="text" class="form-control " value="@Model.StockName" />*@
+                                                @Html.TextBoxFor(em => em.StockName, htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="order:28">
+                                            <label class="control-label col-sm-4">Price</label>
+                                            <div class="col-sm-8">
+                                                @*<input type="text" class="form-control " value="@Model.Price" />*@
+                                                @Html.TextBoxFor(em => em.Price, htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="order:29">
+                                            <label class="control-label col-sm-4">Target</label>
+                                            <div class="col-sm-8">
+                                                @*<input type="text" class="form-control " value="@Model.Target" />*@
+                                                @Html.TextBoxFor(em => em.Target, htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="order:30">
+                                            <label class="control-label col-sm-4">Target2</label>
+                                            <div class="col-sm-8">
+                                                @*<input type="text" class="form-control " value="@Model.Target2" />*@
+                                                @Html.TextBoxFor(em => em.Target2, htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="order:31">
+                                            <label class="control-label col-sm-4">Quantity </label>
+                                            <div class="col-sm-8">
+                                                @*<input type="text" class="form-control " value="@Model.Target3" />*@
+                                                @Html.TextBoxFor(em => em.Target3, htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="order:32">
+                                            <label class="control-label col-sm-4">SI</label>
+                                            <div class="col-sm-8">
+                                                @*<input type="text" class="form-control " value="@Model.SI" />*@
+                                                @Html.TextBoxFor(em => em.SI, htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="order:33">
+                                            <label class="control-label col-sm-4">Remark</label>
+                                            <div class="col-sm-8">
+                                                @*<input type="text" class="form-control " value="@Model.Remark" />*@
+                                                @Html.TextBoxFor(em => em.Remark, htmlAttributes: new { @class = "form-control", @autocomplete = "off" })
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4" translate="no">@(Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.LeadOwnerTextName) ? Model.propVal.LeadOwnerTextName : "Lead Owner")</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBoxFor(em => em.LeadOwner, new { @class = "form-control", @readonly = "" })
+                                        </div>
+                                    </div>
+                                    @if (Model.OrganizationName == "Casmo solutions")
+                                    {
+                                        <div class="form-group" style="display:none;">
+                                            <label class="control-label col-sm-4">Created Date</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control createdDate" style="font-weight: bold" value="@Model.createdDate" disabled />
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">Created Date</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control createdDate" style="font-weight: bold" value="@Model.createdDate" disabled />
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">Upload File/Image</label>
+                                        <div class="col-sm-8">
+                                            <input type="file" id="file" name="file" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    @if (Model.LID > 0)
+                                    {
+                                        <div class="form-group">
+                                            @{string vdesc = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.DescriptionTextName) ? Model.propVal.DescriptionTextName : "Description";}
+                                            <a href="#" class="PopViewDesc" data-toggle="modal" data-target="#ViewDescript" style="margin-left: 10px;">View <span translate="no">@vdesc</span> </a>
+                                        </div>
+                                                }
+
+                                    <div class="form-group">
+                                        @{string desc = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.DescriptionTextName) ? Model.propVal.DescriptionTextName : "Description";}
+                                        <div class="col-sm-12">
+                                            <label class="control-label" style="margin-left:10%">Add <span translate="no">@desc</span> <span class="madatoryfield">*</span></label>
+                                            @Html.TextAreaFor(em => em.Description, htmlAttributes: new { @class = "form-control ckeditor" })
+                                            <br>
+                                            <span id="descMessage" style="display:none;color:red;font-weight:bold">* Please enter <span translate="no">@desc</span></span>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                    <div class="form-group text-center mbutton">
+                                        <input type="submit" name="Submit" value="Save" class="btn btn-success btnSave" id="btnSaveMain" style="width:35%;">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                            }
+        </div>
+    </div>
+</div>
+<!--Modal- Add Description-->
+<div id="AddDescript" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        @{string descrip = Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.DescriptionTextName) ? Model.propVal.DescriptionTextName : "Description";}
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add <span translate="no">@descrip</span></h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email" style="text-align: left;" translate="no">@(Model.propVal != null && !string.IsNullOrEmpty(Model.propVal.LeadStatusTextName) ? Model.propVal.LeadStatusTextName : "Lead Status")</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="hdnLeadStatusName" name="hdnLeadStatusName" value="@Model.LeadStatus" readonly />
+                            <input type="hidden" id="ldStatus" name="ldStatus" />
+
+                            @*@Html.DropDownList("LdStatusID", new SelectList(Model.leadstatusList, "Id", "LeadStatusname",Model.LeadStatusID), "Select Lead Status", htmlAttributes: new { @class = "form-control ListItemCapitalize ddlLeadStatus", onchange = "changeLeadStatus(this);" })*@
+
+                            @*<label class="control-label col-sm-4" style="text-align: left;" id="LeadStatusName"></label>*@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="text-align: left;" translate="no">@descrip </label>
+                        <div class="col-sm-10">
+                            <textarea id="txtDescription" class="form-control ckeditor" style="height: 80px;" name="txtDescription"></textarea>
+                            @*@Html.TextAreaFor(em=>em.Description , new { @class = "ckeditor" })
+                                @Html.ValidationMessageFor(em=>em.Description)*@
+                            @Html.HiddenFor(em => em.LID)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label">Upload</label>
+
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="file" id="Postfile" name="Postfile" class="form-control" />
+
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success btn-ripple" id="btnAddDescription" onclick="SaveDescription()">Submit</button>
+                                    <button type="button" class="btn btn-danger btn-ripple" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <span style="margin-left: 10px;" id="spndescAlertmsg"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--Modal View-Description-->
+<div id="ViewDescript" class="modal fade" role="dialog">
+</div>
+<!--Modal Close-Leads-->
+<div id="ModelCloseLeads" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 65%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Closed Details</h4>
+            </div>
+            <div class="modal-body over-hidden">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Project Value</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtProjectValue" class="form-control clsval isDecimal" placeholder="Project Value" />
+                        </div>
+                        <label class="control-label col-sm-3">Advance Payment</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtAdvancePayment" class="form-control clsval isDecimal" placeholder="Advance Payment" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Advance Payment Date</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtAdvancePayDate" class="form-control followupdate1 clsval" placeholder="Advance Payment Date" />
+                        </div>
+                        <label class="control-label col-sm-3">Cheque No./NEFT/Cash</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtChequeNo" class="form-control clsval" placeholder="Cheque No./NEFT/Cash" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Project Completed Date</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtCompletionDate" class="form-control followupdate1" placeholder="Project Completed Date" />
+                        </div>
+                        <label class="control-label col-sm-3">Expiry Date</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtExpiryDate" class="form-control followupdate1" autocomplete="off" placeholder="Expiry Date" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">License</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtLicense" class="form-control" placeholder="License" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Project Remark</label>
+                        <div class="col-sm-9">
+                            @*<input type="text" id="txtProjectDescription" class="form-control clsval" />*@
+                            <textarea id="txtProjectDescription" class="form-control" rows="5" style="resize: none;" placeholder="Project Remark"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span style="margin-left: 10px; float: left;" id="spnCloseWonMsg"></span>
+                <button type="submit" class="btn btn-success btn-ripple" id="btnSaveCloseWon">Submit</button>
+                <button type="button" class="btn btn-danger btn-ripple" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for add LeadStatus,Product Type and Lead Source-->
+<div class="modal fade" id="addItemModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close canc" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="DDLHeading"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtDDLId" />
+                <input type="hidden" id="txtDDLType" />
+                <input type="text" class="form-control" id="txtDDLItemName" autocomplete="off" placeholder="Please enter text" />
+                <br />
+                <h5 id="ddlMsg" style="color:red;"></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSaveDDLItem" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger canc" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="Bookingreport" class="modal fade" role="dialog">
+</div>
+<!-- Modal Display of exist mobile or email Data....-->
+<div id="existLeadModal" class="modal fade" role="dialog">
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="~/datepick/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+<link href="/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<script src="/timepicker/bootstrap-timepicker.js"></script>
+
+
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+
+<style>
+    /*.a {
+        background-color: 5FBA7D !important;
+        #ffffff !important;
+    }*/
+     /*.madatoryfield{
+   display:inline!important;
+    }*/
+</style>
+<script type="text/javascript">
+    window.addEventListener('load', (event) => {
+        var mas = '@al';
+        var chkmsg = '@alchk';
+
+        if (mas != '') {
+            swal("Success !", mas, "success");
+        }
+        if (chkmsg != '') {
+            swal("Alert !", chkmsg, "warning");
+        }
+
+
+        var number = '@TempData["numberexists"]';
+
+
+        var numberexists = number;
+        if (numberexists != '') {
+            //swal({ title: "Alert!", text: chkmsg, imageUrl: "/Scripts/SweetAlert/CRMAlert.png" });
+            swal("Oops", numberexists, "error");
+            $('#MobileNo').focus();
+        }
+
+    });
+
+</script>
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>*@
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")"></script>*@
+<!--For Validation ....-->
+
+<script type="text/javascript">
+
+
+    // Enable CKEditor in all environments except IE7 and below.
+    //if (!CKEDITOR.env.ie || CKEDITOR.env.version > 7)
+    //    CKEDITOR.env.isCompatible = true;
+
+
+    //check form submit validationif form field not value then show error message
+    $("#leadForm").submit(function (e) {
+        //var messageLength = CKEDITOR.instances['Description'].getData().replace(/<[^>]*>/gi, '').length;
+        //if (!messageLength) {
+        //    $("#descMessage").show();
+        //    e.preventDefault();
+        //}
+        //else {
+        //    $("#descMessage").hide();
+        //}
+        if ($('#Description').summernote('isEmpty')) {
+            $("#descMessage").show();
+            // cancel submit
+            e.preventDefault();
+        }
+        else {
+            $("#descMessage").hide();
+            // do action
+        }
+    });
+
+    $("#Description").keyup(function () {
+        $("#descMessage").hide();
+    });
+
+    function getMsg(selector) {
+
+        return $(selector).attr('data-val-required');
+    }
+
+    $('#leadForm').validate({
+        // ...
+        messages: {
+            Customer: getMsg('#Customer'),
+            LeadStatusID: getMsg('#LeadStatusID'),
+            MobileNo: getMsg('#MobileNo'),
+            FollowDate: getMsg('#FollowDate')
+            //LeadSourceID: getMsg('#LeadSourceID'),
+            //ProductTypeID: getMsg('#ProductTypeID')
+            //Description: getMsg('#Description')
+        }
+        ,
+        highlight: function (element) {
+            $(element).parent().addClass('error')
+        },
+        unhighlight: function (element) {
+            $(element).parent().removeClass('error')
+        }
+
+    });
+</script>
+
+<script>
+    function addbookingreport() {
+        $.post('/home/ViewBookinglist', {}, function (data) {
+            jQuery('#Bookingreport').html(data);
+            $($(this).data("#Bookingreport")).show();
+        });
+    };
+
+    function addItem(obj) {
+        var self = $(obj);
+        var DDLTextName = self.attr('ddlText');
+        $("#DDLHeading").text('Add ' + DDLTextName);
+        var DDLId = self.attr('ddlId');
+        var DDLType = self.attr('ddltype');
+        $("#txtDDLId").val(DDLId);
+        $("#txtDDLType").val(DDLType);
+    };
+
+    $("#txtDDLItemName").keyup(function () {
+        $("#ddlMsg").text('');
+    });
+
+    $("#btnSaveDDLItem").click(function () {
+
+        $("#ddlMsg").text('Submitting...');
+        var dlid = $("#txtDDLId").val();
+        var dlType = $("#txtDDLType").val();
+        var dlItemName = $("#txtDDLItemName").val();
+        if (dlItemName != '') {
+            jQuery.post("/common/AddDDLItem", { ItemName: dlItemName, DropDownType: dlType }, function (res) {
+
+                var data = JSON.parse(res);//deserialize json data
+                if (data.Msg == "ok") {
+
+                    //append in drop down list
+                    $('#' + dlid).append(`<option value="${data.ItemId}" selected="true">${data.AddedItem}</option>`);
+
+                    $("#ddlMsg").text('');
+                    $("#txtDDLId").val('');
+                    $("#txtDDLType").val('');
+                    $("#txtDDLItemName").val('');
+                    jQuery("#addItemModal").modal('hide');
+                }
+                else if (data.Msg == "expire") {
+                    $("#ddlMsg").text('Your session has been expired! Please login again');
+                    $("#txtDDLId").val('');
+                    $("#txtDDLType").val('');
+                    $("#txtDDLItemName").val('');
+                    //swal("Alert !", "Something went wrong", "warning");
+                }
+                else {
+                    $("#ddlMsg").text(data.Msg);
+
+                }
+            });
+        }
+        else {
+            $("#ddlMsg").text('Please enter text');
+        }
+    });
+
+    //clear all values to click cancel or close button
+    $(".canc").click(function () {
+        $("#DDLHeading").text('');
+        $("#ddlMsg").text('');
+        $("#txtDDLId").val('');
+        $("#txtDDLType").val('');
+        $("#txtDDLItemName").val('');
+    });
+
+    @*//btn  add product type name plus button click function
+    $("#btnPrdTpNmPlus").click(function () {
+        $("#divProductTypeName").show();
+        $('#ProductTypeID').removeAttr("required").hide();
+        $("#btnPrdTpNmPlus").hide();
+    });
+    var isprodType = '@(Model != null && Model.propVal.IsProdTypeMandatory ? true : false)'
+    //btn cancel add product type name
+    $("#btnPrdTpNmCancel").click(function () {
+        $("#txtboxProdTypeName").val('');
+        $("#divProductTypeName").hide();
+            $('#ProductTypeID').attr("required", isprodType).show();
+        $("#btnPrdTpNmPlus").show();
+    });
+
+ ////////////////////////////add lead source name //////////////////
+    var isleadSource = '@(Model != null && Model.propVal.IsLdStatusMandatory ? true : false)'
+    //btn  add lead source name plus button click function
+    $("#btnLdSourcePlus").click(function () {
+        $("#divLeadSource").show();
+            $('#LeadSourceID').removeAttr("required").hide();
+        $("#btnLdSourcePlus").hide();
+    });
+
+    //btn cancel lead source name
+    $("#btnLdSourceCancel").click(function () {
+        $("#txtboxldSource").val('');
+        $("#divLeadSource").hide();
+        $('#LeadSourceID').attr("required", isleadSource).show();
+        $("#btnLdSourcePlus").show();
+    });
+
+    /////////////////////////add lead status name///////////////////////
+
+
+    //btn  add lead status name plus button click function
+    $("#btnLdsNamePlus").click(function () {
+        $("#divLeadStatusName").show();
+        $('#LeadStatusID').removeAttr("required").hide();
+        $("#btnLdsNamePlus").hide();
+    });
+
+    //btn cancel lead status name
+    $("#btnLdsNameCancel").click(function () {
+        $("#txtboxLeadStatusName").val('');
+        $("#divLeadStatusName").hide();
+        $('#LeadStatusID').attr("required", true).show();
+        $("#btnLdsNamePlus").show();
+    });*@
+
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        debugger;
+        var Dp1 = $("#Extracol1dropdownId1").val();
+        if (Dp1 != null) {
+            $("#dropddownItemId1").val(Dp1).prop('selected', true);
+        }
+
+        var Dp2 = $("#Extracol1dropdownId2").val();
+        if (Dp2 != null) {
+            $("#dropddownItemId2").val(Dp2).prop('selected', true);
+        }
+
+        var Dp3 = $("#Extracol1dropdownId3").val();
+        if (Dp3 != null) {
+            $("#dropddownItemId3").val(Dp3).prop('selected', true);
+        }
+
+        var Dp4 = $("#Extracol1dropdownId4").val();
+        if (Dp4 != null) {
+            $("#dropddownItemId4").val(Dp4).prop('selected', true);
+        }
+
+        var Dp5 = $("#Extracol1dropdownId5").val();
+        if (Dp5 != null) {
+            $("#dropddownItemId5").val(Dp5).prop('selected', true);
+        }
+    });
+    var dateFormat = '@Session["DpDateFormat"]';
+
+    //DateofBirth, MarriageAnniversary, ExtraCol9, ExtraCol10, ExtraCol18, ExtraCol19, ExtraCol20 datepicker function
+    $(function () {
+        $("#DateofBirth").datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+            // maxDate: 0
+        });
+
+        $("#MarriageAnniversary").datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $("#ExtraCol9").datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $("#ExtraCol10").datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $("#ExtraCol18").datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $("#ExtraCol19").datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        $("#ExtraCol20").datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+    });
+
+    //FollowupDate datepicker function
+    $(function () {
+        var datepicker = $('#FollowDate');
+        var date = new Date();
+        //date.setDate(date.getDate() + 1);
+        if (datepicker.length > 0) {
+            datepicker.datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20,
+                startDate: date
+            }).on('changeDate', function (e) {
+                if ("#FollowDate-error" != undefined) {
+                    $("#FollowDate-error").hide();
+                }
+
+                // `e` here contains the extra attributes
+            });
+        }
+    });
+
+    //closed lead detail datepicker function
+    $(function () {
+        $('.followupdate1').datepicker({
+            dateFormat: dateFormat,
+            //maxDate: 0,
+            minDate: 1,
+            autoclose: true,
+            onSelect: function (date_text, inst) {
+            }
+        });
+    });
+    //expected closed date function
+    $(function () {
+        var datepicker2 = $('#ExpectedDate');
+        var date2 = new Date();
+        date2.setDate(date2.getDate() + 1);
+        if (datepicker2.length > 0) {
+            datepicker2.datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20,
+                startDate: date2
+            });
+        }
+    });
+
+
+    $(document).ready(function () {
+        debugger;
+        $('.dtc').datepicker();
+        var str = (window.location).href; // You can also use document.URL
+        //var koopId = str.substring(str.length - 1);
+
+        //if (koopId == '1') {
+        //    $('#leadhide').css('display', 'none');
+        //    $('#leadshow').css('display', 'block');
+        //}
+        //else {
+        //    $('#leadhide').css('display', 'block');
+        //    $('#leadshow').css('display', 'none');
+        //}
+    });
+</script>
+
+<script type="text/javascript">
+
+    $('#MobileNo').on("keypress", function (event1) {
+        if (event1.which != 8 && event1.which != 43 && event1.which != 45 && event1.which != 0 && (event1.which < 48 || event1.which > 57)) {
+            return false;
+        }
+        //var regEx = /^[+-]?\d+$/;
+        //if (regEx.test(event.originalEvent.clipboardData.getData('Text'))) {
+        //    // validated ok
+        //}
+    });
+    $('#CheckIndianNumber').on("keypress", function (event1) {
+        if (event1.which != 8 && event1.which != 43 && event1.which != 45 && event1.which != 0 && (event1.which < 48 || event1.which > 57)) {
+            return false;
+        }
+        var a = /^\d{10}$/;
+
+    });
+    $('#MobileNo').on('paste', function (event) {
+        //if (event.originalEvent.clipboardData.getData('Text').match(/[^\d]/)) {
+        //    event.preventDefault();
+        //}
+        event.preventDefault();
+        // prevent copying action
+        //alert(event.originalEvent.clipboardData.getData('Text'));
+        var withoutSpaces = event.originalEvent.clipboardData.getData('Text');
+
+        withoutSpaces = withoutSpaces.replace(/\s+/g, '');
+
+        $(this).val(withoutSpaces);
+        CheckValue();
+    });
+
+
+    ///////////////////existing number check function/////////////////////////
+    function CheckValue() {
+        $("#status").html("Checking...");
+        var mobileNo = $("#MobileNo").val();
+        if (mobileNo != '') {
+            $.post("/home/CheckMobilenumber", { number: mobileNo, sType: 'mobile' }, function (data) {
+                if (data == "ok") {
+                    $("#status").html('');
+                    $("#MobileNo").css("border-color", "Green");
+                }
+                else if (data == "exist") {
+                    $("#status").html('<font color="Red">On this no. lead already exists</font> <span term="' + mobileNo + '" style="cursor:pointer;color:blue" onclick="existLeadDetail(this);">click for detail.</span>');
+                    $("#MobileNo").css("border-color", "Red");
+                }
+                else if (data == "error") {
+                    $("#status").html('<font color="Red">Error occured !. Try again.</font>');
+                    $("#MobileNo").css("border-color", "Red");
+                }
+
+            });
+        }
+        else {
+            $("#status").html('<font color="Red">Please enter mobile no.</font>');
+            $("#MobileNo").css("border-color", "Red");
+
+        }
+    }
+
+    ///////////////////existing email check function/////////////////////////
+    function CheckEmailExist() {
+        $("#EmailStatus").html("Checking...");
+        var emailVal = $("#EmailId").val();
+        $.post("/home/CheckEmailExist", { emailId: emailVal, sType: '' }, function (data) {
+            if (data == "ok") {
+                $("#EmailStatus").html('');
+                $("#emailVal").css("border-color", "Green");
+            }
+            else if (data == "exist") {
+                $("#EmailStatus").html('<font color="Red">On this email. lead already exists</font> <span term="' + emailVal + '" style="cursor:pointer;color:blue" onclick="existLeadDetail(this);">click for detail.</span>');
+                $("#emailVal").css("border-color", "Red");
+            }
+            else if (data == "invalid") {
+                $("#EmailStatus").html('<font color="Red">Invalid email address !</font>');
+                $("#emailVal").css("border-color", "Red");
+            }
+            else if (data == "error") {
+                $("#EmailStatus").html('<font color="Red">Error occured !. Try again.</font>');
+                $("#emailVal").css("border-color", "Red");
+            }
+        });
+    }
+
+    //////////////////////////exist mobile no. or email show lead detail//////////////////////
+    function existLeadDetail(obj) {
+        var mobileOremail = $(obj).attr("term");
+        if (mobileOremail != '') {
+            $.post('/common/CommonSearch', { SearchTxt: mobileOremail }, function (data) {
+                jQuery('#existLeadModal').html(data);
+                jQuery('#existLeadModal').modal('show');
+            });
+        }
+
+    };
+
+
+    ///////////////////satate list function////////////////////////////////////
+    function StateList(CountryId, stateId) {
+
+        if (CountryId > 0) {
+            $.ajax({
+                url: '/Home/GetStateList',
+                data: { CountryID: CountryId },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+
+                    var itemadd = "";
+                    itemadd += "<option value='0'>Select State</option>";
+                    for (var it in data) {
+                        if (data[it].StateID == stateId) {
+                            itemadd += "<option value=" + data[it].StateID + " selected='true'>" + data[it].StateName + "</option>";
+                        }
+                        else {
+                            itemadd += "<option value=" + data[it].StateID + ">" + data[it].StateName + "</option>";
+                        }
+                    }
+                    if (itemadd != '') {
+                        $('#StateID').html(itemadd)
+                    }
+                    else {
+                        $('#StateID').html(itemadd)
+                    }
+                }
+            });
+        }
+        else {
+            swal("Alert !", "Please select state", "warning");
+        }
+    }
+
+    ///////////////////city list function////////////////////////////////////
+    function CityList(StateId, cityID) {
+        var CountryId = $('#CountryID').val();
+        if (CountryId > 0 && StateId > 0) {
+            $.ajax({
+                url: '/Home/GetCityList',
+                data: { CountryID: CountryId, StateID: StateId },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    var itemadd = "";
+                    itemadd += "<option value='0'>Select City</option>";
+                    for (var it in data) {
+                        if (data[it].CityID == cityID) {
+                            itemadd += "<option value=" + data[it].CityID + " selected='true'>" + data[it].CityName + "</option>";
+                        }
+                        else {
+                            itemadd += "<option value=" + data[it].CityID + ">" + data[it].CityName + "</option>";
+                        }
+                    }
+                    if (itemadd != '') {
+                        $('#CityID').html(itemadd)
+                    }
+                    else {
+                        $('#CityID').html(itemadd)
+                    }
+                }
+            });
+        }
+        else {
+            // swal("Alert !", "Please select city", "warning");
+        }
+    }
+
+    ///////////////////countryid change function for get timezone////////////////////
+    jQuery("#CountryID").change(function () {
+        //var countryCode = $('option:selected', this).attr('ccode');
+        var countryCode = $(this).find('option:selected').attr('ccode');
+        TimeZonesList(countryCode, '');
+
+    });
+
+
+    //Time Picker.............
+    $('#FollowupTime').timepicker({
+        defaultTime: false,
+        showInputs: false,
+        showMeridian: true,
+        'scrollDefaultNow': 'true',
+        'closeOnWindowScroll': 'true',
+    }).on('show.timepicker', function (e) {
+        //console.log('The time is ' + e.time.value);
+        //console.log('The hour is ' + e.time.hours);
+        //console.log('The minute is ' + e.time.minutes);
+        //console.log('The meridian is ' + e.time.meridian);
+
+        var time = e.time.hours + ':' + e.time.minutes + ' ' + e.time.meridian;
+        $(this).val(time);
+    });
+
+
+    //FollowupTime and TimeZoneName change function
+    jQuery('#FollowupTime,#TimeZoneName').on('change', function () {
+        GetFollowingDateinIST();
+    });
+
+
+    function GetFollowingDateinIST() {
+        var zonename = $('#TimeZoneName').val();
+        var fdate = $('#FollowDate').val();
+        var followupTime = $('#FollowupTime').val();
+        if (zonename != '' && fdate != '' && followupTime != '') {
+            $.ajax({
+                url: '/Zone/GetFollowupTimeInIST',
+                data: { ZoneName: zonename, FDate: fdate, ftime: followupTime },
+                dataType: 'json',
+                type: 'POST',
+                success: function (data) {
+                    if (data.Message == 'ok') {
+                        $('#FollowupTimeIST').val(data.DisplayedDateTime);
+                        $('#followupinIST').val(data.DisplayedDateTime);
+                        $("#FollowupTimeInTZ").val(data.SavedDateTime);
+                    }
+
+                }
+            });
+        }
+    }
+
+    //if (zonename != '' && fdate != '' && followupTime != '') {
+    //    $.post('/Zone/GetFollowupTimeInIST', { ZoneName: zonename, FDate: fdate, ftime: followupTime }, function (data) {
+    //    });
+    //}
+
+
+    ///////////////////TimeZonesList list function////////////////////////////////////
+    function TimeZonesList(cCode, tzName) {
+        if (cCode != '') {
+            $.ajax({
+                url: '/common/GetTimeZones',
+                data: { countryCode: cCode },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+                    var itemadd = $('#TimeZoneName').html('');
+                    itemadd.append('<option value="">Select Time Zone</option>');
+
+                    for (var it in data) {
+                        if (data[it].StandardTZName == tzName) {
+
+                            itemadd.append(`<option value="${data[it].StandardTZName}" selected="true">${data[it].zone_name}</option>`);
+                        }
+                        else {
+                            itemadd.append(`<option value="${data[it].StandardTZName}">${data[it].zone_name}</option>`);
+
+                            //if (it == 0) {
+                            //    itemadd.append(`<option value="${data[it].StandardTZName}" selected="true">${data[it].zone_name}</option>`);
+                            //}
+                            //else {
+                            //    itemadd.append(`<option value="${data[it].StandardTZName}">${data[it].zone_name}</option>`);
+                            //}
+                        }
+                    }
+                }
+            });
+        }
+        else {
+            swal("Alert !", "Please select time zone", "warning");
+        }
+    }
+
+
+    ///////////////////page load country selected function////////////////////////////////////
+    jQuery(document).ready(function () {
+        debugger;
+        var timeZoneName;
+        var ZoneName = '@Model.TimeZoneName';
+
+        if (ZoneName != '' && ZoneName != 'undefined') {
+            if (ZoneName == "IST") {
+                timeZoneName = "India Standard Time";
+            }
+            else if (ZoneName == "CST") {
+                timeZoneName = "Central Standard Time";
+            }
+            else if (ZoneName == "EST") {
+                timeZoneName = "Eastern Standard Time";
+            }
+            else if (ZoneName == "MST") {
+                timeZoneName = "Mountain Standard Time";
+            }
+            else if (ZoneName == "PST") {
+                timeZoneName = "Pacific Standard Time";
+            }
+            else {
+                timeZoneName = ZoneName;
+            }
+        }
+
+
+        $.get('/home/Bindbookdate', null, function (data) { chkBindBookingDate(data); });
+        var getdate = "";
+        function chkBindBookingDate(data) {
+            debugger;
+            var eventDates = {};
+            for (var i = 0; i < data.length; i++) {
+                if (data != null) {
+                    eventDates[new Date(data[i].extracol9)] = true;
+                    //var getdate0 = data[i].extracol9;
+                }
+            }
+
+            //var eventDates = {};
+            //eventDates[new Date(getdate0)] = true;
+
+            // datepicker
+            $('#bookingdate').datepicker({
+                dateFormat: 'MM/dd/yyyy',
+                beforeShowDay: function (date) {
+                    var wdate = date;
+                    var highlight = eventDates[date];
+                    if (highlight) {
+                        return [true, "event", 'Booking Date'];
+                    } else {
+                        return [true, '', ''];
+                    }
+                }
+            });
+
+        }
+
+        var cCode = $('#CountryID').find('option:selected').attr('ccode');//get selected country code
+        if (cCode != '' && cCode != 'undefined') {
+            TimeZonesList(cCode, timeZoneName);
+        }
+
+        var CountryID = $('#CountryID').val();
+        if (CountryID > 0) {
+            StateList(CountryID, 0);
+        }
+
+        var stateId = '@Model.StateID';
+        var cityId = '@Model.CityID';
+        if (CountryID > 0 && stateId > 0) {
+            StateList(CountryID, stateId);
+        }
+
+        if (stateId > 0 && cityId > 0) {
+            CityList(stateId, cityId)
+        }
+
+
+        @*var Getid = '@ViewContext.RouteData.Values["id"]';*@
+        var Getid = '@Model.LID';
+        //if (Getid != '') {
+        //    jQuery('.btnSave').val('Update');
+        //}
+
+        $(".allowInt").on("keypress keyup blur", function (event) {
+            this.value = this.value.replace(/[^0-9\.]/g, '');
+        });
+
+        //////////////////empty desctioption check function////////////////////////////////////
+        @*jQuery('#btnAddDescription').click(function () {
+                //var Desc = jQuery('#txtDescription').val();
+                var LeadId = '@ViewContext.RouteData.Values["id"]';
+                var value = CKEDITOR.instances["txtDescription"].getData();
+                if (value == "") {
+                    swal("Alert", "** Please enter description", "warning");
+                    return false;
+                }
+            });*@
+
+
+
+        $('.PopViewDesc').on('click', function () {
+            @*var leadid = '@ViewContext.RouteData.Values["id"]';*@
+            var leadid = $("#LID").val();
+            if (leadid != '') {
+                $.post('/home/ViewLeadDecsription', { Lid: leadid }, function (data) {
+                    jQuery('#ViewDescript').html(data);
+                    $($(this).data("#ViewDescript")).show();
+                });
+            }
+        });
+    });
+
+
+
+    //Start Here for Close Leads.........
+    jQuery('#btnSaveCloseWon').click(function () {
+        @*var LeadId = '@ViewContext.RouteData.Values["Id"]';*@
+        var LeadId = $("#LID").val();
+        var LdStatusId = $("#LeadStatusID").val();
+        if (LeadId != '') {
+            var ProjectDescription = jQuery('#txtProjectDescription').val();
+            var ProjectValue = jQuery('#txtProjectValue').val();
+            var AdvancePayment = jQuery('#txtAdvancePayment').val();
+            var AdvancePayDate = jQuery('#txtAdvancePayDate').val();
+            var ChequeNo = jQuery('#txtChequeNo').val();
+            var CompletionDate = jQuery('#txtCompletionDate').val();
+            var ExpiryDate = jQuery('#txtExpiryDate').val();
+            var License = jQuery('#txtLicense').val();
+            jQuery.post('/common/ManageLeadStatusCloseWon', { LID: LeadId, projectDescription: ProjectDescription, projectValue: ProjectValue, advancePayment: AdvancePayment, advancePayDate: AdvancePayDate, chequeNo: ChequeNo, completionDate: CompletionDate, expiryDate: ExpiryDate, license: License, LeadClosedId: LdStatusId }, function (data) {
+                if (data == 'success') {
+                    swal("Success !", 'Lead Closed successfully.', "success");
+                    $('#ModelCloseLeads').modal('hide');
+                    //jQuery('#spnCloseWonMsg').text('Lead Closed successfully.');
+                    //jQuery('#spnCloseWonMsg').css('color', 'green');
+                }
+                else if (data == 'error') {
+                    //jQuery('#spnCloseWonMsg').text('Sorry There is some problem Please try again.');
+                    //jQuery('#spnCloseWonMsg').css('color', 'red');
+                    swal("Alert !", "Sorry There is some problem Please try again", "warning");
+                }
+            });
+        }
+        else {
+            alert('Please create your lead after that you can save these information!.');
+        }
+    });
+
+
+    @*jQuery('.clsNotify').click(function () {
+                var leadid='@Model.LID';
+                if (leadid != '') {
+                    jQuery.post('/common/LeadNotify', { LeadID: leadid }, function (data) {
+                        if (data != '') {
+                            alert(data);
+                        }
+                    });
+                }
+            });
+            jQuery('.AlreadyNotify').click(function () {
+                alert('It is already notify.');
+            });*@
+
+    //    function numericOnly(element, e) {
+    //        // Allow: backspace, delete, tab, escape, enter and .
+    //        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+    //            // Allow: Ctrl+A
+    //            (e.keyCode == 65 && e.ctrlKey === true) ||
+    //            // Allow: home, end, left, right
+    //            (e.keyCode >= 35 && e.keyCode <= 39)) {
+    //            // let it happen, don't do anything
+    //            return;
+    //        }
+    //        // Ensure that it is a number and stop the keypress
+    //        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+    //            e.preventDefault();
+    //        }
+    //}
+
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery.noConflict();
+        jQuery('#LeadStatusID').change(function () {
+            //var LeadId = $(this).val();
+
+            var LId = $("#LID").val();
+            if (LId != '') {
+                var ddltext = $("#LeadStatusID option:selected").text();
+                $('#LeadStatus').val(ddltext);
+                $('#hdnLeadStatusName').val(ddltext);
+                if (ddltext == 'Closed') {
+                    //alert(ddltext);
+                    //var jq = $.noConflict();
+                    $.post('/common/getSaleDetail', { Lid: LId }, function (data) {
+                        //console.log(data);
+                        if (data != null) {
+                            jQuery('#txtProjectDescription').val(data.PROJECTDESCRIPTION);
+                            jQuery('#txtProjectValue').val(data.PROJECTVALUE);
+                            jQuery('#txtAdvancePayment').val(data.ADVANCEPAYMENT);
+                            jQuery('#txtAdvancePayDate').val(data.ADVANCEPAYMENTDATE);
+                            jQuery('#txtChequeNo').val(data.CHEQUENO);
+                            jQuery('#txtCompletionDate').val(data.PROJECTCOMPLETIONDATE);
+                            jQuery('#txtExpiryDate').val(data.EXPIRYDATE);
+                            jQuery('#txtLicense').val(data.LICENSE);
+                        }
+                        //$($(this).data("#ViewDescript")).show();
+                    });
+                    jQuery('#ModelCloseLeads').modal('show');
+                }
+            }
+            else {
+                //alert('Please! First create leads and then close the leads ');
+                swal("Alert !", "Please! First create lead and then close the lead", "warning");
+                //$('#LeadStatusID').val('Open');
+            }
+        });
+    });
+
+    //jQuery('.CreateAddDescription').on('click', function () {
+    //    var leadstatus = $("#LeadStatusID option:selected").text()
+    //    $('#hdnLeadStatusName').val(leadstatus);
+    //    //$('#LeadStatusName').html(leadstatus);
+    //});
+
+    ////////////////////////onchange leadstatus get vaule///////////////////////////////
+
+    //function changeLeadStatus(obj) {
+
+    //    var currVal = $(obj).val();
+    //    var currText = $(obj).find('option:selected').text();
+    //    $("#ldStatus").val(currVal);
+    //    $("#hdnLeadStatusName").val(currText);
+    //}
+
+    function SaveDescription() {
+
+        //////////////////empty desctioption check////////////////////////////////////
+        // var value = CKEDITOR.instances['txtDescription'].getData();
+        var value = $("#txtDescription").summernote('code');
+        if (value == "") {
+            swal("Alert", "** Please enter description", "warning");
+            return false;
+        }
+        var LeadID = $('#LID').val();
+        var fileData = new FormData();
+        var fileUpload = $("#Postfile").get(0);
+        var files = fileUpload.files;
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+        var editorval = value;
+        var LeadStatus = $('#hdnLeadStatusName').val();
+        //var LeadStatusId = $('#LdStatusID').val();
+        var LeadStatusId = $("#LeadStatusID").val();
+        fileData.append('LID', LeadID);
+        fileData.append('txtDescription', editorval);
+        fileData.append('LeadStatusName', LeadStatus);
+        fileData.append('LeadStatusId', LeadStatusId);//this is changed
+        if (LeadID != '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Home/AddDescriptionLead');
+            xhr.send(fileData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    swal("Success !", xhr.responseText, "success");
+                    $('#AddDescript').modal('hide');
+
+                    //$("#LeadStatusID").val(LeadStatusId).attr("selected", true);
+
+                }
+                else {
+                    swal("Alert !", '** Somthing went wrong.', "warning");
+                }
+            }
+            return false;
+        }
+        else {
+            swal("Alert !", '** Somthing went wrong.', "warning");
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    // jQuery ".Class" SELECTOR.
+    $(document).ready(function () {
+        $('.isDecimal').keypress(function (event) {
+            return isNumber(event, this)
+        });
+    });
+    // THE SCRIPT THAT CHECKS IF THE KEY PRESSED IS A NUMERIC OR DECIMAL VALUE.
+    function isNumber(evt, element) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (
+            (charCode != 45 || $(element).val().indexOf('-') != -1) &&      // “-” CHECK MINUS, AND ONLY ONE.
+            (charCode != 46 || $(element).val().indexOf('.') != -1) &&      // “.” CHECK DOT, AND ONLY ONE.
+            (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+</script>
+
+<script type="text/javascript">
+    $(".confirm").click(function () {
+        window.location.href;
+        //window.location.replace("/home/viewleads/?page=1");
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    function OnSuccess(response) {
+        swal("Success !", response, "success");
+    }
+    function OnFailure(response) {
+        swal("Alert !", response, "warning");
+    }
+</script>
+
+
+<style type="text/css">
+    /*css for some fields show text color*/
+    #leadForm .error {
+        color: red;
+    }
+
+    /*css for fields div show according to field priority*/
+    #blockContainer {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #blockContainer div {
+            flex: 1;
+        }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+
+    .addrow {
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    #mytabledata {
+        margin-bottom: 0;
+    }
+
+        #mytabledata th {
+            background: #333;
+            color: #fff;
+            padding: 8px 10px !imp rtant;
+            r: 1px oli #444 l-open;
+
+    {
+        ng-right: 0px imp rtant;
+        d-validation-error;
+
+    {
+        n-left: 2px;
+        : #ff0 00;
+        size: 12px !imp rtant;
+        ay: bloc;
+        n-top: 43px weight: norm l !imp rtant;
+        t-validation-error;
+
+    {
+        r: 1px oli #ff000;
+        round-color: #ffe ee;
+</style>
+
+@*<script type="text/javascript">
+
+        $('.addrow').click(function () {
+            $('#addtr').append('<tr><td><input type="text" class="form-control" /></td><td><textarea class="form-control"></textarea></td><td><textarea class="form-control"></textarea></td><td><input type="text" class="form-control dtc" /></td><td><a href="#" class="deleterow btn btn-danger btn-ripple"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></td> </tr>');
+            //$('.followupdate').datepicker({
+            //    dateFormat: "dd/mm/yy",
+            //    //maxDate: 0,
+            //    minDate: 0,
+            //    onSelect: function (date_text, inst) {
+            //    }
+            //});
+            $('.dtc').datepicker({
+                autoclose: true,
+                format: dateFormat,
+                validateOnBlur: false,
+                forceParse: true,
+                assumeNearbyYear: 20
+            });
+        });
+
+        $('.deleterow').click(function () {
+            alert('dsfsd');
+            $(this).parent().parent().hide();
+        });
+    </script>*@
+

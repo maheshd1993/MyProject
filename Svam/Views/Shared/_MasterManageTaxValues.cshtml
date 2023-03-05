@@ -1,0 +1,123 @@
+﻿
+@model List<Svam.Models.TaxvalesDetailsModel>
+<div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    @using (Html.BeginForm("addTaxvaluesDetails", "master", FormMethod.Post))
+    {
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Manage Tax Details</h4>
+        </div>
+        <div class="modal-body over-hidden">
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div style="width: 40%; float: left; color: crimson; font-weight: bold;">
+                        <p>@TempData["Tax-GroupName"]  <input  type="hidden" name="TGid" value="@TempData["Tax-GroupId"]" /></p>
+                    </div>
+                    <div class="rightbtntop">
+                        <a href="javascript:void(0)" style="width: 100%;" class="addbtn" id="addrowbtnTaxVal"><i aria-hidden="true" class="fa fa-plus"></i>Add Row</a>
+
+                    </div>
+                    <table class="table table-bordered modaltable9">
+                        <thead>
+                            <tr>
+                                <th width="200">Tax Name</th>
+                                <th width="100">Value</th>
+                                <th width="100">Surcharge</th>
+                                <th width="50">Action</th>
+                            </tr>
+
+                        </thead>
+                        <tbody id="taxValueDetails">
+                            @if (Model.Count>0)
+                            {
+
+                                int j = 0;
+                                foreach (var i in Model)
+                                {
+                                    var tblid = Model[j].Id;
+                                    
+                                     <tr>
+                                    <td>
+                                        @Html.HiddenFor(em=>em[j].Id)
+                                        @Html.TextBoxFor(em => em[j].TaxName, new { @class = "form-control", @placeholder = "Tax Name"})
+                                        @Html.ValidationMessageFor(em => em[j].TaxName)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(em => em[j].TaxValue, new { @class = "form-control", @placeholder = "Tax Values", @style = "float:left;width:90%;" })<span style="color: red; font-size: 19px;">%</span>
+                                    </td>
+                                         <td>
+                                        @Html.TextBoxFor(em => em[j].Surcharge, new { @class = "form-control", @placeholder = "Tax Values", @style = "float:left;width:90%;" })<span style="color: red; font-size: 19px;">%</span>
+                                    </td>
+
+                                        @if (tblid > 0)
+                                        {
+                                            <td class="actiontd"><a href="#" data-id="@tblid" class="dltrow deleterow deldata">Delete</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="actiontd"></td>
+                                        }
+                                    </tr>
+                                    j++;
+			                        } 
+                            }
+                           
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <input type="submit" class="btn mainbtn2" value="Submit">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+    }
+</div>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#addrowbtnTaxVal').click(function () {
+            var rowCount = $('#taxValueDetails tr').length;
+            var ddlclass = "ddlitem" + rowCount;
+            $('#taxValueDetails').append('<tr><td><input type="text" class="form-control" name="[' + rowCount + '].TaxName" required="required" placeholder="Tax Name"></td><td><input type="text" class="form-control" name="[' + rowCount + '].TaxValue" required="required" style="float:left;width:90%;" placeholder="Tax Value"/><span style="color: red;font-size: 19px;">%</span></td><td><input type="text" class="form-control" name="[' + rowCount + '].Surcharge" required="required" style="float:left;width:90%;" placeholder="Tax Value"/><span style="color: red;font-size: 19px;">%</span></td><td class="actiontd"><a class="dltrow deleterow" onclick="abc(this)" href="javascript:void(0)">Remove</a></td></tr>');
+
+        });
+    });
+
+    function abc(param) {
+        var self = jQuery(param);
+        self.closest('tr').hide();
+    }
+
+
+    jQuery('.deldata').click(function () {
+        var self = jQuery(this);
+        if (confirm('Are you sure want to delete this added tax?')) {
+            var id = self.data('id');
+            jQuery.get('/master/deletetaxingroupById', { Id: id }, function (data) {
+                if (data == 'done') {
+                    alert('Recored deleted successfully');
+                    self.closest('tr').hide();
+                }
+                else {
+                    alert(data);
+                }
+            });
+        }
+        else {
+            return false;
+        }
+       
+    });
+</script>
+   

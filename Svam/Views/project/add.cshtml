@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "Add-Project-Name";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+@model Traders.Models.AddProjectModel
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info new_activity_form">
+                        <div class="panel-heading">
+                            <strong>Create Project</strong>
+                        </div>
+                        <div class="panel-body body_pnl">
+                            <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                @using (Html.BeginForm("add", "project", FormMethod.Post))
+                                {
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(em => em.ProjectName, new { @class = "form-control", @autocomplete = "off",@placeholder="Enter Project Name", translate = "no" })
+                                        @Html.ValidationMessageFor(em => em.ProjectName)
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <input id="Submit1" class="btn btn-success" type="submit" value="Submit" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table  table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th style="width:5%">#</th>
+                                <th style="width:50%">Project Name </th>
+                                <th style="width:8%">Add Module </th>
+                                <th style="width:5%">Edit</th>
+                                <th style="width:8%">Status</th>
+                               @* <th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (ViewBag.result.Count>0)
+                            {
+                                foreach (var item in ViewBag.result)
+                                {
+                                <tr>
+                                    <td translate="no" data-column="Sr. No."><a href="/home/NewsEvent/@item.ProjectId">@i</a></td>
+                                    <td translate="no" data-column="Porject Name">@item.ProjectName</td>
+                                    <td data-column="Add Module"><a href="/project/addmodule/?pid=@item.ProjectId"><i class="fa fa-plus-square" aria-hidden="true"></i>Add Module</a></td>
+                                    <td data-column="Edit"><a href="/project/add/@item.ProjectId"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                   @* <td data-column="Status">@item.Status</td>*@
+                                    @*<td data-column="Action"><a href="#" onclick="return confirm('Are you sure want to delete this news events!')"><i class="fa fa-trash"></i></a></td>*@
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <button type="button" class="btn btn-success" sts="active" url="/project/ChangeStatus/@item.ProjectId" onclick="changeStatus(this);">Active</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" sts="inactive" url="/project/ChangeStatus/@item.ProjectId" onclick="changeStatus(this);">Inactive</button>
+                                        }
+                                    </td>
+
+                                </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" style="text-align:center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+    //////////////////////////onclick button to change status by id/////////////////
+    function changeStatus(obj) {
+
+        var curr = $(obj);
+        var txtStatus = curr.attr("sts");
+        var url = curr.attr("url");
+        $.post(url, function (data) {
+            if (data == "ok") {
+                if (txtStatus == "active") {
+                    curr.removeClass("btn-success").addClass("btn-danger");
+                    curr.text("Inactive");
+                    curr.attr("sts", "inactive");
+                }
+                else {
+                    curr.removeClass("btn-danger").addClass("btn-success");
+                    curr.text("Active");
+                    curr.attr("sts", "active");
+                }
+            }
+            else {
+                swal("Alert !", '** Somthing went wrong.', "warning");
+            }
+        });
+    }
+
+</script>
