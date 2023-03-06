@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Linq;
 using System.Web.Mvc;
 using Svam.EF;
@@ -7,13 +8,21 @@ using Traders.Models;
 using Svam.Models;
 using Svam.UtilityManager;
 using System.Globalization;
+using Svam._Classes;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using System.Collections.Generic;
 
 namespace Svam.Controllers
 {
     public class EmpController : Controller
     {
         niscrmEntities db = new niscrmEntities();
-        public ActionResult Attandance(string StartDate, string EndDate , int? CompanyTypeID)
+        apiclasses apiclass = new apiclasses();
+        DataUtility du = new DataUtility();
+        public ActionResult Attandance(string StartDate, string EndDate, int? CompanyTypeID)
         {
             EmployeeAttandaceReportModel EARM = new EmployeeAttandaceReportModel();
             try
@@ -94,7 +103,7 @@ namespace Svam.Controllers
                     if (CompanyTypeID != null)
                     {
 
-                        DataTable GetTodayLeads = DataAccessLayer.GetDataTable(" call CRM_AllEmpAttandanceByDateCompanyType('" + MStartDate + "','" + MEndDate + "'," + BranchID + "," + CompanyID + ","+CompanyTypeID+")");
+                        DataTable GetTodayLeads = DataAccessLayer.GetDataTable(" call CRM_AllEmpAttandanceByDateCompanyType('" + MStartDate + "','" + MEndDate + "'," + BranchID + "," + CompanyID + "," + CompanyTypeID + ")");
                         if (GetTodayLeads.Rows.Count > 0)
                         {
                             EARM.EmpAttandanceRepotModelList = (from dr in GetTodayLeads.AsEnumerable()
@@ -146,7 +155,7 @@ namespace Svam.Controllers
                         int ExtraHoursDay = 0;
                         int SatAndSun = 0;
                         string Companyname = "";
-                        var Getcompanydetails = db.crm_usercompanytypetbl.Where(em => em.Id == item.CompanyTypeId  && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+                        var Getcompanydetails = db.crm_usercompanytypetbl.Where(em => em.Id == item.CompanyTypeId && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
                         foreach (var Aitem in getAttandanceByEmp)
                         {
                             //if (Aitem.LogZoneTime == "IST")
@@ -277,7 +286,7 @@ namespace Svam.Controllers
                             ExtraHoursDay = ExtraHoursDay,
                             SatAndSun = SatAndSun,
                             CompanyTypeID = item.CompanyTypeId,
-                            CompanyName= Getcompanydetails.CompanyTypeName,
+                            CompanyName = Getcompanydetails.CompanyTypeName,
                             Absent = calday - (Loginontime + Loginofftime + SatAndSun),
                             Total = calday,
                         };
@@ -494,5 +503,230 @@ namespace Svam.Controllers
             }
             return PartialView("EmpAttendaceDetail", EARM);
         }
+
+        public ActionResult AddExpense(Int64? ExpenseID)
+        {
+            ExpenseModel EXP = new ExpenseModel();
+            try
+            {
+                Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+                Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
+                var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.ProfileId != null).OrderBy(em => em.Fname).ToList();
+                if (getEmployeeList != null)
+                {
+                    List<ExpenseModel> CUMEmployeeList = new List<ExpenseModel>();
+                    foreach (var item in getEmployeeList)
+                    {
+                        ExpenseModel CUMEmployee = new ExpenseModel();
+                        CUMEmployee.EmployeeID = item.Id;
+                        CUMEmployee.FullName = item.Fname + ' ' + item.Lname;
+                        CUMEmployeeList.Add(CUMEmployee);
+                    }
+                    EXP.EmployeeList = CUMEmployeeList;
+                }
+
+                //Call Only Employee is Login
+                if (Convert.ToString(Session["UserType"]) != "SuperAdmin")
+                {
+                    int UID = Convert.ToInt32(Session["UID"]);
+                    EXP.EmployeeList = EXP.EmployeeList.Where(em => em.EmployeeID == UID).ToList();
+                }
+
+                //List<LeaveRequestModel> LeaveTypeList = new List<LeaveRequestModel>
+                //{
+                //    new LeaveRequestModel { LeaveTypeID =1, LeaveName = "Casual Leave" },
+                //    new LeaveRequestModel { LeaveTypeID =2, LeaveName = "Medical Leave" }
+                //};
+                //LRM.LeaveTypeList = LeaveTypeList;
+
+                //var geterrortypeList = db.crm_leavetypename.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).ToList();
+                //if (geterrortypeList.Count > 0)
+                //{
+                //	List<LeaveRequestModel> LeaveTypeList = new List<LeaveRequestModel>();
+                //	foreach (var item in geterrortypeList)
+                //	{
+                //		LeaveRequestModel cError = new LeaveRequestModel();
+                //		cError.LeaveTypeID = item.ID;
+                //		cError.LeaveName = item.LeaveName;
+                //		LeaveTypeList.Add(cError);
+                //	}
+                //	LRM.LeaveTypeList = LeaveTypeList;
+                //}
+
+                //if (RequestID > 0)
+                //{
+                //	var GetEmployeeLeave = db.crm_leaverequest_tbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.Id == RequestID).FirstOrDefault();
+                //	if (GetEmployeeLeave != null)
+                //	{
+                //		LRM.RequestID = GetEmployeeLeave.Id;
+                //		LRM.EmployeeID = GetEmployeeLeave.EmployeeID;
+                //		LRM.LeaveTypeID = GetEmployeeLeave.LeaveTypeID;
+                //		LRM.Subject = GetEmployeeLeave.Subject;
+                //		LRM.Message = GetEmployeeLeave.Message;
+                //		LRM.ProcessStatus = GetEmployeeLeave.ProcessStatus;
+                //	}
+                //}
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                TempData["alert"] = "There is some problem";
+                return Redirect("/Emp/AddExpense");
+            }
+            return View(EXP);
+        }
+
+
+        [HttpPost]
+        public ActionResult AddExpense(ExpenseModel EXP, Int32? ExpenseID)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            try
+            {
+                if (ExpenseID > 0)
+                {
+                    //var getUpdateRecord = db.crm_leaverequest_tbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID && em.Id == RequestID).FirstOrDefault();
+                    //if (getUpdateRecord != null)
+                    //{
+                    //	getUpdateRecord.EmployeeID = LRM.EmployeeID;
+                    //	getUpdateRecord.LeaveTypeID = LRM.LeaveTypeID;
+                    //	getUpdateRecord.Subject = LRM.Subject;
+                    //	getUpdateRecord.Message = LRM.Message;
+                    //	getUpdateRecord.RequestDate = Constant.GetBharatTime();
+                    //	db.SaveChanges();
+                    //	TempData["success"] = "Leave updated successfully";
+                    //	return Redirect("/LeaveManagement/LeaveRequestView");
+                    //}
+                    //else
+                    //{
+                    //	TempData["alert"] = "There is some problem";
+                    return Redirect("/Emp/AddExpense");
+                    //}
+                }
+                else
+                {
+                    InsertExpense(EXP);
+
+                    //crm_leaverequest_tbl CLM = new crm_leaverequest_tbl();
+                    //CLM.EmployeeID = LRM.EmployeeID;
+                    //CLM.LeaveTypeID = LRM.LeaveTypeID;
+                    //CLM.Subject = LRM.Subject;
+                    //CLM.Message = LRM.Message;
+                    //CLM.ProcessStatus = "In Process";
+                    //CLM.RequestDate = Constant.GetBharatTime();
+                    //CLM.CompanyID = CompanyID;
+                    //CLM.BranchID = BranchID;
+                    //db.crm_leaverequest_tbl.Add(CLM);
+                    //db.SaveChanges();
+                    //TempData["success"] = "Leave added successfully";
+                    return Redirect("/Emp/ExpenseView");
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                TempData["alert"] = "There is some problem";
+                return Redirect("/Emp/AddExpense");
+            }
+        }
+
+        public string InsertExpense(ExpenseModel expense)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            int res = 0;
+
+            res = du.ExecuteSql("insert into crm_expense_request_tbl (EmployeeId,ExpenseTypeID,travelledKMS,expense,companyId,BranchId,RequestDate,ProcessDate,ProcessStatus) " +
+                                    "values('" + expense.EmployeeID + "','" + expense.ExpanseTypeID + "','" + expense.travelledKMS + "','" + expense.expense + "','" + CompanyID + "','" + BranchID + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','In Process')");
+
+            object insertedexpenseId = du.GetScalar("SELECT LAST_INSERT_ID();");
+
+            //	var lastsynciduserlogin = du.GetDataTable("SELECT MAX(CAST(SUBSTR(TRIM(SyncID),2) AS UNSIGNED))as syncid FROM t_userlogin  WHERE CompanyID='" + register.CompanyID + "' and SyncID RLIKE 'O'");
+            //int synciduserlogin = Convert.ToInt32(lastsynciduserlogin.Rows[0]["syncid"]);
+            //synciduserlogin = synciduserlogin + 1;
+            //res = du.ExecuteSql("insert into t_userlogin (user_name,user_email,user_mobile,user_password,user_address,cust_id,CreatedDate,IsActive,CompanyID,flag,SyncID)" +
+            //					"values('" + register.Name + "','" + register.Email + "','" + register.Mobile + "','" + register.Password + "','" + register.Address + "'," + insertedcustid.ToString() + ",'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','yes','" + register.CompanyID + "','N','" + "O" + synciduserlogin.ToString() + "')");
+            if (res > 0)
+            {
+                return "Registered Successfully";
+            }
+            else
+            {
+                return "Try Again";
+            }
+        }
+
+        public ActionResult ExpenseView(Int32? EmployeeID)
+        {
+            ExpenseModel EXP = new ExpenseModel();
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
+            EXP.DateFormat = Constant.DateFormat();//get date format by company id
+            Session["DpDateFormat"] = Constant.JsDateFormat(CompanyID);//get date picker date format by companyid
+
+            var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.ProfileId != null).OrderBy(em => em.Fname).ToList();
+            if (getEmployeeList != null)
+            {
+                List<ExpenseModel> CUMEmployeeList = new List<ExpenseModel>();
+                foreach (var item in getEmployeeList)
+                {
+                    ExpenseModel CUMEmployee = new ExpenseModel();
+                    CUMEmployee.EmployeeID = item.Id;
+                    CUMEmployee.FullName = item.Fname + ' ' + item.Lname;
+                    CUMEmployeeList.Add(CUMEmployee);
+                }
+                EXP.EmployeeList = CUMEmployeeList;
+            }
+            //DataTable getEmployeeLeaveRequest = DataAccessLayer.GetDataTable("call CRM_RequestLeaveList(" + BranchID + "," + CompanyID + ")");
+            DataTable getExpanse = DataAccessLayer.GetDataTable("call crm_ExpenseView(" + BranchID + "," + CompanyID + ")");
+
+            if (getExpanse.Rows.Count > 0)
+            {
+                List<ExpenseModel> EXPList = new List<ExpenseModel>();
+                for (int i = 0; i < getExpanse.Rows.Count; i++)
+                {
+                    ExpenseModel EModel = new ExpenseModel();
+                    EModel.EmployeeID = Convert.ToInt32(getExpanse.Rows[i]["EmployeeID"]);
+                    EModel.ExpenseTypeId = Convert.ToInt32(getExpanse.Rows[i]["ExpenseTypeId"]);
+                    EModel.travelledKMS = Convert.ToString(getExpanse.Rows[i]["travelledKMS"]);
+                    EModel.expense = Convert.ToString(getExpanse.Rows[i]["expense"]);
+                    EModel.ProcessStatus = Convert.ToString(getExpanse.Rows[i]["ProcessStatus"]);
+                    EModel.RequestDate = Convert.ToString(getExpanse.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
+                    if (!String.IsNullOrWhiteSpace(Convert.ToString(getExpanse.Rows[i]["ProcessDate"])))
+                    {
+                        EModel.ProcessDate = Convert.ToString(getExpanse.Rows[i]["ProcessDate"]);
+                    }
+                    else
+                    {
+                        EModel.ProcessDate = string.Empty;
+                    }
+                    //EModel.EmployeeCode = Convert.ToString(getExpanse.Rows[i]["EmployeeCode"]);
+                    EModel.FullName = Convert.ToString(getExpanse.Rows[i]["FullName"]);
+                    EXPList.Add(EModel);
+                }
+                EXP.ExpenseEmployeeList = EXPList.OrderByDescending(em => em.RequestDate).ToList();
+
+                if (EXP.ExpenseEmployeeList.Count > 0)
+                {
+                    if (Convert.ToString(Session["UserType"]) != "SuperAdmin" && Convert.ToString(Session["UserType"]) != "")
+                    {
+                        Int32 UID = Convert.ToInt32(Session["UID"]);
+                        EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.EmployeeID == UID).ToList();
+                    }
+
+                    if (EmployeeID > 0 && Convert.ToString(Session["UserType"]) == "SuperAdmin")
+                    {
+                        EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.EmployeeID == EmployeeID).ToList();
+                    }
+                }
+            }
+
+
+            return View(EXP);
+        }
+
     }
 }
