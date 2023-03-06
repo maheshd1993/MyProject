@@ -23,7 +23,11 @@ namespace Svam.Controllers
         {
             return View();
         }
-
+        public ActionResult DownloadFile(string filename)
+        {
+            string FullPath = System.IO.Path.Combine(Server.MapPath("~/MyFiles/"), filename);
+            return File(FullPath, "application/vnd.openxmlformats - officedocument.spreadsheetml.sheet", "LeadUpload.xlsx");
+        }
         public ActionResult Form16Request(Int64? RequestID)
         {
             Form16RequestModel LRM = new Form16RequestModel();

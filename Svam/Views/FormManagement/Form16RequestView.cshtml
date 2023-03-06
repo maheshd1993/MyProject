@@ -62,7 +62,6 @@
                                 <th>Grant Date</th>
                                 <th>File Name</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,7 +97,12 @@
                                 <td translate="no" data-column="Subject">Form 16</td>
                                 <td translate="no" data-column="Request Date">@RequestDate</td>
                                 <td translate="no" data-column="Grant Date">@ProcessDate</td>
-                                <td translate="no" data-column="File Name">@item.FileName</td>
+                                <td translate="no" data-column="File Name">
+
+                                    <a href="/FormManagement/DownloadFile/?filename= @item.FileName" class="btn btn-warning lead1" style="color: white;  cursor: pointer;font-size: 11.5px;" title="Download Lead Sample"><i class="fa fa-download" aria-hidden="true"></i>&nbsp; @item.FileName </a>
+
+                                   
+                                </td>
                                 @{ string textClass = string.Empty;}
                                 @if (item.ProcessStatus == "In Process")
                                 {
@@ -119,8 +123,7 @@
                                         <a class="PopViewDesc" data-toggle="modal" data-target="#ViewComment" data-requestid="@item.RequestID" style="cursor:pointer"><i class="glyphicon glyphicon-info-sign"></i></a>
                                     }
                                 </td>
-                                <td data-column="Action"><a href="@Url.Action("LeaveRequest", "LeaveManagement", new { RequestID = item.RequestID })"><i class="fa fa-eye" aria-hidden="true" title="View Leave Details"></i></a></td>
-                            </tr>i++;
+                                  </tr>i++;
                                     }
                                 }
                                 else
