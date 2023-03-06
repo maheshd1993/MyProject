@@ -58,7 +58,7 @@
 								<th>Request Date</th>
 								<th>Grant Date</th>
 								<th>Status</th>
-								<th>Action</th>
+								@*<th>Action</th>*@
 							</tr>
 						</thead>
 						<tbody>
@@ -114,7 +114,7 @@
 													<a class="PopViewDesc" data-toggle="modal" data-target="#ViewComment" data-requestid="@item.ExpenseID" style="cursor:pointer"><i class="glyphicon glyphicon-info-sign"></i></a>
 												}
 											</td>
-											<td data-column="Action"><a href="@Url.Action("AddExpense", "Emp", new { ExpenseID = item.ExpenseID })"><i class="fa fa-eye" aria-hidden="true" title="View Expense Details"></i></a></td>
+											@*<td data-column="Action"><a href="@Url.Action("AddExpense", "Emp", new { ExpenseID = item.ExpenseID })"><i class="fa fa-eye" aria-hidden="true" title="View Expense Details"></i></a></td>*@
 										</tr>i++;
 									}
 								}

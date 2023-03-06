@@ -533,12 +533,12 @@ namespace Svam.Controllers
                     EXP.EmployeeList = EXP.EmployeeList.Where(em => em.EmployeeID == UID).ToList();
                 }
 
-                //List<LeaveRequestModel> LeaveTypeList = new List<LeaveRequestModel>
-                //{
-                //    new LeaveRequestModel { LeaveTypeID =1, LeaveName = "Casual Leave" },
-                //    new LeaveRequestModel { LeaveTypeID =2, LeaveName = "Medical Leave" }
-                //};
-                //LRM.LeaveTypeList = LeaveTypeList;
+                List<ExpenseModel> LeaveTypeList = new List<ExpenseModel>
+                {
+                    new ExpenseModel { ExpanseTypeID =1, ExpanseTypeName = "Travel Expense" },
+                    new ExpenseModel { ExpanseTypeID =2, ExpanseTypeName = "Medical Expense" }
+                };
+                EXP.ExpenseTypeList= LeaveTypeList;
 
                 //var geterrortypeList = db.crm_leavetypename.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).ToList();
                 //if (geterrortypeList.Count > 0)
