@@ -28,7 +28,7 @@ namespace Traders.Controllers
     public class commonController : Controller
     {
         niscrmEntities db = new niscrmEntities();
-
+        Svam.DataUtility du = new Svam.DataUtility();
         #region Validate-User
         public ActionResult ValidateUserName(string UserName)
         {
@@ -744,15 +744,20 @@ namespace Traders.Controllers
                     var TdAssignLead = db.crm_createleadstbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID && em.LeadStatus != "Not Interested").ToList();
                     var TdAssignLeadlist = TdAssignLead.Where(a => Convert.ToDateTime(Convert.ToDateTime(a.AssignedDate).ToString("dd/MM/yyyy")) == TodayDate.Date).ToList();
                     TdAssignLeadCount = TdAssignLeadlist.Count();
-                    TotalLeads = TdFollowupCount + TdLeadCount + TdAssignLeadCount;
+                    
 
                     var TdAssignForm16list = db.crm_formrequest_tbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID && em.ProcessStatus=="In Process").ToList();
-
+                    var dtExpense = du.GetScalar("Select count(*) from crm_expense_request_tbl  where ProcessStatus='In Process'");
+                    if(dtExpense!=null)
+                    {
+                        model.TodayAssignExpenseCount =Convert.ToInt32(dtExpense);
+                    }
+                    TotalLeads = TdFollowupCount + TdLeadCount + TdAssignLeadCount+ TdAssignForm16list.Count()+ model.TodayAssignExpenseCount;
                     model.TotalAllLeadCount = TotalLeads;
                     model.TodayFollowUpCount = TdFollowupCount;
                     model.TodayNewLeadCount = TdLeadCount;
                     model.TodayAssignLeadCount = TdAssignLeadCount;
-                    model.TodayAssignExpenseCount = 1;
+                   
                     model.TodayAssignForm16Count = TdAssignForm16list.Count();
                     #endregion
                 }

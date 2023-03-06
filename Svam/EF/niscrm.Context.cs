@@ -118,6 +118,7 @@ namespace Svam.EF
         public virtual DbSet<crm_leadsupdatetblhistory> crm_leadsupdatetblhistory { get; set; }
         public virtual DbSet<crm_leaverequest_tbl> crm_leaverequest_tbl { get; set; }
         public virtual DbSet<crm_formrequest_tbl> crm_formrequest_tbl { get; set; }
+        public virtual DbSet<crm_formrequest_tbl> crm_expense_request_tbl { get; set; }
         public virtual DbSet<crm_leavetypename> crm_leavetypename { get; set; }
         public virtual DbSet<crm_mappeduserotherbranch> crm_mappeduserotherbranch { get; set; }
         public virtual DbSet<crm_newseventtbl> crm_newseventtbl { get; set; }

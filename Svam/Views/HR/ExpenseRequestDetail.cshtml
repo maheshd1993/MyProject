@@ -1,0 +1,143 @@
+﻿@{
+	ViewBag.Title = "ExpenseRequestDetail";
+	Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+}
+
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+@{
+	var al = TempData["success"];
+	var alchk = TempData["alert"];
+}
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+
+@model Traders.Models.ExpenseModel
+<div class="maincontainer">
+	<div class="col-sm-12">
+		@using (Html.BeginForm("EmployeExpenseProcess", "HR", FormMethod.Post))
+		{
+			@Html.HiddenFor(em => em.ExpenseID)
+			@Html.Hidden("UserType", Convert.ToString(Session["UserType"]))
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<strong>Employee Expense Detail</strong>
+					<div class="row" style="padding-right: 2.5%;">
+						<div class="col-sm-9 padd0"></div>
+						<div class="col-sm-3 padd0 developer_paddo">
+							@if (Model.ProcessStatus == "In Process")
+							{
+								<input type="submit" name="Submit" value="Send Request" class="btn btn-success btnSave pull-right" id="btnSave">
+							}
+							<input type="button" value="Back to Expense List" class="btn btn-danger  pull-right" style="margin-right: 5px;" onclick="location.href = '/Hr/ExpenseRequest'" />
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label col-sm-2">Employee Name</label>
+							<div class="col-sm-3">
+								@{var Disabled = "";}
+								@if (Convert.ToString(Session["UserType"]) != "SuperAdmin")
+								{
+									Disabled = "disabled";
+									@Html.HiddenFor(em => em.EmployeeID, new { @value = Convert.ToString(Session["UID"]) })
+								}
+
+								@Html.DropDownListFor(em => em.EmployeeID, new SelectList(Model.EmployeeList, "EmployeeID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+								@Html.ValidationMessageFor(em => em.EmployeeID)
+							</div>
+						</div>
+						@*<div class="form-group">
+							<label class="control-label col-sm-2">Leave Name</label>
+							<div class="col-sm-3">
+								@if (Model.LeaveTypeList != null && Model.LeaveTypeList.Count > 0)
+								{
+									@Html.DropDownListFor(em => em.LeaveTypeID, new SelectList(Model.LeaveTypeList, "LeaveTypeID", "LeaveName"), "Select Leave Type", htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+								}
+								else
+								{
+									@Html.DropDownListFor(em => em.LeaveTypeID, Enumerable.Empty<SelectListItem>(), "Select Leave Type", htmlAttributes: new { @class = "form-control ListItemCapitalize" })
+								}
+								@Html.ValidationMessageFor(em => em.LeaveTypeID)
+							</div>
+						</div>*@
+						<div class="form-group">
+							<label class="control-label col-sm-2">TravelledKms</label>
+							<div class="col-sm-10">
+								@Html.TextBoxFor(em => em.travelledKMS, new { @class = "form-control", @autocomplete = "off" })
+								@Html.ValidationMessageFor(em => em.travelledKMS)
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">Expense </label>
+							<div class="col-sm-10">
+								@Html.TextBoxFor(em => em.expense, new { @class = "form-control", @autocomplete = "off" })
+								@Html.ValidationMessageFor(em => em.expense)
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">Status</label>
+							<div class="col-sm-3">
+								@Html.DropDownListFor(model => model.ProcessStatus, new List<SelectListItem>
+										{ new SelectListItem{Text="Approved", Value="Approved"},
+									   new SelectListItem{Text="Denied", Value="Denied"}}, "Select Status", htmlAttributes: new { @class = "form-control", @onchange = "StatusComment()" })
+							</div>
+						</div>
+						<div class="form-group" id="divComment" style="display: none;">
+							<label class="control-label col-sm-2">Comment </label>
+							<div class="col-sm-5">
+								@Html.TextAreaFor(em => em.Comment, new { @class = "form-control textAreaResize", @rows = "5" })
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+		if ($('#ProcessStatus').val() == 'Denied') {
+			$('#divComment').attr("style", "display:block");
+		}
+		else {
+			$('#divComment').attr("style", "display:none");
+		}
+	});
+
+	function StatusComment() {
+		if ($('#ProcessStatus').val() == 'Denied') {
+			$('#divComment').attr("style", "display:block");
+		}
+		else {
+			$('#divComment').attr("style", "display:none");
+		}
+	}
+</script>
+<style>
+	.field-validation-error {
+		margin-left: 2px;
+		color: #ff0000;
+		font-size: 12px !important;
+		display: block;
+		margin-top: 43px;
+		font-weight: normal !important;
+	}
+
+	.input-validation-error {
+		border: 1px solid #ff0000;
+		background-color: #ffeeee;
+	}
+</style>
+

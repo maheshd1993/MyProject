@@ -20,7 +20,7 @@ namespace Traders.Controllers
     public class HRController : Controller
     {
         niscrmEntities db = new niscrmEntities();
-
+        Svam.DataUtility du = new Svam.DataUtility();
         public ActionResult Dashboard()
         {
             ViewInterviewSchedule VISM = new ViewInterviewSchedule();
@@ -2287,6 +2287,214 @@ namespace Traders.Controllers
                 return Redirect("/HR/EmployeeLeaveRequestDetail");
             }
         }
+
+        public ActionResult ExpenseRequest(Int32? EmployeeID, string p_status)
+        {
+            ExpenseModel EXP = new ExpenseModel();
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
+            if (p_status == null)
+            {
+                p_status = "In Process";
+            }
+            EXP.DateFormat = Constant.DateFormat();//get date format by company id
+                                                   //Session["DpDateFormat"] = Constant.JsDateFormat(CompanyID);//get date picker date format by companyid
+
+            var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID /*&& em.ProfileId != null*/).OrderBy(em => em.Fname).ToList();
+            if (getEmployeeList != null)
+            {
+                List<ExpenseModel> CUMEmployeeList = new List<ExpenseModel>();
+                foreach (var item in getEmployeeList)
+                {
+                    ExpenseModel CUMEmployee = new ExpenseModel();
+                    CUMEmployee.EmployeeID = item.Id;
+                    CUMEmployee.FullName = item.Fname + ' ' + item.Lname + '(' + item.EmployeeCode + ')';
+                    CUMEmployeeList.Add(CUMEmployee);
+                }
+                EXP.EmployeeList = CUMEmployeeList;
+            }
+
+            //DataTable getEmployeeLeaveRequest = DataAccessLayer.GetDataTable("call CRM_RequestLeaveList(" + BranchID + "," + CompanyID + ")");
+            DataTable getExpenseRequest = DataAccessLayer.GetDataTable("call crm_ExpenseRequestList(" + BranchID + "," + CompanyID + ",'" + p_status + "')");
+            if (getExpenseRequest.Rows.Count > 0)
+            {
+                List<ExpenseModel> LRMList = new List<ExpenseModel>();
+                for (int i = 0; i < getExpenseRequest.Rows.Count; i++)
+                {
+                    ExpenseModel LModel = new ExpenseModel();
+                    LModel.EmployeeID = Convert.ToInt32(getExpenseRequest.Rows[i]["EmployeeID"]);
+                    LModel.ExpenseTypeName = Convert.ToString(getExpenseRequest.Rows[i]["ExpenseTypeName"]);
+                    LModel.ExpenseID = Convert.ToInt64(getExpenseRequest.Rows[i]["ExpenseID"]);
+                    LModel.travelledKMS = Convert.ToString(getExpenseRequest.Rows[i]["travelledKMS"]);
+                    LModel.expense = Convert.ToString(getExpenseRequest.Rows[i]["expense"]);
+                    LModel.ProcessStatus = Convert.ToString(getExpenseRequest.Rows[i]["ProcessStatus"]);
+                    LModel.RequestDate = Convert.ToString(getExpenseRequest.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
+                    if (Convert.ToString(getExpenseRequest.Rows[i]["ProcessDate"]) != string.Empty)
+                    {
+                        LModel.ProcessDate = Convert.ToString(getExpenseRequest.Rows[i]["ProcessDate"]);
+                    }
+                    else
+                    {
+                        LModel.ProcessDate = string.Empty;
+                    }
+                    LModel.EmployeeCode = Convert.ToString(getExpenseRequest.Rows[i]["EmployeeCode"]);
+                    LModel.FullName = Convert.ToString(getExpenseRequest.Rows[i]["FullName"]);
+                    LRMList.Add(LModel);
+                }
+                EXP.ExpenseEmployeeList = LRMList.OrderByDescending(em => em.RequestDate).ToList();
+            }
+            else
+            {
+                EXP.ExpenseEmployeeList = new List<ExpenseModel>();
+            }
+
+            if (EmployeeID > 0 && (EXP.ExpenseEmployeeList.Count > 0 || EXP.ExpenseEmployeeList != null))
+            {
+                EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.EmployeeID == EmployeeID).ToList();
+            }
+            return View(EXP);
+        }
+        public ActionResult ExpenseRequestDetail(Int64? ExpenseId)
+        {
+            ExpenseModel LRM = new ExpenseModel();
+            try
+            {
+                Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+                Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
+                var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID /*&& em.ProfileId != null*/).OrderBy(em => em.Fname).ToList();
+                if (getEmployeeList != null)
+                {
+                    List<ExpenseModel> CUMEmployeeList = new List<ExpenseModel>();
+                    foreach (var item in getEmployeeList)
+                    {
+                        ExpenseModel CUMEmployee = new ExpenseModel();
+                        CUMEmployee.EmployeeID = item.Id;
+                        CUMEmployee.FullName = item.Fname + ' ' + item.Lname;
+                        CUMEmployeeList.Add(CUMEmployee);
+                    }
+                    LRM.EmployeeList = CUMEmployeeList;
+                }
+
+                //Call Only Employee is Login
+                if (Convert.ToString(Session["UserType"]) != "SuperAdmin")
+                {
+                    int UID = Convert.ToInt32(Session["UID"]);
+                    LRM.EmployeeList = LRM.EmployeeList.Where(em => em.EmployeeID == UID).ToList();
+                }
+
+
+                //var geterrortypeList = db.crm_leavetypename.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).ToList();
+                //if (geterrortypeList.Count > 0)
+                //{
+                //	List<LeaveRequestModel> LeaveTypeList = new List<LeaveRequestModel>();
+                //	foreach (var item in geterrortypeList)
+                //	{
+                //		LeaveRequestModel cError = new LeaveRequestModel();
+                //		cError.LeaveTypeID = item.ID;
+                //		cError.LeaveName = item.LeaveName;
+                //		LeaveTypeList.Add(cError);
+                //	}
+                //	LRM.LeaveTypeList = LeaveTypeList;
+                //}
+
+                if (ExpenseId > 0)
+                {
+                    ExpenseModel i = getExpense(ExpenseId);
+                    LRM.expense = i.expense;
+                    LRM.travelledKMS = i.travelledKMS;
+                    LRM.ProcessStatus = i.ProcessStatus;
+                    LRM.EmployeeID = i.EmployeeID;
+                    LRM.EmployeeCode = i.EmployeeCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                TempData["alert"] = "There is some problem";
+                return Redirect("/AddExpense/Emp");
+            }
+            return View(LRM);
+        }
+
+        [HttpPost]
+        public ActionResult EmployeExpenseProcess(ExpenseModel LRM, Int32? RequestID)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
+            try
+            {
+               
+                if (InsertExpense(LRM) > 0)
+                {
+                    TempData["success"] = "Expense updated successfully";
+                    return Redirect("/HR/ExpenseRequest");
+                }
+                else
+                {
+                    TempData["alert"] = "There is some problem";
+                    return Redirect("/HR/ExpenseRequestDetail");
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                return Redirect("/HR/ExpenseRequestDetail");
+            }
+        }
+        public ExpenseModel getExpense(Int64? ExpenseId)
+        {
+            List<ExpenseModel> li = new List<ExpenseModel>();
+            var dtExpense = du.GetDataTable("Select exp.Id as ExpenseId,exp.travelledKMS, exp.expense, exp.RequestDate,exp.ProcessDate,exp.ProcessStatus,concat(ut.Fname, ' ', ut.Lname) As FullName, ut.EmployeeCode, exp.EmployeeID, e.ExpenseTypeName from crm_expense_request_tbl exp Left join crm_expensetype e on exp.ID = e.ID LEFT JOIN crm_usertbl ut on ut.ID = exp.EmployeeID where exp.ID='" + ExpenseId + "'");
+            for (int i = 0; i < dtExpense.Rows.Count; i++)
+            {
+                ExpenseModel expense = new ExpenseModel();
+                expense.EmployeeID = Convert.ToInt32(dtExpense.Rows[i]["EmployeeID"]);
+                expense.travelledKMS = dtExpense.Rows[i]["travelledKMS"].ToString();
+                expense.expense = dtExpense.Rows[i]["expense"].ToString();
+                expense.ProcessStatus = dtExpense.Rows[i]["ProcessStatus"].ToString();
+                li.Add(expense);
+            }
+            return li.FirstOrDefault();
+        }
+
+        public int InsertExpense(ExpenseModel expense)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            int res = 0;
+            if(expense.ProcessStatus=="Denied")
+            {
+                res = du.ExecuteSql("update crm_expense_request_tbl set travelledKMS='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',ProcessStatus='" + expense.ProcessStatus  +"',Comment='" + expense.Comment + "' where Id='" + expense.ExpenseID + "'");
+
+            }
+            else
+            {
+                res = du.ExecuteSql("update crm_expense_request_tbl set travelledKMS='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',ProcessStatus='" + expense.ProcessStatus + "' where Id='" + expense.ExpenseID + "'");
+
+            }
+            //"(EmployeeId,ExpenseTypeID,travelledKMS,expense,companyId,BranchId,RequestDate,ProcessDate,ProcessStatus) " +
+            // "values('" + expense.EmployeeID + "','" + expense.ExpanseTypeID + "','" + expense.travelledKMS + "','" + expense.expense + "','" + CompanyID + "','" + BranchID + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','In Process')");
+
+            object insertedexpenseId = du.GetScalar("SELECT LAST_INSERT_ID();");
+
+            //	var lastsynciduserlogin = du.GetDataTable("SELECT MAX(CAST(SUBSTR(TRIM(SyncID),2) AS UNSIGNED))as syncid FROM t_userlogin  WHERE CompanyID='" + register.CompanyID + "' and SyncID RLIKE 'O'");
+            //int synciduserlogin = Convert.ToInt32(lastsynciduserlogin.Rows[0]["syncid"]);
+            //synciduserlogin = synciduserlogin + 1;
+            //res = du.ExecuteSql("insert into t_userlogin (user_name,user_email,user_mobile,user_password,user_address,cust_id,CreatedDate,IsActive,CompanyID,flag,SyncID)" +
+            //					"values('" + register.Name + "','" + register.Email + "','" + register.Mobile + "','" + register.Password + "','" + register.Address + "'," + insertedcustid.ToString() + ",'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','yes','" + register.CompanyID + "','N','" + "O" + synciduserlogin.ToString() + "')");
+            if (res > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         #endregion
 
         #region Extra Payment Amount

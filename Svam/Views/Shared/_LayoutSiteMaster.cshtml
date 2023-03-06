@@ -135,7 +135,7 @@
                                             </li>
 
                                             <li>
-                                                @using (Html.BeginForm("viewExpense", "home", FormMethod.Post))
+                                                @using (Html.BeginForm("ExpenseRequest", "HR", FormMethod.Post))
                                                 {
                                                     <input type="hidden" name="FromDate" value="@localTime.ToString(dateFormat)" />
                                                     <input type="hidden" name="ToDate" value="@localTime.ToString(dateFormat)" />
