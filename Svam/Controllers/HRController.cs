@@ -1947,6 +1947,7 @@ namespace Traders.Controllers
                     LModel.RequestID = Convert.ToInt64(getEmployeeLeaveRequest.Rows[i]["RequestID"]);
                    // LModel.Subject = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Subject"]);
                     LModel.ProcessStatus = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["ProcessStatus"]);
+                    LModel.FileName= Convert.ToString(getEmployeeLeaveRequest.Rows[i]["FileName"]);
                     LModel.RequestDate = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
                     if (Convert.ToString(getEmployeeLeaveRequest.Rows[i]["ProcessDate"]) != string.Empty)
                     {
@@ -1974,6 +1975,137 @@ namespace Traders.Controllers
             return View(LRM);
         }
 
+        public ActionResult EmployeeForm16RequestDetail(Int64? RequestID)
+        {
+            Form16RequestModel LRM = new Form16RequestModel();
+            try
+            {
+                Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+                Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
+                var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID /*&& em.ProfileId != null*/).OrderBy(em => em.Fname).ToList();
+                if (getEmployeeList != null)
+                {
+                    List<Form16RequestModel> CUMEmployeeList = new List<Form16RequestModel>();
+                    foreach (var item in getEmployeeList)
+                    {
+                        Form16RequestModel CUMEmployee = new Form16RequestModel();
+                        CUMEmployee.EmployeeID = item.Id;
+                        CUMEmployee.FullName = item.Fname + ' ' + item.Lname;
+                        CUMEmployeeList.Add(CUMEmployee);
+                    }
+                    LRM.EmployeeList = CUMEmployeeList;
+                }
+
+                //Call Only Employee is Login
+                if (Convert.ToString(Session["UserType"]) != "SuperAdmin")
+                {
+                    int UID = Convert.ToInt32(Session["UID"]);
+                    LRM.EmployeeList = LRM.EmployeeList.Where(em => em.EmployeeID == UID).ToList();
+                }
+
+                //List<LeaveRequestModel> LeaveTypeList = new List<LeaveRequestModel>
+                //{
+                //    new LeaveRequestModel { LeaveTypeID =1, LeaveName = "Casual Leave" },
+                //    new LeaveRequestModel { LeaveTypeID =2, LeaveName = "Medical Leave" }
+                //};
+                //LRM.LeaveTypeList = LeaveTypeList;
+
+                var geterrortypeList = db.crm_leavetypename.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).ToList();
+                if (geterrortypeList.Count > 0)
+                {
+                    List<Form16RequestModel> LeaveTypeList = new List<Form16RequestModel>();
+                    foreach (var item in geterrortypeList)
+                    {
+                        Form16RequestModel cError = new Form16RequestModel();
+                        cError.FormTypeID = item.ID;
+                        cError.FormName = "Form16";
+                        LeaveTypeList.Add(cError);
+                    }
+                    LRM.FormTypeList = LeaveTypeList;
+                }
+
+                if (RequestID > 0)
+                {
+                    var GetEmployeeLeave = db.crm_formrequest_tbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.Id == RequestID).FirstOrDefault();
+                    if (GetEmployeeLeave != null)
+                    {
+                        LRM.RequestID = GetEmployeeLeave.Id;
+                        LRM.EmployeeID = GetEmployeeLeave.EmployeeID;
+                        LRM.FormTypeID = GetEmployeeLeave.FormTypeID;
+                       // LRM.Subject = GetEmployeeLeave.Subject;
+                        LRM.Message = GetEmployeeLeave.Message;
+                        LRM.ProcessStatus = GetEmployeeLeave.ProcessStatus;
+                        if (GetEmployeeLeave.ProcessStatus == "Denied")
+                        {
+                          //  LRM.Comment = GetEmployeeLeave.Comment;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                TempData["alert"] = "There is some problem";
+                return Redirect("/FormManagement/Form16Request");
+            }
+            return View(LRM);
+        }
+
+        [HttpPost]
+        public ActionResult EmployeForm16Process(Form16RequestModel LRM, Int32? RequestID)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            try
+            {
+                var getUpdateRecord = db.crm_formrequest_tbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID && em.Id == RequestID).FirstOrDefault();
+                if (getUpdateRecord != null)
+                {
+                    if (LRM.ProcessStatus != "Select Status")
+                    {
+                        getUpdateRecord.ProcessDate = Constant.GetBharatTime();
+                        getUpdateRecord.ProcessStatus = LRM.ProcessStatus;
+                        //if (LRM.ProcessStatus == "Denied")
+                        //{
+                        //    getUpdateRecord.Comment = LRM.Comment;
+                        //}
+                    }
+                    if (LRM.postedFile!=null)
+                    {
+                        string fileName = string.Empty;
+                        string destinationPath = string.Empty;
+                        // List<FileUploadModel> uploadFileModel = new List<FileUploadModel>();
+
+                        fileName = Path.GetFileName(LRM.postedFile.FileName);
+                        destinationPath = Server.MapPath("~/MyFiles/");
+                        if (!Directory.Exists(destinationPath))
+                        {
+                            Directory.CreateDirectory(destinationPath);
+                        }
+                        destinationPath = Path.Combine(Server.MapPath("~/MyFiles/"), fileName);
+                        LRM.postedFile.SaveAs(destinationPath);
+                            getUpdateRecord.FileName = LRM.postedFile?.FileName;
+                            getUpdateRecord.FilePath = LRM.postedFile?.FileName;
+                        
+                    }
+                    
+                    db.SaveChanges();
+                    TempData["success"] = "form16 updated successfully";
+                    return Redirect("/HR/Employeeform16Request");
+                }
+                else
+                {
+                    TempData["alert"] = "There is some problem";
+                    return Redirect("/HR/Employeeform16RequestDetail");
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                return Redirect("/HR/Employeeform16RequestDetail");
+            }
+        }
         #region LeaveRequest
         public ActionResult EmployeeLeaveRequest(Int32? EmployeeID, string p_status)
         {
@@ -2119,6 +2251,7 @@ namespace Traders.Controllers
             return View(LRM);
         }
 
+        
         [HttpPost]
         public ActionResult EmployeLeaveProcess(LeaveRequestModel LRM, Int32? RequestID)
         {

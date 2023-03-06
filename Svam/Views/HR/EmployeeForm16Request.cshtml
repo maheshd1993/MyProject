@@ -14,11 +14,11 @@
                 <div class="col-sm-12">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <strong>Employee Leave Request</strong>
+                            <strong>Employee Form16 Request</strong>
                         </div>
                         <div class="panel-body body_pnl">
                             <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
-                                @using (Html.BeginForm("EmployeeLeaveRequest", "HR", FormMethod.Post))
+                                @using (Html.BeginForm("EmployeeForm16Request", "HR", FormMethod.Post))
                                 {
                                     <div class="col-sm-2 viewl1" style="margin-top: -5px">
                                         @Html.DropDownList("EmployeeID", new SelectList(Model.EmployeeList, "EmployeeID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
@@ -35,7 +35,7 @@
                                         <input type="submit" value="Filter" style="margin-left: 10px;" class="btn btn-success" id="Submit1" name="filter1">
                                     </div>
                                     <div class="col-sm-1 col-xs-6">
-                                        <input type="button" value="Reset" class="btn btn-danger" id="Reset" name="filter1" onclick="location.href = '/Hr/EmployeeLeaveRequest'">
+                                        <input type="button" value="Reset" class="btn btn-danger" id="Reset" name="filter1" onclick="location.href = '/Hr/EmployeeForm16Request'">
                                     </div>
                                 }
                             </div>
@@ -51,10 +51,10 @@
                                 <th>#</th>
                                 <th>Employee Name</th>
                                 <th>Employee Code</th>
-                                <th>Leave Type</th>
-                                <th>Subject</th>
+                                <th>Form Type</th>
+                               
                                 <th>Request Date</th>
-                                <th>Grant Date</th>
+                                <th>File Name</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -82,30 +82,32 @@
                                             DateTime dtRequestDate = Convert.ToDateTime(item.RequestDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
                                             RequestDate = String.Format("{0:" + Model.DateFormat + "}", dtRequestDate);
                                         }
-                                        <tr>
-                                            <td translate="no" data-column="Sr.No.">@i</td>
-                                            <td translate="no" data-column="Employee Name">@item.FullName</td>
-                                            <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
-                                            <td translate="no" data-column="Leave Type">Form16</td>
-                                            @*<td translate="no" data-column="Subject">@item.Subject</td>*@
-                                            <td translate="no" data-column="Request Date">@RequestDate</td>
-                                            <td translate="no" data-column="Grant Date">@ProcessDate</td>
-                                            @{ string textClass = string.Empty;}
-                                            @if (item.ProcessStatus == "In Process")
-                                            {
-                                                textClass = "status-warning";
-                                            }
-                                            else if (item.ProcessStatus == "Denied")
-                                            {
-                                                textClass = "status-danger";
-                                            }
-                                            else if (item.ProcessStatus == "Approved")
-                                            {
-                                                textClass = "status-success";
-                                            }
-                                            <td translate="no" data-column="Status"><span class="@textClass">@item.ProcessStatus</span></td>
-                                            <td data-column="Action"><a href="@Url.Action("EmployeeLeaveRequestDetail", "HR", new { RequestID = item.RequestID })"><i class="fa fa-eye" aria-hidden="true" title="View Leave Details"></i></a></td>
-                                        </tr>i++;
+                            <tr>
+                                <td translate="no" data-column="Sr.No.">@i</td>
+                                <td translate="no" data-column="Employee Name">@item.FullName</td>
+                                <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
+                                <td translate="no" data-column="Leave Type">Form16</td>
+
+                                <td translate="no" data-column="Request Date">@RequestDate</td>
+
+                                @*<td translate="no" data-column="Grant Date">@ProcessDate</td>*@
+                                <td translate="no" data-column="File Name">@item.FileName</td>
+                                @{ string textClass = string.Empty;}
+                                @if (item.ProcessStatus == "In Process")
+                                {
+                                    textClass = "status-warning";
+                                }
+                                else if (item.ProcessStatus == "Denied")
+                                {
+                                    textClass = "status-danger";
+                                }
+                                else if (item.ProcessStatus == "Approved")
+                                {
+                                    textClass = "status-success";
+                                }
+                                <td translate="no" data-column="Status"><span class="@textClass">@item.ProcessStatus</span></td>
+                                <td data-column="Action"><a href="@Url.Action("EmployeeForm16RequestDetail", "HR", new { RequestID = item.RequestID })"><i class="fa fa-eye" aria-hidden="true" title="View Leave Details"></i></a></td>
+                            </tr>i++;
                                                     }
                                                 }
                                                 else

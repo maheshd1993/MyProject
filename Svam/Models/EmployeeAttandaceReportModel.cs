@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Traders.Models
@@ -93,15 +94,15 @@ namespace Traders.Models
         public string RequestDate { get; set; }
         public string ProcessStatus { get; set; }
         public string ProcessDate { get; set; }
-        //[AllowHtml]
-        //public string Comment { get; set; }
+        [AllowHtml]
+        public string Comment { get; set; }
         public string FullName { get; set; }
         public string EmployeeCode { get; set; }
 
         public string FileName { get; set; }
 
         public string FilePath { get; set; }
-
+       public HttpPostedFileBase postedFile { get; set; }
         [Required(ErrorMessage = "Please Select Form Type")]
         public int? FormTypeID { get; set; }
         public string FormName { get; set; }

@@ -690,6 +690,8 @@
                                     <li><a href="/HR/ViewInterviewSchedule"> View Interview Schedule</a></li>
                                 }
                             }
+
+                            <li><a href="/HR/EmployeeForm16Request">Manage Form16 Request</a></li>
                         </ul>
                     </li>
                 }
@@ -791,10 +793,20 @@
                             {
                                 <li><a href="/home/ViewAssignedItem">View Assigned Item</a></li>
                             }
+
+                            @if (Rights.ViewAssignItem == true)
+                            {
+                                <li><a href="/FormManagement/Form16Request">Apply Form16</a></li>
+                            }
+
+                            @if (Rights.ViewAssignItem == true)
+                            {
+                                <li><a href="/FormManagement/Form16RequestView">View Form16</a></li>
+                            }
                             @*@if (Rights.ProjectAssign == true)
-                                {
-                                    <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
-                                }*@
+        {
+            <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+        }*@
                         </ul>
                     </li>
                 }

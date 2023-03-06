@@ -746,7 +746,7 @@ namespace Traders.Controllers
                     TdAssignLeadCount = TdAssignLeadlist.Count();
                     TotalLeads = TdFollowupCount + TdLeadCount + TdAssignLeadCount;
 
-                    var TdAssignForm16list = db.crm_formrequest_tbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).ToList();
+                    var TdAssignForm16list = db.crm_formrequest_tbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID && em.ProcessStatus=="In Process").ToList();
 
                     model.TotalAllLeadCount = TotalLeads;
                     model.TodayFollowUpCount = TdFollowupCount;

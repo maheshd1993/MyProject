@@ -183,7 +183,7 @@ namespace Svam.Controllers
                 {
                     Form16RequestModel LModel = new Form16RequestModel();
                     LModel.EmployeeID = Convert.ToInt32(getEmployeeLeaveRequest.Rows[i]["EmployeeID"]);
-                   // LModel.LeaveName = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["LeaveName"]);
+                   LModel.FileName = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["FileName"]);
                     LModel.RequestID = Convert.ToInt64(getEmployeeLeaveRequest.Rows[i]["RequestID"]);
                    // LModel.Subject = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Subject"]);
                     LModel.ProcessStatus = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["ProcessStatus"]);
