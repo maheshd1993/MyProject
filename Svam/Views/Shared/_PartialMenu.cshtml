@@ -803,6 +803,15 @@
                             {
                                 <li><a href="/FormManagement/Form16RequestView">View Form16</a></li>
                             }
+
+                            @if (Rights.ViewAssignItem == true)
+                            {
+                                <li><a href="/Emp/AddExpense">Add Expense</a></li>
+                            }
+                            @if (Rights.ViewAssignItem == true)
+                            {
+                                <li><a href="/Emp/ExpenseView">View Expense</a></li>
+                            }
                             @*@if (Rights.ProjectAssign == true)
         {
             <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>

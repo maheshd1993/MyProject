@@ -1,0 +1,78 @@
+﻿@{
+	ViewBag.Title = "AddExpense";
+	Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+	var al = TempData["success"];
+	var alchk = TempData["alert"];
+}
+@model Traders.Models.ExpenseModel
+
+<div class="maincontainer">
+	<div class="col-sm-12">
+		@using (Html.BeginForm("AddExpense", "Emp", FormMethod.Post))
+		{
+			@Html.HiddenFor(em => em.ExpenseID)
+			//@Html.Hidden("UserID",Convert.ToString(Session["UID"]))
+			@Html.Hidden("UserType", Convert.ToString(Session["UserType"]))
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<strong>Create Expense</strong>
+					<div class="row" style="padding-right: 2.5%;">
+						<div class="col-sm-9 padd0"></div>
+
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label col-sm-2">Employee Name</label>
+							<div class="col-sm-3">
+								@{var Disabled = "";}
+								@if (Convert.ToString(Session["UserType"]) != "SuperAdmin")
+								{
+									Disabled = "disabled";
+									@Html.Hidden("EmployeeID", Convert.ToString(Session["UID"]))
+								}
+
+								@Html.DropDownListFor(em => em.EmployeeID, new SelectList(Model.EmployeeList, "EmployeeID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control User ListItemCapitalize", translate = "no" })
+								@Html.ValidationMessageFor(em => em.EmployeeID)
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">Expense Type</label>
+							<div class="col-sm-3">
+								<select id="p_status" name="p_status">
+									<option value="0">--Select Status--</option>
+									<option value="1">ABC</option>
+									<option value="2">DEF</option>
+									<option value="3">XYZ</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">travelledKMS</label>
+							<div class="col-sm-10">
+								@Html.TextBoxFor(em => em.travelledKMS, new { @class = "form-control", @autocomplete = "off" })
+								@Html.ValidationMessageFor(em => em.travelledKMS)
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">Expense </label>
+							<div class="col-sm-10">
+								@Html.TextBoxFor(em => em.expense, new { @class = "form-control", @autocomplete = "off" })
+								@Html.ValidationMessageFor(em => em.expense)
+							</div>
+						</div>
+						<div class="form-group text-center">
+							@if (Model.ProcessStatus == "In Process" || Model.ProcessStatus == null || Model.ProcessStatus == string.Empty)
+							{
+								<input type="submit" name="Submit" value="Send Request" class="btn btn-success btnSave">
+							}
+							<input type="button" value="Back to Expense List" class="btn btn-danger" onclick="location.href = '/Emp/ExpenseView'" />
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

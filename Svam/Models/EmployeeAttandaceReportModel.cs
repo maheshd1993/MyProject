@@ -111,4 +111,35 @@ namespace Traders.Models
         public List<Form16RequestModel> EmployeeList { get; set; }
         public List<Form16RequestModel> FormTypeList { get; set; }
     }
+
+    public class ExpenseModel
+    {
+        public Int64 ExpenseID { get; set; }
+        [Required(ErrorMessage = "Please Select Employee")]
+        public Int32? EmployeeID { get; set; }
+
+        public string DateFormat { get; set; }
+        [Required(ErrorMessage = "Please Select Expense Type")]
+        public Int64 ExpenseTypeId { get; set; }
+        public string ExpenseTypeName { get; set; }
+        public string travelledKMS { get; set; }
+        public string expense { get; set; }
+        public string RequestDate { get; set; }
+        public string ProcessStatus { get; set; }
+        public string ProcessDate { get; set; }
+        [AllowHtml]
+        public string Comment { get; set; }
+        public string FullName { get; set; }
+        public string EmployeeCode { get; set; }
+        //public string Comment { get; set; }
+        public string Receipt { get; set; }
+        [Required(ErrorMessage = "Please Select Leave Type")]
+        public int? ExpanseTypeID { get; set; }
+        public string ExpanseTypeName { get; set; }
+
+        public List<ExpenseModel> ExpenseEmployeeList { get; set; }
+        public List<ExpenseModel> EmployeeList { get; set; }
+        public List<ExpenseModel> ExpenseTypeList { get; set; }
+
+    }
 }
