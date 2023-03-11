@@ -136,7 +136,7 @@ namespace Traders.Models
         [Required(ErrorMessage = "Please Select Leave Type")]
         public int? ExpanseTypeID { get; set; }
         public string ExpanseTypeName { get; set; }
-
+        public long TotalExpance { get; set; }
         public List<ExpenseModel> ExpenseEmployeeList { get; set; }
         public List<ExpenseModel> EmployeeList { get; set; }
         public List<ExpenseModel> ExpenseTypeList { get; set; }

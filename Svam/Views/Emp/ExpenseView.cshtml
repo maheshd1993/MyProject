@@ -23,55 +23,60 @@
 						@if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
 						{
 							<div class="panel-body body_pnl">
-								<div class="col-sm-12" style="padding: 3px 0px 11px 0px">
-									@using (Html.BeginForm("ExpenseView", "Emp", FormMethod.Post))
-									{
-										<div class="col-sm-2 viewl1" style="margin-top: -5px">
-											@Html.DropDownList("EmployeeID", new SelectList(Model.EmployeeList, "EmployeeID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
-										</div>
-										<div class="col-sm-1 col-xs-6">
-											<input type="submit" value="Filter" style="margin-left: 10px;" class="btn btn-success" id="Submit1" name="filter1">
-										</div>
-										<div class="col-sm-1  col-xs-6">
-											<input type="button" value="Reset" class="btn btn-danger" id="Reset" name="filter1" onclick="location.href = '/LeaveManagement/LeaveRequestView'">
-										</div>
-									}
-								</div>
+                                <div class="col-sm-12" style="padding: 3px 0px 11px 0px">
+                                    @using (Html.BeginForm("ExpenseView", "Emp", FormMethod.Post))
+                                    {
+                                        <div class="col-sm-2 viewl1" style="margin-top: -5px">
+                                            @Html.DropDownList("EmployeeID", new SelectList(Model.EmployeeList, "EmployeeID", "FullName"), "Select Employee", htmlAttributes: new { @class = "form-control ListItemCapitalize", translate = "no" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="date"  class="form-control selectDate" name="FromDate" id="FromDate" placeholder="From Date"  />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="date"  class="form-control selectDate" name="ToDate" id="ToDate"  placeholder="To Date"  />
+                                        </div>
+                                        <div class="col-sm-1 col-xs-6">
+                                            <input type="submit" value="Filter" style="margin-left: 10px;" class="btn btn-success" id="Submit1" name="filter1">
+                                        </div>
+                                        <div class="col-sm-1  col-xs-6">
+                                            <input type="button" value="Reset" class="btn btn-danger" id="Reset" name="filter1" onclick="location.href = '/Emp/ExpenseView'">
+                                        </div>
+                                    }
+                                </div>
 							</div>
 						}
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-12">
-					<table class="table table-bordered tablefont">
-						<thead class="black-white-text">
-							<tr>
-								<th>#</th>
-								@if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
-								{
-									<th>Employee Name</th>
-									<th>Employee Code</th>
-								}
-								<th>Expense Type</th>
-								<th>travelledKMS</th>
-								<th>Request Date</th>
-								<th>Grant Date</th>
-								<th>Status</th>
-								@*<th>Action</th>*@
-							</tr>
-						</thead>
-						<tbody>
-							@{int i = 1;}
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
 
-							@if (Model.ExpenseEmployeeList != null)
-							{
-								if (Model.ExpenseEmployeeList.Count > 0)
-								{
-									foreach (var item in Model.ExpenseEmployeeList)
-									{
-										string ProcessDate = string.Empty;
-										string RequestDate = string.Empty;
+                                <th>Employee Name</th>
+                                <th>Employee Code</th>
+
+                                <th>Expense Type</th>
+                                <th>TravelledKMS</th>
+                                <th>Request Date</th>
+                                <th>Grant Date</th>
+                                <th>Status</th>
+                                @*<th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+
+                            @if (Model.ExpenseEmployeeList != null)
+                            {
+                                if (Model.ExpenseEmployeeList.Count > 0)
+                                {
+                                    foreach (var item in Model.ExpenseEmployeeList)
+                                    {
+                                        string ProcessDate = string.Empty;
+                                        string RequestDate = string.Empty;
 
 										if (item.ProcessDate != string.Empty)
 										{
@@ -90,18 +95,7 @@
 												<td translate="no" data-column="Employee Name">@item.FullName</td>
 												<td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
 											}
-                                                <td translate="no" data-column="Expense Type">
-                                                    @{ string typeName = string.Empty;}
-                                                    @if (@item.ExpenseTypeId == 1)
-                                                    {
-                                                        typeName = "Travel Expense";
-                                                    }
-                                                    else if (@item.ExpenseTypeId == 1)
-                                                        {
-                                                            typeName = "Medical Expense";
-                                                        }
-                                                     @typeName
-                                                </td>
+											<td translate="no" data-column="Expense Type">@item.ExpenseTypeId</td>
 											<td translate="no" data-column="Subject">@item.travelledKMS</td>
 											<td translate="no" data-column="Request Date">@RequestDate</td>
 											<td translate="no" data-column="Grant Date">@ProcessDate</td>

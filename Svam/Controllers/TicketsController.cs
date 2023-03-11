@@ -857,7 +857,7 @@ namespace Svam.Controllers
                                     if (supportedTypes.Contains(fileExt))
                                     {
                                         string extension = Path.GetExtension(file.FileName);
-                                        FileName = "Ticket-" + Convert.ToString(Session["UserName"]).Trim() + "-" + cts.Name.Trim() + "-" + localTime.ToString("ddMMyyyyhhmmss") + "";
+                                        FileName = "Ticket-" + Convert.ToString(Session["UserName"]).Trim() + "-" + cts.TicketNo.Trim() + "-" + localTime.ToString("ddMMyyyyhhmmss") + "";
                                         FileFullName = FileName + extension;
                                         string _path = Server.MapPath("~/TicketAttachment/" + FileFullName);
                                         file.SaveAs(_path);

@@ -119,6 +119,8 @@ namespace Svam.Controllers
                         TS.sToDate = GetRecords.Rows[i]["ToDate"] == DBNull.Value ? string.Empty : Convert.ToString(GetRecords.Rows[i]["ToDate"]);
                         TS.TargetAchieveAmount = GetRecords.Rows[i]["TargetAchieveAmount"] == DBNull.Value ? 0 : Convert.ToDecimal(GetRecords.Rows[i]["TargetAchieveAmount"]);
                         TS.CurentTargetAchieveAmount = GetRecords.Rows[i]["CurentTargetAchieveAmount"] == DBNull.Value ? 0 : Convert.ToDecimal(GetRecords.Rows[i]["CurentTargetAchieveAmount"]);
+                        TS.CurentTargetAdvanceAmount = GetRecords.Rows[i]["CurentTargetAdvanceAmount"] == DBNull.Value ? 0 : Convert.ToDecimal(GetRecords.Rows[i]["CurentTargetAdvanceAmount"]);
+
                         TSList.Add(TS);
                     }
                     VLM.oSaleTargetModelList = TSList;

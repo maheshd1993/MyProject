@@ -24,8 +24,8 @@ namespace Svam.Models
         public DateTime? sCREATEDDATE { get; set; }
         [Required(ErrorMessage = "Please enter Target Amount")]
         public decimal? TotalTargetAmount { get; set; }
-
         public decimal? TargetAchieveAmount { get; set; }
+        public decimal? CurentTargetAdvanceAmount { get; set; }
         public decimal? CurentTargetAchieveAmount { get; set; }
 
         public decimal? ProjectValueDateGroupBy  { get; set; }

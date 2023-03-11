@@ -794,25 +794,27 @@
                             {
                                 <li><a href="/home/ViewAssignedItem">View Assigned Item</a></li>
                             }
+                            <li><a href="/Emp/ExpenseView">Expense</a></li>
+                            <li><a href="/FormManagement/Form16RequestView">Form16</a></li>
+                            @*@if (Rights.ViewAssignItem == true)
+        {
+            <li><a href="/FormManagement/Form16Request">Apply Form16</a></li>
+        }*@
 
-                            @if (Rights.ViewAssignItem == true)
-                            {
-                                <li><a href="/FormManagement/Form16Request">Apply Form16</a></li>
-                            }
+                            @*@if (Rights.ViewAssignItem == true)
+        {
+            <li><a href="/FormManagement/Form16RequestView">View Form16</a></li>
+        }*@
 
-                            @if (Rights.ViewAssignItem == true)
-                            {
-                                <li><a href="/FormManagement/Form16RequestView">View Form16</a></li>
-                            }
+                            @*@if (Rights.ViewAssignItem == true)
+        {
+            <li><a href="/Emp/AddExpense">Add Expense</a></li>
+        }*@
+                            @*@if (Rights.ViewAssignItem == true)
+        {
+            <li><a href="/Emp/ExpenseView">View Expense</a></li>
+        }*@
 
-                            @if (Rights.ViewAssignItem == true)
-                            {
-                                <li><a href="/Emp/AddExpense">Add Expense</a></li>
-                            }
-                            @if (Rights.ViewAssignItem == true)
-                            {
-                                <li><a href="/Emp/ExpenseView">View Expense</a></li>
-                            }
                             @*@if (Rights.ProjectAssign == true)
         {
             <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
@@ -1457,10 +1459,12 @@
                     {
                         <li><a href="/Dailywork/ViewAssignedItem">View Assigned Item</a></li>
                     }
+                    <li><a href="/Emp/ExpenseView">Expense</a></li>
+                    <li><a href="/FormManagement/Form16RequestView">Form16</a></li>
                     @*@if (Rights.ProjectAssign == true)
-                        {
-                            <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
-                        }*@
+        {
+            <li><a href="/Dailywork/ProjectAssign">Project Permission</a></li>
+        }*@
                 </ul>
             </li>
         }

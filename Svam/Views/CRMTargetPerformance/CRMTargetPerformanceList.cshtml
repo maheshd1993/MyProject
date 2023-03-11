@@ -68,6 +68,7 @@
                             <th style="width: 7%">To Date</th>
                             <th style="width: 7%">Target Achieve Amount</th>
                             <th style="width: 6%">Current Target Achieved Amount </th>
+                            <th style="width: 7%">Advance Amt.</th>
                             <th style="width: 3%">Action</th>
                         </tr>
                     </thead>
@@ -83,19 +84,21 @@
 
                                 DateTime dtto = Convert.ToDateTime(item.sToDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
                                 string dateTo = String.Format("{0:" + Model.DateFormat + "}", dtto);
-                                <tr>
-                                    <td data-column="Sr.No." translate="no">@i</td>
-                                    <td data-column="Sales Person Name" translate="no">@item.SalePersonName</td>
-                                    <td data-column="From Date" translate="no">@datefrom</td>
-                                    <td data-column="To Date" translate="no">@dateTo</td>
-                                    <td data-column="Target Achieve Amt." translate="no">@item.TargetAchieveAmount</td>
-                                    <td data-column="Current Target Ach. Amt." translate="no">@item.CurentTargetAchieveAmount</td>
-                                    <td data-column="Action">
-                                        <a href="/CRMTargetPerformance/ViewTargerAchived/?SalePersonID=@item.SalePersonID&FromDate=@dtfrom.ToString("yyyy-MM-dd")&ToDate=@dtto.ToString("yyyy-MM-dd")">
-                                            <i class="fa fa-eye  iccn"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                        <tr>
+                            <td data-column="Sr.No." translate="no">@i</td>
+                            <td data-column="Sales Person Name" translate="no">@item.SalePersonName</td>
+                            <td data-column="From Date" translate="no">@datefrom</td>
+                            <td data-column="To Date" translate="no">@dateTo</td>
+                            <td data-column="Target Achieve Amt." translate="no">@item.TargetAchieveAmount</td>
+                            <td data-column="Current Target Ach. Amt." translate="no">@item.CurentTargetAchieveAmount</td>
+                            <td data-column="Advance Amt." translate="no">@item.CurentTargetAdvanceAmount</td>
+
+                            <td data-column="Action">
+                                <a href="/CRMTargetPerformance/ViewTargerAchived/?SalePersonID=@item.SalePersonID&FromDate=@dtfrom.ToString("yyyy-MM-dd")&ToDate=@dtto.ToString("yyyy-MM-dd")">
+                                    <i class="fa fa-eye  iccn"></i>
+                                </a>
+                            </td>
+                        </tr>
                                 i++;
                             }
                         }

@@ -1695,7 +1695,7 @@ namespace Svam.Controllers
 
                             var CustList = (from item in getCustomerList
                                             join od in getcustomers on item.CustomerID equals od.CustomerID
-                                            where item.CompanyId== Convert.ToInt16(companyid) 
+                                            where od.CompanyID== companyid
                                             select new QuotationModel
                                             {
                                                 CustomerID = od.ID,
