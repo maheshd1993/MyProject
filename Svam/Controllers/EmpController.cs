@@ -155,7 +155,17 @@ namespace Svam.Controllers
                         int ExtraHoursDay = 0;
                         int SatAndSun = 0;
                         string Companyname = "";
-                        var Getcompanydetails = db.crm_usercompanytypetbl.Where(em => em.Id == item.CompanyTypeId && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+                        crm_usercompanytypetbl Getcompanydetails = new crm_usercompanytypetbl();
+                        if(item.CompanyTypeId!=null)
+                        {
+                            Getcompanydetails = db.crm_usercompanytypetbl.Where(em => em.Id == item.CompanyTypeId && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+                        
+                        }
+                        else
+                        {
+                            Getcompanydetails = db.crm_usercompanytypetbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+
+                        }
                         foreach (var Aitem in getAttandanceByEmp)
                         {
                             //if (Aitem.LogZoneTime == "IST")
@@ -658,12 +668,29 @@ namespace Svam.Controllers
             }
         }
 
-        public ActionResult ExpenseView(Int32? EmployeeID)
+        public ActionResult ExpenseView(Int32? EmployeeID,string FromDate, string ToDate)
         {
             ExpenseModel EXP = new ExpenseModel();
             Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
             Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            if (FromDate == null)
+            {
+                FromDate = "";
+            }
+            else
+            {
+                FromDate = String.Format("{0:dd/MM/yyyy}", FromDate);//convert to dd/MM/yyyy format for stored procedure
 
+            }
+            if (ToDate == null)
+            {
+                ToDate = "";
+            }
+            else
+            {
+                ToDate = String.Format("{0:dd/MM/yyyy}", ToDate);//convert to dd/MM/yyyy format for stored procedure
+
+            }
             EXP.DateFormat = Constant.DateFormat();//get date format by company id
             Session["DpDateFormat"] = Constant.JsDateFormat(CompanyID);//get date picker date format by companyid
 
@@ -680,8 +707,9 @@ namespace Svam.Controllers
                 }
                 EXP.EmployeeList = CUMEmployeeList;
             }
+            long totExpance = 0;
             //DataTable getEmployeeLeaveRequest = DataAccessLayer.GetDataTable("call CRM_RequestLeaveList(" + BranchID + "," + CompanyID + ")");
-            DataTable getExpanse = DataAccessLayer.GetDataTable("call crm_ExpenseView(" + BranchID + "," + CompanyID + ")");
+            DataTable getExpanse = DataAccessLayer.GetDataTable("call crm_ExpenseView(" + BranchID + "," + CompanyID + ",'" + FromDate + "','" + ToDate + "')");
 
             if (getExpanse.Rows.Count > 0)
             {
@@ -703,7 +731,7 @@ namespace Svam.Controllers
                     {
                         EModel.ProcessDate = string.Empty;
                     }
-                    //EModel.EmployeeCode = Convert.ToString(getExpanse.Rows[i]["EmployeeCode"]);
+                    EModel.EmployeeCode = Convert.ToString(getExpanse.Rows[i]["EmployeeCode"]);
                     EModel.FullName = Convert.ToString(getExpanse.Rows[i]["FullName"]);
                     EXPList.Add(EModel);
                 }
@@ -721,6 +749,14 @@ namespace Svam.Controllers
                     {
                         EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.EmployeeID == EmployeeID).ToList();
                     }
+                    foreach (var item in EXP.ExpenseEmployeeList)
+                    {
+                        if (item.expense != "" && item.expense != null)
+                        {
+                            totExpance += totExpance + Convert.ToInt32(item.expense);
+                        }
+                    }
+                    EXP.TotalExpance = totExpance;
                 }
             }
 

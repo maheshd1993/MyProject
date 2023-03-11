@@ -2288,7 +2288,7 @@ namespace Traders.Controllers
             }
         }
 
-        public ActionResult ExpenseRequest(Int32? EmployeeID, string p_status)
+        public ActionResult ExpenseRequest(Int32? EmployeeID, string p_status, string FromDate, string ToDate)
         {
             ExpenseModel EXP = new ExpenseModel();
             Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
@@ -2297,6 +2297,24 @@ namespace Traders.Controllers
             if (p_status == null)
             {
                 p_status = "In Process";
+            }
+            if (FromDate == null)
+            {
+                FromDate = "";
+            }
+            else
+            {
+                FromDate = String.Format("{0:dd/MM/yyyy}", FromDate);//convert to dd/MM/yyyy format for stored procedure
+
+            }
+            if (ToDate == null)
+            {
+                ToDate = "";
+            }
+            else
+            {
+                ToDate = String.Format("{0:dd/MM/yyyy}", ToDate);//convert to dd/MM/yyyy format for stored procedure
+
             }
             EXP.DateFormat = Constant.DateFormat();//get date format by company id
                                                    //Session["DpDateFormat"] = Constant.JsDateFormat(CompanyID);//get date picker date format by companyid
@@ -2314,9 +2332,9 @@ namespace Traders.Controllers
                 }
                 EXP.EmployeeList = CUMEmployeeList;
             }
-
+            long totExpance = 0;
             //DataTable getEmployeeLeaveRequest = DataAccessLayer.GetDataTable("call CRM_RequestLeaveList(" + BranchID + "," + CompanyID + ")");
-            DataTable getExpenseRequest = DataAccessLayer.GetDataTable("call crm_ExpenseRequestList(" + BranchID + "," + CompanyID + ",'" + p_status + "')");
+            DataTable getExpenseRequest = DataAccessLayer.GetDataTable("call crm_ExpenseRequestList(" + BranchID + "," + CompanyID + ",'" + FromDate + "','" + ToDate + "')");
             if (getExpenseRequest.Rows.Count > 0)
             {
                 List<ExpenseModel> LRMList = new List<ExpenseModel>();
@@ -2340,9 +2358,11 @@ namespace Traders.Controllers
                     }
                     LModel.EmployeeCode = Convert.ToString(getExpenseRequest.Rows[i]["EmployeeCode"]);
                     LModel.FullName = Convert.ToString(getExpenseRequest.Rows[i]["FullName"]);
+                   
                     LRMList.Add(LModel);
                 }
                 EXP.ExpenseEmployeeList = LRMList.OrderByDescending(em => em.RequestDate).ToList();
+               
             }
             else
             {
@@ -2353,6 +2373,18 @@ namespace Traders.Controllers
             {
                 EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.EmployeeID == EmployeeID).ToList();
             }
+            if (p_status !="0")
+            {
+                EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.ProcessStatus.Equals(p_status)).ToList();
+            }
+            foreach (var item in EXP.ExpenseEmployeeList)
+            {
+                if (item.expense != "" && item.expense != null)
+                {
+                    totExpance += totExpance + Convert.ToInt32(item.expense);
+                }
+            }
+            EXP.TotalExpance = totExpance;
             return View(EXP);
         }
         public ActionResult ExpenseRequestDetail(Int64? ExpenseId)

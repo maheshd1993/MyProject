@@ -136,6 +136,12 @@ namespace Svam.Models
         [Required(ErrorMessage = "*")]
         public string ProductTypeName { get; set; }
     }
+    public class ExpanceTypeModel
+    {
+        public int Id { get; set; }
+        [Required(ErrorMessage = "*")]
+        public string ExpanceTypeName { get; set; }
+    }
     public class ItemTypeModel
     {
         public int Id { get; set; }

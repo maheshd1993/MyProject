@@ -329,6 +329,109 @@ namespace Traders.Controllers
         }
         #endregion
 
+        #region  ManageExpanceType
+        public ActionResult ManageExpanceType(int? id)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            ExpanceTypeModel PTM = new ExpanceTypeModel();
+            try
+            {
+                if (id != 0)
+                {
+                    var getData = db.crm_producttypetbl.Where(em => em.Id == id && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+                    if (getData != null)
+                    {
+                        PTM.ExpanceTypeName = getData.ProductTypeName;
+                    }
+                }
+                ViewBag.ProductTypeList = db.crm_producttypetbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+            }
+            return View(PTM);
+        }
+
+        [HttpPost]
+        public ActionResult ManageExpanceType(ExpanceTypeModel PTM, int? id)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            if (!ModelState.IsValid)
+            {
+                TempData["alert"] = "Expance type can't be blank";
+                return View(PTM);
+            }
+            try
+            {
+                if (id != null)
+                {
+                    var getData = db.crm_producttypetbl.Where(em => em.Id == id && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+                    if (getData != null)
+                    {
+                        getData.ProductTypeName = PTM.ExpanceTypeName;
+                        getData.BranchID = BranchID;
+                        getData.CompanyID = CompanyID;
+                        //getData.Status = true;
+                        db.SaveChanges();
+                        TempData["success"] = "Expance type updated successfully";
+                    }
+                    else
+                    {
+                        TempData["alert"] = "Sorry no data found.";
+                    }
+                }
+                else
+                {
+                    var checkExist = db.crm_producttypetbl.Where(em => em.ProductTypeName.ToLower() == PTM.ExpanceTypeName.ToLower() && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+                    if (checkExist == null)
+                    {
+                        crm_producttypetbl lst = new crm_producttypetbl();
+                        lst.ProductTypeName = PTM.ExpanceTypeName;
+                        lst.BranchID = BranchID;
+                        lst.CompanyID = CompanyID;
+                        lst.Status = true;
+                        db.crm_producttypetbl.Add(lst);
+                        if (db.SaveChanges() > 0)
+                        {
+                            TempData["success"] = "Expance type added successfully";
+                        }
+                    }
+                    else
+                    {
+                        TempData["alert"] = "This Expance type name is already available in list";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                TempData["alert"] = ex.Message.ToString();
+            }
+            return Redirect("/Master/ManageExpanceType");
+        }
+
+        public JsonResult ChangeExpanceTypeStatus(int id)
+        {
+            var msg = "";
+            try
+            {
+                db.Database.ExecuteSqlCommand(@"update crm_producttypetbl set Status=case when Status=1 then 0 else 1 end where Id=" + id);
+                msg = "ok";
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                ex.Message.ToString();
+                msg = "err";
+            }
+            return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         #region ManageItemType
         public ActionResult ManageItemType(int? id)
         {

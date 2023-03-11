@@ -2637,6 +2637,9 @@
     <Content Include="Views\HR\EmployeeForm16RequestDetail.cshtml" />
     <Content Include="Views\Emp\AddExpense.cshtml" />
     <Content Include="Views\Emp\ExpenseView.cshtml" />
+    <Content Include="Views\HR\ExpenseRequest.cshtml" />
+    <Content Include="Views\HR\ExpenseRequestDetail.cshtml" />
+    <Content Include="Views\Master\ManageExpanceType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
