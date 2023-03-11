@@ -90,7 +90,18 @@
 												<td translate="no" data-column="Employee Name">@item.FullName</td>
 												<td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
 											}
-											<td translate="no" data-column="Expense Type">@item.ExpenseTypeId</td>
+                                                <td translate="no" data-column="Expense Type">
+                                                    @{ string typeName = string.Empty;}
+                                                    @if (@item.ExpenseTypeId == 1)
+                                                    {
+                                                        typeName = "Travel Expense";
+                                                    }
+                                                    else if (@item.ExpenseTypeId == 1)
+                                                        {
+                                                            typeName = "Medical Expense";
+                                                        }
+                                                     @typeName
+                                                </td>
 											<td translate="no" data-column="Subject">@item.travelledKMS</td>
 											<td translate="no" data-column="Request Date">@RequestDate</td>
 											<td translate="no" data-column="Grant Date">@ProcessDate</td>
