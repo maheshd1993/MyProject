@@ -749,11 +749,14 @@ namespace Svam.Controllers
                     {
                         EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.EmployeeID == EmployeeID).ToList();
                     }
+                   
                     foreach (var item in EXP.ExpenseEmployeeList)
                     {
                         if (item.expense != "" && item.expense != null)
                         {
-                            totExpance += totExpance + Convert.ToInt32(item.expense);
+                            int n;
+                            int.TryParse(item.expense, out n);
+                            totExpance += totExpance +n;
                         }
                     }
                     EXP.TotalExpance = totExpance;
