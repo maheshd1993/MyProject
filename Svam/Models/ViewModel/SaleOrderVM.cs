@@ -16,8 +16,9 @@ namespace Svam.Models.ViewModel
         public string CompanyMobileNo  { get; set; }
         public string CompanyAlternateNo { get; set; }
         public string CompanyEmail { get; set; }
-        public string CompanyAddress { get; set; } 
+        public string CompanyAddress { get; set; }
         public string PanNo { get; set; }
+        public string GSTIN { get; set; }
         public string OrderNo { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerMobileNo { get; set; }
@@ -52,6 +53,8 @@ namespace Svam.Models.ViewModel
         public decimal GSTPer { get; set; }
         public decimal GSTAmount { get; set; } 
         public string CustomerName { get; set; }
+        public string PanNo { get; set; }
+        public string GSTIN { get; set; }
         public string QuotationNo { get; set; }
         public decimal PurchasePrice { get; set; }
         public decimal SalePrice  { get; set; }

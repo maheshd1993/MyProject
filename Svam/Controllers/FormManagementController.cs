@@ -142,6 +142,7 @@ namespace Svam.Controllers
                     CLM.ProcessStatus = "In Process";
                     CLM.RequestDate = Constant.GetBharatTime();
                     CLM.CompanyID = CompanyID;
+                    CLM.Comment= LRM.Comment;
                     CLM.BranchID = BranchID;
                     db.crm_formrequest_tbl.Add(CLM);
                     db.SaveChanges();
@@ -189,7 +190,8 @@ namespace Svam.Controllers
                     LModel.EmployeeID = Convert.ToInt32(getEmployeeLeaveRequest.Rows[i]["EmployeeID"]);
                    LModel.FileName = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["FileName"]);
                     LModel.RequestID = Convert.ToInt64(getEmployeeLeaveRequest.Rows[i]["RequestID"]);
-                   // LModel.Subject = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Subject"]);
+                    LModel.Comment = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Comment"]);
+                    // LModel.Subject = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Subject"]);
                     LModel.ProcessStatus = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["ProcessStatus"]);
                     LModel.RequestDate = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
                     if (!String.IsNullOrWhiteSpace(Convert.ToString(getEmployeeLeaveRequest.Rows[i]["ProcessDate"])))

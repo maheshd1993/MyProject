@@ -1913,7 +1913,7 @@ namespace Traders.Controllers
 
             if (p_status == null)
             {
-                p_status = "In Process";
+                p_status = "0";
             }
             LRM.DateFormat = Constant.DateFormat();//get date format by company id
             //Session["DpDateFormat"] = Constant.JsDateFormat(CompanyID);//get date picker date format by companyid
@@ -1945,7 +1945,8 @@ namespace Traders.Controllers
                     LModel.EmployeeID = Convert.ToInt32(getEmployeeLeaveRequest.Rows[i]["EmployeeID"]);
                     LModel.FormName ="Form16";
                     LModel.RequestID = Convert.ToInt64(getEmployeeLeaveRequest.Rows[i]["RequestID"]);
-                   // LModel.Subject = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Subject"]);
+                    LModel.Comment = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Comment"]);
+                    // LModel.Subject = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["Subject"]);
                     LModel.ProcessStatus = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["ProcessStatus"]);
                     LModel.FileName= Convert.ToString(getEmployeeLeaveRequest.Rows[i]["FileName"]);
                     LModel.RequestDate = Convert.ToString(getEmployeeLeaveRequest.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
@@ -2066,6 +2067,7 @@ namespace Traders.Controllers
                     {
                         getUpdateRecord.ProcessDate = Constant.GetBharatTime();
                         getUpdateRecord.ProcessStatus = LRM.ProcessStatus;
+                        getUpdateRecord.Comment = LRM.Comment;
                         //if (LRM.ProcessStatus == "Denied")
                         //{
                         //    getUpdateRecord.Comment = LRM.Comment;
@@ -2087,7 +2089,7 @@ namespace Traders.Controllers
                         LRM.postedFile.SaveAs(destinationPath);
                             getUpdateRecord.FileName = LRM.postedFile?.FileName;
                             getUpdateRecord.FilePath = LRM.postedFile?.FileName;
-                        
+                        getUpdateRecord.Comment = LRM.Comment;
                     }
                     
                     db.SaveChanges();
@@ -2296,7 +2298,7 @@ namespace Traders.Controllers
 
             if (p_status == null)
             {
-                p_status = "In Process";
+                p_status = "0";
             }
             if (FromDate == null)
             {
@@ -2333,8 +2335,10 @@ namespace Traders.Controllers
                 EXP.EmployeeList = CUMEmployeeList;
             }
             long totExpance = 0;
+            long totKM = 0;
             //DataTable getEmployeeLeaveRequest = DataAccessLayer.GetDataTable("call CRM_RequestLeaveList(" + BranchID + "," + CompanyID + ")");
             DataTable getExpenseRequest = DataAccessLayer.GetDataTable("call crm_ExpenseRequestList(" + BranchID + "," + CompanyID + ",'" + FromDate + "','" + ToDate + "')");
+
             if (getExpenseRequest.Rows.Count > 0)
             {
                 List<ExpenseModel> LRMList = new List<ExpenseModel>();
@@ -2342,8 +2346,9 @@ namespace Traders.Controllers
                 {
                     ExpenseModel LModel = new ExpenseModel();
                     LModel.EmployeeID = Convert.ToInt32(getExpenseRequest.Rows[i]["EmployeeID"]);
-                    LModel.ExpenseTypeName = Convert.ToString(getExpenseRequest.Rows[i]["ExpenseTypeName"]);
+                    LModel.ExpenseTypeId = Convert.ToInt32(getExpenseRequest.Rows[i]["ExpenseTypeId"]);
                     LModel.ExpenseID = Convert.ToInt64(getExpenseRequest.Rows[i]["ExpenseID"]);
+                    LModel.Remark = Convert.ToString(getExpenseRequest.Rows[i]["Comment"]);
                     LModel.travelledKMS = Convert.ToString(getExpenseRequest.Rows[i]["travelledKMS"]);
                     LModel.expense = Convert.ToString(getExpenseRequest.Rows[i]["expense"]);
                     LModel.ProcessStatus = Convert.ToString(getExpenseRequest.Rows[i]["ProcessStatus"]);
@@ -2384,10 +2389,17 @@ namespace Traders.Controllers
                 {
                     int n;
                     int.TryParse(item.expense, out n);
-                    totExpance += totExpance + n;
+                    totExpance +=  n;
+                }
+                if (item.travelledKMS != "" && item.travelledKMS != null)
+                {
+                    int n;
+                    int.TryParse(item.travelledKMS, out n);
+                    totKM +=  n;
                 }
             }
             EXP.TotalExpance = totExpance;
+            EXP.TotalKM = totKM;
             return View(EXP);
         }
         public ActionResult ExpenseRequestDetail(Int64? ExpenseId)
@@ -2502,12 +2514,12 @@ namespace Traders.Controllers
             int res = 0;
             if(expense.ProcessStatus=="Denied")
             {
-                res = du.ExecuteSql("update crm_expense_request_tbl set travelledKMS='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',ProcessStatus='" + expense.ProcessStatus  +"',Comment='" + expense.Comment + "' where Id='" + expense.ExpenseID + "'");
+                res = du.ExecuteSql("update crm_expense_request_tbl set expense='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',ProcessStatus='" + expense.ProcessStatus  +"',Comment='" + expense.Comment + "' where Id='" + expense.ExpenseID + "'");
 
             }
             else
             {
-                res = du.ExecuteSql("update crm_expense_request_tbl set travelledKMS='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',ProcessStatus='" + expense.ProcessStatus + "' where Id='" + expense.ExpenseID + "'");
+                res = du.ExecuteSql("update crm_expense_request_tbl set expense='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',ProcessStatus='" + expense.ProcessStatus + "',Comment='" + expense.Comment + "' where Id='" + expense.ExpenseID + "'");
 
             }
             //"(EmployeeId,ExpenseTypeID,travelledKMS,expense,companyId,BranchId,RequestDate,ProcessDate,ProcessStatus) " +

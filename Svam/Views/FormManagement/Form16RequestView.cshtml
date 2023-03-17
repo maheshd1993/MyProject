@@ -51,16 +51,17 @@
                         <thead class="black-white-text">
                             <tr>
                                 <th>#</th>
-                                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
-                                {
-                                    <th>Employee Name</th>
-                                    <th>Employee Code</th>
-                                }
+
+                                <th>Employee Name</th>
+                                <th>Employee Code</th>
+
                                 <th>Form Type</th>
                                 <th>Form Name</th>
                                 <th>Request Date</th>
                                 <th>Grant Date</th>
+                                <th>Remark</th>
                                 <th>File Name</th>
+
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -88,20 +89,20 @@
                                         }
                             <tr>
                                 <td data-column="Sr.No.">@i</td>
-                                @if (Convert.ToString(Session["UserType"]) == "SuperAdmin")
-                                {
-                                    <td translate="no" data-column="Employee Name">@item.FullName</td>
-                                    <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
-                                }
+
+                                <td translate="no" data-column="Employee Name">@item.FullName</td>
+                                <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
+
                                 <td translate="no" data-column="Leave Type">Form 16</td>
                                 <td translate="no" data-column="Subject">Form 16</td>
                                 <td translate="no" data-column="Request Date">@RequestDate</td>
                                 <td translate="no" data-column="Grant Date">@ProcessDate</td>
+                                <td translate="no" data-column="Comment">@item.Comment</td>
                                 <td translate="no" data-column="File Name">
 
                                     <a href="/FormManagement/DownloadFile/?filename= @item.FileName" class="btn btn-warning lead1" style="color: white;  cursor: pointer;font-size: 11.5px;" title="Download Lead Sample"><i class="fa fa-download" aria-hidden="true"></i>&nbsp; @item.FileName </a>
 
-                                   
+
                                 </td>
                                 @{ string textClass = string.Empty;}
                                 @if (item.ProcessStatus == "In Process")
@@ -123,7 +124,7 @@
                                         <a class="PopViewDesc" data-toggle="modal" data-target="#ViewComment" data-requestid="@item.RequestID" style="cursor:pointer"><i class="glyphicon glyphicon-info-sign"></i></a>
                                     }
                                 </td>
-                                  </tr>i++;
+                            </tr>i++;
                                     }
                                 }
                                 else

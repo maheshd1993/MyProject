@@ -2594,6 +2594,8 @@ namespace Svam.Controllers
                         rec.BillNo = Convert.ToString(GetDataSaleOrder.Rows[i]["BillNo"]);
                         rec.ItemName = Convert.ToString(GetDataSaleOrder.Rows[i]["Particular"]);
                         rec.CustomerName = Convert.ToString(GetDataSaleOrder.Rows[i]["Customer_Name"]);
+                        rec.PanNo = Convert.ToString(GetDataSaleOrder.Rows[i]["ConsigneePanNo"]);
+                        rec.GSTIN = Convert.ToString(GetDataSaleOrder.Rows[i]["ConsigneeGSTIN"]);
                         rec.Address = Convert.ToString(GetDataSaleOrder.Rows[i]["Address"]);
                         rec.MobileNo = Convert.ToString(GetDataSaleOrder.Rows[i]["MobileNo"]);
                         rec.POS = Convert.ToString(GetDataSaleOrder.Rows[i]["POS"]);
@@ -2647,6 +2649,8 @@ namespace Svam.Controllers
                     SOR.OrderNo = SOR.SaleReport[0].BillNo;
                     SOR.PlaceOfSupply = SOR.SaleReport[0].POS;
                     SOR.CustomerName = SOR.SaleReport[0].CustomerName;
+                    SOR.PanNo = SOR.SaleReport[0].PanNo;
+                    SOR.GSTIN = SOR.SaleReport[0].GSTIN;
                     SOR.CustomerMobileNo = SOR.SaleReport[0].MobileNo;
                     SOR.CustomerAddress = SOR.SaleReport[0].Address;
                     SOR.DeliveryDate = SOR.SaleReport[0].Delivery;

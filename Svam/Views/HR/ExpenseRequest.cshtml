@@ -58,12 +58,14 @@
                                 <th>#</th>
                                 <th>Employee Name</th>
                                 <th>Employee Code</th>
-                                <th>TravelledKMS</th>
+                                <th>Expense Type</th>
+                                <th>Travlled KM</th>
                                 <th>Expense</th>
                                 @*<th>Leave Type</th>
-                    <th>Subject</th>*@
+        <th>Subject</th>*@
                                 <th>Request Date</th>
-                                <th>ProcessDate Date</th>
+                                <th>Process Date</th>
+                                <th>Remark</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -91,32 +93,48 @@
                                             DateTime dtRequestDate = Convert.ToDateTime(item.RequestDate.Replace(" 00:00:00", "").Replace(" 12:00:00 AM", ""));
                                             RequestDate = String.Format("{0:" + Model.DateFormat + "}", dtRequestDate);
                                         }
-                                        <tr>
-                                            <td translate="no" data-column="Sr.No.">@i</td>
-                                            <td translate="no" data-column="Employee Name">@item.FullName</td>
-                                            <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
-                                            <td translate="no" data-column="travelledKMS">@item.travelledKMS</td>
-                                            <td translate="no" data-column="expense">@item.expense</td>
-                                            @*<td translate="no" data-column="Leave Type">@item.LeaveName</td>
-                                <td translate="no" data-column="Subject">@item.Subject</td>*@
-                                            <td translate="no" data-column="Request Date">@RequestDate</td>
-                                            <td translate="no" data-column="Grant Date">@ProcessDate</td>
-                                            @{ string textClass = string.Empty;}
-                                            @if (item.ProcessStatus == "In Process")
-                                            {
-                                                textClass = "status-warning";
-                                            }
-                                            else if (item.ProcessStatus == "Denied")
-                                            {
-                                                textClass = "status-danger";
-                                            }
-                                            else if (item.ProcessStatus == "Approved")
-                                            {
-                                                textClass = "status-success";
-                                            }
-                                            <td translate="no" data-column="Status"><span class="@textClass">@item.ProcessStatus</span></td>
-                                            <td data-column="Action"><a href="@Url.Action("ExpenseRequestDetail", "HR", new { ExpenseId = item.ExpenseID })"><i class="fa fa-eye" aria-hidden="true" title="View Expense Details"></i></a></td>
-                                        </tr>i++;
+                            <tr>
+                                <td translate="no" data-column="Sr.No.">@i</td>
+                                <td translate="no" data-column="Employee Name">@item.FullName</td>
+                                <td translate="no" data-column="Employee Code">@item.EmployeeCode</td>
+                                <td translate="no" data-column="Expense Type">
+
+
+                                    @{ string typeName = string.Empty;}
+                                    @if (@item.ExpenseTypeId == 1)
+                                    {
+                                        typeName = "Travel Expense";
+                                    }
+                                    else if (@item.ExpenseTypeId == 2)
+                                    {
+                                        typeName = "Medical Expense";
+                                    }
+                                    @typeName
+
+                                </td>
+                                <td translate="no" data-column="travelledKMS">@item.travelledKMS</td>
+                                <td translate="no" data-column="expense">@item.expense</td>
+                                @*<td translate="no" data-column="Leave Type">@item.LeaveName</td>
+        <td translate="no" data-column="Subject">@item.Subject</td>*@
+                                <td translate="no" data-column="Request Date">@RequestDate</td>
+                                <td translate="no" data-column="Grant Date">@ProcessDate</td>
+                                <td translate="no" data-column="Remark">@item.Remark</td>
+                                @{ string textClass = string.Empty;}
+                                @if (item.ProcessStatus == "In Process")
+                                {
+                                    textClass = "status-warning";
+                                }
+                                else if (item.ProcessStatus == "Denied")
+                                {
+                                    textClass = "status-danger";
+                                }
+                                else if (item.ProcessStatus == "Approved")
+                                {
+                                    textClass = "status-success";
+                                }
+                                <td translate="no" data-column="Status"><span class="@textClass">@item.ProcessStatus</span></td>
+                                <td data-column="Action"><a href="@Url.Action("ExpenseRequestDetail", "HR", new { ExpenseId = item.ExpenseID })"><i class="fa fa-eye" aria-hidden="true" title="View Expense Details"></i></a></td>
+                            </tr>i++;
                                     }
                                 }
                                 else
@@ -132,10 +150,11 @@
                                     <td colspan="9" style="text-align: center;">** No Record Found</td>
                                 </tr>
                             }
-                          
+
                         </tbody>
                     </table>
-                    Total Expance: <input type='number'  id='result'  value='@Model.TotalExpance' readonly/>
+                    Total Expanse: <input type='number' id='result' value='@Model.TotalExpance' readonly />
+                    Total KM: <input type='number' id='result' value='@Model.TotalKM' readonly />
                 </div>
 			</div>
 		</div>

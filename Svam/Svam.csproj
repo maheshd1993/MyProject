@@ -1973,6 +1973,7 @@
     <Content Include="MailTemplate\ExtraWorking.html" />
     <Content Include="MailTemplate\LateNightWorking.html" />
     <Content Include="MailTemplate\SalarySlip.html" />
+    <Content Include="MyFiles\P202211181234560025770024.BF.jpg" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
     <Content Include="Scripts\ckeditor\config.js" />
@@ -2328,6 +2329,8 @@
     <Content Include="Scripts\jquery-1.11.1.min.js" />
     <Content Include="Scripts\jquery-1.5.2.min.js" />
     <Content Include="js\nodaTimeZones.json" />
+    <Content Include="MyFiles\Dharmendra-Tiwari-Resume.doc" />
+    <Content Include="MyFiles\Sageview Accounts %281%29.xlsx" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
@@ -2640,6 +2643,7 @@
     <Content Include="Views\HR\ExpenseRequest.cshtml" />
     <Content Include="Views\HR\ExpenseRequestDetail.cshtml" />
     <Content Include="Views\Master\ManageExpanceType.cshtml" />
+    <Content Include="Views\Emp\EditExpense.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

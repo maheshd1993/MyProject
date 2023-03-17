@@ -52,9 +52,11 @@
                                 <th>Employee Name</th>
                                 <th>Employee Code</th>
                                 <th>Form Type</th>
-                               
+
                                 <th>Request Date</th>
+                                <th>Remark</th>
                                 <th>File Name</th>
+
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -89,7 +91,7 @@
                                 <td translate="no" data-column="Leave Type">Form16</td>
 
                                 <td translate="no" data-column="Request Date">@RequestDate</td>
-
+                                <td translate="no" data-column="Comment">@item.Comment</td>
                                 @*<td translate="no" data-column="Grant Date">@ProcessDate</td>*@
                                 <td translate="no" data-column="File Name">@item.FileName</td>
                                 @{ string textClass = string.Empty;}

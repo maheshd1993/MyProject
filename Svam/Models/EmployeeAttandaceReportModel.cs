@@ -123,6 +123,10 @@ namespace Traders.Models
         public Int64 ExpenseTypeId { get; set; }
         public string ExpenseTypeName { get; set; }
         public string travelledKMS { get; set; }
+        public string FileName { get; set; }
+        [Required(ErrorMessage = "Please Select ExpanceDate")]
+        public string ExpanceDate { get; set; }
+        public string Remark { get; set; }
         public string expense { get; set; }
         public string RequestDate { get; set; }
         public string ProcessStatus { get; set; }
@@ -137,6 +141,8 @@ namespace Traders.Models
         public int? ExpanseTypeID { get; set; }
         public string ExpanseTypeName { get; set; }
         public long TotalExpance { get; set; }
+        public long TotalKM { get; set; }
+        public HttpPostedFileBase postedFile { get; set; }
         public List<ExpenseModel> ExpenseEmployeeList { get; set; }
         public List<ExpenseModel> EmployeeList { get; set; }
         public List<ExpenseModel> ExpenseTypeList { get; set; }

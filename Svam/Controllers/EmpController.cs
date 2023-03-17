@@ -14,6 +14,7 @@ using System.Net;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Svam.Controllers
 {
@@ -514,6 +515,89 @@ namespace Svam.Controllers
             return PartialView("EmpAttendaceDetail", EARM);
         }
 
+        public ActionResult EditExpense(Int64? ExpenseID)
+        {
+            ExpenseModel EXP = new ExpenseModel();
+            try
+            {
+                Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+                Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
+               
+                DataTable getExpanse = DataAccessLayer.GetDataTable("call crm_ExpenseView(" + BranchID + "," + CompanyID + ",'" + "" + "','" + "" + "')");
+              
+                if (getExpanse.Rows.Count > 0)
+                {
+                    List<ExpenseModel> EXPList = new List<ExpenseModel>();
+                    for (int i = 0; i < getExpanse.Rows.Count; i++)
+                    {
+                        ExpenseModel EModel = new ExpenseModel();
+                        EModel.ExpenseID = Convert.ToInt32(getExpanse.Rows[i]["ExpenseId"]);
+                        EModel.EmployeeID = Convert.ToInt32(getExpanse.Rows[i]["EmployeeID"]);
+                        EModel.FileName = Convert.ToString(getExpanse.Rows[i]["FileName"]);
+                        EModel.ExpenseTypeId = Convert.ToInt32(getExpanse.Rows[i]["ExpenseTypeId"]);
+                        EModel.travelledKMS = Convert.ToString(getExpanse.Rows[i]["travelledKMS"]);
+                        EModel.Remark = Convert.ToString(getExpanse.Rows[i]["Comment"]);
+                        EModel.expense = Convert.ToString(getExpanse.Rows[i]["expense"]);
+                        EModel.ProcessStatus = Convert.ToString(getExpanse.Rows[i]["ProcessStatus"]);
+                        EModel.RequestDate = Convert.ToString(getExpanse.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
+
+                        EModel.ExpanceDate = Convert.ToString(getExpanse.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
+                        if (!String.IsNullOrWhiteSpace(Convert.ToString(getExpanse.Rows[i]["ProcessDate"])))
+                        {
+                            EModel.ProcessDate = Convert.ToString(getExpanse.Rows[i]["ProcessDate"]);
+                        }
+                        else
+                        {
+                            EModel.ProcessDate = string.Empty;
+                        }
+                        EModel.EmployeeCode = Convert.ToString(getExpanse.Rows[i]["EmployeeCode"]);
+                        EModel.FullName = Convert.ToString(getExpanse.Rows[i]["FullName"]);
+                        EXPList.Add(EModel);
+                    }
+                    EXP= EXPList.Where(em => em.ExpenseID== ExpenseID).FirstOrDefault();
+       
+                    var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.ProfileId != null).OrderBy(em => em.Fname).ToList();
+                    if (getEmployeeList != null)
+                    {
+                        List<ExpenseModel> CUMEmployeeList = new List<ExpenseModel>();
+                        foreach (var item in getEmployeeList)
+                        {
+                            ExpenseModel CUMEmployee = new ExpenseModel();
+                            CUMEmployee.EmployeeID = item.Id;
+                            CUMEmployee.FullName = item.Fname + ' ' + item.Lname;
+                            CUMEmployeeList.Add(CUMEmployee);
+                        }
+                        EXP.EmployeeList = CUMEmployeeList;
+                    }
+
+                    //Call Only Employee is Login
+                    if (Convert.ToString(Session["UserType"]) != "SuperAdmin")
+                    {
+                        int UID = Convert.ToInt32(Session["UID"]);
+                        EXP.EmployeeList = EXP.EmployeeList.Where(em => em.EmployeeID == UID).ToList();
+                    }
+
+                    List<ExpenseModel> LeaveTypeList = new List<ExpenseModel>
+                {
+                    new ExpenseModel { ExpanseTypeID =1, ExpanseTypeName = "Travel Expense" },
+                    new ExpenseModel { ExpanseTypeID =2, ExpanseTypeName = "Medical Expense" }
+                };
+                    EXP.ExpenseTypeList = LeaveTypeList;
+                }
+
+
+                return View(EXP);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                TempData["alert"] = "There is some problem";
+                return Redirect("/Emp/AddExpense");
+            }
+            return View(EXP);
+        }
+
         public ActionResult AddExpense(Int64? ExpenseID)
         {
             ExpenseModel EXP = new ExpenseModel();
@@ -521,6 +605,7 @@ namespace Svam.Controllers
             {
                 Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
                 Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+
 
                 var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.ProfileId != null).OrderBy(em => em.Fname).ToList();
                 if (getEmployeeList != null)
@@ -548,35 +633,10 @@ namespace Svam.Controllers
                     new ExpenseModel { ExpanseTypeID =1, ExpanseTypeName = "Travel Expense" },
                     new ExpenseModel { ExpanseTypeID =2, ExpanseTypeName = "Medical Expense" }
                 };
-                EXP.ExpenseTypeList= LeaveTypeList;
+                EXP.ExpenseTypeList = LeaveTypeList;
+           
 
-                //var geterrortypeList = db.crm_leavetypename.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID).ToList();
-                //if (geterrortypeList.Count > 0)
-                //{
-                //	List<LeaveRequestModel> LeaveTypeList = new List<LeaveRequestModel>();
-                //	foreach (var item in geterrortypeList)
-                //	{
-                //		LeaveRequestModel cError = new LeaveRequestModel();
-                //		cError.LeaveTypeID = item.ID;
-                //		cError.LeaveName = item.LeaveName;
-                //		LeaveTypeList.Add(cError);
-                //	}
-                //	LRM.LeaveTypeList = LeaveTypeList;
-                //}
-
-                //if (RequestID > 0)
-                //{
-                //	var GetEmployeeLeave = db.crm_leaverequest_tbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.Id == RequestID).FirstOrDefault();
-                //	if (GetEmployeeLeave != null)
-                //	{
-                //		LRM.RequestID = GetEmployeeLeave.Id;
-                //		LRM.EmployeeID = GetEmployeeLeave.EmployeeID;
-                //		LRM.LeaveTypeID = GetEmployeeLeave.LeaveTypeID;
-                //		LRM.Subject = GetEmployeeLeave.Subject;
-                //		LRM.Message = GetEmployeeLeave.Message;
-                //		LRM.ProcessStatus = GetEmployeeLeave.ProcessStatus;
-                //	}
-                //}
+                return View(EXP);
             }
             catch (Exception ex)
             {
@@ -586,8 +646,6 @@ namespace Svam.Controllers
             }
             return View(EXP);
         }
-
-
         [HttpPost]
         public ActionResult AddExpense(ExpenseModel EXP, Int32? ExpenseID)
         {
@@ -612,7 +670,8 @@ namespace Svam.Controllers
                     //else
                     //{
                     //	TempData["alert"] = "There is some problem";
-                    return Redirect("/Emp/AddExpense");
+                    UpdateExpense(EXP);
+                    return Redirect("/Emp/ExpenseView");
                     //}
                 }
                 else
@@ -642,14 +701,41 @@ namespace Svam.Controllers
             }
         }
 
+       
+
         public string InsertExpense(ExpenseModel expense)
         {
             Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
             Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            string fileName = string.Empty;
             int res = 0;
+            if (expense.ExpanceDate == null)
+            {
+                expense.ExpanceDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                expense.ExpanceDate = Convert.ToDateTime(expense.ExpanceDate).ToString("yyyy-MM-dd HH:mm:ss");//convert to dd/MM/yyyy format for stored procedure
 
-            res = du.ExecuteSql("insert into crm_expense_request_tbl (EmployeeId,ExpenseTypeID,travelledKMS,expense,companyId,BranchId,RequestDate,ProcessDate,ProcessStatus) " +
-                                    "values('" + expense.EmployeeID + "','" + expense.ExpanseTypeID + "','" + expense.travelledKMS + "','" + expense.expense + "','" + CompanyID + "','" + BranchID + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','In Process')");
+            }
+            if (expense.postedFile != null)
+            {
+            
+                string destinationPath = string.Empty;
+                // List<FileUploadModel> uploadFileModel = new List<FileUploadModel>();
+
+                fileName = Path.GetFileName(expense.postedFile.FileName);
+                destinationPath = Server.MapPath("~/MyFiles/");
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(destinationPath);
+                }
+                destinationPath = Path.Combine(Server.MapPath("~/MyFiles/"), fileName);
+                expense.postedFile.SaveAs(destinationPath);
+              
+            }
+            res = du.ExecuteSql("insert into crm_expense_request_tbl (EmployeeId,ExpenseTypeID,travelledKMS,expense,companyId,BranchId,RequestDate,ProcessDate,ProcessStatus,Comment,FileName) " +
+                                    "values('" + expense.EmployeeID + "','" + expense.ExpanseTypeID + "','" + expense.travelledKMS + "','" + expense.expense + "','" + CompanyID + "','" + BranchID + "','" + expense.ExpanceDate + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','In Process','" + expense.Remark + "','" + fileName + "')");
 
             object insertedexpenseId = du.GetScalar("SELECT LAST_INSERT_ID();");
 
@@ -667,6 +753,57 @@ namespace Svam.Controllers
                 return "Try Again";
             }
         }
+
+
+        public string UpdateExpense(ExpenseModel expense)
+        {
+            Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
+            Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
+            string fileName = string.Empty;
+            int res = 0;
+            if (expense.ExpanceDate == null)
+            {
+                expense.ExpanceDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                expense.ExpanceDate = Convert.ToDateTime(expense.ExpanceDate).ToString("yyyy-MM-dd HH:mm:ss");//convert to dd/MM/yyyy format for stored procedure
+
+            }
+            if (expense.postedFile != null)
+            {
+             
+                string destinationPath = string.Empty;
+                // List<FileUploadModel> uploadFileModel = new List<FileUploadModel>();
+
+                fileName = Path.GetFileName(expense.postedFile.FileName);
+                destinationPath = Server.MapPath("~/MyFiles/");
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(destinationPath);
+                }
+                destinationPath = Path.Combine(Server.MapPath("~/MyFiles/"), fileName);
+                expense.postedFile.SaveAs(destinationPath);
+
+            } res = du.ExecuteSql("update crm_expense_request_tbl set expense='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',EmployeeId='" + expense.EmployeeID + "',RequestDate='" + expense.ExpanceDate + "',Comment='" + expense.Remark + "',FileName='" + fileName + "' where Id='" + expense.ExpenseID + "'");
+
+            object insertedexpenseId = du.GetScalar("SELECT LAST_INSERT_ID();");
+
+            //	var lastsynciduserlogin = du.GetDataTable("SELECT MAX(CAST(SUBSTR(TRIM(SyncID),2) AS UNSIGNED))as syncid FROM t_userlogin  WHERE CompanyID='" + register.CompanyID + "' and SyncID RLIKE 'O'");
+            //int synciduserlogin = Convert.ToInt32(lastsynciduserlogin.Rows[0]["syncid"]);
+            //synciduserlogin = synciduserlogin + 1;
+            //res = du.ExecuteSql("insert into t_userlogin (user_name,user_email,user_mobile,user_password,user_address,cust_id,CreatedDate,IsActive,CompanyID,flag,SyncID)" +
+            //					"values('" + register.Name + "','" + register.Email + "','" + register.Mobile + "','" + register.Password + "','" + register.Address + "'," + insertedcustid.ToString() + ",'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','yes','" + register.CompanyID + "','N','" + "O" + synciduserlogin.ToString() + "')");
+            if (res > 0)
+            {
+                return "Registered Successfully";
+            }
+            else
+            {
+                return "Try Again";
+            }
+        }
+
 
         public ActionResult ExpenseView(Int32? EmployeeID,string FromDate, string ToDate)
         {
@@ -708,6 +845,7 @@ namespace Svam.Controllers
                 EXP.EmployeeList = CUMEmployeeList;
             }
             long totExpance = 0;
+            long totKM = 0;
             //DataTable getEmployeeLeaveRequest = DataAccessLayer.GetDataTable("call CRM_RequestLeaveList(" + BranchID + "," + CompanyID + ")");
             DataTable getExpanse = DataAccessLayer.GetDataTable("call crm_ExpenseView(" + BranchID + "," + CompanyID + ",'" + FromDate + "','" + ToDate + "')");
 
@@ -718,8 +856,10 @@ namespace Svam.Controllers
                 {
                     ExpenseModel EModel = new ExpenseModel();
                     EModel.EmployeeID = Convert.ToInt32(getExpanse.Rows[i]["EmployeeID"]);
+                    EModel.ExpenseID = Convert.ToInt32(getExpanse.Rows[i]["ExpenseID"]);
                     EModel.ExpenseTypeId = Convert.ToInt32(getExpanse.Rows[i]["ExpenseTypeId"]);
                     EModel.travelledKMS = Convert.ToString(getExpanse.Rows[i]["travelledKMS"]);
+                    EModel.Remark = Convert.ToString(getExpanse.Rows[i]["Comment"]);
                     EModel.expense = Convert.ToString(getExpanse.Rows[i]["expense"]);
                     EModel.ProcessStatus = Convert.ToString(getExpanse.Rows[i]["ProcessStatus"]);
                     EModel.RequestDate = Convert.ToString(getExpanse.Rows[i]["RequestDate"]).Replace(" 00:00:00", "").Replace(" 12:00:00 AM", "");
@@ -756,9 +896,16 @@ namespace Svam.Controllers
                         {
                             int n;
                             int.TryParse(item.expense, out n);
-                            totExpance += totExpance +n;
+                            totExpance += n;
+                        }
+                        if (item.travelledKMS != "" && item.travelledKMS != null)
+                        {
+                            int n;
+                            int.TryParse(item.travelledKMS, out n);
+                            totKM += n;
                         }
                     }
+                    EXP.TotalKM = totKM;
                     EXP.TotalExpance = totExpance;
                 }
             }
