@@ -2644,6 +2644,10 @@
     <Content Include="Views\HR\ExpenseRequestDetail.cshtml" />
     <Content Include="Views\Master\ManageExpanceType.cshtml" />
     <Content Include="Views\Emp\EditExpense.cshtml" />
+    <Content Include="Views\HR\GetHolidays.cshtml" />
+    <Content Include="Views\HR\AddHolidays.cshtml" />
+    <Content Include="Views\home\GetHolidaysList.cshtml" />
+    <Content Include="Views\HR\EditHolidays.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

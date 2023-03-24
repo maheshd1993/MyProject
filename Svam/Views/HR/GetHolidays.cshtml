@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = " Holidays List";
+    Layout = "~/Views/Shared/_LayoutSiteMaster.cshtml";
+
+    var al = TempData["success"];
+    var alchk = TempData["alert"];
+}
+
+
+@model  List<Traders.Models.HolidaysModel>
+<div class="maincontainer">
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>Manage Holidays List</strong>
+                            <div class="row" style="padding-right: 2.5%;">
+                                <div class="col-sm-9 padd0"></div>
+                                <div class="col-sm-3 padd0 developer_paddo">
+                                    <input type="button" value="Create Holidays" onclick="location.href = '/HR/AddHolidays'" class="btn btn-success pull-right pull-right" style="margin-right: 5px;margin-top:3px;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered tablefont">
+                        <thead class="black-white-text">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1;}
+                            @if (Model != null)
+                            {
+                               
+                                    foreach (var item in Model)
+                                    {
+                            <tr>
+                                <td translate="no">@i</td>
+                                <td translate="no">@item.Name</td>
+                                <td translate="no">@item.Date</td>
+                                <td data-column="Action"><a href="@Url.Action("EditHolidays", "HR", new { ID = item.ID })"><i class="fa fa-edit" aria-hidden="true" title="Edit Holidays"></i></a></td>
+
+                            </tr>
+
+                                        i++;
+                                    }
+
+                                
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">** No Record Found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="~/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+<script src="~/js/jquery-1.11.3.min.js"></script>
+<script src="~/timepicker/bootstrap-timepicker.js"></script>
+<script src="/Scripts/SweetAlert/sweetalert.min.js"></script>
+<link href="/Scripts/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script>
+    var mas = '@al';
+    var chkmsg = '@alchk';
+    if (mas != '') {
+        swal("Success !", mas, "success");
+    }
+    if (chkmsg != '') {
+        swal("Alert !", chkmsg, "warning");
+    }
+</script>
+<script>
+    var dateFormat = '@Session["DpDateFormat"]';
+    $(function () {
+        $('.datefield').datepicker({
+            autoclose: true,
+            format: dateFormat,
+            validateOnBlur: false,
+            forceParse: true,
+            assumeNearbyYear: 20
+        });
+
+        //$('#ToDate').datepicker({
+        //    format: 'dd/mm/yyyy',
+        //    autoclose: true
+        //});
+    });
+
+</script>

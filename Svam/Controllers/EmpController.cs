@@ -120,8 +120,9 @@ namespace Svam.Controllers
                                                                     ExtraWorking = Convert.ToBoolean((Convert.ToString(dr["Extra_working"]) == null || Convert.ToString(dr["Extra_working"]) == "") ? 0 : dr["Extra_working"]),
                                                                     LogZoneTime = Convert.ToString(dr["LogTimeZone"]),
                                                                     CompanyName = Convert.ToString(dr["CompanyName"]),
-                                                                    CompanyTypeId = Convert.ToInt32(dr["CompanyTypeId"])
-                                                                }).ToList();
+                                                                    CompanyTypeId = Convert.ToInt32((Convert.ToString(dr["CompanyTypeId"]) == null || Convert.ToString(dr["CompanyTypeId"]) == "") ? 0 : dr["CompanyTypeId"])
+
+                        }).ToList();
                         }
                     }
                     else
@@ -143,8 +144,26 @@ namespace Svam.Controllers
                                                                     ExtraWorking = Convert.ToBoolean((Convert.ToString(dr["Extra_working"]) == null || Convert.ToString(dr["Extra_working"]) == "") ? 0 : dr["Extra_working"]),
                                                                     LogZoneTime = Convert.ToString(dr["LogTimeZone"]),
                                                                     CompanyName = Convert.ToString(dr["CompanyName"]),
-                                                                    CompanyTypeId = Convert.ToInt32(dr["CompanyTypeId"])
-                                                                }).ToList();
+                                                                    CompanyTypeId = Convert.ToInt32((Convert.ToString(dr["CompanyTypeId"]) == null || Convert.ToString(dr["CompanyTypeId"]) == "") ? 0 : dr["CompanyTypeId"])
+
+                        }).ToList();
+                            //foreach (var dr in GetTodayLeads.AsEnumerable())
+                            //{
+                            //    var aa = new EmpAttandanceRepotModel();
+                            //    aa.EmpId = Convert.ToInt32(dr["EmpId"]);
+                            //    aa.LoginDate = Convert.ToString(dr["L_In_Date"]);
+                            //    aa.LoginTime = Convert.ToString(dr["L_In_Time"]);
+                            //    aa.LogoutDate = Convert.ToString(dr["L_Out_Date"]);
+                            //    aa.LogoutTime = Convert.ToString(dr["L_Out_Time"]);
+                            //    aa.WorkDuration = Convert.ToString(dr["Duration"]);
+                            //    aa.WorkingLateNight = Convert.ToBoolean((Convert.ToString(dr["Working_Late_Night"]) == null || Convert.ToString(dr["Working_Late_Night"]) == "") ? 0 : dr["Working_Late_Night"]);
+                            //    aa.ExtraWorking = Convert.ToBoolean((Convert.ToString(dr["Extra_working"]) == null || Convert.ToString(dr["Extra_working"]) == "") ? 0 : dr["Extra_working"]);
+                            //    aa.LogZoneTime = Convert.ToString(dr["LogTimeZone"]);
+                            //    aa.CompanyName = Convert.ToString(dr["CompanyName"]);
+                            //    aa.CompanyTypeId = Convert.ToInt32((Convert.ToString(dr["CompanyTypeId"]) == null || Convert.ToString(dr["CompanyTypeId"]) == "") ? 0 : dr["CompanyTypeId"]);
+
+                            //    EARM.EmpAttandanceRepotModelList.Add(aa);
+                            //}
                         }
                     }
 
@@ -157,10 +176,10 @@ namespace Svam.Controllers
                         int SatAndSun = 0;
                         string Companyname = "";
                         crm_usercompanytypetbl Getcompanydetails = new crm_usercompanytypetbl();
-                        if(item.CompanyTypeId!=null)
+                        if (item.CompanyTypeId != null)
                         {
                             Getcompanydetails = db.crm_usercompanytypetbl.Where(em => em.Id == item.CompanyTypeId && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
-                        
+
                         }
                         else
                         {
@@ -297,7 +316,7 @@ namespace Svam.Controllers
                             ExtraHoursDay = ExtraHoursDay,
                             SatAndSun = SatAndSun,
                             CompanyTypeID = item.CompanyTypeId,
-                            CompanyName = Getcompanydetails.CompanyTypeName,
+                            CompanyName = Getcompanydetails?.CompanyTypeName,
                             Absent = calday - (Loginontime + Loginofftime + SatAndSun),
                             Total = calday,
                         };
@@ -328,8 +347,26 @@ namespace Svam.Controllers
                                                                 ExtraWorking = Convert.ToBoolean((Convert.ToString(dr["Extra_working"]) == null || Convert.ToString(dr["Extra_working"]) == "") ? 0 : dr["Extra_working"]),
                                                                 LogZoneTime = Convert.ToString(dr["LogTimeZone"]),
                                                                 CompanyName = Convert.ToString(dr["CompanyName"]),
-                                                                CompanyTypeId = Convert.ToInt32(dr["CompanyTypeId"])
-                                                            }).ToList();
+                                                                CompanyTypeId = Convert.ToInt32((Convert.ToString(dr["CompanyTypeId"]) == null || Convert.ToString(dr["CompanyTypeId"]) == "") ? 0 : dr["CompanyTypeId"])
+
+                    }).ToList();
+
+                        //foreach (var dr in GetTodayLeads.AsEnumerable())
+                        //{
+                        //    var aa = new EmpAttandanceRepotModel();
+                        //    aa.EmpId = Convert.ToInt32(dr["EmpId"]);
+                        //    aa.LoginDate = Convert.ToString(dr["L_In_Date"]);
+                        //    aa.LoginTime = Convert.ToString(dr["L_In_Time"]);
+                        //    aa.LogoutDate = Convert.ToString(dr["L_Out_Date"]);
+                        //    aa.LogoutTime = Convert.ToString(dr["L_Out_Time"]);
+                        //    aa.WorkDuration = Convert.ToString(dr["Duration"]);
+                        //    aa.WorkingLateNight = Convert.ToBoolean((Convert.ToString(dr["Working_Late_Night"]) == null || Convert.ToString(dr["Working_Late_Night"]) == "") ? 0 : dr["Working_Late_Night"]);
+                        //    aa.ExtraWorking = Convert.ToBoolean((Convert.ToString(dr["Extra_working"]) == null || Convert.ToString(dr["Extra_working"]) == "") ? 0 : dr["Extra_working"]);
+                        //    aa.LogZoneTime = Convert.ToString(dr["LogTimeZone"]);
+                        //    aa.CompanyName = Convert.ToString(dr["CompanyName"]);
+                        //    aa.CompanyTypeId = Convert.ToInt32((Convert.ToString(dr["CompanyTypeId"]) == null || Convert.ToString(dr["CompanyTypeId"]) == "") ? 0 : dr["CompanyTypeId"]);
+                        //    EARM.EmpAttandanceRepotModelList.Add(aa);
+                        //}
                     }
 
                     //foreach (var item in GetUser.ToList())
@@ -523,9 +560,9 @@ namespace Svam.Controllers
                 Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
                 Int32 CompanyID = Convert.ToInt32(Session["CompanyID"]);
 
-               
+
                 DataTable getExpanse = DataAccessLayer.GetDataTable("call crm_ExpenseView(" + BranchID + "," + CompanyID + ",'" + "" + "','" + "" + "')");
-              
+
                 if (getExpanse.Rows.Count > 0)
                 {
                     List<ExpenseModel> EXPList = new List<ExpenseModel>();
@@ -555,8 +592,8 @@ namespace Svam.Controllers
                         EModel.FullName = Convert.ToString(getExpanse.Rows[i]["FullName"]);
                         EXPList.Add(EModel);
                     }
-                    EXP= EXPList.Where(em => em.ExpenseID== ExpenseID).FirstOrDefault();
-       
+                    EXP = EXPList.Where(em => em.ExpenseID == ExpenseID).FirstOrDefault();
+
                     var getEmployeeList = db.crm_usertbl.Where(em => em.CompanyID == CompanyID && em.BranchID == BranchID && em.ProfileId != null).OrderBy(em => em.Fname).ToList();
                     if (getEmployeeList != null)
                     {
@@ -634,7 +671,7 @@ namespace Svam.Controllers
                     new ExpenseModel { ExpanseTypeID =2, ExpanseTypeName = "Medical Expense" }
                 };
                 EXP.ExpenseTypeList = LeaveTypeList;
-           
+
 
                 return View(EXP);
             }
@@ -701,7 +738,7 @@ namespace Svam.Controllers
             }
         }
 
-       
+
 
         public string InsertExpense(ExpenseModel expense)
         {
@@ -720,7 +757,7 @@ namespace Svam.Controllers
             }
             if (expense.postedFile != null)
             {
-            
+
                 string destinationPath = string.Empty;
                 // List<FileUploadModel> uploadFileModel = new List<FileUploadModel>();
 
@@ -732,7 +769,7 @@ namespace Svam.Controllers
                 }
                 destinationPath = Path.Combine(Server.MapPath("~/MyFiles/"), fileName);
                 expense.postedFile.SaveAs(destinationPath);
-              
+
             }
             res = du.ExecuteSql("insert into crm_expense_request_tbl (EmployeeId,ExpenseTypeID,travelledKMS,expense,companyId,BranchId,RequestDate,ProcessDate,ProcessStatus,Comment,FileName) " +
                                     "values('" + expense.EmployeeID + "','" + expense.ExpanseTypeID + "','" + expense.travelledKMS + "','" + expense.expense + "','" + CompanyID + "','" + BranchID + "','" + expense.ExpanceDate + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','In Process','" + expense.Remark + "','" + fileName + "')");
@@ -772,7 +809,7 @@ namespace Svam.Controllers
             }
             if (expense.postedFile != null)
             {
-             
+
                 string destinationPath = string.Empty;
                 // List<FileUploadModel> uploadFileModel = new List<FileUploadModel>();
 
@@ -785,7 +822,8 @@ namespace Svam.Controllers
                 destinationPath = Path.Combine(Server.MapPath("~/MyFiles/"), fileName);
                 expense.postedFile.SaveAs(destinationPath);
 
-            } res = du.ExecuteSql("update crm_expense_request_tbl set expense='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',EmployeeId='" + expense.EmployeeID + "',RequestDate='" + expense.ExpanceDate + "',Comment='" + expense.Remark + "',FileName='" + fileName + "' where Id='" + expense.ExpenseID + "'");
+            }
+            res = du.ExecuteSql("update crm_expense_request_tbl set expense='" + expense.expense + "',travelledKMS='" + expense.travelledKMS + "',EmployeeId='" + expense.EmployeeID + "',RequestDate='" + expense.ExpanceDate + "',Comment='" + expense.Remark + "',FileName='" + fileName + "' where Id='" + expense.ExpenseID + "'");
 
             object insertedexpenseId = du.GetScalar("SELECT LAST_INSERT_ID();");
 
@@ -805,7 +843,7 @@ namespace Svam.Controllers
         }
 
 
-        public ActionResult ExpenseView(Int32? EmployeeID,string FromDate, string ToDate)
+        public ActionResult ExpenseView(Int32? EmployeeID, string FromDate, string ToDate)
         {
             ExpenseModel EXP = new ExpenseModel();
             Int32 BranchID = Convert.ToInt32(Session["BranchID"]);
@@ -889,7 +927,7 @@ namespace Svam.Controllers
                     {
                         EXP.ExpenseEmployeeList = EXP.ExpenseEmployeeList.Where(em => em.EmployeeID == EmployeeID).ToList();
                     }
-                   
+
                     foreach (var item in EXP.ExpenseEmployeeList)
                     {
                         if (item.expense != "" && item.expense != null)

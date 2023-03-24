@@ -1,4 +1,5 @@
-﻿using Svam.EF;
+﻿using AutoMapper;
+using Svam.EF;
 using Svam.Models;
 using Svam.Repository;
 using Svam.UtilityManager;
@@ -651,10 +652,11 @@ namespace Svam.Controllers
                         {
                             cts.TicketNo = GenerateNumber();
                         }
-                        if (CTM.CustomerID > 0)
+                        if (CTM.CustomerID > 0 || CTM.leadCustomerName!=null)
                         {
-                            cts.CustomerID = CTM.CustomerID;
-                            cts.Name = CTM.CustomerName;
+
+                            cts.CustomerID = CTM.CustomerList.Where(m=>m.CustomerName.Equals(CTM.leadCustomerName)).Select(c=>c.CustomerID).FirstOrDefault();
+                            cts.Name = CTM.CustomerList.Where(m => m.CustomerName.Equals(CTM.leadCustomerName)).Select(c => c.CustomerName).FirstOrDefault();
                         }
                         else
                         {
@@ -1253,16 +1255,31 @@ namespace Svam.Controllers
             }
             else
             {
+
                 var AssignList = db.crm_usertbl.Where(em => em.BranchID == BranchID && em.CompanyID == CompanyID && em.Status == true && em.ProfileId != null).OrderBy(em => em.Fname).ToList();
                 if (AssignList != null)
                 {
+                    //string assignquery = @"select *
+                    //            from crm_usertbl ur
+                    //            left join crm_roleassigntbl rl on ur.ProfileId = rl.Id 
+                    //            Where ur.BranchID = " + BranchID + " and ur.CompanyID = " + CompanyID + " and ur.Status = 1 and ur.ProfileId IS NOT null";
+                    //var data = db.Database.SqlQuery<CreatRoleModel>(assignquery).ToList();
+                   
                     List<CRMTicketModel> assignToList = new List<CRMTicketModel>();
                     foreach (var item in AssignList)
                     {
-                        CRMTicketModel CRM = new CRMTicketModel();
-                        CRM.UserID = item.Id;
-                        CRM.UserName = item.Fname + ' ' + item.Lname + '(' + item.EmployeeCode + ')';
-                        assignToList.Add(CRM);
+                        Int32 ProfileIds = Convert.ToInt32(item.ProfileId);
+                        var GetPermission = db.crm_roleassigntbl.Where(em => em.Id == ProfileIds && em.BranchID == BranchID && em.CompanyID == CompanyID).FirstOrDefault();
+                        CreatRoleModel CreateroleModels = Mapper.Map<CreatRoleModel>(GetPermission);
+                        ///var isTicket = data.Where(m => m.Id == item.Id && (m.IsTicketForm == true || m.IsTicketsView == true)).Any();
+                        if (CreateroleModels.CreateTicket==true || CreateroleModels.ViewTicket == true)
+                        {
+                            CRMTicketModel CRM = new CRMTicketModel();
+                            CRM.UserID = item.Id;
+                            CRM.UserName = item.Fname + ' ' + item.Lname + '(' + item.EmployeeCode + ')';
+                            assignToList.Add(CRM);
+                        }
+                     
                     }
 
                     CTM.AssignUserList = assignToList.Where(em => em.UserID != UserID).ToList();

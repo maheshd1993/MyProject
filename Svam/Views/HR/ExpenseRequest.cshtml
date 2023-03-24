@@ -66,6 +66,8 @@
                                 <th>Request Date</th>
                                 <th>Process Date</th>
                                 <th>Remark</th>
+                                <th>File Name</th>
+
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -119,6 +121,23 @@
                                 <td translate="no" data-column="Request Date">@RequestDate</td>
                                 <td translate="no" data-column="Grant Date">@ProcessDate</td>
                                 <td translate="no" data-column="Remark">@item.Remark</td>
+                                @if (item.FileName != "" && item.FileName != null)
+                                {
+                                    <td translate="no" data-column="File Name">
+
+                                        <a href="~/MyFiles/@item.FileName" class="btn btn-warning lead1" style="color: white;  cursor: pointer;font-size: 11.5px;" title="Download Lead Sample"><i class="fa fa-download" aria-hidden="true"></i>&nbsp; @item.FileName </a>
+
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td translate="no" data-column="File Name">
+
+                                      No Attachement 
+
+                                    </td>
+                                }
                                 @{ string textClass = string.Empty;}
                                 @if (item.ProcessStatus == "In Process")
                                 {

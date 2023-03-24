@@ -14468,6 +14468,26 @@ namespace Traders.Controllers
             }
             return View("_CustomerWorkLeadReport", VSM);
         }
+        public ActionResult GetHolidaysList()
+        {
+            List<HolidaysModel> getManualAttendanceModelList = new List<HolidaysModel>();
+            DataTable GetRecords = DataAccessLayer.GetDataTable("Select * from crm_Holidays");
+            if (GetRecords.Rows.Count > 0)
+            {
+
+                for (int i = 0; i < GetRecords.Rows.Count; i++)
+                {
+                    HolidaysModel MA = new HolidaysModel();
+                    MA.ID = Convert.ToInt32(GetRecords.Rows[i]["ID"]);
+                    MA.Name = Convert.ToString(GetRecords.Rows[i]["Name"]);
+                    MA.Date = Convert.ToString(GetRecords.Rows[i]["Date"]);
+
+                    getManualAttendanceModelList.Add(MA);
+                }
+            }
+            return View(getManualAttendanceModelList);
+
+        }
 
 
 

@@ -2346,6 +2346,7 @@ namespace Traders.Controllers
                 {
                     ExpenseModel LModel = new ExpenseModel();
                     LModel.EmployeeID = Convert.ToInt32(getExpenseRequest.Rows[i]["EmployeeID"]);
+                    LModel.FileName = Convert.ToString(getExpenseRequest.Rows[i]["FileName"]);
                     LModel.ExpenseTypeId = Convert.ToInt32(getExpenseRequest.Rows[i]["ExpenseTypeId"]);
                     LModel.ExpenseID = Convert.ToInt64(getExpenseRequest.Rows[i]["ExpenseID"]);
                     LModel.Remark = Convert.ToString(getExpenseRequest.Rows[i]["Comment"]);
@@ -3774,6 +3775,110 @@ namespace Traders.Controllers
                 msg = "error";
             }
             return Json(msg, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+
+        #region Holidays List
+        //[HttpGet]
+        public ActionResult GetHolidays()
+        {
+            List<HolidaysModel> getManualAttendanceModelList = new List<HolidaysModel>();
+            DataTable GetRecords = DataAccessLayer.GetDataTable("Select * from crm_Holidays");
+            if (GetRecords.Rows.Count > 0)
+            {
+               
+                for (int i = 0; i < GetRecords.Rows.Count; i++)
+                {
+                    HolidaysModel MA = new HolidaysModel();
+                    MA.ID = Convert.ToInt32(GetRecords.Rows[i]["ID"]);
+                    MA.Name = Convert.ToString(GetRecords.Rows[i]["Name"]);
+                    MA.Date =Convert.ToDateTime(Convert.ToString(GetRecords.Rows[i]["Date"])).ToString("dd-MM-yyyy");
+
+                    getManualAttendanceModelList.Add(MA);
+                }
+            }
+            return View(getManualAttendanceModelList);
+        }
+
+        [HttpGet]
+        public ActionResult AddHolidays(long? ID)
+        {
+            HolidaysModel AM = new HolidaysModel();
+            AM.Date =DateTime.Now.Date.ToString("dd-MM-yyyy");
+            return View(AM);
+        }
+
+        [HttpPost]
+        public ActionResult AddHolidays(HolidaysModel MAM)
+        {
+            try
+            {
+               
+
+                int BranchID = Convert.ToInt32(Session["BranchID"]);
+                int CompanyID = Convert.ToInt32(Session["CompanyID"]);
+                int res;
+                if(MAM.ID==0 || MAM.ID==null)
+                {
+                    res = du.ExecuteSql("insert into crm_Holidays (Name,Date)" +
+                                                "values('" + MAM.Name + "','" + MAM.Date + "')");
+
+                    if (res > 0)
+                    {
+                        return Redirect("/HR/GetHolidays");
+                    }
+
+                    else
+                    {
+                        return Redirect("/HR/GetHolidays");
+                    }
+                }
+                else
+                {
+                   res = du.ExecuteSql("update crm_Holidays set Name='" + MAM.Name + "',Date='" + MAM.Date  + "' where Id='" + MAM.ID + "'");
+
+                    if (res > 0)
+                    {
+                        return Redirect("/HR/GetHolidays");
+                    }
+
+                    else
+                    {
+                        return Redirect("/HR/GetHolidays");
+                    }
+                }
+            
+                
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendExcepToDB(ex);
+                return Redirect("/HR/GetHolidays");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditHolidays(long? ID)
+        {
+            HolidaysModel AM = new HolidaysModel();
+            List<HolidaysModel> getManualAttendanceModelList = new List<HolidaysModel>();
+            DataTable GetRecords = DataAccessLayer.GetDataTable("Select * from crm_Holidays");
+            if (GetRecords.Rows.Count > 0)
+            {
+
+                for (int i = 0; i < GetRecords.Rows.Count; i++)
+                {
+                    HolidaysModel MA = new HolidaysModel();
+                    MA.ID = Convert.ToInt32(GetRecords.Rows[i]["ID"]);
+                    MA.Name = Convert.ToString(GetRecords.Rows[i]["Name"]);
+                    MA.Date = Convert.ToDateTime(Convert.ToString(GetRecords.Rows[i]["Date"])).ToString("dd-MM-yyyy");
+
+                    getManualAttendanceModelList.Add(MA);
+                }
+            }
+            AM = getManualAttendanceModelList.Where(m => m.ID == ID).FirstOrDefault();
+            return View(AM);
         }
         #endregion
     }

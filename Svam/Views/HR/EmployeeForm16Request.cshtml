@@ -93,7 +93,13 @@
                                 <td translate="no" data-column="Request Date">@RequestDate</td>
                                 <td translate="no" data-column="Comment">@item.Comment</td>
                                 @*<td translate="no" data-column="Grant Date">@ProcessDate</td>*@
-                                <td translate="no" data-column="File Name">@item.FileName</td>
+                          
+                                <td translate="no" data-column="File Name">
+
+                                    <a href="~/MyFiles/@item.FileName" class="btn btn-warning lead1" style="color: white;  cursor: pointer;font-size: 11.5px;" title="Download Lead Sample"><i class="fa fa-download" aria-hidden="true"></i>&nbsp; @item.FileName </a>
+
+
+                                </td>
                                 @{ string textClass = string.Empty;}
                                 @if (item.ProcessStatus == "In Process")
                                 {

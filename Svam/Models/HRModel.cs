@@ -165,4 +165,11 @@ namespace Traders.Models
         public List<ManualAttendanceModel> EmployeeList { get; set; }
         public List<ManualAttendanceModel> manualAttendanceModelList { get; set; }
     }
+
+    public class HolidaysModel
+    {
+        public Int64? ID { get; set; }
+        public String Name { get; set; }
+        public string Date { get; set; }
+    }
 }
