@@ -164,12 +164,15 @@ namespace Svam.Controllers
                             CTM.ExistingNew = "Existing";
                             CTM.CustomerName = ticketdetail.Name;
                             CTM.CustomerNM = ticketdetail.Name;
+                            CTM.leadCustomerName = ticketdetail.Name;
+                            CTM.EmailID = ticketdetail.EmailID;
                         }
                         else
                         {
                             CTM.ExistingNew = "New";
                             CTM.NewCustomerName = ticketdetail.Name;
                             CTM.CustomerNM = ticketdetail.Name;
+                            CTM.leadCustomerName = ticketdetail.Name;
                         }
                         CTM.AssignedTo = ticketdetail.AssignedTo;
                         CTM.TicketNo = ticketdetail.TicketNo;
